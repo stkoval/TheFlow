@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>New issue</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/theFlow/resources/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/theFlow/resources/css/styles.css" rel="stylesheet">
+    </head>
+    <body>
+        <form class="form-horizontal" id="createIssueForm">
+            <h1 style="margin-left:50%">Create issue</h1>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="title" placeholder="Title">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="description" placeholder="Description">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Type</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="type" placeholder="Type">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Priority</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="priority" placeholder="Priority">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Assignee_id</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="assignee_id" placeholder="Assignee_id">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Creator_id</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="creator_id" placeholder="Creator_id">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Project_id</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="project_id" placeholder="Project_id">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Estimated_time</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="estimated_time" placeholder="Estimated_time">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-default" onclick="createIssueCall()">Create</button>
+                </div>
+            </div>
+        </form>
+        
+        <script src="/theFlow/resources/js/createIssueCall.js"></script>
+        <script src="/theFlow/resources/js/jquery-1.11.1.js"></script>
+    </body>
+</html>

@@ -1,0 +1,171 @@
+<html>
+    <head>
+        <title>the Flow</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title></title>
+        <meta name="description" content="">
+        <link rel="image_src" href="" />
+
+
+        <link href="/theFlow/resources/css/bootstrap.min.css" rel="stylesheet">
+        <link rel='stylesheet' id='font-awesome-css'  href='/theFlow/resources/css/font-awesome.min.css' type='text/css' media='all' />
+        <link href="/theFlow/resources/css/styles.css" rel="stylesheet">
+
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+
+        <div class="container-fluid header-container">
+
+            <div class="container header-centred">
+
+                <div id ="header" class="header row">
+
+                    <div class="col-md-6 col-xs-12 logo logo-top">
+                        <i class="fa fa-paper-plane"></i>&nbsp;<strong class="text-left"><small>the</small><b>Flow</b></strong>
+                    </div>
+                    <div class="col-md-6 col-xs-12" >
+                        <ul class="nav nav-pills pull-right">
+                            <li role="presentation"><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                            <li role="presentation"><a href="#"><i class="glyphicon glyphicon-new-window"></i> Logout</a></li>
+                            <li role="presentation" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true"><a href="#"><i class="fa fa-code-fork"></i> Create issue</a></li>                       
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                            </ul>
+                        </ul>                
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="container main-content">
+
+            <div class="row">
+                <div id="sidebar" class="col-md-3">
+                    <div role="tabpanel">
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Issues</a></li>
+                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Projects</a></li>
+                            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Reports</a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home">
+
+                                <ul class="nav nav-pills nav-stacked issues-list" id="issues">
+                                    <li role="presentation" class="active"><a href="#"><i class="fa fa-anchor"></i> Home</a></li>
+                                    <li role="presentation"><a href="#" class="btn-danger"><i class="fa fa-facebook"></i> Profile</a></li>
+                                    <li role="presentation"><a href="#" class="btn-info"><i class="fa fa-vk"></i> Messages</a></li>
+                                </ul>
+
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="profile">...</div>
+                            <div role="tabpanel" class="tab-pane" id="messages">...</div>
+                            <div role="tabpanel" class="tab-pane" id="settings">...</div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="main" class="col-md-9 text-center main-content main-content-sidebar">
+                    <form class="loginForm" method="POST" style="padding-left: 20px">
+                        <h1>Enter issue criteria</h1>
+                        <input id="issue_criteria" placeholder="input criteria" type="text" size="50px" name="issue_criteria" class="Absolute-Center"/>
+                        <p>
+                            <input type="button" value="search" onclick="getAllIssues()"> 
+                    </form>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Column heading</th>
+                                <th>Column heading</th>
+                                <th>Column heading</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="active">
+                                <td>1</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                            </tr>
+                            <tr class="success">
+                                <td>3</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                            </tr>
+                            <tr class="info">
+                                <td>5</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                            </tr>
+                            <tr class="warning">
+                                <td>7</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                            </tr>
+                            <tr class="danger">
+                                <td>9</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                                <td>Column content</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Common JS -->
+        <script src="/theFlow/resources/js/jquery.min.js"></script>
+        <script src="/theFlow/resources/js/bootstrap.min.js"></script>
+        <script src="/theFlow/resources/js/jquery.carouFredSel-6.2.1-packed.js"></script>              
+        <script src="/theFlow/resources/js/scripts.js"></script>
+        <script src="/theFlow/resources/js/searchIssueAjaxCall.js"></script>
+        <script src="/theFlow/resources/js/assigneeListCall.js"></script>
+        <script src="/theFlow/resources/js/jquery-1.11.1.js"></script>
+        <script src="/theFlow/resources/js/getAllIssues.js"></script>
+    </body>
+</html>

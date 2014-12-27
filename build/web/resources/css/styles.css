@@ -1,0 +1,105 @@
+body, html {
+	
+}
+
+body {
+	font-family:'Open Sans', Arial, sans-serif;
+}
+
+#header {
+	padding:0px 0px;	
+}
+
+.header-container {
+	margin:0px 0px 20px 0px;
+	background-color: #F5F5F5;
+	border-bottom: 1px solid #E5E5E5;
+}
+
+.logo {
+	font-family: 'Ubuntu Condensed', Tahoma, sans-serif;
+	color:#205081;
+	display:table;
+}
+
+.logo i {
+	color:#415E30;
+
+	vertical-align:middle;
+}
+
+.logo strong {
+
+	vertical-align:middle;	
+}
+
+
+.logo-top {
+	font-size:24px;
+	line-height:24px;
+	margin:5px 0px 0px 0px;
+	text-align:left;
+}
+
+.logo-top i {
+	font-size:24px;
+	line-height:24px;
+	padding:0px;
+	margin:0px 10px 0px 0px;;
+	display:inline-block;
+	color:#3eb5f1;
+}
+
+.logo-top small {
+	font-family: 'Slabo 27px', serif;
+	color:#3eb5f1;
+	display:inline-block;
+	padding:0px;
+	mergin:0px;
+}
+
+.logo-top b {
+	font-family: 'Ubuntu Condensed', serif;
+	color:#f24942;
+	display:inline-block;
+	padding:0px;
+	mergin:0px;
+}
+
+.logo-top strong {
+	
+}
+
+.issues-list {
+	margin:20px 0px;
+}
+
+#sidebar {
+	position:relative;	
+	
+}
+
+.issues-list li i {
+	display:inline-block;
+	width:20px;
+	text-align:center;
+}
+
+.nav-pills > li > a:hover {
+	background-color:#205081;
+	color:#FFF;	
+}
+
+.major-priority {
+
+}
+
+.minor-priority {
+
+}
+
+#main {
+	padding:20px 0px;
+	padding-left:15px;
+	border-left:1px solid #CCC;	
+}

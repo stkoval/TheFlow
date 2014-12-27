@@ -1,0 +1,8 @@
+method getIssues criterias:
+    1. creation date/period (from, from-to, date)
+    2. modification date/period
+    3. assignee id
+    4. creator id
+    5. project id
+    6. status
+    7. type
