@@ -1,5 +1,0 @@
-issue criteria parser:
-    1. write parser for period and date criteria
-    2. get list of String pairs ("name:value")
-    3. go through list elements in loop
-    - return list NVPairs
