@@ -7,7 +7,6 @@ package com.theflow.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -66,7 +65,7 @@ public class Issue implements Serializable {
     private IssuePriority priority;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    //@JoinColumn(name = "user_id")
     @JoinTable(name = "issues_users",
             joinColumns = {
                 @JoinColumn(name = "issue_id")},

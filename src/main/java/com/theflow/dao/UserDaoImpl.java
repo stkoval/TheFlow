@@ -8,6 +8,7 @@ package com.theflow.dao;
 import com.theflow.domain.User;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
+
+    static final Logger logger = Logger.getLogger(UserDaoImpl.class.getName());
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -44,16 +47,17 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByEmail(String email) {
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
 
         users = sessionFactory.getCurrentSession()
                 .createQuery("from User where email=?")
                 .setParameter(0, email)
                 .list();
-
         if (users.size() > 0) {
+            logger.debug("********************userssize" + users.size() + "***********email: " + email + " *********roles: " + users.get(0).getUserRole().size());
             return users.get(0);
         } else {
+
             return null;
         }
     }

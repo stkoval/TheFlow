@@ -7,7 +7,7 @@
 function getAllIssues(){
  $.ajax({
   type: "post",
-  url: "../issues/all",
+  url: "issues/all",
   cache: false,    
   //data:'issue_criteria=' + $("#issue_criteria").val(),
   success: function(response){

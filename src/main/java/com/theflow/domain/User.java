@@ -2,6 +2,7 @@ package com.theflow.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -40,6 +42,9 @@ public class User  implements Serializable{
     @Column(name = "password")
     private String password;
     
+    @OneToMany(mappedBy = "user")
+    private Set<UserRole> userRole;
+    
     @ManyToMany(mappedBy = "addedUsers")
     @JsonManagedReference
     transient private Set<Project> projects;
@@ -48,6 +53,8 @@ public class User  implements Serializable{
     
     public User() {
     }
+    
+    
 
     public int getUserId() {
         return userId;
@@ -103,5 +110,21 @@ public class User  implements Serializable{
 
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
+    }
+
+    public Set<UserRole> getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(Set<UserRole> userRole) {
+        this.userRole = userRole;
+    }
+
+    public List<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(List<Issue> issues) {
+        this.issues = issues;
     }
 }

@@ -5,11 +5,10 @@
  */
 package com.theflow.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -19,14 +18,22 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
     
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String showLoginPage() {
-        return "redirect:/pages/login.html";
-    }
+    static final Logger logger = Logger.getLogger(LoginController.class.getName());
     
-    @RequestMapping(value = "home", method = RequestMethod.GET)
+//    @RequestMapping(value = "/login")
+//    public String showLoginPage() {
+//        return "login";
+//    }
+    
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String redirect() {
 
-        return "redirect:/pages/home.html";
+        return "home/home";
+    }
+    
+    @RequestMapping(value = "/403", method = RequestMethod.POST)
+    public String denied() {
+
+        return "403";
     }
 }

@@ -5,6 +5,7 @@
  */
 package com.theflow.domain;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,10 +22,8 @@ import javax.persistence.UniqueConstraint;
  * @author Stas
  */
 @Entity
-@Table(name = "user_roles",
-        uniqueConstraints = @UniqueConstraint(
-                columnNames = {"role", "username"}))
-public class UserRole {
+@Table(name = "user_roles", uniqueConstraints = @UniqueConstraint(columnNames = {"user_role", "username"}))
+public class UserRole implements Serializable{
 
     private Integer userRoleId;
     private User user;
@@ -51,7 +50,7 @@ public class UserRole {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "email", nullable = false)
+    @JoinColumn(name = "username", referencedColumnName = "email", nullable = false)
     public User getUser() {
         return this.user;
     }
@@ -60,7 +59,7 @@ public class UserRole {
         this.user = user;
     }
 
-    @Column(name = "role", nullable = false, length = 45)
+    @Column(name = "user_role", nullable = false, length = 45)
     public String getRole() {
         return this.role;
     }

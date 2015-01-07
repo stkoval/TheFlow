@@ -1,0 +1,76 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+    <head>
+        <title>the Flow</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <meta name="description" content=""/>
+        <link rel="image_src" href="" />
+
+
+        <link href="/theFlow/resources/css/bootstrap.min.css" rel="stylesheet"/>
+        <link rel='stylesheet' id='font-awesome-css'  href='/theFlow/resources/css/font-awesome.min.css' type='text/css' media='all' >
+        <link href="/theFlow/resources/css/fancy-buttons.css" rel="stylesheet"/>
+        <link href="/theFlow/resources/css/login.css" rel="stylesheet"/>
+
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'/>
+        <link href='http://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'/>
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'/>
+
+    </head>
+    <body>
+
+        <div class="container-login">
+            <div class="outer">
+                <div class="inner">
+                    <div class="centered">                    
+                        <div class="logo logo-login">
+                            <i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong>
+                        </div>
+                        <form class="form-signin" data-toggle="validator" id="loginForm" th:action="@{/login}" method="post">
+                            <h2 class="form-signin-heading">Please sign in</h2>
+                            <div th:if="${param.error}" class="alert alert-error">    
+                                Invalid username or password.
+                            </div>
+                            <div th:if="${param.logout}" class="alert alert-success"> 
+                                You have been logged out.
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="sr-only">Email address</label>
+                                <input type="email" id="username" name="username" class="form-control" placeholder="Email address" required="required" autofocus="autofocus" data-error="Invalid email"/>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword" class="sr-only">Password</label>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required" data-error="Please, enter your password" data-minlength="6" data-minlength-error="Your password is too short, minimum 6 characters required"/>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="remember-me"/> Remember me
+                                </label>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block fancy-button medium basic rotate infinite login-button" type="submit">
+                                Sign in
+                                <span class="icon">
+                                    <i class="fa fa-plane"></i>
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Common JS -->
+        <script src="/theFlow/resources/js/jquery.min.js"></script>
+        <script src="/theFlow/resources/js/bootstrap.min.js"></script>
+        <script src="/theFlow/resources/js/jquery.carouFredSel-6.2.1-packed.js"></script>
+        <script src="/theFlow/resources/js/validator.min.js"></script>  
+        <script src="/theFlow/resources/js/scripts.js"></script>
+        <script src="/theFlow/resources/css/login.css"></script>
+
+    </body>
+</html>
