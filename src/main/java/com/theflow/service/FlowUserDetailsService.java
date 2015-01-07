@@ -49,7 +49,7 @@ public class FlowUserDetailsService implements UserDetailsService {
     // org.springframework.security.core.userdetails.User
     private User buildUserForAuthentication(com.theflow.domain.User user,
             List<GrantedAuthority> authorities) {
-        return new User(user.getEmail(), user.getPassword(), authorities);
+        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName());
     }
 //    private User buildUserForAuthentication(com.theflow.domain.User user,
 //            List<GrantedAuthority> authorities) {
@@ -72,10 +72,14 @@ public class FlowUserDetailsService implements UserDetailsService {
     }
 //
     private static class User extends org.springframework.security.core.userdetails.User {
+        
+        private String fullName;
 
+        
 
-        public User(String username, String password, List<GrantedAuthority> authorities) {
+        public User(String username, String password, List<GrantedAuthority> authorities, String firstname, String lastname) {
             super(username, password, authorities);
+            fullName = lastname + " " + firstname;
         }
 
 
@@ -87,6 +91,14 @@ public class FlowUserDetailsService implements UserDetailsService {
                 }
             }
             return false;
+        }
+
+        public String getFullName() {
+            return fullName;
+        }
+
+        public void setFullName(String fullName) {
+            this.fullName = fullName;
         }
     }
 }

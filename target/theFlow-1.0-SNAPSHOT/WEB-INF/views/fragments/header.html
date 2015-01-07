@@ -26,7 +26,7 @@
                 <li th:classappend="${page == 'tasks' ? 'active' : ''}"><a href="#" th:href="@{/task}">Tasks</a></li>
             </ul>-->
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/profile" th:href="@{/profile}"><div sec:authentication="name"></div></a></li>
+                <li><a href="/profile" th:href="@{/profile}"><div sec:authentication="principal.fullName"></div></a></li>
                 <li><a href="/logout" th:href="@{/logout}">Logout</a></li>
             </ul>
         </div>

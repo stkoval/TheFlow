@@ -15,7 +15,7 @@ and open the template in the editor.
         <div>
             <div th:replace="fragments/header :: header">&nbsp;</div>
             <img src="/theFlow/resources/img/monster.png" class="img-rounded">
-            <div sec:authentication="name"></div>
+            <div sec:authentication="principal.fullName"></div>
             <!--<div th:text = ${#authentication.principal.getUsername()}></div>-->
             
             <form>
