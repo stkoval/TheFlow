@@ -65,6 +65,27 @@ create table issues_users (
     CONSTRAINT `fk_userx` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
 
+insert into issues_users (issue_id, user_id)
+values(1, 1);
+insert into issues_users (issue_id, user_id)
+values(2, 2);
+insert into issues_users (issue_id, user_id)
+values(3, 3);
+insert into issues_users (issue_id, user_id)
+values(4, 2);
+insert into issues_users (issue_id, user_id)
+values(5, 3);
+insert into issues_users (issue_id, user_id)
+values(6, 2);
+insert into issues_users (issue_id, user_id)
+values(7, 1);
+insert into issues_users (issue_id, user_id)
+values(8, 1);
+insert into issues_users (issue_id, user_id)
+values(9, 1);
+insert into issues_users (issue_id, user_id)
+values(10, 1);
+
 //triggers for date
 delimiter//
 CREATE TRIGGER `issues_insert` BEFORE INSERT ON `issues`
@@ -96,6 +117,15 @@ insert into users(firstname, lastname, email, login, password)
 values('Egor', 'Letov', 'Egorka@test.com', 'grob', '111111');
 insert into users(firstname, lastname, email, login, password) 
 values('Victor', 'Coy', 'Coy@test.com', 'coy', '111111');
+
+insert into projects_users (project_id, user_id)
+values(1, 2);
+insert into projects_users (project_id, user_id)
+values(2, 2);
+insert into projects_users (project_id, user_id)
+values(1, 1);
+insert into projects_users (project_id, user_id)
+values(2, 3);
 
 insert into user_roles(username, user_role)
 values('KCobain@test.com', 'ROLE_USER');

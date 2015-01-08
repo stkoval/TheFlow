@@ -6,8 +6,10 @@
 package com.theflow.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.theflow.domain.Issue;
 import com.theflow.dto.IssueDTO;
 import com.theflow.service.IssueService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.apache.log4j.Logger;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -22,9 +25,9 @@ import org.apache.log4j.Logger;
  */
 @Controller
 public class IssueController {
-    
+
     //initializing the logger
-static final Logger logger = Logger.getLogger(IssueController.class.getName());
+    static final Logger logger = Logger.getLogger(IssueController.class.getName());
 
     @Autowired
     private IssueService issueService;
@@ -40,18 +43,18 @@ static final Logger logger = Logger.getLogger(IssueController.class.getName());
     //creating new issue
     @RequestMapping(method = RequestMethod.POST, value = "/issues/create")
     public void saveIssue(@RequestParam("title") String title,
-                         @RequestParam("description") String description,
-                         @RequestParam("type") String type,
-                         @RequestParam("status") String status,
-                         @RequestParam("priority") String priority,
-                         @RequestParam("assignee_id") String assigneeId,
-                         @RequestParam("creator_id") String creatorId,
-                         @RequestParam("project_id") String projectId,
-                         @RequestParam("estimated_time") String estimatedTime){
-        
+            @RequestParam("description") String description,
+            @RequestParam("type") String type,
+            @RequestParam("status") String status,
+            @RequestParam("priority") String priority,
+            @RequestParam("assignee_id") String assigneeId,
+            @RequestParam("creator_id") String creatorId,
+            @RequestParam("project_id") String projectId,
+            @RequestParam("estimated_time") String estimatedTime) {
+
         logger.debug("************ inside controller*********priority: " + priority + "*************");
         IssueDTO issueDTO = new IssueDTO(title, description, type, priority, assigneeId, creatorId, projectId, estimatedTime);
-        
+
         issueService.saveIssue(issueDTO);
         System.out.println("successfully added issue");
     }
@@ -67,12 +70,14 @@ static final Logger logger = Logger.getLogger(IssueController.class.getName());
     public void removeIssue(int id) {
         issueService.removeIssue(id);
     }
-    
-    @RequestMapping("/issues/all")
-    public @ResponseBody String getAllIssues() throws JsonProcessingException {
-        String issues = issueService.getAllIssues();
-        logger.debug("*************issues*********" + issues);
-        return issues;
+
+    @RequestMapping(value = "/issues/all", method = RequestMethod.GET)
+    public ModelAndView getAllIssues() {
+        List<Issue> issues = issueService.getAllIssues();
+        logger.debug("*************issues*********" + issues.size());
+        ModelAndView model = new ModelAndView("issue/table");
+        model.addObject("issues", issues);
+        return model;
     }
-    
+
 }

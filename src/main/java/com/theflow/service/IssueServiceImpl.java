@@ -14,13 +14,13 @@ import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDTO;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.theflow.utils.IssueCriteriaParser;
 import com.theflow.utils.NVPair;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -88,21 +88,22 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public String getAllIssues() throws JsonProcessingException {
+    @Transactional
+    public List<Issue> getAllIssues() {
         List<Issue> issues = issueDao.getAllIssues();
-        List<IssueDTO> issuesDTO = new ArrayList<>();
+//        List<IssueDTO> issuesDTO = new ArrayList<>();
 
-        IssueDTO issueDTO;
-        for (Issue issue : issues) {
-            issueDTO = new IssueDTO();
-            issueDTO.setTitle(issue.getTitle());
-            issueDTO.setIssueId(issue.getIssueId());
-            issuesDTO.add(issueDTO);
-        }
+//        IssueDTO issueDTO;
+//        for (Issue issue : issues) {
+//            issueDTO = new IssueDTO();
+//            issueDTO.setTitle(issue.getTitle());
+//            issueDTO.setIssueId(issue.getIssueId());
+//            issuesDTO.add(issueDTO);
+//        }
         
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonIssue = mapper.writeValueAsString(issuesDTO);
-        return jsonIssue;
+//        ObjectMapper mapper = new ObjectMapper();
+//        String jsonIssue = mapper.writeValueAsString(issuesDTO);
+        return issues;
     }
 
 }

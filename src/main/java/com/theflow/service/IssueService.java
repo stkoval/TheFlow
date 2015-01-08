@@ -6,7 +6,9 @@
 package com.theflow.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.theflow.domain.Issue;
 import com.theflow.dto.IssueDTO;
+import java.util.List;
 
 /**
  *
@@ -22,6 +24,6 @@ public interface IssueService {
 
     public void removeIssue(int id);
     
-    public String getAllIssues() throws JsonProcessingException;
+    public List<Issue> getAllIssues();
     
 }

@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -49,13 +48,8 @@ public class FlowUserDetailsService implements UserDetailsService {
     // org.springframework.security.core.userdetails.User
     private User buildUserForAuthentication(com.theflow.domain.User user,
             List<GrantedAuthority> authorities) {
-        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName());
+        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId());
     }
-//    private User buildUserForAuthentication(com.theflow.domain.User user,
-//            List<GrantedAuthority> authorities) {
-//        return new User(user.getEmail(), user.getPassword(),
-//                true, true, true, true, authorities);
-//    }
 
     private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
 
@@ -71,15 +65,17 @@ public class FlowUserDetailsService implements UserDetailsService {
         return Result;
     }
 //
-    private static class User extends org.springframework.security.core.userdetails.User {
+    public static class User extends org.springframework.security.core.userdetails.User {
         
         private String fullName;
+        private int userId;
 
         
 
-        public User(String username, String password, List<GrantedAuthority> authorities, String firstname, String lastname) {
+        public User(String username, String password, List<GrantedAuthority> authorities, String firstname, String lastname, int userId) {
             super(username, password, authorities);
             fullName = lastname + " " + firstname;
+            this.userId = userId;
         }
 
 
@@ -99,6 +95,14 @@ public class FlowUserDetailsService implements UserDetailsService {
 
         public void setFullName(String fullName) {
             this.fullName = fullName;
+        }
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
         }
     }
 }

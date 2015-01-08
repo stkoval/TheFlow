@@ -65,7 +65,6 @@ public class Issue implements Serializable {
     private IssuePriority priority;
 
     @ManyToOne
-    //@JoinColumn(name = "user_id")
     @JoinTable(name = "issues_users",
             joinColumns = {
                 @JoinColumn(name = "issue_id")},
