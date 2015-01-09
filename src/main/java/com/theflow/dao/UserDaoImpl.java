@@ -26,8 +26,8 @@ public class UserDaoImpl implements UserDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public void saveUser(User user) {
-
+    public void saveUserReg(User user) {
+        sessionFactory.openSession().save(user);
     }
 
     @Override

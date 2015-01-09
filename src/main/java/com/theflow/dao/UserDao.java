@@ -13,7 +13,7 @@ import com.theflow.domain.User;
  */
 public interface UserDao {
     
-    public void saveUser(User user);
+    public void saveUserReg(User user);
     
     public void updateUser(User user);
     

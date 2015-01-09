@@ -16,6 +16,8 @@ public class UserDTO {
     private String lastName;
     private String email;
     private String login;
+    private String password;
+    private String companyName;
 
     public int getUserId() {
         return userId;
@@ -56,4 +58,21 @@ public class UserDTO {
     public void setLogin(String login) {
         this.login = login;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+    
 }

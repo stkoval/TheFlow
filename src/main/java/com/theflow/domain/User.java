@@ -2,17 +2,18 @@ package com.theflow.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -36,11 +37,14 @@ public class User  implements Serializable{
     @Column(name = "email")
     private String email;
     
-    @Column(name = "login")
-    private String login;
-    
     @Column(name = "password")
     private String password;
+    
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+    
+    private boolean enabled;
     
     @OneToMany(mappedBy = "user")
     private Set<UserRole> userRole;
@@ -48,9 +52,9 @@ public class User  implements Serializable{
     @ManyToMany(mappedBy = "addedUsers")
     @JsonManagedReference
     transient private Set<Project> projects;
-    @OneToMany(mappedBy = "assignee")
-    private List<Issue> issues;
     
+    @OneToMany(mappedBy = "assignee")
+    private List<Issue> assignedIssues;
     public User() {
     }
     
@@ -78,14 +82,6 @@ public class User  implements Serializable{
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getPassword() {
@@ -120,11 +116,53 @@ public class User  implements Serializable{
         this.userRole = userRole;
     }
 
-    public List<Issue> getIssues() {
-        return issues;
+    public List<Issue> getAssignedIssues() {
+        return assignedIssues;
     }
 
-    public void setIssues(List<Issue> issues) {
-        this.issues = issues;
+    public void setAssignedIssues(List<Issue> assignedIssues) {
+        this.assignedIssues = assignedIssues;
+    }
+    
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + this.userId;
+        hash = 89 * hash + Objects.hashCode(this.email);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (this.userId != other.userId) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        return true;
     }
 }

@@ -147,21 +147,19 @@ public class IssueDaoImpl implements IssueDao {
 
         //getting projects current user was added to ******* change after adding project adduser functionality
         //Hibernate.initialize(user.getProjects());
-        String sql = "select project_id from projects_users where user_id = :userid";
-        Query q = session.createSQLQuery(sql);
-        q.setParameter("userid", userId);
-        List<Integer> projectIds = (List<Integer>)q.list();
+//        String sql = "select project_id from projects_users where user_id = :userid";
+//        Query q = session.createSQLQuery(sql);
+//        q.setParameter("userid", userId);
+//        List<Integer> projectIds = (List<Integer>)q.list();
+        
+        //getting all projects related to company
+        List<Integer> projectIds = session.createSQLQuery("select project_id from projects where company_id = " + user.getCompany().getCompanyId()).list();
         
         //Set<Project> projects = user.getProjects();
 
         if (projectIds.isEmpty()) {
             return null;
         }
-
-        //List<Integer> projectIds = new ArrayList<>();
-//        for (Project project : projects) {
-//            projectIds.add(project.getProjectId());
-//        }
 
         //getting issues related to projects user is added to
         String hql1 = "from Issue where project.projectId in (:projects)";

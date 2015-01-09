@@ -1,16 +1,33 @@
 create database flowdb;
 use flowdb;
 
+create table companies (
+company_id int not null auto_increment,
+company_name varchar(100) not null,
+key(company_name),
+primary key (company_id)
+)
+
+insert into companies (company_name)
+values('DemoCompany1');
+
 create table users (
 user_id int not null auto_increment,
 firstname varchar(40) not null,
 lastname varchar(40) not null,
 email varchar(255) not null UNIQUE,
-login varchar(20) not null UNIQUE,
 password varchar(20) not null,
+enabled TINYINT NOT NULL DEFAULT 1,
 PRIMARY KEY (user_id),
 KEY (email)
 );
+
+insert into users(company_id, firstname, lastname, email, password) 
+values(1, 'Kurt', 'Cobain', 'KCobain@test.com', '111111');
+insert into users(company_id, firstname, lastname, email, login, password) 
+values(1, 'Egor', 'Letov', 'Egorka@test.com', '111111');
+insert into users(company_id, firstname, lastname, email, login, password) 
+values(1, 'Victor', 'Coy', 'Coy@test.com', '111111');
 
 CREATE TABLE user_roles (
 user_role_id int(11) NOT NULL AUTO_INCREMENT,
@@ -27,6 +44,11 @@ name varchar(100) not null,
 description text,
 PRIMARY KEY (project_id)
 );
+
+insert into projects(name, company_id, description) 
+values('TestProject1', 1, 'This is a test project');
+insert into projects(name, company_id, description) 
+values('TestProject2', 1, 'This is a test project');
 
 create table projects_users (
     `project_id` int NOT NULL,
@@ -105,18 +127,6 @@ FOR EACH ROW BEGIN
     Set new.modification_date = now();
 END//
 delimiter;
-
-insert into projects(name, description) 
-values('TestProject1', 'This is a test project');
-insert into projects(name, description) 
-values('TestProject2', 'This is a test project');
-
-insert into users(firstname, lastname, email, login, password) 
-values('Kurt', 'Cobain', 'KCobain@test.com', 'kurt', '111111');
-insert into users(firstname, lastname, email, login, password) 
-values('Egor', 'Letov', 'Egorka@test.com', 'grob', '111111');
-insert into users(firstname, lastname, email, login, password) 
-values('Victor', 'Coy', 'Coy@test.com', 'coy', '111111');
 
 insert into projects_users (project_id, user_id)
 values(1, 2);

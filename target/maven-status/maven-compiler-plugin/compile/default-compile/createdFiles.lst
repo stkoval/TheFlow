@@ -1,7 +1,9 @@
+com\theflow\dao\CompanyDaoImpl.class
 com\theflow\dao\ProjectDaoImpl.class
 com\theflow\controller\UserController.class
 com\theflow\dao\IssueConstraints.class
 com\theflow\utils\IssueCriteriaParser.class
+com\theflow\dao\CompanyDao.class
 com\theflow\dto\UserDTO.class
 com\theflow\controller\LoginController.class
 com\theflow\dto\IssueDTO.class
@@ -16,6 +18,8 @@ com\theflow\dao\ProjectDao.class
 com\theflow\service\ProjectService.class
 com\theflow\dao\IssueDaoImpl.class
 com\theflow\service\FlowUserDetailsService$User.class
+com\theflow\service\UserServiceImpl.class
+com\theflow\service\UserService.class
 com\theflow\service\IssueServiceImpl.class
 com\theflow\configuration\SecurityConfig.class
 com\theflow\domain\UserRole.class
@@ -31,6 +35,7 @@ com\theflow\configuration\WebAppInitializer.class
 com\theflow\domain\Issue$IssuePriority.class
 com\theflow\domain\User.class
 com\theflow\utils\NVPair.class
+com\theflow\domain\Company.class
 com\theflow\domain\Issue$IssueType.class
 com\theflow\service\FlowUserDetailsService.class
 com\theflow\configuration\SecurityInit.class

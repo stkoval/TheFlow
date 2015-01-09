@@ -3,7 +3,9 @@ C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\thefl
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\service\FlowUserDetailsService.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\domain\User.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\controller\LoginController.java
+C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\domain\Company.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\service\ProjectService.java
+C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\service\UserService.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\dao\IssueConstraints.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\dao\IssueCommentDao.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\dto\UserDTO.java
@@ -12,10 +14,12 @@ C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\thefl
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\configuration\SecurityConfig.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\dao\ProjectDaoImpl.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\configuration\ApplicationConfig.java
+C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\dao\CompanyDao.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\dao\IssueDao.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\controller\ProjectController.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\controller\IssueController.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\configuration\ThymeleafConfig.java
+C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\dao\CompanyDaoImpl.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\dao\UserDao.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\domain\Project.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\dto\IssueDTO.java
@@ -29,3 +33,4 @@ C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\thefl
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\controller\UserController.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\domain\IssueComment.java
 C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\service\IssueService.java
+C:\Users\Stas\Documents\NetBeansProjects\theFlow\theflow\src\main\java\com\theflow\service\UserServiceImpl.java

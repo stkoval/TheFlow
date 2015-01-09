@@ -91,18 +91,6 @@ public class IssueServiceImpl implements IssueService {
     @Transactional
     public List<Issue> getAllIssues() {
         List<Issue> issues = issueDao.getAllIssues();
-//        List<IssueDTO> issuesDTO = new ArrayList<>();
-
-//        IssueDTO issueDTO;
-//        for (Issue issue : issues) {
-//            issueDTO = new IssueDTO();
-//            issueDTO.setTitle(issue.getTitle());
-//            issueDTO.setIssueId(issue.getIssueId());
-//            issuesDTO.add(issueDTO);
-//        }
-        
-//        ObjectMapper mapper = new ObjectMapper();
-//        String jsonIssue = mapper.writeValueAsString(issuesDTO);
         return issues;
     }
 

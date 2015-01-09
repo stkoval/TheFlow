@@ -48,7 +48,7 @@ public class FlowUserDetailsService implements UserDetailsService {
     // org.springframework.security.core.userdetails.User
     private User buildUserForAuthentication(com.theflow.domain.User user,
             List<GrantedAuthority> authorities) {
-        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId());
+        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId(), user.isEnabled());
     }
 
     private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
@@ -72,8 +72,8 @@ public class FlowUserDetailsService implements UserDetailsService {
 
         
 
-        public User(String username, String password, List<GrantedAuthority> authorities, String firstname, String lastname, int userId) {
-            super(username, password, authorities);
+        public User(String username, String password, List<GrantedAuthority> authorities, String firstname, String lastname, int userId, boolean enabled) {
+            super(username, password, enabled, true, true, true, authorities);
             fullName = lastname + " " + firstname;
             this.userId = userId;
         }

@@ -40,7 +40,6 @@ public class ProjectServiceImpl implements ProjectService{
             userDTO = new UserDTO();
             userDTO.setFirstName(user.getFirstName());
             userDTO.setLastName(user.getLastName());
-            userDTO.setLogin(user.getLogin());
             userDTO.setUserId(user.getUserId());
             usersDTO.add(userDTO);
         }
