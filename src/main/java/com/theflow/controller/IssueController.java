@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.apache.log4j.Logger;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -41,41 +43,59 @@ public class IssueController {
     }
 
     //creating new issue
-    @RequestMapping(method = RequestMethod.POST, value = "/issues/create")
-    public void saveIssue(@RequestParam("title") String title,
-            @RequestParam("description") String description,
-            @RequestParam("type") String type,
-            @RequestParam("status") String status,
-            @RequestParam("priority") String priority,
-            @RequestParam("assignee_id") String assigneeId,
-            @RequestParam("creator_id") String creatorId,
-            @RequestParam("project_id") String projectId,
-            @RequestParam("estimated_time") String estimatedTime) {
-
-        logger.debug("************ inside controller*********priority: " + priority + "*************");
-        IssueDTO issueDTO = new IssueDTO(title, description, type, priority, assigneeId, creatorId, projectId, estimatedTime);
-
+//    @RequestMapping(method = RequestMethod.POST, value = "/issues/create")
+//    public void saveIssue(@RequestParam("title") String title,
+//            @RequestParam("description") String description,
+//            @RequestParam("type") String type,
+//            @RequestParam("status") String status,
+//            @RequestParam("priority") String priority,
+//            @RequestParam("assignee_id") String assigneeId,
+//            @RequestParam("creator_id") String creatorId,
+//            @RequestParam("project_id") String projectId,
+//            @RequestParam("estimated_time") String estimatedTime) {
+//
+//        logger.debug("************ inside controller*********priority: " + priority + "*************");
+//        IssueDTO issueDTO = new IssueDTO(title, description, type, priority, assigneeId, creatorId, projectId, estimatedTime);
+//
+//        issueService.saveIssue(issueDTO);
+//        System.out.println("successfully added issue");
+//    }
+    
+    //creating new issue
+    @RequestMapping(value = "issue/save", method = RequestMethod.POST)
+    public String saveUser(@ModelAttribute(value = "issue") IssueDTO issueDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            return "issue/addissue";
+        }
+        
         issueService.saveIssue(issueDTO);
-        System.out.println("successfully added issue");
+        
+        return"home/home";
     }
 
     //show issue creation page
-    @RequestMapping("/issues/add")
-    public String addIssue() {
-        return "redirect:/pages/addissue.html";
+    @RequestMapping("issue/add")
+    public ModelAndView addIssueForm() {
+        return new ModelAndView("issue/addissue", "issue", new IssueDTO());
     }
 
     //removes issue from database
-    @RequestMapping("/issues/remove")
-    public void removeIssue(int id) {
+    @RequestMapping("issue/remove/{id}")
+    public void removeIssue(@RequestParam int id) {
         issueService.removeIssue(id);
     }
 
-    @RequestMapping(value = "/issues/all", method = RequestMethod.GET)
+    //get all issues related to Company
+    @RequestMapping(value = "issue/all", method = RequestMethod.GET)
     public ModelAndView getAllIssues() {
-        List<Issue> issues = issueService.getAllIssues();
-        logger.debug("*************issues*********" + issues.size());
         ModelAndView model = new ModelAndView("issue/table");
+        List<Issue> issues = issueService.getAllIssues();
+        if (issues == null) {
+            String message = "There are no issues created";
+            model.addObject("message", message);
+            return model;
+        }
+        logger.debug("*************issues*********" + issues.size());
         model.addObject("issues", issues);
         return model;
     }

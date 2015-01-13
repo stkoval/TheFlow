@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.theflow.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 
 /**
@@ -13,7 +7,6 @@ import java.util.Date;
  * @author Stas
  * DTO for Issue object
  */
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class IssueDTO {
     private int issueId;
     private String title;
@@ -24,7 +17,7 @@ public class IssueDTO {
     private String assignee_id;
     private String creator_id;
     private String project_id;
-    private String estimatedTime;
+    private String estimated_time;
     private String loggedTime;
     private Date creationDate;
     private Date modificationDate;
@@ -39,7 +32,7 @@ public class IssueDTO {
         this.assignee_id = assignee_id;
         this.creator_id = creator_id;
         this.project_id = project_id;
-        this.estimatedTime = estimatedTime;
+        this.estimated_time = estimatedTime;
     }
     
     
@@ -116,14 +109,6 @@ public class IssueDTO {
         this.project_id = project_id;
     }
 
-    public String getEstimatedTime() {
-        return estimatedTime;
-    }
-
-    public void setEstimatedTime(String estimatedTime) {
-        this.estimatedTime = estimatedTime;
-    }
-
     public String getLoggedTime() {
         return loggedTime;
     }
@@ -147,5 +132,20 @@ public class IssueDTO {
     public void setModificationTime(Date modificationTime) {
         this.modificationDate = modificationTime;
     }
-    
+
+    public String getEstimated_time() {
+        return estimated_time;
+    }
+
+    public void setEstimated_time(String estimated_time) {
+        this.estimated_time = estimated_time;
+    }
+
+    public Date getModificationDate() {
+        return modificationDate;
+    }
+
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
 }

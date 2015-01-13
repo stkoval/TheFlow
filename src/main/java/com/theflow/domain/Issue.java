@@ -65,15 +65,17 @@ public class Issue implements Serializable {
     private IssuePriority priority;
 
     @ManyToOne
-    @JoinTable(name = "issues_users",
-            joinColumns = {
-                @JoinColumn(name = "issue_id")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "user_id")})
+//    @JoinTable(name = "issues_users",
+//            joinColumns = {
+//                @JoinColumn(name = "issue_id")},
+//            inverseJoinColumns = {
+//                @JoinColumn(name = "user_id")})
+    @JoinColumn(name = "assignee_id")
     private User assignee;
 
-    @Column(name = "creator_id")
-    private int creatorId;
+    @JoinColumn(name = "creator_id")
+    @ManyToOne
+    private User creator;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
@@ -142,12 +144,12 @@ public class Issue implements Serializable {
         this.assignee = assignee;
     }
 
-    public int getCreatorId() {
-        return creatorId;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setCreatorId(int creatorId) {
-        this.creatorId = creatorId;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     public Project getProject() {

@@ -50,15 +50,6 @@ values('TestProject1', 1, 'This is a test project');
 insert into projects(name, company_id, description) 
 values('TestProject2', 1, 'This is a test project');
 
-create table projects_users (
-    `project_id` int NOT NULL,
-    `user_id` int NOT NULL,
-    PRIMARY KEY (`project_id`, `user_id`),
-    INDEX `FK_user` (`user_id`),
-    CONSTRAINT `fk_project` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`),
-    CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-);
-
 create table issues (
 issue_id int not null auto_increment,
 title varchar(40) not null UNIQUE,
@@ -77,36 +68,6 @@ PRIMARY KEY (issue_id),
 FOREIGN KEY (creator_id) REFERENCES users(user_id),
 FOREIGN KEY (project_id) REFERENCES projects(project_id)
 );
-
-create table issues_users (
-    `issue_id` int NOT NULL,
-    `user_id` int NOT NULL,
-    PRIMARY KEY (`issue_id`, `user_id`),
-    INDEX `fk_user` (`user_id`),
-    CONSTRAINT `fk_issue` FOREIGN KEY (`issue_id`) REFERENCES `issues` (`issue_id`),
-    CONSTRAINT `fk_userx` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-);
-
-insert into issues_users (issue_id, user_id)
-values(1, 1);
-insert into issues_users (issue_id, user_id)
-values(2, 2);
-insert into issues_users (issue_id, user_id)
-values(3, 3);
-insert into issues_users (issue_id, user_id)
-values(4, 2);
-insert into issues_users (issue_id, user_id)
-values(5, 3);
-insert into issues_users (issue_id, user_id)
-values(6, 2);
-insert into issues_users (issue_id, user_id)
-values(7, 1);
-insert into issues_users (issue_id, user_id)
-values(8, 1);
-insert into issues_users (issue_id, user_id)
-values(9, 1);
-insert into issues_users (issue_id, user_id)
-values(10, 1);
 
 //triggers for date
 delimiter//
@@ -127,15 +88,6 @@ FOR EACH ROW BEGIN
     Set new.modification_date = now();
 END//
 delimiter;
-
-insert into projects_users (project_id, user_id)
-values(1, 2);
-insert into projects_users (project_id, user_id)
-values(2, 2);
-insert into projects_users (project_id, user_id)
-values(1, 1);
-insert into projects_users (project_id, user_id)
-values(2, 3);
 
 insert into user_roles(username, user_role)
 values('KCobain@test.com', 'ROLE_USER');

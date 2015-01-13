@@ -29,5 +29,4 @@ public class CompanyDaoImpl implements CompanyDao{
     public void saveCompany(Company company) {
         sessionFactory.openSession().save(company);
     }
-    
 }

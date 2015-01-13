@@ -65,7 +65,7 @@ public class FlowUserDetailsService implements UserDetailsService {
         return Result;
     }
 //
-    public static class User extends org.springframework.security.core.userdetails.User {
+    private static class User extends org.springframework.security.core.userdetails.User {
         
         private String fullName;
         private int userId;

@@ -16,8 +16,11 @@
                 Welcome to the Spring MVC + Thymeleaf application!
                 <span sec:authentication="name">bob</span>
             <p>
-            <form class="form-inline" method="get" th:action="@{/issues/all}">
+            <form class="form-inline" method="get" th:action="@{issue/all}">
                 <button type="submit" class="btn btn-primary btn-lg">GET ISSUES</button>
+            </form>
+            <form class="form-inline" method="get" th:action="@{issue/add}">
+                <button type="submit" class="btn btn-primary btn-lg">ADD ISSUES</button>
             </form>
         </p>
 

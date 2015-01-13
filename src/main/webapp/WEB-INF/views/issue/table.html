@@ -18,25 +18,28 @@ and open the template in the editor.
                    onCLick="history.back()">
         </form>
         <h1 style="margin-top: 80">Issues list</h1>
-        <!--<div th:text = "${issue.issueId}"></div>-->
 
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>TITLE</th>
-                <th>STATUS</th>
-                <th>TYPE</th>
-                <th>PRIORITY</th>
-                <th>ASSIGNEE</th>
-            </tr>
-            <tr th:each="issue : ${issues}">
-                <td th:text="${issue.issueId}">id</td>
-                <td th:text="${issue.title}">title</td>
-                <td th:text="${issue.status}">status</td>
-                <td th:text="${issue.type}">type</td>
-                <td th:text="${issue.priority}">priority</td>
-                <td th:text="${issue.assignee.lastName}">assignee</td>
-            </tr>
-        </table>
-    </body>
+    <th:block th:if="${message != null}">
+        <!--/* The message code is returned from the @Controller */-->
+        <div th:replace="fragments/alert :: alert">&nbsp;</div>
+    </th:block>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>TITLE</th>
+            <th>STATUS</th>
+            <th>TYPE</th>
+            <th>PRIORITY</th>
+            <th>ASSIGNEE</th>
+        </tr>
+        <tr th:each="issue : ${issues}">
+            <td th:text="${issue.issueId}">id</td>
+            <td th:text="${issue.title}">title</td>
+            <td th:text="${issue.status}">status</td>
+            <td th:text="${issue.type}">type</td>
+            <td th:text="${issue.priority}">priority</td>
+            <td th:text="${issue.assignee.lastName}">assignee</td>
+        </tr>
+    </table>
+</body>
 </html>

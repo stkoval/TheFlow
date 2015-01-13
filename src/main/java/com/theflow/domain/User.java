@@ -1,6 +1,5 @@
 package com.theflow.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -48,10 +46,6 @@ public class User  implements Serializable{
     
     @OneToMany(mappedBy = "user")
     private Set<UserRole> userRole;
-    
-    @ManyToMany(mappedBy = "addedUsers")
-    @JsonManagedReference
-    transient private Set<Project> projects;
     
     @OneToMany(mappedBy = "assignee")
     private List<Issue> assignedIssues;
@@ -98,14 +92,6 @@ public class User  implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Set<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(Set<Project> projects) {
-        this.projects = projects;
     }
 
     public Set<UserRole> getUserRole() {

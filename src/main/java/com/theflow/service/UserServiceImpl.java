@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.theflow.service;
 
 import com.theflow.dao.CompanyDao;
 import com.theflow.dao.UserDao;
 import com.theflow.domain.Company;
 import com.theflow.domain.User;
+import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +22,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
     
+    //Saves user from registration page. Assignes admin role
     @Override
     public void saveUserReg(UserDTO userDto) {
         User user = new User();
@@ -36,6 +33,7 @@ public class UserServiceImpl implements UserService{
         Company company = new Company(userDto.getCompanyName());
         companyDao.saveCompany(company);
         user.setCompany(company);
+        user.getUserRole().add(new UserRole(user,"ROLE_ADMIN"));
 
         userDao.saveUserReg(user);
     }

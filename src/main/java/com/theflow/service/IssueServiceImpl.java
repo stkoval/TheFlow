@@ -49,6 +49,7 @@ public class IssueServiceImpl implements IssueService {
         return jsonIssue;
     }
 
+    @Transactional
     @Override
     public void saveIssue(IssueDTO issueDTO) {
         logger.debug("***********inside Issue Service***********");
@@ -58,15 +59,17 @@ public class IssueServiceImpl implements IssueService {
 
         //populating issue fields
         String assigneeIdStr = issueDTO.getAssignee_id();
-        if (!assigneeIdStr.equals("")) {
-            User assignee = userDao.getUser(Integer.parseInt(assigneeIdStr));
+        if (assigneeIdStr != null && !assigneeIdStr.isEmpty()) {
+            User assignee = userDao.getUserById(Integer.parseInt(assigneeIdStr));
             issue.setAssignee(assignee);
+            logger.debug("***********inside Issue Service***********assignee: " + assignee.getFirstName());
         }
-        issue.setCreatorId(Integer.parseInt(issueDTO.getCreator_id()));
+        User creator = userDao.getCurrentUser();
+        issue.setCreator(creator);
         issue.setDescription(issueDTO.getDescription());
-        issue.setEstimatedTime(issueDTO.getEstimatedTime());
+        issue.setEstimatedTime(issueDTO.getEstimated_time());
         issue.setLoggedTime(issueDTO.getLoggedTime());
-        if (!issueDTO.getPriority().equals("")) {
+        if (issueDTO.getPriority() != null && !issueDTO.getPriority().isEmpty()) {
             issue.setPriority(Issue.IssuePriority.valueOf(issueDTO.getPriority()));
         }
         issue.setProject(project);

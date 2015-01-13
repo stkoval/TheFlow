@@ -1,16 +1,12 @@
 package com.theflow.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -33,32 +29,9 @@ public class Project implements Serializable {
     @Column(name = "description")
     private String projDescription;
 
-    @ManyToMany
-    @JoinTable(name = "projects_users",
-            joinColumns
-            = {
-                @JoinColumn(name = "project_id")
-            },
-            inverseJoinColumns
-            = {
-                @JoinColumn(name = "user_id")
-            })
-    @JsonBackReference
-    private Set<User> addedUsers;
-    
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
-    
-    
-
-    public Set<User> getAddedUsers() {
-        return addedUsers;
-    }
-
-    public void setAddedUsers(Set<User> addedUsers) {
-        this.addedUsers = addedUsers;
-    }
     
     public Project() {
     }

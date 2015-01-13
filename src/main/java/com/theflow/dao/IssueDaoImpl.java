@@ -42,9 +42,9 @@ public class IssueDaoImpl implements IssueDao {
     @Autowired
     private SessionFactory sessionFactory;
     
-//    @Autowired
-//    private FlowUserDetailsService flowUserDetailsService;
-
+    @Autowired
+    private UserDao userDao;
+    
     @Override
     public int saveIssue(Issue issue) {
         logger.debug("*************inside Issue Dao*********saving issue*********issue title: " + issue.getTitle());
@@ -136,27 +136,15 @@ public class IssueDaoImpl implements IssueDao {
     @Override
     public List<Issue> getAllIssues() {
         
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         Session session = sessionFactory.openSession();
 
-        //getting id of current authenticated user
-        FlowUserDetailsService.User userDetails = (FlowUserDetailsService.User) auth.getPrincipal();
-        int userId = userDetails.getUserId();
-        User user = (User) session.get(User.class, userId);
-
-        //getting projects current user was added to ******* change after adding project adduser functionality
-        //Hibernate.initialize(user.getProjects());
-//        String sql = "select project_id from projects_users where user_id = :userid";
-//        Query q = session.createSQLQuery(sql);
-//        q.setParameter("userid", userId);
-//        List<Integer> projectIds = (List<Integer>)q.list();
+        //Current authenticated user
+        User user = userDao.getCurrentUser();
         
         //getting all projects related to company
         List<Integer> projectIds = session.createSQLQuery("select project_id from projects where company_id = " + user.getCompany().getCompanyId()).list();
         
-        //Set<Project> projects = user.getProjects();
-
         if (projectIds.isEmpty()) {
             return null;
         }

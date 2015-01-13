@@ -37,6 +37,6 @@ public class LoginController {
     
     @RequestMapping(value = "user/registration", method = RequestMethod.GET)
     public ModelAndView showRegistrationForm() {
-        return new ModelAndView("user/add", "command", new UserDTO());
+        return new ModelAndView("user/add", "user", new UserDTO());
     }
 }

@@ -11,6 +11,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -41,8 +43,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUser(int id) {
-        return (User) sessionFactory.openSession().load(User.class, id);
+    public User getUserById(int id) {
+        return (User) sessionFactory.openSession().get(User.class, id);
     }
 
     @Override
@@ -62,4 +64,9 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    @Override
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return findByEmail(auth.getName());
+    }
 }
