@@ -5,14 +5,7 @@
  */
 package com.theflow.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theflow.dao.ProjectDao;
-import com.theflow.domain.Project;
-import com.theflow.domain.User;
-import com.theflow.dto.UserDTO;
-import java.util.HashSet;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

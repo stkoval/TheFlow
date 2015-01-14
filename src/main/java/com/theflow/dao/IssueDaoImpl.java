@@ -85,8 +85,8 @@ public class IssueDaoImpl implements IssueDao {
                     case REVIEW:
                         criteria.add(Restrictions.eq(name, IssueStatus.REVIEW));
                         break;
-                    case CLOSED:
-                        criteria.add(Restrictions.eq(name, IssueStatus.CLOSED));
+                    case RESOLVED:
+                        criteria.add(Restrictions.eq(name, IssueStatus.RESOLVED));
                         break;
                 }
             } else if (name.equals(IssueConstraints.TYPE)) {

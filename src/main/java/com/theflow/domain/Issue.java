@@ -32,7 +32,7 @@ public class Issue implements Serializable {
 
     public static enum IssueStatus {
 
-        NEW, INPROGRESS, REVIEW, CLOSED
+        NEW, INPROGRESS, TESTINGREADY, TESTING, REVIEW, RESOLVED, ONHOLD
     }
 
     public static enum IssuePriority {
