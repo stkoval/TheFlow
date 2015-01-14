@@ -51,8 +51,6 @@ public class User  implements Serializable{
     private List<Issue> assignedIssues;
     public User() {
     }
-    
-    
 
     public int getUserId() {
         return userId;

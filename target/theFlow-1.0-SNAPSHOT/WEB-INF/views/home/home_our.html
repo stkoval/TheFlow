@@ -79,11 +79,11 @@
                     </div>
                 </div>
                 <div id="main" class="col-md-9 text-center main-content main-content-sidebar">
-                    <form class="loginForm" method="POST" style="padding-left: 20px">
+                    <form class="loginForm" method="GET" style="padding-left: 20px" th:action="@{/issues/all}">
                         <h1>Enter issue criteria</h1>
                         <input id="issue_criteria" placeholder="input criteria" type="text" size="50px" name="issue_criteria" class="Absolute-Center"/>
                         <p>
-                            <input type="button" value="search" onclick="getAllIssues()"/>
+                            <input type="submit" value="search"/>
                         </p>
                     </form>
 

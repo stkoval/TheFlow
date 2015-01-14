@@ -14,7 +14,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -65,11 +64,6 @@ public class Issue implements Serializable {
     private IssuePriority priority;
 
     @ManyToOne
-//    @JoinTable(name = "issues_users",
-//            joinColumns = {
-//                @JoinColumn(name = "issue_id")},
-//            inverseJoinColumns = {
-//                @JoinColumn(name = "user_id")})
     @JoinColumn(name = "assignee_id")
     private User assignee;
 

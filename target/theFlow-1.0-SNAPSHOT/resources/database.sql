@@ -1,16 +1,33 @@
 create database flowdb;
 use flowdb;
 
+create table companies (
+company_id int not null auto_increment,
+company_name varchar(100) not null,
+key(company_name),
+primary key (company_id)
+)
+
+insert into companies (company_name)
+values('DemoCompany1');
+
 create table users (
 user_id int not null auto_increment,
 firstname varchar(40) not null,
 lastname varchar(40) not null,
 email varchar(255) not null UNIQUE,
-login varchar(20) not null UNIQUE,
 password varchar(20) not null,
+enabled TINYINT NOT NULL DEFAULT 1,
 PRIMARY KEY (user_id),
 KEY (email)
 );
+
+insert into users(company_id, firstname, lastname, email, password) 
+values(1, 'Kurt', 'Cobain', 'KCobain@test.com', '111111');
+insert into users(company_id, firstname, lastname, email, login, password) 
+values(1, 'Egor', 'Letov', 'Egorka@test.com', '111111');
+insert into users(company_id, firstname, lastname, email, login, password) 
+values(1, 'Victor', 'Coy', 'Coy@test.com', '111111');
 
 CREATE TABLE user_roles (
 user_role_id int(11) NOT NULL AUTO_INCREMENT,
@@ -28,14 +45,10 @@ description text,
 PRIMARY KEY (project_id)
 );
 
-create table projects_users (
-    `project_id` int NOT NULL,
-    `user_id` int NOT NULL,
-    PRIMARY KEY (`project_id`, `user_id`),
-    INDEX `FK_user` (`user_id`),
-    CONSTRAINT `fk_project` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`),
-    CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-);
+insert into projects(name, company_id, description) 
+values('TestProject1', 1, 'This is a test project');
+insert into projects(name, company_id, description) 
+values('TestProject2', 1, 'This is a test project');
 
 create table issues (
 issue_id int not null auto_increment,
@@ -54,15 +67,6 @@ modification_date datetime null,
 PRIMARY KEY (issue_id),
 FOREIGN KEY (creator_id) REFERENCES users(user_id),
 FOREIGN KEY (project_id) REFERENCES projects(project_id)
-);
-
-create table issues_users (
-    `issue_id` int NOT NULL,
-    `user_id` int NOT NULL,
-    PRIMARY KEY (`issue_id`, `user_id`),
-    INDEX `fk_user` (`user_id`),
-    CONSTRAINT `fk_issue` FOREIGN KEY (`issue_id`) REFERENCES `issues` (`issue_id`),
-    CONSTRAINT `fk_userx` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
 
 //triggers for date
@@ -84,18 +88,6 @@ FOR EACH ROW BEGIN
     Set new.modification_date = now();
 END//
 delimiter;
-
-insert into projects(name, description) 
-values('TestProject1', 'This is a test project');
-insert into projects(name, description) 
-values('TestProject2', 'This is a test project');
-
-insert into users(firstname, lastname, email, login, password) 
-values('Kurt', 'Cobain', 'KCobain@test.com', 'kurt', '111111');
-insert into users(firstname, lastname, email, login, password) 
-values('Egor', 'Letov', 'Egorka@test.com', 'grob', '111111');
-insert into users(firstname, lastname, email, login, password) 
-values('Victor', 'Coy', 'Coy@test.com', 'coy', '111111');
 
 insert into user_roles(username, user_role)
 values('KCobain@test.com', 'ROLE_USER');

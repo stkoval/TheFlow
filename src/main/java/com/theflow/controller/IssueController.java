@@ -41,26 +41,7 @@ public class IssueController {
         String jsonIssue = issueService.searchIssues(criteria);
         return jsonIssue;
     }
-
-    //creating new issue
-//    @RequestMapping(method = RequestMethod.POST, value = "/issues/create")
-//    public void saveIssue(@RequestParam("title") String title,
-//            @RequestParam("description") String description,
-//            @RequestParam("type") String type,
-//            @RequestParam("status") String status,
-//            @RequestParam("priority") String priority,
-//            @RequestParam("assignee_id") String assigneeId,
-//            @RequestParam("creator_id") String creatorId,
-//            @RequestParam("project_id") String projectId,
-//            @RequestParam("estimated_time") String estimatedTime) {
-//
-//        logger.debug("************ inside controller*********priority: " + priority + "*************");
-//        IssueDTO issueDTO = new IssueDTO(title, description, type, priority, assigneeId, creatorId, projectId, estimatedTime);
-//
-//        issueService.saveIssue(issueDTO);
-//        System.out.println("successfully added issue");
-//    }
-    
+       
     //creating new issue
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
     public String saveUser(@ModelAttribute(value = "issue") IssueDTO issueDTO, BindingResult result) {

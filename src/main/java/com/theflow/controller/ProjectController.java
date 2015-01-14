@@ -5,15 +5,10 @@
  */
 package com.theflow.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.theflow.service.ProjectService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -26,11 +21,4 @@ public class ProjectController {
     
     @Autowired
     private ProjectService projectService;
-    
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.POST, value="/projects/getAddedUsers")
-    public String getAssigneeList(@RequestParam(value = "issue_criteria")int projectId) throws JsonProcessingException {
-        logger.debug("***********in project controller********id " + projectId);
-        return projectService.getAssigneeList(projectId);
-    } 
 }

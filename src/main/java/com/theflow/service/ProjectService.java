@@ -12,5 +12,4 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  * @author Stas
  */
 public interface ProjectService {
-    public String getAssigneeList(int projectId) throws JsonProcessingException;
 }

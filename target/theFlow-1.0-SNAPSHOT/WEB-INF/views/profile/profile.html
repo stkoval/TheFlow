@@ -14,14 +14,16 @@ and open the template in the editor.
     <body>
         <div>
             <div th:replace="fragments/header :: header">&nbsp;</div>
-            <img src="/theFlow/resources/img/monster.png" class="img-rounded">
-            <div sec:authentication="principal.fullName"></div>
-            <!--<div th:text = ${#authentication.principal.getUsername()}></div>-->
-            
-            <form>
-                <input type=button value="Back"
-                       onCLick="history.back()">
-            </form>
+            <div style="margin-top: 80px">
+                <form>
+                    <input type=button value="Back"
+                           onCLick="history.back()">
+                </form>
+                <img src="/theFlow/resources/img/monster.png" class="img-rounded">
+                <div sec:authentication="principal.fullName"></div>
+                <!--<div th:text = ${#authentication.principal.getUsername()}></div>-->
+
+            </div>
             <div th:replace="fragments/footer :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'">&copy; 2013 The Static Templates</div>
         </div>
     </body>

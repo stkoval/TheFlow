@@ -25,29 +25,4 @@ public class ProjectServiceImpl implements ProjectService{
     
     @Autowired
     private ProjectDao projectDao;
-
-    @Override
-    public String getAssigneeList(int projectId) throws JsonProcessingException {
-        System.out.println("**************** projectid: " + projectId);
-        Project project = projectDao.getProject(projectId);
-        if (project == null) return ""; 
-        
-        Set<User> assignees = project.getAddedUsers();
-        
-        Set<UserDTO> usersDTO = new HashSet<>();
-        UserDTO userDTO = null;
-        for (User user : assignees) {
-            userDTO = new UserDTO();
-            userDTO.setFirstName(user.getFirstName());
-            userDTO.setLastName(user.getLastName());
-            userDTO.setUserId(user.getUserId());
-            usersDTO.add(userDTO);
-        }
-        
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonAssignee = mapper.writeValueAsString(usersDTO);
-        System.out.println("****************" + jsonAssignee);
-        return jsonAssignee;
-    } 
-    
 }
