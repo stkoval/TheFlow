@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.theflow.dao;
 
 import com.theflow.domain.Issue;
 import com.theflow.domain.Issue.IssuePriority;
 import com.theflow.domain.Issue.IssueStatus;
 import com.theflow.domain.Issue.IssueType;
-import com.theflow.domain.Project;
 import com.theflow.domain.User;
-import com.theflow.service.FlowUserDetailsService;
+import com.theflow.dto.IssueSearchCriteria;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,12 +17,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.theflow.utils.NVPair;
-import java.util.Set;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
@@ -157,4 +146,30 @@ public class IssueDaoImpl implements IssueDao {
         return issues;
     }
 
+    @Override
+    public List<Issue> searchIssues(IssueSearchCriteria criteria) {
+        Session session = sessionFactory.openSession();
+        Criteria cr = session.createCriteria(Issue.class);
+        if (criteria.isAll()) {
+            return getAllIssues();
+        } else {
+            if (criteria.isBug()) {
+                cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.BUG));
+            }
+            if (criteria.isTask()) {
+                cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.TASK));
+            }
+            if (criteria.isHigh()) {
+                cr.add(Restrictions.eq(IssueConstraints.PRIORITY, IssuePriority.HIGH));
+            }
+            if (criteria.isStatusNew()) {
+                cr.add(Restrictions.eq(IssueConstraints.STATUS, IssueStatus.NEW));
+            }
+            if (criteria.isToMe()) {
+                User current = userDao.getCurrentUser();
+                cr.add(Restrictions.eq(IssueConstraints.ASSIGNEE_ID, current.getUserId()));
+            }
+        }
+        return (List<Issue>)cr.list();
+    }
 }

@@ -5,9 +5,9 @@
  */
 package com.theflow.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.theflow.domain.Issue;
 import com.theflow.dto.IssueDTO;
+import com.theflow.dto.IssueSearchCriteria;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface IssueService {
 
-    public String searchIssues(String criteria) throws JsonProcessingException;
+    public List<Issue> searchIssues(IssueSearchCriteria criteria);
 
     public void saveIssue(IssueDTO issueDTO);
     

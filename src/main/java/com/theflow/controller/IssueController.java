@@ -1,20 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.theflow.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.theflow.domain.Issue;
 import com.theflow.dto.IssueDTO;
+import com.theflow.dto.IssueSearchCriteria;
 import com.theflow.service.IssueService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindingResult;
@@ -28,26 +22,34 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class IssueController {
 
-    //initializing the logger
     static final Logger logger = Logger.getLogger(IssueController.class.getName());
 
     @Autowired
     private IssueService issueService;
 
-    //searching issue by string pair:value criteria
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.POST, value = "issues/search")
-    public String searchIssues(@RequestParam(value = "issue_criteria") String criteria) throws JsonProcessingException {
-        String jsonIssue = issueService.searchIssues(criteria);
-        return jsonIssue;
+    //searching issue header smart search
+    @RequestMapping(method = RequestMethod.GET, value = "issues/search")
+    public ModelAndView searchIssues(@RequestParam(value = "new") boolean statusNew,
+                               @RequestParam(value = "to_me") boolean toMe,
+                               @RequestParam(value = "high") boolean high,
+                               @RequestParam(value = "task") boolean task,
+                               @RequestParam(value = "bug") boolean bug,
+                               @RequestParam(value = "all") boolean all
+                               ) {
+        List<Issue> issues = issueService.searchIssues(new IssueSearchCriteria(statusNew, toMe, high, task, bug, all));
+        ModelAndView model = new ModelAndView("issue/table");
+        if (issues == null) {
+            String message = "There are no requested issues found";
+            model.addObject("message", message);
+            return model;
+        }
+        model.addObject("issues", issues);
+        return model;
     }
        
     //creating new issue
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
     public String saveUser(@ModelAttribute(value = "issue") IssueDTO issueDTO, BindingResult result) {
-        if (result.hasErrors()) {
-            return "issue/addissue";
-        }
         
         issueService.saveIssue(issueDTO);
         
@@ -76,9 +78,7 @@ public class IssueController {
             model.addObject("message", message);
             return model;
         }
-        logger.debug("*************issues*********" + issues.size());
         model.addObject("issues", issues);
         return model;
     }
-
 }
