@@ -74,7 +74,7 @@ public class FlowUserDetailsService implements UserDetailsService {
 
         public User(String username, String password, List<GrantedAuthority> authorities, String firstname, String lastname, int userId, boolean enabled) {
             super(username, password, enabled, true, true, true, authorities);
-            fullName = lastname + " " + firstname;
+            fullName = firstname + " " + lastname;
             this.userId = userId;
         }
 

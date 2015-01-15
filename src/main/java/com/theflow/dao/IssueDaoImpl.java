@@ -30,10 +30,10 @@ public class IssueDaoImpl implements IssueDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-    
+
     @Autowired
     private UserDao userDao;
-    
+
     @Override
     public int saveIssue(Issue issue) {
         logger.debug("*************inside Issue Dao*********saving issue*********issue title: " + issue.getTitle());
@@ -124,16 +124,15 @@ public class IssueDaoImpl implements IssueDao {
 
     @Override
     public List<Issue> getAllIssues() {
-        
 
         Session session = sessionFactory.openSession();
 
         //Current authenticated user
         User user = userDao.getCurrentUser();
-        
+
         //getting all projects related to company
         List<Integer> projectIds = session.createSQLQuery("select project_id from projects where company_id = " + user.getCompany().getCompanyId()).list();
-        
+
         if (projectIds.isEmpty()) {
             return null;
         }
@@ -142,34 +141,47 @@ public class IssueDaoImpl implements IssueDao {
         String hql1 = "from Issue where project.projectId in (:projects)";
         Query q1 = session.createQuery(hql1);
         q1.setParameterList("projects", projectIds);
-        List<Issue> issues = (List<Issue>)q1.list();
+        List<Issue> issues = (List<Issue>) q1.list();
         return issues;
     }
 
     @Override
     public List<Issue> searchIssues(IssueSearchCriteria criteria) {
         Session session = sessionFactory.openSession();
-        Criteria cr = session.createCriteria(Issue.class);
+        Criteria cr;
         if (criteria.isAll()) {
             return getAllIssues();
         } else {
-            if (criteria.isBug()) {
-                cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.BUG));
-            }
-            if (criteria.isTask()) {
-                cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.TASK));
-            }
-            if (criteria.isHigh()) {
-                cr.add(Restrictions.eq(IssueConstraints.PRIORITY, IssuePriority.HIGH));
-            }
-            if (criteria.isStatusNew()) {
-                cr.add(Restrictions.eq(IssueConstraints.STATUS, IssueStatus.NEW));
-            }
-            if (criteria.isToMe()) {
-                User current = userDao.getCurrentUser();
-                cr.add(Restrictions.eq(IssueConstraints.ASSIGNEE_ID, current.getUserId()));
-            }
+            cr = createSearchRestrictions(session, criteria);
         }
-        return (List<Issue>)cr.list();
+        return (List<Issue>) cr.list();
     }
+
+    private Criteria createSearchRestrictions(Session currentSession, IssueSearchCriteria criteria) {
+        Criteria cr = currentSession.createCriteria(Issue.class);
+        if (criteria.isBug()) {
+            cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.BUG));
+        }
+        if (criteria.isTask()) {
+            cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.TASK));
+        }
+        if (criteria.isHigh()) {
+            cr.add(Restrictions.eq(IssueConstraints.PRIORITY, IssuePriority.HIGH));
+        }
+        if (criteria.isStatusNew()) {
+            cr.add(Restrictions.eq(IssueConstraints.STATUS, IssueStatus.NEW));
+        }
+        if (criteria.isToMe()) {
+            User current = userDao.getCurrentUser();
+            cr.add(Restrictions.eq(IssueConstraints.ASSIGNEE_ID, current.getUserId()));
+        }
+        return cr;
+    }
+
+    @Override
+    public List<Issue> searchIssuesByProjectId(IssueSearchCriteria criteria) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

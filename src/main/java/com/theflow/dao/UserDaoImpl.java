@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -26,9 +27,13 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     private SessionFactory sessionFactory;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void saveUserReg(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         sessionFactory.openSession().save(user);
     }
 
@@ -56,7 +61,6 @@ public class UserDaoImpl implements UserDao {
                 .setParameter(0, email)
                 .list();
         if (users.size() > 0) {
-            logger.debug("********************userssize" + users.size() + "***********email: " + email + " *********roles: " + users.get(0).getUserRole().size());
             return users.get(0);
         } else {
 

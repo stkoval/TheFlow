@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 /**
  *
@@ -43,13 +44,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().defaultSuccessUrl("/home")
                 .loginPage("/login")
-                .permitAll();
+                .and().logout().logoutSuccessUrl("/login?logout")
+                .permitAll()
+                .and()
+                .rememberMe();
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        PasswordEncoder encoder = new BCryptPasswordEncoder();
-//        return encoder;
-//    }
-    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new StandardPasswordEncoder();
+    }
+
 }

@@ -4,6 +4,7 @@ com\theflow\controller\UserController.class
 com\theflow\dao\IssueConstraints.class
 com\theflow\utils\IssueCriteriaParser.class
 com\theflow\dao\CompanyDao.class
+com\theflow\dto\IssueSearchCriteria.class
 com\theflow\dto\UserDTO.class
 com\theflow\controller\LoginController.class
 com\theflow\dto\IssueDTO.class
