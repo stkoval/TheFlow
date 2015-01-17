@@ -6,9 +6,15 @@
 package com.theflow.dao;
 
 import com.theflow.domain.Project;
+import com.theflow.service.FlowUserDetailsService;
+import java.util.List;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -39,6 +45,16 @@ public class ProjectDaoImpl implements ProjectDao{
     public Project getProject(int id) {
         logger.debug("***************inside ProjectService***********project id: " + id);
         return (Project)sessionFactory.openSession().get(Project.class, id);
+    }
+
+    @Override
+    public List<Project> getProjectList() {
+        Session session = sessionFactory.openSession();
+        Criteria cr = session.createCriteria(Project.class);
+        FlowUserDetailsService.User principal = (FlowUserDetailsService.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        logger.debug("**************companyid: " + principal.getCompanyId());
+        cr.add(Restrictions.eq("company.id", principal.getCompanyId()));
+        return (List<Project>)cr.list();
     }
     
 }

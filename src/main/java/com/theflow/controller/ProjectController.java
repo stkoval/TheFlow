@@ -5,10 +5,14 @@
  */
 package com.theflow.controller;
 
+import com.theflow.domain.Project;
 import com.theflow.service.ProjectService;
+import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -21,4 +25,12 @@ public class ProjectController {
     
     @Autowired
     private ProjectService projectService;
+    
+    @RequestMapping(value = "project/list")
+    public ModelAndView getProjectList() {
+        List<Project> projects = projectService.getProjectList();
+        ModelAndView model = new ModelAndView("project/list");
+        model.addObject("projects", projects);
+        return model;
+    }
 }

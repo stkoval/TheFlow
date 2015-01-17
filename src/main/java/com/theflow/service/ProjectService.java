@@ -5,10 +5,15 @@
  */
 package com.theflow.service;
 
+import com.theflow.domain.Project;
+import java.util.List;
+
 
 /**
  *
  * @author Stas
  */
 public interface ProjectService {
+
+    public List<Project> getProjectList();
 }

@@ -6,6 +6,7 @@
 package com.theflow.dao;
 
 import com.theflow.domain.Project;
+import java.util.List;
 
 /**
  *
@@ -20,4 +21,6 @@ public interface ProjectDao {
     public void removeProject(int id);
     
     public Project getProject(int id);
+
+    public List<Project> getProjectList();
 }
