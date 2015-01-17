@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface IssueService {
 
-    public List<Issue> searchIssues(IssueSearchCriteria criteria);
+    public List<IssueDTO> searchIssues(IssueSearchCriteria criteria);
 
     public void saveIssue(IssueDTO issueDTO);
     

@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -63,8 +64,7 @@ public class UserDaoImpl implements UserDao {
         if (users.size() > 0) {
             return users.get(0);
         } else {
-
-            return null;
+            throw new UsernameNotFoundException("user not found");
         }
     }
 

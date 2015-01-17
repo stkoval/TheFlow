@@ -16,14 +16,16 @@ public class IssueSearchCriteria {
     private boolean task;
     private boolean bug;
     private boolean all;
+    private int projectId;
 
-    public IssueSearchCriteria(boolean statusNew, boolean toMe, boolean high, boolean task, boolean bug, boolean all) {
+    public IssueSearchCriteria(boolean statusNew, boolean toMe, boolean high, boolean task, boolean bug, boolean all, int projectId) {
         this.statusNew = statusNew;
         this.toMe = toMe;
         this.high = high;
         this.task = task;
         this.bug = bug;
         this.all = all;
+        this.projectId = projectId;
     }
 
     public boolean isStatusNew() {
@@ -72,5 +74,13 @@ public class IssueSearchCriteria {
 
     public void setAll(boolean all) {
         this.all = all;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
     }
 }

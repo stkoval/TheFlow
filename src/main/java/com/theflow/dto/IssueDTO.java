@@ -19,6 +19,7 @@ public class IssueDTO {
     private String project_id;
     private String estimated_time;
     private String loggedTime;
+    private String assigneeFullName;
     private Date creationDate;
     private Date modificationDate;
     
@@ -147,5 +148,13 @@ public class IssueDTO {
 
     public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
+    }
+
+    public String getAssigneeFullName() {
+        return assigneeFullName;
+    }
+
+    public void setAssigneeFullName(String assigneeFullName) {
+        this.assigneeFullName = assigneeFullName;
     }
 }

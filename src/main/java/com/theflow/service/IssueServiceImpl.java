@@ -13,6 +13,7 @@ import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDTO;
 import com.theflow.dto.IssueSearchCriteria;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +39,51 @@ public class IssueServiceImpl implements IssueService {
     private ProjectDao projectDao;
 
     @Override
-    public List<Issue> searchIssues(IssueSearchCriteria criteria) {
+    public List<IssueDTO> searchIssues(IssueSearchCriteria criteria) {
+        List<Issue> issues = issueDao.searchIssues(criteria);
+        List<IssueDTO> issuesDTO = new ArrayList<>();
+
+        IssueDTO issueDTO;
+        for (Issue issue : issues) {
+            issueDTO = new IssueDTO();
+            issueDTO.setIssueId(issue.getIssueId());
+            issueDTO.setTitle(issue.getTitle());
+            issueDTO.setType(issue.getType().name());
+            issueDTO.setStatus(issue.getStatus().name());
+            issueDTO.setPriority(issue.getPriority().name());
+            issueDTO.setAssigneeFullName(issue.getAssignee().getFirstName() + " " + issue.getAssignee().getLastName());
+        }
         return null;
     }
 
     @Transactional
     @Override
     public void saveIssue(IssueDTO issueDTO) {
+
+        Issue issue = populateIssueFildsFromDTO(issueDTO);
+
+        issueDao.saveIssue(issue);
+    }
+
+    @Override
+    public void editIssue(int issue_id, IssueDTO issueDTO) {
+    }
+
+    @Override
+    public void removeIssue(int id) {
+    }
+
+    @Override
+    @Transactional
+    public List<Issue> getAllIssues() {
+        List<Issue> issues = issueDao.getAllIssues();
+        return issues;
+    }
+
+    private Issue populateIssueFildsFromDTO(IssueDTO issueDTO) {
+
         Issue issue = new Issue();
+
         Project project = projectDao.getProject(Integer.parseInt(issueDTO.getProject_id()));
 
         //populating issue fields
@@ -69,22 +107,6 @@ public class IssueServiceImpl implements IssueService {
         }
         issue.setStatus(Issue.IssueStatus.NEW);
 
-        issueDao.saveIssue(issue);
+        return issue;
     }
-
-    @Override
-    public void editIssue(int issue_id, IssueDTO issueDTO) {
-    }
-
-    @Override
-    public void removeIssue(int id) {
-    }
-
-    @Override
-    @Transactional
-    public List<Issue> getAllIssues() {
-        List<Issue> issues = issueDao.getAllIssues();
-        return issues;
-    }
-
 }

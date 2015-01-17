@@ -22,5 +22,4 @@ public interface IssueDao {
     public Issue getIssueById(int issueId);
     public List<Issue> getAllIssues();
     public List<Issue> searchIssues(IssueSearchCriteria criteria);
-    public List<Issue> searchIssuesByProjectId(IssueSearchCriteria criteria);
 }

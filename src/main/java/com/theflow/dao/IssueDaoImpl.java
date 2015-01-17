@@ -4,8 +4,10 @@ import com.theflow.domain.Issue;
 import com.theflow.domain.Issue.IssuePriority;
 import com.theflow.domain.Issue.IssueStatus;
 import com.theflow.domain.Issue.IssueType;
+import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueSearchCriteria;
+import com.theflow.service.FlowUserDetailsService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.theflow.utils.NVPair;
 import org.hibernate.Query;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Subqueries;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  *
@@ -175,13 +181,20 @@ public class IssueDaoImpl implements IssueDao {
             User current = userDao.getCurrentUser();
             cr.add(Restrictions.eq(IssueConstraints.ASSIGNEE_ID, current.getUserId()));
         }
+        if (criteria.getProjectId() != 0) {
+            cr.add(Restrictions.eq(IssueConstraints.PROJECT_ID, criteria.getProjectId()));
+        } else {
+            FlowUserDetailsService.User principal = 
+                    (FlowUserDetailsService.User)SecurityContextHolder
+                            .getContext()
+                            .getAuthentication()
+                            .getPrincipal();
+            int companyId = principal.getCompanyId();
+            DetachedCriteria projects = DetachedCriteria.forClass(Project.class)  
+            .setProjection(Property.forName("project_id"))
+                    .add(Restrictions.eq("company_id", companyId));
+            cr.add(Subqueries.propertyIn("company_id", projects));
+        }
         return cr;
     }
-
-    @Override
-    public List<Issue> searchIssuesByProjectId(IssueSearchCriteria criteria) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
 }
