@@ -8,18 +8,9 @@
         <meta name="description" content=""/>
         <link rel="image_src" href="" />
 
-
-        <link href="/theflow/resources/css/bootstrap.min.css" rel="stylesheet"/>
-        <link rel='stylesheet' id='font-awesome-css'  href='/theflow/resources/css/font-awesome.min.css' type='text/css' media='all' >
-        <link href="/theflow/resources/css/fancy-buttons.css" rel="stylesheet"/>
-        <link href="/theflow/resources/css/login.css" rel="stylesheet"/>
-
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'/>
-        <link href='http://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'/>
-        <link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'/>
-
     </head>
     <body>
+    	<object th:include="fragments/layout :: styles" th:remove="tag" />
 
         <div class="container-login">
             <div class="outer">
@@ -38,7 +29,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputEmail" class="sr-only">Email address</label>
-                                <input type="email" id="username" name="username" class="form-control" placeholder="Email address" required="required" autofocus="autofocus" data-error="Invalid email"/>
+                                <input type="email" id="username" name="username" class="form-control" placeholder="Email address" required="required" autofocus data-error="Invalid email"/>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
@@ -51,7 +42,7 @@
                                     <input type="checkbox" value="remember-me"/> Remember me
                                 </label>
                             </div>
-                            <button class="btn btn-lg btn-primary btn-block fancy-button medium basic rotate infinite login-button" type="submit">
+                            <button class="fancy-button medium blueHole basic login-button" type="submit">
                                 Sign in
                                 <span class="icon">
                                     <i class="fa fa-plane"></i>
@@ -64,13 +55,7 @@
         </div>
 
 
-        <!-- Common JS -->
-        <script src="/theflow/resources/js/jquery.min.js"></script>
-        <script src="/theflow/resources/js/bootstrap.min.js"></script>
-        <script src="/theflow/resources/js/jquery.carouFredSel-6.2.1-packed.js"></script>
-        <script src="/theflow/resources/js/validator.min.js"></script>  
-        <script src="/theflow/resources/js/scripts.js"></script>
-        <script src="/theflow/resources/css/login.css"></script>
+        <object th:include="fragments/layout :: script" th:remove="tag"/>
 
     </body>
 </html>
