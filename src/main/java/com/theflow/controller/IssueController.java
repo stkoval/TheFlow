@@ -34,13 +34,13 @@ public class IssueController {
     //searching issue header smart search
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "issues/search")
-    public String searchIssues(@RequestParam(value = "new") boolean statusNew,
-            @RequestParam(value = "to_me") boolean toMe,
-            @RequestParam(value = "high") boolean high,
-            @RequestParam(value = "task") boolean task,
-            @RequestParam(value = "bug") boolean bug,
-            @RequestParam(value = "all") boolean all,
-            @RequestParam(value = "project_id") int projectId
+    public String searchIssues(@RequestParam(value = "new", required = false) Boolean statusNew,
+            @RequestParam(value = "to_me", required = false) Boolean toMe,
+            @RequestParam(value = "high", required = false) Boolean high,
+            @RequestParam(value = "task", required = false) Boolean task,
+            @RequestParam(value = "bug", required = false) Boolean bug,
+            @RequestParam(value = "all", required = false) Boolean all,
+            @RequestParam(value = "project_id", required = false) Integer projectId
     ) {
         List<IssueDTO> issues = issueService.searchIssues(new IssueSearchCriteria(statusNew, toMe, high, task, bug, all, projectId));
 //        ModelAndView model = new ModelAndView("issue/table");

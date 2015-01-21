@@ -10,6 +10,7 @@ package com.theflow.dto;
  * @author Stas
  */
 public class IssueSearchCriteria {
+
     private boolean statusNew;
     private boolean toMe;
     private boolean high;
@@ -18,14 +19,30 @@ public class IssueSearchCriteria {
     private boolean all;
     private int projectId;
 
-    public IssueSearchCriteria(boolean statusNew, boolean toMe, boolean high, boolean task, boolean bug, boolean all, int projectId) {
-        this.statusNew = statusNew;
-        this.toMe = toMe;
-        this.high = high;
-        this.task = task;
-        this.bug = bug;
-        this.all = all;
-        this.projectId = projectId;
+    public IssueSearchCriteria(Boolean statusNew, Boolean toMe, Boolean high, Boolean task, Boolean bug, Boolean all, Integer projectId) {
+        if (statusNew != null) {
+            this.statusNew = statusNew;
+        }
+        if (toMe != null) {
+            this.toMe = toMe;
+        }
+        if (statusNew != null) {
+        }
+        if (high != null) {
+            this.high = high;
+        }
+        if (task != null) {
+            this.task = task;
+        }
+        if (bug != null) {
+            this.bug = bug;
+        }
+        if (all != null) {
+            this.all = all;
+        }
+        if (projectId != null) {
+            this.projectId = projectId;
+        }
     }
 
     public boolean isStatusNew() {

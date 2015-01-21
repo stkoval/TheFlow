@@ -1,39 +1,33 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
     <head>
-        <title>Welcome!</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-    	<object th:include="fragments/layout :: styles" th:remove="tag" />
-
-    	<div id="wrap">        
-            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
-            
-            <div class="container main-content">
-            	<div class="row">
-                
-                	<div th:replace="fragments/layout :: sidebar">&nbsp;</div>
-                    
-                    <div id="main" class="col-md-9 col-xs-12">
-                    
-                        <h1 class="main-title text-center">Welcome <span sec:authentication="name">username</span></h1>
-                    
-                        <div th:replace="issue/table :: issue-list">&nbsp;</div>
-
-                    </div>
-                
-                </div> 
+        <div>TODO write content</div>
+        <form method="GET" th:action="@{/issues/search}">
+            <div class="form-group">
+                <label for="exampleInputEmail1">to me</label>
+                <input type="checkbox" id="to_me" name="to_me">
+                <label for="exampleInputEmail1">high</label>
+                <input type="checkbox" id="high" name="high">
+                <label for="exampleInputEmail1">task</label>
+                <input type="checkbox" id="task" name="task">
+                <label for="exampleInputEmail1">bug</label>
+                <input type="checkbox" id="bug" name="bug">
+                <label for="exampleInputEmail1">new</label>
+                <input type="checkbox" id="new" name="new">
+                <label for="exampleInputEmail1">project</label>
+                <input type="text" class="form-control" id="project_id"  name="project_id" placeholder="Project id">
             </div>
-        	<div id="push"></div>
-        </div>
-        
-        <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
-        
-        <sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>        
-        <object th:include="fragments/layout :: script" th:remove="tag"/>
-    
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
     </body>
 </html>

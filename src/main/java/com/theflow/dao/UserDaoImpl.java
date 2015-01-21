@@ -57,7 +57,7 @@ public class UserDaoImpl implements UserDao {
     public User findByEmail(String email) {
         List<User> users = new ArrayList<>();
 
-        users = sessionFactory.getCurrentSession()
+        users = sessionFactory.openSession()
                 .createQuery("from User where email=?")
                 .setParameter(0, email)
                 .list();

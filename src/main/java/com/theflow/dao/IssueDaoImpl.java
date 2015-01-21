@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.theflow.utils.NVPair;
 import org.hibernate.Query;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Subqueries;
@@ -31,37 +32,40 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 @Repository("issueDao")
 public class IssueDaoImpl implements IssueDao {
-
+    
     static final Logger logger = Logger.getLogger(IssueDao.class.getName());
-
+    
     @Autowired
     private SessionFactory sessionFactory;
-
+    
     @Autowired
     private UserDao userDao;
-
+    
+    @Autowired
+    private CompanyDao companyDao;
+    
     @Override
     public int saveIssue(Issue issue) {
         logger.debug("*************inside Issue Dao*********saving issue*********issue title: " + issue.getTitle());
         return (int) sessionFactory.openSession().save(issue);
     }
-
+    
     @Override
     public void updateIssue(Issue issue) {
         sessionFactory.openSession().update(issue);
     }
-
+    
     @Override
     public void removeIssue(int id) {
     }
-
+    
     @Override
     public List<Issue> getIssues(List<NVPair> pairs) {
         List<Issue> list = new ArrayList<>();
-
+        
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(Issue.class);
-
+        
         for (NVPair pair : pairs) {
             String name = (String) pair.getLeft();
             Object value = pair.getRight();
@@ -121,16 +125,16 @@ public class IssueDaoImpl implements IssueDao {
         }
         return criteria.list();
     }
-
+    
     @Override
     public Issue getIssueById(int issueId) {
-
+        
         return (Issue) sessionFactory.openSession().get(Issue.class, issueId);
     }
-
+    
     @Override
     public List<Issue> getAllIssues() {
-
+        
         Session session = sessionFactory.openSession();
 
         //Current authenticated user
@@ -138,7 +142,7 @@ public class IssueDaoImpl implements IssueDao {
 
         //getting all projects related to company
         List<Integer> projectIds = session.createSQLQuery("select project_id from projects where company_id = " + user.getCompany().getCompanyId()).list();
-
+        
         if (projectIds.isEmpty()) {
             return null;
         }
@@ -150,7 +154,7 @@ public class IssueDaoImpl implements IssueDao {
         List<Issue> issues = (List<Issue>) q1.list();
         return issues;
     }
-
+    
     @Override
     public List<Issue> searchIssues(IssueSearchCriteria criteria) {
         Session session = sessionFactory.openSession();
@@ -158,43 +162,44 @@ public class IssueDaoImpl implements IssueDao {
         if (criteria.isAll()) {
             return getAllIssues();
         } else {
-            cr = createSearchRestrictions(session, criteria);
+            cr = session.createCriteria(Issue.class);
+            if (criteria.isTask() && criteria.isBug()) {
+                Criterion bugs = Restrictions.eq(IssueConstraints.TYPE, IssueType.BUG);
+                Criterion tasks = Restrictions.eq(IssueConstraints.TYPE, IssueType.TASK);
+                cr.add(Restrictions.or(tasks, bugs));
+            } else {
+                if (criteria.isBug()) {
+                    cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.BUG));
+                }
+                if (criteria.isTask()) {
+                    cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.TASK));
+                }
+            }
+            if (criteria.isHigh()) {
+                cr.add(Restrictions.eq(IssueConstraints.PRIORITY, IssuePriority.HIGH));
+            }
+            if (criteria.isStatusNew()) {
+                cr.add(Restrictions.eq(IssueConstraints.STATUS, IssueStatus.NEW));
+            }
+            if (criteria.isToMe()) {
+                User current = userDao.getCurrentUser();
+                cr.add(Restrictions.eq("assignee", current));
+            }
+            if (criteria.getProjectId() != 0) {
+                cr.add(Restrictions.eq("project.projectId", criteria.getProjectId()));
+            } else {
+                FlowUserDetailsService.User principal
+                        = (FlowUserDetailsService.User) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+                int companyId = principal.getCompanyId();
+                DetachedCriteria projects = DetachedCriteria.forClass(Project.class)
+                        .setProjection(Property.forName("projectId"))
+                        .add(Restrictions.eq("company", companyDao.getCompanyById(companyId)));
+                cr.add(Subqueries.propertyIn("project.projectId", projects));
+            }
         }
         return (List<Issue>) cr.list();
-    }
-
-    private Criteria createSearchRestrictions(Session currentSession, IssueSearchCriteria criteria) {
-        Criteria cr = currentSession.createCriteria(Issue.class);
-        if (criteria.isBug()) {
-            cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.BUG));
-        }
-        if (criteria.isTask()) {
-            cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.TASK));
-        }
-        if (criteria.isHigh()) {
-            cr.add(Restrictions.eq(IssueConstraints.PRIORITY, IssuePriority.HIGH));
-        }
-        if (criteria.isStatusNew()) {
-            cr.add(Restrictions.eq(IssueConstraints.STATUS, IssueStatus.NEW));
-        }
-        if (criteria.isToMe()) {
-            User current = userDao.getCurrentUser();
-            cr.add(Restrictions.eq(IssueConstraints.ASSIGNEE_ID, current.getUserId()));
-        }
-        if (criteria.getProjectId() != 0) {
-            cr.add(Restrictions.eq(IssueConstraints.PROJECT_ID, criteria.getProjectId()));
-        } else {
-            FlowUserDetailsService.User principal = 
-                    (FlowUserDetailsService.User)SecurityContextHolder
-                            .getContext()
-                            .getAuthentication()
-                            .getPrincipal();
-            int companyId = principal.getCompanyId();
-            DetachedCriteria projects = DetachedCriteria.forClass(Project.class)  
-            .setProjection(Property.forName("project_id"))
-                    .add(Restrictions.eq("company_id", companyId));
-            cr.add(Subqueries.propertyIn("company_id", projects));
-        }
-        return cr;
     }
 }

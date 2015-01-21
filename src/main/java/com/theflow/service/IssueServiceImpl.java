@@ -52,8 +52,9 @@ public class IssueServiceImpl implements IssueService {
             issueDTO.setStatus(issue.getStatus().name());
             issueDTO.setPriority(issue.getPriority().name());
             issueDTO.setAssigneeFullName(issue.getAssignee().getFirstName() + " " + issue.getAssignee().getLastName());
+            issuesDTO.add(issueDTO);
         }
-        return null;
+        return issuesDTO;
     }
 
     @Transactional
