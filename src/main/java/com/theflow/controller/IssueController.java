@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theflow.domain.Issue;
 import com.theflow.dto.IssueDTO;
-import com.theflow.dto.IssueSearchCriteria;
+import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.IssueService;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,7 +42,7 @@ public class IssueController {
             @RequestParam(value = "all", required = false) Boolean all,
             @RequestParam(value = "project_id", required = false) Integer projectId
     ) {
-        List<IssueDTO> issues = issueService.searchIssues(new IssueSearchCriteria(statusNew, toMe, high, task, bug, all, projectId));
+        List<IssueDTO> issues = issueService.searchIssues(new IssueSearchParams(statusNew, toMe, high, task, bug, all, projectId));
 //        ModelAndView model = new ModelAndView("issue/table");
 //        if (issues == null) {
 //            String message = "There are no requested issues found";

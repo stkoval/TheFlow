@@ -6,7 +6,7 @@ import com.theflow.domain.Issue.IssueStatus;
 import com.theflow.domain.Issue.IssueType;
 import com.theflow.domain.Project;
 import com.theflow.domain.User;
-import com.theflow.dto.IssueSearchCriteria;
+import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.FlowUserDetailsService;
 import java.util.ArrayList;
 import java.util.Date;
@@ -156,37 +156,37 @@ public class IssueDaoImpl implements IssueDao {
     }
     
     @Override
-    public List<Issue> searchIssues(IssueSearchCriteria criteria) {
+    public List<Issue> searchIssues(IssueSearchParams issueSearchParams) {
         Session session = sessionFactory.openSession();
         Criteria cr;
-        if (criteria.isAll()) {
+        if (issueSearchParams.isAll()) {
             return getAllIssues();
         } else {
             cr = session.createCriteria(Issue.class);
-            if (criteria.isTask() && criteria.isBug()) {
+            if (issueSearchParams.isTask() && issueSearchParams.isBug()) {
                 Criterion bugs = Restrictions.eq(IssueConstraints.TYPE, IssueType.BUG);
                 Criterion tasks = Restrictions.eq(IssueConstraints.TYPE, IssueType.TASK);
                 cr.add(Restrictions.or(tasks, bugs));
             } else {
-                if (criteria.isBug()) {
+                if (issueSearchParams.isBug()) {
                     cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.BUG));
                 }
-                if (criteria.isTask()) {
+                if (issueSearchParams.isTask()) {
                     cr.add(Restrictions.eq(IssueConstraints.TYPE, IssueType.TASK));
                 }
             }
-            if (criteria.isHigh()) {
+            if (issueSearchParams.isHigh()) {
                 cr.add(Restrictions.eq(IssueConstraints.PRIORITY, IssuePriority.HIGH));
             }
-            if (criteria.isStatusNew()) {
+            if (issueSearchParams.isStatusNew()) {
                 cr.add(Restrictions.eq(IssueConstraints.STATUS, IssueStatus.NEW));
             }
-            if (criteria.isToMe()) {
+            if (issueSearchParams.isToMe()) {
                 User current = userDao.getCurrentUser();
-                cr.add(Restrictions.eq("assignee", current));
+                cr.add(Restrictions.eq(IssueConstraints.ASSIGNEE, current));
             }
-            if (criteria.getProjectId() != 0) {
-                cr.add(Restrictions.eq("project.projectId", criteria.getProjectId()));
+            if (issueSearchParams.getProjectId() != 0) {
+                cr.add(Restrictions.eq("project.projectId", issueSearchParams.getProjectId()));
             } else {
                 FlowUserDetailsService.User principal
                         = (FlowUserDetailsService.User) SecurityContextHolder

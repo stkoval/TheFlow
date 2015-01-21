@@ -9,7 +9,7 @@ package com.theflow.dto;
  *
  * @author Stas
  */
-public class IssueSearchCriteria {
+public class IssueSearchParams {
 
     private boolean statusNew;
     private boolean toMe;
@@ -19,7 +19,7 @@ public class IssueSearchCriteria {
     private boolean all;
     private int projectId;
 
-    public IssueSearchCriteria(Boolean statusNew, Boolean toMe, Boolean high, Boolean task, Boolean bug, Boolean all, Integer projectId) {
+    public IssueSearchParams(Boolean statusNew, Boolean toMe, Boolean high, Boolean task, Boolean bug, Boolean all, Integer projectId) {
         if (statusNew != null) {
             this.statusNew = statusNew;
         }

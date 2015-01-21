@@ -13,7 +13,9 @@ public class IssueConstraints {
     public static final String ID = "id";
     public static final String CREATOR_ID = "creator_id";
     public static final String ASSIGNEE_ID = "assignee_id";
+    public static final String ASSIGNEE = "assignee";
     public static final String PROJECT_ID = "project_id";
+    public static final String PROJECT = "project";
     public static final String TYPE = "type";
     public static final String STATUS = "status";
     public static final String PRIORITY = "priority";

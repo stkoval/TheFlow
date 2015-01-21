@@ -12,7 +12,7 @@ import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDTO;
-import com.theflow.dto.IssueSearchCriteria;
+import com.theflow.dto.IssueSearchParams;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -39,7 +39,7 @@ public class IssueServiceImpl implements IssueService {
     private ProjectDao projectDao;
 
     @Override
-    public List<IssueDTO> searchIssues(IssueSearchCriteria criteria) {
+    public List<IssueDTO> searchIssues(IssueSearchParams criteria) {
         List<Issue> issues = issueDao.searchIssues(criteria);
         List<IssueDTO> issuesDTO = new ArrayList<>();
 

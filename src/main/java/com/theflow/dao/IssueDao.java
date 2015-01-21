@@ -6,7 +6,7 @@
 package com.theflow.dao;
 
 import com.theflow.domain.Issue;
-import com.theflow.dto.IssueSearchCriteria;
+import com.theflow.dto.IssueSearchParams;
 import java.util.List;
 import com.theflow.utils.NVPair;
 
@@ -21,5 +21,5 @@ public interface IssueDao {
     public List<Issue> getIssues(List<NVPair> pairs);
     public Issue getIssueById(int issueId);
     public List<Issue> getAllIssues();
-    public List<Issue> searchIssues(IssueSearchCriteria criteria);
+    public List<Issue> searchIssues(IssueSearchParams criteria);
 }
