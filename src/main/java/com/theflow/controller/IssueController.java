@@ -2,7 +2,9 @@ package com.theflow.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.theflow.dao.ProjectDao;
 import com.theflow.domain.Issue;
+import com.theflow.domain.Project;
 import com.theflow.dto.IssueDTO;
 import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.IssueService;
@@ -30,6 +32,9 @@ public class IssueController {
 
     @Autowired
     private IssueService issueService;
+    
+    @Autowired
+    private ProjectDao projectDao;
 
     //searching issue header smart search
     @ResponseBody
@@ -92,7 +97,11 @@ public class IssueController {
             model.addObject("message", message);
             return model;
         }
+        List<Project> projects = projectDao.getProjectList();
         model.addObject("issues", issues);
+        
+        //to delete when ajax will be implemented
+        model.addObject("projects", projects);
         return model;
     }
 }

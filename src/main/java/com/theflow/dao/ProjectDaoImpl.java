@@ -43,7 +43,6 @@ public class ProjectDaoImpl implements ProjectDao{
 
     @Override
     public Project getProject(int id) {
-        logger.debug("***************inside ProjectService***********project id: " + id);
         return (Project)sessionFactory.openSession().get(Project.class, id);
     }
 
@@ -52,7 +51,6 @@ public class ProjectDaoImpl implements ProjectDao{
         Session session = sessionFactory.openSession();
         Criteria cr = session.createCriteria(Project.class);
         FlowUserDetailsService.User principal = (FlowUserDetailsService.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        logger.debug("**************companyid: " + principal.getCompanyId());
         cr.add(Restrictions.eq("company.id", principal.getCompanyId()));
         return (List<Project>)cr.list();
     }

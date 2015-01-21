@@ -5,8 +5,14 @@
  */
 package com.theflow.controller;
 
+import com.theflow.dao.IssueDao;
+import com.theflow.dao.ProjectDao;
+import com.theflow.domain.Issue;
+import com.theflow.domain.Project;
 import com.theflow.dto.UserDTO;
+import java.util.List;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,12 +26,27 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
     
+    @Autowired
+    private ProjectDao projectDao;
+    
+    @Autowired
+    private IssueDao issueDao;
+    
     static final Logger logger = Logger.getLogger(LoginController.class.getName());
     
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String redirect() {
+    public ModelAndView redirect() {
+        ModelAndView model = new ModelAndView("home/home");
 
-        return "home/home";
+        //populating project list in the left sidebar
+        List<Project> projects = projectDao.getProjectList();
+        model.addObject("projects", projects);
+        
+        //populating issue table
+        List<Issue> issues = issueDao.getAllIssues();
+        model.addObject("issues", issues);
+        
+        return model;
     }
     
     @RequestMapping(value = "/403", method = RequestMethod.POST)
