@@ -44,15 +44,10 @@ public class IssueController {
     //searching issue header smart search
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "issues/search")
-    public String searchIssues(@RequestParam(value = "new", required = false) Boolean statusNew,
-            @RequestParam(value = "to_me", required = false) Boolean toMe,
-            @RequestParam(value = "high", required = false) Boolean high,
-            @RequestParam(value = "task", required = false) Boolean task,
-            @RequestParam(value = "bug", required = false) Boolean bug,
-            @RequestParam(value = "all", required = false) Boolean all,
+    public String searchIssues(@RequestParam(value = "filter", required = false) String[] filter,
             @RequestParam(value = "project_id", required = false) Integer projectId
     ) {
-        List<IssueDTO> issues = issueService.searchIssues(new IssueSearchParams(statusNew, toMe, high, task, bug, all, projectId));
+        List<IssueDTO> issues = issueService.searchIssues(new IssueSearchParams(filter, projectId));
         
         String issuesString = "";
         try {

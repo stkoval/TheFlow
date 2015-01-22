@@ -19,26 +19,30 @@ public class IssueSearchParams {
     private boolean all;
     private int projectId;
 
-    public IssueSearchParams(Boolean statusNew, Boolean toMe, Boolean high, Boolean task, Boolean bug, Boolean all, Integer projectId) {
-        if (statusNew != null) {
-            this.statusNew = statusNew;
-        }
-        if (toMe != null) {
-            this.toMe = toMe;
-        }
-        if (statusNew != null) {
-        }
-        if (high != null) {
-            this.high = high;
-        }
-        if (task != null) {
-            this.task = task;
-        }
-        if (bug != null) {
-            this.bug = bug;
-        }
-        if (all != null) {
-            this.all = all;
+    public IssueSearchParams(String[] filter, Integer projectId) {
+        if (filter != null && filter.length != 0) {
+            for (String f : filter) {
+                switch (f) {
+                    case "new":
+                        statusNew = true;
+                        break;
+                    case "to_me":
+                        toMe = true;
+                        break;
+                    case "high":
+                        high = true;
+                        break;
+                    case "task":
+                        task = true;
+                        break;
+                    case "bug":
+                        bug = true;
+                        break;
+                    case "all":
+                        all = true;
+                        break;
+                }
+            }
         }
         if (projectId != null) {
             this.projectId = projectId;
@@ -49,55 +53,27 @@ public class IssueSearchParams {
         return statusNew;
     }
 
-    public void setStatusNew(boolean statusNew) {
-        this.statusNew = statusNew;
-    }
-
     public boolean isToMe() {
         return toMe;
-    }
-
-    public void setToMe(boolean toMe) {
-        this.toMe = toMe;
     }
 
     public boolean isHigh() {
         return high;
     }
 
-    public void setHigh(boolean high) {
-        this.high = high;
-    }
-
     public boolean isTask() {
         return task;
-    }
-
-    public void setTask(boolean task) {
-        this.task = task;
     }
 
     public boolean isBug() {
         return bug;
     }
 
-    public void setBug(boolean bug) {
-        this.bug = bug;
-    }
-
     public boolean isAll() {
         return all;
     }
 
-    public void setAll(boolean all) {
-        this.all = all;
-    }
-
     public int getProjectId() {
         return projectId;
-    }
-
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
     }
 }
