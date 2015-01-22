@@ -6,6 +6,7 @@
 package com.theflow.dao;
 
 import com.theflow.domain.User;
+import java.util.List;
 
 /**
  *
@@ -24,4 +25,6 @@ public interface UserDao {
     public User findByEmail(String email);
     
     public User getCurrentUser();
+    
+    public List<User> getAllUsers();
 }

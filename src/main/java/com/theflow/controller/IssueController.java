@@ -3,8 +3,10 @@ package com.theflow.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theflow.dao.ProjectDao;
+import com.theflow.dao.UserDao;
 import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
+import com.theflow.domain.User;
 import com.theflow.dto.IssueDTO;
 import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.IssueService;
@@ -35,6 +37,9 @@ public class IssueController {
     
     @Autowired
     private ProjectDao projectDao;
+    
+    @Autowired
+    private UserDao userDao;
 
     //searching issue header smart search
     @ResponseBody
@@ -48,14 +53,7 @@ public class IssueController {
             @RequestParam(value = "project_id", required = false) Integer projectId
     ) {
         List<IssueDTO> issues = issueService.searchIssues(new IssueSearchParams(statusNew, toMe, high, task, bug, all, projectId));
-//        ModelAndView model = new ModelAndView("issue/table");
-//        if (issues == null) {
-//            String message = "There are no requested issues found";
-//            model.addObject("message", message);
-//            return model;
-//        }
-
-//        model.addObject("issues", issues);
+        
         String issuesString = "";
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -78,7 +76,20 @@ public class IssueController {
     //show issue creation page
     @RequestMapping("issue/add")
     public ModelAndView addIssueForm() {
-        return new ModelAndView("issue/addissue", "issue", new IssueDTO());
+        ModelAndView model = new ModelAndView("issue/addissue", "issue", new IssueDTO());
+        List<String> types = issueService.getIssueTypes();
+        List<String> statuses = issueService.getIssueStatuses();
+        List<String> priorities = issueService.getIssuePriorities();
+        List<User> users = userDao.getAllUsers();
+        List<Project> projects = projectDao.getProjectList();
+        
+        model.addObject("statuses", statuses);
+        model.addObject("types", types);
+        model.addObject("priorities", priorities);
+        model.addObject("users", users);
+        model.addObject("projects", projects);
+        
+        return model;
     }
 
     //removes issue from database

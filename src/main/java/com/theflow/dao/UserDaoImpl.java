@@ -6,9 +6,13 @@
 package com.theflow.dao;
 
 import com.theflow.domain.User;
+import com.theflow.service.FlowUserDetailsService;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -72,5 +76,20 @@ public class UserDaoImpl implements UserDao {
     public User getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return findByEmail(auth.getName());
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        Session session = sessionFactory.openSession();
+        FlowUserDetailsService.User principal
+                        = (FlowUserDetailsService.User) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+        int companyId = principal.getCompanyId();
+        String hql = "from User where company.companyId = " + companyId;
+        Query q = session.createQuery(hql);
+        List<User> users = (List<User>)q.list();
+        return users;
     }
 }

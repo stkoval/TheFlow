@@ -26,4 +26,10 @@ public interface IssueService {
     
     public List<Issue> getAllIssues();
     
+    public List<String> getIssueTypes();
+    
+    public List<String> getIssueStatuses();
+    
+    public List<String> getIssuePriorities();
+    
 }

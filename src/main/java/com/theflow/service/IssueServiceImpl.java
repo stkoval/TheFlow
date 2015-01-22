@@ -9,6 +9,9 @@ import com.theflow.dao.IssueDao;
 import com.theflow.dao.ProjectDao;
 import com.theflow.dao.UserDao;
 import com.theflow.domain.Issue;
+import com.theflow.domain.Issue.IssuePriority;
+import com.theflow.domain.Issue.IssueStatus;
+import com.theflow.domain.Issue.IssueType;
 import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDTO;
@@ -48,9 +51,9 @@ public class IssueServiceImpl implements IssueService {
             issueDTO = new IssueDTO();
             issueDTO.setIssueId(issue.getIssueId());
             issueDTO.setTitle(issue.getTitle());
-            issueDTO.setType(issue.getType().name());
-            issueDTO.setStatus(issue.getStatus().name());
-            issueDTO.setPriority(issue.getPriority().name());
+            issueDTO.setType(issue.getType().toString());
+            issueDTO.setStatus(issue.getStatus().toString());
+            issueDTO.setPriority(issue.getPriority().toString());
             issueDTO.setAssigneeFullName(issue.getAssignee().getFirstName() + " " + issue.getAssignee().getLastName());
             issuesDTO.add(issueDTO);
         }
@@ -110,4 +113,35 @@ public class IssueServiceImpl implements IssueService {
 
         return issue;
     }
+    
+    //get issue type list for selectitems
+    @Override
+    public List<String> getIssueTypes() {
+        List<String> types = new ArrayList<>();
+        for (IssueType type : IssueType.values()) {
+            types.add(type.toString());
+        }
+        return types;
+    }
+    
+    //get issue statuses list for selectitems
+    @Override
+    public List<String> getIssueStatuses() {
+        List<String> statuses = new ArrayList<>();
+        for (IssueStatus status : IssueStatus.values()) {
+            statuses.add(status.toString());
+        }
+        return statuses;
+    }
+    
+    //get issue priorities list for selectitems
+    @Override
+    public List<String> getIssuePriorities() {
+        List<String> priorities = new ArrayList<>();
+        for (IssuePriority priority : IssuePriority.values()) {
+            priorities.add(priority.toString());
+        }
+        return priorities;
+    }
+    
 }
