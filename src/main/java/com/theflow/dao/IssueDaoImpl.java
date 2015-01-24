@@ -53,6 +53,11 @@ public class IssueDaoImpl implements IssueDao {
     
     @Override
     public void removeIssue(int id) {
+        Session session = sessionFactory.openSession();
+        String hql = "delete from Issue where issueId = :issueId";
+        Query q = session.createQuery(hql);
+        q.setParameter("issueId", id);
+        q.executeUpdate();
     }
     
     @Override

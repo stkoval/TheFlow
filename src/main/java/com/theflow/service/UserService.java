@@ -5,12 +5,12 @@
  */
 package com.theflow.service;
 
-import com.theflow.dto.UserDTO;
+import com.theflow.dto.UserDto;
 
 /**
  *
  * @author Stas
  */
 public interface UserService {
-    public void saveUserReg(UserDTO userDto);    
+    public void saveUserReg(UserDto userDto);    
 }

@@ -5,7 +5,7 @@
  */
 package com.theflow.controller;
 
-import com.theflow.dto.UserDTO;
+import com.theflow.dto.UserDto;
 import com.theflow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,12 +30,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "user/register", method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute(value = "user") UserDTO userDTO, BindingResult result) {
+    public String saveUser(@ModelAttribute(value = "user") UserDto userDto, BindingResult result) {
         if (result.hasErrors()) {
             return "signin/registration";
         }
         
-        userService.saveUserReg(userDTO);
+        userService.saveUserReg(userDto);
         
         return"signin/login";
     }

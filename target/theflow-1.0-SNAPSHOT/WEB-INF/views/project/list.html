@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Issue/list</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        
+    </head>
+    <body>
+    	<object th:include="fragments/layout :: styles" th:remove="tag" />
+
+    	<div id="wrap">        
+            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
+            
+            <div class="container main-content">
+            	<div class="row">
+                
+                	<div th:replace="fragments/layout :: sidebar">&nbsp;</div>
+                    
+                    <div id="main" class="col-md-9 col-xs-12">
+        
+                        <div>TODO write content</div>
+                        <ul th:each="project : ${projects}">
+                            <li th:text="${project.projName}"></li>
+                        </ul>
+    				
+                    
+                    </div>
+                
+                </div> 
+            </div>
+        	<div id="push"></div>
+        </div>
+        
+        <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
+        
+        <sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>        
+        <object th:include="fragments/layout :: script" th:remove="tag"/>
+    
+    </body>
+</html>

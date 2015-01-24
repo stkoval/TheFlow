@@ -5,7 +5,7 @@ import com.theflow.dao.UserDao;
 import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserRole;
-import com.theflow.dto.UserDTO;
+import com.theflow.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
     
     //Saves user from registration page. Assignes admin role
     @Override
-    public void saveUserReg(UserDTO userDto) {
+    public void saveUserReg(UserDto userDto) {
         User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>the Flow - Issue details</title>
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
+
+    </head>
+    <body>  
+        <div id="wrap">
+
+            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
+
+            <div class="container main-content">
+
+                <div class="row">
+                    <div class="col-md-3 nav-col text-left">
+                        <a href="/" class="fancy-button medium blueRiver icon basic">
+                            <span class="icon pull-left">
+                                <i class="fa fa-chevron-left"></i>
+                            </span>
+                            &nbsp;Back
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="main-title text-center">Issue #123 details</h1>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h5 class="issue-title">Project name</h5>
+                                <h3 class="issue-title">Issue title</h3>
+                            </div>
+                            <div class="col-md-3 nav-col text-right">
+                                <a href="#" class="fancy-button medium esmerald icon basic">
+                                    <span class="icon pull-left">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    &nbsp;Edit
+                                </a>                       
+                            </div>
+                            <div class="col-md-12">
+                                <h5>Description</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate eros sed felis sodales nec</p>                            
+                                <form enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <input id="issue-attachment" class="file" type="file" multiple=true data-preview-file-type="any">
+                                    </div>
+                                </form>                                
+                            </div>                
+                        </div>                
+                    </div>
+                    <div class="col-md-6">                    	
+                        <h5 class="issue-title">Estimated time</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                        <h5 class="issue-title">Logged time</h5>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                <span class="sr-only">20% Complete</span>
+                            </div>
+                        </div>                             
+
+                        <h3 class="issue-title">Log work</h3>
+                        <form class="form-horizontal">
+                            <div class='input-group date' id='logtimepicker'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                                <button type="submit" class="form-control esmerald basic fancy-button input-group-addon fancy-reset nomargin">
+                                    <i class="fa fa-edit"></i>&nbsp;Log
+                                </button>
+                            </div>
+                        </form> 
+
+                        <div class="row issue-info-row">
+                            <div class="col-md-9">
+                                <h3 class="issue-title">Issue characteristic</h3>
+                            </div>
+                            <div class="col-md-3 nav-col text-right">
+                                <a href="#" class="fancy-button medium esmerald icon basic">
+                                    <span class="icon pull-left">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                    &nbsp;Edit
+                                </a>                       
+                            </div>
+                        </div>
+
+                        <table class="table table-striped table-hover table-info">
+                            <tr>
+                                <td>Type</td>
+                                <td><span class="label label-primary">Primary</span></td>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td><span class="label label-info">In progress</span></td>
+                            </tr>
+                            <tr>
+                                <td>Priority</td>
+                                <td><span class="label label-danger">Major</span></td>
+                            </tr>
+                            <tr>
+                                <td>Creator</td>
+                                <td><a href="#">John Smith</a></td>
+                            </tr>
+                            <tr>
+                                <td>Assignee</td>
+                                <td><a href="#">John Doe</a></td>
+                            </tr>
+                            <tr>
+                                <td>Creation date</td>
+                                <td>01.11.2015</td>
+                            </tr>
+                            <tr>
+                                <td>Last modified</td>
+                                <td>01.11.2015 00:00</td>
+                            </tr>
+                        </table>
+
+                    </div>           
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="detailBox">
+                            <div class="titleBox">
+                                <label>Comment Box</label>
+                                <button type="button" class="close" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="commentBox">                            
+                                <p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                            </div>
+                            <div class="actionBox">
+                                <ul class="commentList">
+                                    <li>
+                                        <div class="commenterImage">
+                                            <img src="http://lorempixel.com/50/50/people/6" />
+                                        </div>
+                                        <div class="commentText">
+                                            <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                                        </div>
+                                    </li>
+                                    <li class="level-2">
+                                        <div class="commenterImage">
+                                            <img src="http://lorempixel.com/50/50/people/7" />
+                                        </div>
+                                        <div class="commentText">
+                                            <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                                        </div>
+                                    </li>
+                                    <li class="level-3">
+                                        <div class="commenterImage">
+                                            <img src="http://lorempixel.com/50/50/people/9" />
+                                        </div>
+                                        <div class="commentText">
+                                            <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                                <form class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" placeholder="Your comments" />
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-default">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>           
+                    </div>
+                </div>
+
+
+            </div>
+            <div id="push"></div>
+        </div>
+
+        <div id="footer">
+            <div class="container">
+                <p class="muted credit text-center">&copy; theFloat 2015</p>
+            </div>
+        </div>
+
+        <!-- Common JS -->
+        <object th:include="fragments/layout :: script" th:remove="tag"/>
+    </body>
+</html>

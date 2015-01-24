@@ -1,0 +1,235 @@
+body, html {
+	
+}
+
+body {
+	font-family:'Open Sans', Arial, sans-serif;
+}
+
+#header {
+	padding:0px 0px;	
+}
+a:hover,
+a:active,
+a:focus {
+	outline:0;
+	outline:none;	
+}
+
+.header-container {
+	margin:0px 0px 20px 0px;
+	background-color: #F5F5F5;
+	border-bottom: 1px solid #E5E5E5;
+}
+
+.content-heading {
+	margin-top:0px;
+	line-height:1em;
+}
+
+button.fancy-button.disabled {
+	color:#3eb5f1;
+	border-color:#3eb5f1;
+}
+
+.blueRiver.disabled {
+	color:#FFF;
+	border-color:#FFF;
+}
+
+.logo {
+	font-family: 'Ubuntu Condensed', Tahoma, sans-serif;
+	color:#205081;
+	display:table;
+}
+
+.logo i {
+	vertical-align:middle;
+}
+
+.logo strong {
+	vertical-align:middle;	
+}
+
+
+.logo-top {
+	font-size:24px;
+	line-height:24px;
+	margin:5px 0px 0px 0px;
+	text-align:left;
+}
+
+a.logo-top:hover,
+a.logo-top:active,
+a.logo-top:focus,
+a.logo-top:hover strong,
+a.logo-top:active strong,
+a.logo-top:focus strong {
+	text-decoration:none;
+}
+
+.logo-top i {
+	font-size:24px;
+	line-height:24px;
+	padding:0px;
+	margin:0px 10px 0px 0px;;
+	display:inline-block;
+	color:#3eb5f1;
+}
+
+.logo-top small {
+	font-family: 'Slabo 27px', serif;
+	color:#3eb5f1;
+	display:inline-block;
+	padding:0px;
+	mergin:0px;
+}
+
+.logo-top b {
+	font-family: 'Ubuntu Condensed', serif;
+	color:#f24942;
+	display:inline-block;
+	padding:0px;
+	mergin:0px;
+}
+
+.logo-top strong {
+	
+}
+
+.issues-list {
+	margin:20px 0px;
+}
+
+#sidebar {
+	position:relative;	
+	
+}
+
+.issues-list li i {
+	display:inline-block;
+	width:20px;
+	text-align:center;
+}
+
+.nav-pills > li > a:hover {
+	background-color:#205081;
+	color:#FFF;	
+}
+
+.major-priority {
+
+}
+
+.minor-priority {
+
+}
+
+#main {
+	padding-bottom:20px;
+	padding-right:0px;
+	border-left:1px solid #CCC;	
+}
+
+.container-login {
+	width: 70%;
+	height: 70%;
+	margin: 40px auto;
+}
+.container-login .outer {
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+.container-login .inner {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+.container-login .centered {
+	position: relative;
+	display: inline-block;
+	width: 50%;
+	padding: 1em;
+}
+
+.logo-login {
+	font-size:64px;
+	line-height:64px;
+	margin:0px 0px 0px 0px;
+	text-align:center;
+	width:100%;
+	display:inline-block;	
+}
+
+.logo-login i {
+	font-size:128px;
+	line-height:128px;
+	padding:0px;
+	margin:0px 10px 0px 0px;
+	width:100%;
+	display:inline-block;
+	text-align:center;
+	color:#3eb5f1;
+}
+
+.logo-login small {
+	font-family: 'Slabo 27px', serif;
+	color:#3eb5f1;
+	display:inline-block;
+	padding:0px;
+	mergin:0px;
+}
+
+.logo-login b {
+	font-family: 'Ubuntu Condensed', serif;
+	color:#f24942;
+	display:inline-block;
+	padding:0px;
+	mergin:0px;
+}
+
+.form-signin {
+	max-width: 330px;
+	padding: 0px;
+	margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+	margin-bottom: 10px;
+}
+.form-signin .checkbox {
+	font-weight: normal;
+}
+.form-signin .form-control {
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+			box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
+}
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+.form-signin input[type="email"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.fancy-button {
+	margin:0px;	
+}
+
+.fancy-button .icon {
+	display:inline-block;
+	float:none;
+	line-height:20px;	
+}

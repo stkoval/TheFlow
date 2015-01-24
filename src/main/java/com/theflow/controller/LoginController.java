@@ -9,7 +9,7 @@ import com.theflow.dao.IssueDao;
 import com.theflow.dao.ProjectDao;
 import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
-import com.theflow.dto.UserDTO;
+import com.theflow.dto.UserDto;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class LoginController {
     
     static final Logger logger = Logger.getLogger(LoginController.class.getName());
     
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    @RequestMapping(value = "home", method = RequestMethod.GET)
     public ModelAndView redirect() {
         ModelAndView model = new ModelAndView("home/home");
 
@@ -58,6 +58,6 @@ public class LoginController {
     
     @RequestMapping(value = "user/registration", method = RequestMethod.GET)
     public ModelAndView showRegistrationForm() {
-        return new ModelAndView("user/add", "user", new UserDTO());
+        return new ModelAndView("user/add", "user", new UserDto());
     }
 }
