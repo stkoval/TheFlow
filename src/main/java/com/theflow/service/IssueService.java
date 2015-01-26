@@ -34,6 +34,6 @@ public interface IssueService {
     
     public List<String> getIssuePriorities();
     
-    public IssueDto populateIssueDtoFildsFromIssue(Issue issue);
+    public IssueDto populateIssueDtoFildsFromIssue(Issue issue, int id);
     
 }
