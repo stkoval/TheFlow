@@ -121,9 +121,11 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public IssueDto populateIssueDtoFildsFromIssue(Issue issue) {
-
+    public IssueDto populateIssueDtoFildsFromIssue(Issue issue, int issueId) {
+        
         IssueDto issueDto = new IssueDto();
+        
+        issueDto.setIssueId(issueId);
 
         issueDto.setProjectId(issue.getProject().getProjectId());
 

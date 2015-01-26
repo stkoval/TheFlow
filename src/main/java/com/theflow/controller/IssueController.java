@@ -123,7 +123,7 @@ public class IssueController {
         List<String> priorities = issueService.getIssuePriorities();
         List<User> users = userService.getAllUsers();
         List<Project> projects = projectService.getProjectList();
-        IssueDto issueDto = issueService.populateIssueDtoFildsFromIssue(issue);
+        IssueDto issueDto = issueService.populateIssueDtoFildsFromIssue(issue, id);
 
         model.addObject("statuses", statuses);
         model.addObject("types", types);
@@ -131,7 +131,7 @@ public class IssueController {
         model.addObject("users", users);
         model.addObject("projects", projects);
         model.addObject("issue", issueDto);
-        model.addObject("issue_id", id);
+//        model.addObject("issue_id", id);
         
         return model;
     }
