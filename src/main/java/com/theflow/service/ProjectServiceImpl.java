@@ -10,12 +10,14 @@ import com.theflow.domain.Project;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Stas
  */
 @Service
+@Transactional
 public class ProjectServiceImpl implements ProjectService{
     
     @Autowired

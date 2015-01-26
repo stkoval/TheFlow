@@ -1,11 +1,11 @@
 package com.theflow.dao;
 
+import helpers.IssueConstraints;
 import com.theflow.domain.Issue;
 import com.theflow.domain.Issue.IssuePriority;
 import com.theflow.domain.Issue.IssueStatus;
 import com.theflow.domain.Issue.IssueType;
 import com.theflow.domain.Project;
-import com.theflow.domain.User;
 import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.FlowUserDetailsService;
 import java.util.List;
@@ -35,42 +35,44 @@ public class IssueDaoImpl implements IssueDao {
     @Autowired
     private SessionFactory sessionFactory;
     
-    @Autowired
-    private UserDao userDao;
-    
-    @Autowired
-    private CompanyDao companyDao;
-    
     @Override
     public int saveIssue(Issue issue) {
-        return (int) sessionFactory.openSession().save(issue);
+        return (int) sessionFactory.getCurrentSession().save(issue);
     }
     
     @Override
     public void updateIssue(Issue issue) {
-        sessionFactory.openSession().update(issue);
+        Session session = sessionFactory.getCurrentSession();
+        session.update(issue);
     }
     
     @Override
     public void removeIssue(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "delete from Issue where issueId = :issueId";
+        Query q = session.createQuery(hql);
+        q.setParameter("issueId", id);
+        q.executeUpdate();
     }
     
     @Override
     public Issue getIssueById(int issueId) {
         
-        return (Issue) sessionFactory.openSession().get(Issue.class, issueId);
+        return (Issue) sessionFactory.getCurrentSession().get(Issue.class, issueId);
     }
     
     @Override
     public List<Issue> getAllIssues() {
+        FlowUserDetailsService.User principal
+                        = (FlowUserDetailsService.User) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
         
-        Session session = sessionFactory.openSession();
-
-        //Current authenticated user
-        User user = userDao.getCurrentUser();
+        Session session = sessionFactory.getCurrentSession();
 
         //getting all projects related to company
-        List<Integer> projectIds = session.createSQLQuery("select project_id from projects where company_id = " + user.getCompany().getCompanyId()).list();
+        List<Integer> projectIds = session.createSQLQuery("select project_id from projects where company_id = " + principal.getCompanyId()).list();
         
         if (projectIds.isEmpty()) {
             return null;
@@ -86,7 +88,12 @@ public class IssueDaoImpl implements IssueDao {
     
     @Override
     public List<Issue> searchIssues(IssueSearchParams issueSearchParams) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
+        FlowUserDetailsService.User principal
+                        = (FlowUserDetailsService.User) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
         Criteria cr;
         if (issueSearchParams.isAll()) {
             return getAllIssues();
@@ -111,21 +118,15 @@ public class IssueDaoImpl implements IssueDao {
                 cr.add(Restrictions.eq(IssueConstraints.STATUS, IssueStatus.NEW));
             }
             if (issueSearchParams.isToMe()) {
-                User current = userDao.getCurrentUser();
-                cr.add(Restrictions.eq(IssueConstraints.ASSIGNEE, current));
+                cr.add(Restrictions.eq("assignee.userId", principal.getUserId()));
             }
             if (issueSearchParams.getProjectId() != 0) {
                 cr.add(Restrictions.eq("project.projectId", issueSearchParams.getProjectId()));
             } else {
-                FlowUserDetailsService.User principal
-                        = (FlowUserDetailsService.User) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
                 int companyId = principal.getCompanyId();
                 DetachedCriteria projects = DetachedCriteria.forClass(Project.class)
                         .setProjection(Property.forName("projectId"))
-                        .add(Restrictions.eq("company", companyDao.getCompanyById(companyId)));
+                        .add(Restrictions.eq("company.companyId", companyId));
                 cr.add(Subqueries.propertyIn("project.projectId", projects));
             }
         }

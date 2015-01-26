@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>New issue</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="image_src" href="/theflow/resources/img/logo.png" />
+        
+    </head>
+    <body>
+    	<object th:include="fragments/layout :: styles" th:remove="tag" />
+
+    	<div id="wrap">        
+            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
+            
+            <div class="container main-content">
+            
+                <div class="row">
+                    <div class="col-md-3 nav-col text-left">
+                        <a th:href="@{/issue/all}" class="fancy-button medium blueRiver icon basic">
+                            <span class="icon pull-left">
+                                <i class="fa fa-chevron-left"></i>
+                            </span>
+                            &nbsp;Back
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="main-title text-center">Create isssue</h1>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+            
+                        <form class="form-horizontal issue-full-form"  data-toggle="validator" id="createIssueForm" th:object="${issue}" th:action="@{save}" method="post">
+        
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Title</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="title" placeholder="Title" th:field="*{title}" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">Type</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="type" placeholder="Type" th:field="*{type}" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">Priority</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="priority" placeholder="Priority" th:field="*{priority}" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">Assignee_id</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="assignee_id" placeholder="AssigneeId" th:field="*{assigneeId}" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">Project_id</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="project_id" placeholder="ProjectId" th:field="*{projectId}" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-2 control-label">Estimated_time</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="estimated_time" placeholder="EstimatedTime" th:field="*{estimatedTime}" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10 col-sm-offset-2"> 
+                                <button type="submit" class="fancy-button medium blueRiver basic nomargin">Create <span class="icon"><i class="fa fa-check-circle"></i></span></button>
+                            </div>
+                        </form>
+
+                    </div>           
+                </div>                
+            </div>
+        	<div id="push"></div>
+        </div>
+        
+        <div th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'" th:remove="tag">&nbsp;</div>
+        
+        <sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>        
+        <object th:include="fragments/layout :: script" th:remove="tag"/>
+        <script th:src="@{/resources/js/createIssueCall.js}"></script>
+    
+    </body>
+</html>

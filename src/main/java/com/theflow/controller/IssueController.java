@@ -2,14 +2,14 @@ package com.theflow.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.theflow.dao.ProjectDao;
-import com.theflow.dao.UserDao;
 import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
 import com.theflow.domain.User;
-import com.theflow.dto.IssueDTO;
+import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.IssueService;
+import com.theflow.service.ProjectService;
+import com.theflow.service.UserService;
 import java.util.List;
 import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,12 +35,12 @@ public class IssueController {
 
     @Autowired
     private IssueService issueService;
-    
+
     @Autowired
-    private ProjectDao projectDao;
-    
+    private ProjectService projectService;
+
     @Autowired
-    private UserDao userDao;
+    private UserService userService;
 
     //searching issue header smart search
     @ResponseBody
@@ -47,8 +48,8 @@ public class IssueController {
     public String searchIssues(@RequestParam(value = "filter", required = false) String[] filter,
             @RequestParam(value = "project_id", required = false) Integer projectId
     ) {
-        List<IssueDTO> issues = issueService.searchIssues(new IssueSearchParams(filter, projectId));
-        
+        List<IssueDto> issues = issueService.searchIssues(new IssueSearchParams(filter, projectId));
+
         String issuesString = "";
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -61,36 +62,37 @@ public class IssueController {
 
     //creating new issue
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute(value = "issue") IssueDTO issueDTO, BindingResult result) {
+    public ModelAndView saveIssue(@ModelAttribute(value = "issue") IssueDto issueDto, BindingResult result) {
 
-        issueService.saveIssue(issueDTO);
+        issueService.saveIssue(issueDto);
 
-        return "home/home";
+        return new ModelAndView("redirect:../home");
     }
 
     //show issue creation page
     @RequestMapping("issue/add")
-    public ModelAndView addIssueForm() {
-        ModelAndView model = new ModelAndView("issue/addissue", "issue", new IssueDTO());
+    public ModelAndView showIssueForm() {
+        ModelAndView model = new ModelAndView("issue/addissue", "issue", new IssueDto());
         List<String> types = issueService.getIssueTypes();
         List<String> statuses = issueService.getIssueStatuses();
         List<String> priorities = issueService.getIssuePriorities();
-        List<User> users = userDao.getAllUsers();
-        List<Project> projects = projectDao.getProjectList();
-        
+        List<User> users = userService.getAllUsers();
+        List<Project> projects = projectService.getProjectList();
+
         model.addObject("statuses", statuses);
         model.addObject("types", types);
         model.addObject("priorities", priorities);
         model.addObject("users", users);
         model.addObject("projects", projects);
-        
+
         return model;
     }
 
     //removes issue from database
-    @RequestMapping("issue/remove/{id}")
-    public void removeIssue(@RequestParam int id) {
+    @RequestMapping(value = "issue/remove/{id}", method = RequestMethod.GET)
+    public ModelAndView removeIssue(@PathVariable int id) {
         issueService.removeIssue(id);
+        return new ModelAndView("redirect:../../home");
     }
 
     //get all issues related to Company
@@ -103,11 +105,49 @@ public class IssueController {
             model.addObject("message", message);
             return model;
         }
-        List<Project> projects = projectDao.getProjectList();
+        List<Project> projects = projectService.getProjectList();
         model.addObject("issues", issues);
-        
+
         //to delete when ajax will be implemented
         model.addObject("projects", projects);
+        return model;
+    }
+
+    @RequestMapping(value = "issue/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView editIssue(@PathVariable int id) {
+
+        ModelAndView model = new ModelAndView("issue/edit");
+        Issue issue = issueService.getIssueById(id);
+        List<String> types = issueService.getIssueTypes();
+        List<String> statuses = issueService.getIssueStatuses();
+        List<String> priorities = issueService.getIssuePriorities();
+        List<User> users = userService.getAllUsers();
+        List<Project> projects = projectService.getProjectList();
+        IssueDto issueDto = issueService.populateIssueDtoFildsFromIssue(issue);
+
+        model.addObject("statuses", statuses);
+        model.addObject("types", types);
+        model.addObject("priorities", priorities);
+        model.addObject("users", users);
+        model.addObject("projects", projects);
+        model.addObject("issue", issueDto);
+        model.addObject("issue_id", id);
+        
+        return model;
+    }
+    
+    @RequestMapping(value = "issue/update", method = RequestMethod.POST)
+    public ModelAndView updateIssue(@ModelAttribute(value = "issue") IssueDto issueDto, BindingResult result) {
+        
+        issueService.updateIssue(issueDto);
+        return new ModelAndView("redirect:../home");
+    }
+    
+    @RequestMapping(value = "issue/details/{id}", method = RequestMethod.GET)
+    public ModelAndView showIssueDetails(@PathVariable int id) {
+        ModelAndView model = new ModelAndView("issue/details");
+        Issue issue = issueService.getIssueById(id);
+        model.addObject("issue", issue);
         return model;
     }
 }

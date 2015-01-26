@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        
+    </head>
+    <body>   
+    
+        <object th:fragment="styles">
+            <link href="../../../resources/css/bootstrap.min.css" type="text/css" rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}"/>
+            <link href="../../../resources/css/fancy-buttons.css" type="text/css" rel="stylesheet" th:href="@{/resources/css/fancy-buttons.css}"/>
+            <link href="../../../resources/css/font-awesome.min.css" type="text/css" rel="stylesheet" id="font-awesome-css" media="all" th:href="@{/resources/css/font-awesome.min.css}" />
+            <link href="../../../resources/css/bootstrap-multiselect.css" type="text/css" rel="stylesheet" th:href="@{/resources/css/bootstrap-multiselect.css}"/>
+            <link href="../../../resources/datatables/bootstrap/3/dataTables.bootstrap.css" type="text/css" rel="stylesheet" th:href="@{/resources/datatables/bootstrap/3/dataTables.bootstrap.css}"/>
+            <link href="../../../resources/css/fileinput.css" media="all" rel="stylesheet" type="text/css" th:href="@{/resources/css/fileinput.css}" />
+            <link href="../../../resources/css/bootstrap-datetimepicker.min.css" media="all" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}" /> 
+            <link href="../../../resources/css/bootstrap-switch.min.css" media="all" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-switch.min.css}" />        
+            <link href="../../../resources/css/styles.css" type="text/css" rel="stylesheet" th:href="@{/resources/css/styles.css}" />
+            
+            <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+            <link href="http://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet" type="text/css">
+            <link href="http://fonts.googleapis.com/css?family=Ubuntu+Condensed&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+        </object> 
+    
+        <div th:fragment="header">
+            <div class="container-fluid header-container navbar-fixed-top">        	
+                <div class="container header-centred">        
+                    <div id="header" class="header row">
+                        <div class="navbar">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header col-md-3">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand logo logo-top" th:href="@{/home}">
+                                    <i class="fa fa-paper-plane"></i>&nbsp;<strong class="text-left"><small>the</small><b>Flow</b></strong>
+                                </a>
+                            </div>
+                            
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="top-navbar">
+                                <div class="col-md-6 col-xs-6">
+                                    <select id="search-issue-top" multiple="multiple" rel="<i class='fa fa-search'></i>&nbsp;Search isssues">
+                                        <option value="all" label-type="label-primary">All</option>
+                                        <option value="highpriority" label-type="label-success">High priority</option>
+                                        <option value="recent" label-type="label-warning">Recent</option>
+                                        <option value="assigned" label-type="label-danger">Assigned to me</option>
+                                        <option value="extended">Extended search</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-xs-6">
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Profile</a>
+        
+                                            <div class="well well-sm dropdown-menu">
+                                                <div class="media">
+                                                    <a class="thumbnail pull-left" href="/profile" th:href="@{/profile}">
+                                                        <img class="media-object" src="http://lorempixel.com/80/80/people/9" width="80" height="80">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading"><div sec:authentication="principal.fullName"></div></h4>
+                                                        <p><span class="label label-info">888 projects</span> <span class="label label-warning">150 messages</span></p>
+                                                        <p>
+                                                            <a href="/profile" th:href="@{/profile}" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-comment"></span> Messsages</a>
+                                                            <a href="/profile" th:href="@{/profile}" class="btn btn-xs btn-default"><span class="fa fa-cogs"></span> Settings</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+        
+                                        </li>
+                                        <li><a href="/logout" th:href="@{/logout}" class="text-primary"><i class="glyphicon glyphicon-new-window"></i> Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div><!-- /.navbar-collapse -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="sidebar" class="col-md-3 col-xs-12" th:fragment="sidebar">
+            <a th:href="@{/issue/add}" class="fancy-button medium blueHole basic">New issue <span class="icon"><i class="fa fa-file"></i></span></a>
+            <a th:href="@{/issue/all}" class="fancy-button medium blueRiver basic">Assign to me <span class="icon"><i class="fa fa-user"></i></span></a>
+            <a th:href="@{/issue/all}" class="fancy-button medium alizarin basic">Remove <span class="icon"><i class="fa fa-times"></i></span></a>
+            <a th:href="@{/issue/all}" class="fancy-button medium esmerald basic">Edit <span class="icon"><i class="fa fa-edit"></i></span></a>
+            <div class="well well-sm">
+                <h3>Projects:</h3>
+                <div class="scroll-tree">
+                    <ul class="nav nav-pills nav-stacked sidebar" th:each="project : ${projects}">
+                        <li><a th:text="${project.projName}"></a></li>                        
+                    </ul>
+                </div>
+            </div>
+            <a th:href="@{/project/list}" class="fancy-button medium blueHole basic">New project <span class="icon"><i class="fa fa-asterisk"></i></span></a>
+        </div>
+        
+        <!--/*  Multiple fragments may be defined in one file */-->
+        <div th:fragment="footer">
+            <div id="footer">
+                <div class="container">
+                    <p class="muted credit text-center">&copy; theFloat 2015</p>
+                </div>
+            </div>
+        </div>  
+        
+        <div th:fragment="footer-admin">
+            <div id="footer">
+                <div class="container">
+                    <p class="muted credit text-center">&copy; theFloat 2015 | admin</p>
+                </div>
+            </div>
+        </div>     
+        
+        <object th:fragment="script">
+            <!-- Common JS -->
+            <script src="../../../resources/js/jquery.min.js" type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
+            <script src="../../../resources/js/bootstrap.min.js" type="text/javascript" th:src="@{/resources/js/bootstrap.min.js}"></script>   
+            <script src="../../../resources/js/jquery.slimscroll.min.js" type="text/javascript" th:src="@{/resources/js/jquery.slimscroll.min.js}"></script> 
+            <script src="../../../resources/js/bootstrap-multiselect.js" type="text/javascript" th:src="@{/resources/js/bootstrap-multiselect.js}"></script>  
+            <script src="../../../resources/datatables/js/jquery.dataTables.js" type="text/javascript" th:src="@{/resources/datatables/js/jquery.dataTables.js}"></script>
+            <script src="../../../resources/datatables/bootstrap/3/dataTables.bootstrap.js" type="text/javascript" th:src="@{/resources/datatables/bootstrap/3/dataTables.bootstrap.js}"></script>   
+            <script src="../../../resources/js/fileinput.js" type="text/javascript" th:src="@{/resources/js/fileinput.js}"></script> 
+            <script src="../../../resources/js/moment.js" type="text/javascript" th:src="@{/resources/js/moment.js}"></script>
+            <script src="../../../resources/js/bootstrap-datetimepicker.js" type="text/javascript" th:src="@{/resources/js/bootstrap-datetimepicker.js}"></script>
+            <script src="../../../resources/js/validator.min.js" th:src="@{/resources/js/validator.min.js}"></script>        
+            <script src="../../../resources/js/bootstrap-switch.min.js" th:src="@{/resources/js/bootstrap-switch.min.js}"></script>        
+            <script src="../../../resources/js/scripts.js" type="text/javascript" th:src="@{/resources/js/scripts.js}"></script>
+         </object>    
+        
+    </body>
+</html>
+

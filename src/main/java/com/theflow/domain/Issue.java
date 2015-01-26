@@ -36,6 +36,15 @@ public class Issue implements Serializable {
             return (otherName == null) ? false : name.equals(otherName);
         }
 
+        public static IssueType getEnum(String value) {
+            for (IssueType v : values()) {
+                if ((v.name).equalsIgnoreCase(value)) {
+                    return v;
+                }
+            }
+            throw new IllegalArgumentException();
+        }
+
         @Override
         public String toString() {
             return name;
@@ -61,6 +70,15 @@ public class Issue implements Serializable {
         public boolean equalsString(String otherName) {
             return (otherName == null) ? false : name.equals(otherName);
         }
+        
+        public static IssueStatus getEnum(String value) {
+            for (IssueStatus v : values()) {
+                if ((v.name).equalsIgnoreCase(value)) {
+                    return v;
+                }
+            }
+            throw new IllegalArgumentException();
+        }
 
         @Override
         public String toString() {
@@ -70,10 +88,10 @@ public class Issue implements Serializable {
 
     public static enum IssuePriority {
 
-        HIGH("High"), 
-        MEDIUM("Medium"), 
+        HIGH("High"),
+        MEDIUM("Medium"),
         LOW("Low");
-        
+
         private final String name;
 
         private IssuePriority(String s) {
@@ -82,6 +100,15 @@ public class Issue implements Serializable {
 
         public boolean equalsString(String otherName) {
             return (otherName == null) ? false : name.equals(otherName);
+        }
+        
+        public static IssuePriority getEnum(String value) {
+            for (IssuePriority v : values()) {
+                if ((v.name).equalsIgnoreCase(value)) {
+                    return v;
+                }
+            }
+            throw new IllegalArgumentException();
         }
 
         @Override
