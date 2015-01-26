@@ -2,14 +2,14 @@ package com.theflow.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.theflow.dao.ProjectDao;
-import com.theflow.dao.UserDao;
 import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.IssueService;
+import com.theflow.service.ProjectService;
+import com.theflow.service.UserService;
 import java.util.List;
 import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +37,10 @@ public class IssueController {
     private IssueService issueService;
 
     @Autowired
-    private ProjectDao projectDao;
+    private ProjectService projectService;
 
     @Autowired
-    private UserDao userDao;
+    private UserService userService;
 
     //searching issue header smart search
     @ResponseBody
@@ -76,8 +76,8 @@ public class IssueController {
         List<String> types = issueService.getIssueTypes();
         List<String> statuses = issueService.getIssueStatuses();
         List<String> priorities = issueService.getIssuePriorities();
-        List<User> users = userDao.getAllUsers();
-        List<Project> projects = projectDao.getProjectList();
+        List<User> users = userService.getAllUsers();
+        List<Project> projects = projectService.getProjectList();
 
         model.addObject("statuses", statuses);
         model.addObject("types", types);
@@ -105,7 +105,7 @@ public class IssueController {
             model.addObject("message", message);
             return model;
         }
-        List<Project> projects = projectDao.getProjectList();
+        List<Project> projects = projectService.getProjectList();
         model.addObject("issues", issues);
 
         //to delete when ajax will be implemented
@@ -121,8 +121,8 @@ public class IssueController {
         List<String> types = issueService.getIssueTypes();
         List<String> statuses = issueService.getIssueStatuses();
         List<String> priorities = issueService.getIssuePriorities();
-        List<User> users = userDao.getAllUsers();
-        List<Project> projects = projectDao.getProjectList();
+        List<User> users = userService.getAllUsers();
+        List<Project> projects = projectService.getProjectList();
         IssueDto issueDto = issueService.populateIssueDtoFildsFromIssue(issue);
 
         model.addObject("statuses", statuses);
@@ -131,6 +131,7 @@ public class IssueController {
         model.addObject("users", users);
         model.addObject("projects", projects);
         model.addObject("issue", issueDto);
+        model.addObject("issue_id", id);
         
         return model;
     }

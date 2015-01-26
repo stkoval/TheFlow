@@ -22,11 +22,11 @@ public class CompanyDaoImpl implements CompanyDao{
     
     @Override
     public Company getCompanyById(int id) {
-        return (Company) sessionFactory.openSession().load(Company.class, id);
+        return (Company) sessionFactory.getCurrentSession().load(Company.class, id);
     }
 
     @Override
     public void saveCompany(Company company) {
-        sessionFactory.openSession().save(company);
+        sessionFactory.getCurrentSession().save(company);
     }
 }

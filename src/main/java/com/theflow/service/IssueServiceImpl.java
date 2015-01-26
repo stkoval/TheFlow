@@ -65,7 +65,8 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public void saveIssue(IssueDto issueDto) {
 
-        Issue issue = populateIssueFildsFromDto(issueDto);
+        Issue issue = new Issue();
+        populateIssueFildsFromDto(issue, issueDto);
         User creator = userDao.getCurrentUser();
         issue.setCreator(creator);
         issue.setStatus(Issue.IssueStatus.NEW);
@@ -73,12 +74,7 @@ public class IssueServiceImpl implements IssueService {
         issueDao.saveIssue(issue);
     }
 
-    @Override
-    public void editIssue(int issue_id, IssueDto issueDto) {
-        Issue issue = populateIssueFildsFromDto(issueDto);
-        issueDao.updateIssue(issue);
-    }
-
+    @Transactional
     @Override
     public void removeIssue(int id) {
         issueDao.removeIssue(id);
@@ -91,9 +87,7 @@ public class IssueServiceImpl implements IssueService {
         return issues;
     }
 
-    private Issue populateIssueFildsFromDto(IssueDto issueDto) {
-
-        Issue issue = new Issue();
+    private void populateIssueFildsFromDto(Issue issue, IssueDto issueDto) {
 
         Project project;
         if (issueDto.getProjectId() != null) {
@@ -111,17 +105,19 @@ public class IssueServiceImpl implements IssueService {
         issue.setEstimatedTime(issueDto.getEstimatedTime());
         issue.setLoggedTime(issueDto.getLoggedTime());
         if (issueDto.getPriority() != null && !issueDto.getPriority().isEmpty()) {
-            issue.setPriority(Issue.IssuePriority.valueOf(issueDto.getPriority()));
+            issue.setPriority(Issue.IssuePriority.getEnum(issueDto.getPriority()));
         }
         issue.setTitle(issueDto.getTitle());
         if (issueDto.getType() != null && !issueDto.getType().isEmpty()) {
-            issue.setType(Issue.IssueType.valueOf(issueDto.getType()));
+            issue.setType(Issue.IssueType.getEnum(issueDto.getType()));
         }
         if (issueDto.getStatus() != null && !issueDto.getStatus().isEmpty()) {
-            issue.setStatus(Issue.IssueStatus.valueOf(issueDto.getStatus()));
+            issue.setStatus(Issue.IssueStatus.getEnum(issueDto.getStatus()));
         }
-
-        return issue;
+        if (issueDto.getCreatorId() != null) {
+            User creator = userDao.getUserById(issueDto.getCreatorId());
+            issue.setCreator(creator);
+        }
     }
 
     @Override
@@ -186,13 +182,16 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
+    @Transactional
     public Issue getIssueById(int id) {
         return issueDao.getIssueById(id);
     }
 
     @Override
+    @Transactional
     public void updateIssue(IssueDto issueDto) {
-        Issue issue = populateIssueFildsFromDto(issueDto);
+        Issue issue = issueDao.getIssueById(issueDto.getIssueId());
+        populateIssueFildsFromDto(issue, issueDto);
         issue.setIssueId(issueDto.getIssueId());
 
         issueDao.updateIssue(issue);

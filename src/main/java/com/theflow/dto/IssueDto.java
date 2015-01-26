@@ -8,7 +8,7 @@ import java.util.Date;
  * Dto for Issue object
  */
 public class IssueDto {
-    private int issueId;
+    private Integer issueId;
     private String title;
     private String description;
     private String type;

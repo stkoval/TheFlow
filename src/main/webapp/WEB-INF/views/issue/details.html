@@ -1,18 +1,12 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>the Flow - Issue details</title>
-        <object th:include="fragments/layout :: styles" th:remove="tag" />
 
     </head>
     <body>  
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
         <div id="wrap">
 
             <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
@@ -39,8 +33,8 @@ and open the template in the editor.
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-9">
-                                <h5 class="issue-title">Project name</h5>
-                                <h3 class="issue-title">Issue title</h3>
+                                <h5 class="issue-title" th:text="${issue.project.projName}">Project name</h5>
+                                <h3 class="issue-title" th:text="${issue.title}">Issue title</h3>
                             </div>
                             <div class="col-md-3 nav-col text-right">
                                 <a href="#" class="fancy-button medium esmerald icon basic">
@@ -52,7 +46,7 @@ and open the template in the editor.
                             </div>
                             <div class="col-md-12">
                                 <h5>Description</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate eros sed felis sodales nec</p>                            
+                                <p th:text="${issue.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate eros sed felis sodales nec</p>                            
                                 <form enctype="multipart/form-data">
                                     <div class="form-group">
                                         <input id="issue-attachment" class="file" type="file" multiple=true data-preview-file-type="any">
@@ -105,31 +99,31 @@ and open the template in the editor.
                         <table class="table table-striped table-hover table-info">
                             <tr>
                                 <td>Type</td>
-                                <td><span class="label label-primary">Primary</span></td>
+                                <td><span class="label label-primary" th:text="${issue.type}">Primary</span></td>
                             </tr>
                             <tr>
                                 <td>Status</td>
-                                <td><span class="label label-info">In progress</span></td>
+                                <td><span class="label label-info" th:text="${issue.status}">In progress</span></td>
                             </tr>
                             <tr>
                                 <td>Priority</td>
-                                <td><span class="label label-danger">Major</span></td>
+                                <td><span class="label label-danger" th:text="${issue.priority}">Major</span></td>
                             </tr>
                             <tr>
                                 <td>Creator</td>
-                                <td><a href="#">John Smith</a></td>
+                                <td><a href="#" th:text="|${issue.creator.firstName + ' '}${issue.creator.lastName}|">John Smith</a></td>
                             </tr>
                             <tr>
                                 <td>Assignee</td>
-                                <td><a href="#">John Doe</a></td>
+                                <td><a href="#" th:text="|${issue.assignee.firstName + ' '}${issue.assignee.lastName}|">John Doe</a></td>
                             </tr>
                             <tr>
                                 <td>Creation date</td>
-                                <td>01.11.2015</td>
+                                <td th:text="${issue.creationDate}">01.11.2015</td>
                             </tr>
                             <tr>
                                 <td>Last modified</td>
-                                <td>01.11.2015 00:00</td>
+                                <td th:text="${issue.lastModificationDate}">01.11.2015 00:00</td>
                             </tr>
                         </table>
 

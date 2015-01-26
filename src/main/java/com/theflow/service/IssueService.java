@@ -20,8 +20,6 @@ public interface IssueService {
 
     public void saveIssue(IssueDto issueDto);
     
-    public void editIssue(int issueId, IssueDto issueDto);
-
     public void removeIssue(int id);
     
     public Issue getIssueById(int id);

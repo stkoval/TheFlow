@@ -39,7 +39,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void saveUserReg(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        sessionFactory.openSession().save(user);
+        sessionFactory.getCurrentSession().save(user);
     }
 
     @Override
@@ -54,14 +54,14 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserById(int id) {
-        return (User) sessionFactory.openSession().get(User.class, id);
+        return (User) sessionFactory.getCurrentSession().get(User.class, id);
     }
 
     @Override
     public User findByEmail(String email) {
         List<User> users = new ArrayList<>();
 
-        users = sessionFactory.openSession()
+        users = sessionFactory.getCurrentSession()
                 .createQuery("from User where email=?")
                 .setParameter(0, email)
                 .list();
@@ -80,7 +80,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         FlowUserDetailsService.User principal
                         = (FlowUserDetailsService.User) SecurityContextHolder
                         .getContext()

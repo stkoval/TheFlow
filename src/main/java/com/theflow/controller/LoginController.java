@@ -5,11 +5,11 @@
  */
 package com.theflow.controller;
 
-import com.theflow.dao.IssueDao;
-import com.theflow.dao.ProjectDao;
 import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
 import com.theflow.dto.UserDto;
+import com.theflow.service.IssueService;
+import com.theflow.service.ProjectService;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +27,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
     
     @Autowired
-    private ProjectDao projectDao;
+    private ProjectService projectService;
     
     @Autowired
-    private IssueDao issueDao;
+    private IssueService issueService;
     
     static final Logger logger = Logger.getLogger(LoginController.class.getName());
     
@@ -39,11 +39,11 @@ public class LoginController {
         ModelAndView model = new ModelAndView("home/home");
 
         //populating project list in the left sidebar
-        List<Project> projects = projectDao.getProjectList();
+        List<Project> projects = projectService.getProjectList();
         model.addObject("projects", projects);
         
         //populating issue table
-        List<Issue> issues = issueDao.getAllIssues();
+        List<Issue> issues = issueService.getAllIssues();
         model.addObject("issues", issues);
         
         return model;
