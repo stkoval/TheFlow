@@ -198,4 +198,13 @@ public class IssueServiceImpl implements IssueService {
 
         issueDao.updateIssue(issue);
     }
+
+    @Override
+    @Transactional
+    public void assignToCurrentUser(int issueId) {
+        Issue issue = issueDao.getIssueById(issueId);
+        User current = userDao.getCurrentUser();
+        issue.setAssignee(current);
+        issueDao.saveIssue(issue);
+    }
 }

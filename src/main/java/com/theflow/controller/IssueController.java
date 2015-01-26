@@ -149,4 +149,11 @@ public class IssueController {
         model.addObject("issue", issue);
         return model;
     }
+    
+    
+    @RequestMapping(value = "issue/assign/{issue_id}", method = RequestMethod.GET)
+    public ModelAndView assignToCurrentUser(@PathVariable int issue_id) {
+        issueService.assignToCurrentUser(issue_id);
+        return new ModelAndView("redirect:../../home");
+    }
 }
