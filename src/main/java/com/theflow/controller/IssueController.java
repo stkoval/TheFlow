@@ -131,7 +131,6 @@ public class IssueController {
         model.addObject("users", users);
         model.addObject("projects", projects);
         model.addObject("issue", issueDto);
-//        model.addObject("issue_id", id);
         
         return model;
     }
