@@ -42,7 +42,7 @@ public class ProjectDaoImpl implements ProjectDao{
     }
 
     @Override
-    public Project getProject(int id) {
+    public Project getProjectById(int id) {
         return (Project)sessionFactory.getCurrentSession().get(Project.class, id);
     }
 

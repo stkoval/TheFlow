@@ -27,4 +27,24 @@ public class ProjectServiceImpl implements ProjectService{
     public List<Project> getProjectList() {
         return projectDao.getProjectList();
     }
+
+    @Override
+    public void saveProject(Project project) {
+        projectDao.saveProject(project);
+    }
+
+    @Override
+    public void removeProject(int id) {
+        projectDao.removeProject(id);
+    }
+
+    @Override
+    public Project getProjectById(int id) {
+        return projectDao.getProjectById(id);
+    }
+
+    @Override
+    public void updateProject(Project project) {
+        projectDao.updateProject(project);
+    }
 }

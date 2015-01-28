@@ -49,13 +49,16 @@ project_id int not null auto_increment,
 name varchar(100) not null,
 company_id int(11) not null,
 description text,
+start_date datetime null,
+release_date datetime null,
+active TINYINT NOT NULL DEFAULT 1,
 PRIMARY KEY (project_id)
 );
 
-insert into projects(name, company_id, description) 
-values('TestProject1', 1, 'This is a test project');
-insert into projects(name, company_id, description) 
-values('TestProject2', 1, 'This is a test project');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('TestProject1', 1, 'This is a test project', '11.11.15', '12.12.16');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('TestProject2', 1, 'This is a test project', '11.11.15', '12.12.16');
 
 DROP TABLE IF EXISTS issues;
 create table issues (

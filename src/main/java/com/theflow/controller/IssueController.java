@@ -60,7 +60,6 @@ public class IssueController {
         return issuesString;
     }
 
-    //creating new issue
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
     public ModelAndView saveIssue(@ModelAttribute(value = "issue") IssueDto issueDto, BindingResult result) {
 
@@ -69,9 +68,9 @@ public class IssueController {
         return new ModelAndView("redirect:../home");
     }
 
-    //show issue creation page
+    //creating new issue
     @RequestMapping("issue/add")
-    public ModelAndView showIssueForm() {
+    public ModelAndView addIssueForm() {
         ModelAndView model = new ModelAndView("issue/addissue", "issue", new IssueDto());
         List<String> types = issueService.getIssueTypes();
         List<String> statuses = issueService.getIssueStatuses();

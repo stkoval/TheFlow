@@ -16,4 +16,12 @@ import java.util.List;
 public interface ProjectService {
 
     public List<Project> getProjectList();
+
+    public void saveProject(Project project);
+
+    public void removeProject(int id);
+
+    public Project getProjectById(int id);
+
+    public void updateProject(Project project);
 }

@@ -91,7 +91,7 @@ public class IssueServiceImpl implements IssueService {
 
         Project project;
         if (issueDto.getProjectId() != null) {
-            project = projectDao.getProject(issueDto.getProjectId());
+            project = projectDao.getProjectById(issueDto.getProjectId());
             issue.setProject(project);
         }
 

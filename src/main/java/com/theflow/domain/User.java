@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -19,36 +20,39 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "users")
-public class User  implements Serializable{
-    
+public class User implements Serializable {
+
     @Id
     @GeneratedValue
     @Column(name = "user_id")
     private int userId;
-    
+
     @Column(name = "firstname")
     private String firstName;
-    
+
     @Column(name = "lastname")
     private String lastName;
-    
+
     @Column(name = "email")
     private String email;
-    
+
     @Column(name = "password")
     private String password;
-    
+
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
-    
+
+    @Column(name = "enabled", columnDefinition = "TINYINT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
-    
+
     @OneToMany(mappedBy = "user")
     private Set<UserRole> userRole;
-    
+
     @OneToMany(mappedBy = "assignee")
     private List<Issue> assignedIssues;
+
     public User() {
     }
 
@@ -107,7 +111,7 @@ public class User  implements Serializable{
     public void setAssignedIssues(List<Issue> assignedIssues) {
         this.assignedIssues = assignedIssues;
     }
-    
+
     public Company getCompany() {
         return company;
     }
@@ -123,7 +127,7 @@ public class User  implements Serializable{
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 5;
