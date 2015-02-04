@@ -12,6 +12,7 @@ import com.theflow.service.ProjectService;
 import com.theflow.service.UserService;
 import java.util.List;
 import java.util.logging.Level;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -130,17 +132,17 @@ public class IssueController {
         model.addObject("users", users);
         model.addObject("projects", projects);
         model.addObject("issue", issueDto);
-        
+
         return model;
     }
-    
+
     @RequestMapping(value = "issue/update", method = RequestMethod.POST)
     public ModelAndView updateIssue(@ModelAttribute(value = "issue") IssueDto issueDto, BindingResult result) {
-        
+
         issueService.updateIssue(issueDto);
         return new ModelAndView("redirect:../home");
     }
-    
+
     @RequestMapping(value = "issue/details/{id}", method = RequestMethod.GET)
     public ModelAndView showIssueDetails(@PathVariable int id) {
         ModelAndView model = new ModelAndView("issue/details");
@@ -148,11 +150,21 @@ public class IssueController {
         model.addObject("issue", issue);
         return model;
     }
-    
-    
+
     @RequestMapping(value = "issue/assign/{issue_id}", method = RequestMethod.GET)
     public ModelAndView assignToCurrentUser(@PathVariable int issue_id) {
         issueService.assignToCurrentUser(issue_id);
         return new ModelAndView("redirect:../../home");
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleError(HttpServletRequest req, Exception exception) {
+        logger.error("Request: " + req.getRequestURL() + " raised " + exception);
+
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", exception);
+        mav.addObject("url", req.getRequestURL());
+        mav.setViewName("error/error");
+        return mav;
     }
 }

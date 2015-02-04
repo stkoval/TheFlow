@@ -10,6 +10,7 @@ import com.theflow.service.FlowUserDetailsService;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -31,14 +32,21 @@ public class ProjectDaoImpl implements ProjectDao{
 
     @Override
     public void saveProject(Project project) {
+        sessionFactory.getCurrentSession().save(project);
     }
 
     @Override
     public void updateProject(Project project) {
+        sessionFactory.getCurrentSession().update(project);
     }
 
     @Override
     public void removeProject(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "delete from Project where projectId = :projectId";
+        Query q = session.createQuery(hql);
+        q.setParameter("projectId", id);
+        q.executeUpdate();
     }
 
     @Override
