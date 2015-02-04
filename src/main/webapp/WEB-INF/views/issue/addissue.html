@@ -40,54 +40,70 @@ and open the template in the editor.
                     <div class="col-md-12">
             
                         <form class="form-horizontal issue-full-form"  data-toggle="validator" id="createIssueForm" th:object="${issue}" th:action="@{save}" method="post">
-        
                             <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-2 control-label">Title</label>
+                                <label for="title" class="col-sm-2 control-label">Title</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="title" placeholder="Title" th:field="*{title}" required>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label">Description</label>
+                                <label for="description" class="col-sm-2 control-label">Description</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label">Type</label>
+                                <label for="type" class="col-sm-2 control-label">Type</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="type" placeholder="Type" th:field="*{type}" required>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                
-                            <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label">Priority</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="priority" placeholder="Priority" th:field="*{priority}" required>
+                                    <select class="selectpicker" id="type" th:field="*{type}" required>
+                                        <option th:each="type : ${types}"  th:value="${type}" th:text="${type}"></option>
+                                    </select>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label">Assignee_id</label>
+                                <label for="priority" class="col-sm-2 control-label">Priority</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="assignee_id" placeholder="AssigneeId" th:field="*{assigneeId}" required>
+                                    <select id="priority" class="selectpicker" th:field="*{priority}" required>
+                                        <option th:each="priority : ${priorities}"  th:value="${priority}" th:text="${priority}"></option>
+                                    </select>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label">Project_id</label>
+                                <label for="assignee_id" class="col-sm-2 control-label">Assignee_id</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="project_id" placeholder="ProjectId" th:field="*{projectId}" required>
+                                    <select class="selectpicker" id="assignee_id" th:field="*{assigneeId}" required>
+                                        <option value="1">1</option>
+                                        <option th:each="assignee : ${assignees}"  th:value="${assignee}" th:text="${assignee}"></option>
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <!--<div class="form-group">
+                                <label class="col-sm-2 control-label">Attach files:</label>
+                                <div class="col-sm-10">
+                                    <input id="issue-attachment" class="file" type="file" multiple=true data-preview-file-type="any">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>-->
+                            <div class="form-group">
+                                <label for="project_id" class="col-sm-2 control-label">Project_id</label>
+                                <div class="col-sm-10">
+                                    <select class="selectpicker" id="project_id" th:field="*{projectId}" required>
+                                        <option th:each="project : ${projects}"  th:value="${project.projectId}" th:text="${project.projName}"></option>
+                                    </select>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword3" class="col-sm-2 control-label">Estimated_time</label>
+                                <label for="estimated_time" class="col-sm-2 control-label">Estimated time:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="estimated_time" placeholder="EstimatedTime" th:field="*{estimatedTime}" required>
+                                    <div class='date' id='issuetimepicker'>
+                                        <input type='text' class="form-control" id="estimated_time" th:field="*{estimatedTime}"  required />
+                                    </div>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -96,9 +112,8 @@ and open the template in the editor.
                                 <button type="submit" class="fancy-button medium blueRiver basic nomargin">Create <span class="icon"><i class="fa fa-check-circle"></i></span></button>
                             </div>
                         </form>
-
                     </div>           
-                </div>                
+                </div>
             </div>
         	<div id="push"></div>
         </div>
