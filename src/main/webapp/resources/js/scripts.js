@@ -5,8 +5,11 @@ $(document).ready(function(e){
 	$('#issuesList').dataTable();
 	
 	$('#logtimepicker').datetimepicker({
-    	pickDate: false
+    	pickDate: false,
+		dayViewHeaderFormat:'H'
     });
+
+	$('.selectpicker').selectpicker();
 	
 	$('#search-issue-top').multiselect({
 		buttonText: function(options, select) {
