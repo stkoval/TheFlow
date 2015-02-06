@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Type;
 
 /**
@@ -39,6 +40,9 @@ public class User implements Serializable {
 
     @Column(name = "password")
     private String password;
+    
+    @Formula("concat(firstname, ' ', lastname)")
+    private String fullName;
 
     @ManyToOne
     @JoinColumn(name = "company_id")
@@ -130,6 +134,15 @@ public class User implements Serializable {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+    
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName() {
+        this.fullName = this.firstName + " " + this.lastName;
     }
 
     @Override

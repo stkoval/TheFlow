@@ -77,13 +77,13 @@ public class IssueController {
         List<String> types = issueService.getIssueTypes();
         List<String> statuses = issueService.getIssueStatuses();
         List<String> priorities = issueService.getIssuePriorities();
-        List<User> users = userService.getAllUsers();
+        List<User> assignees = userService.getAllUsers();
         List<Project> projects = projectService.getProjectList();
 
         model.addObject("statuses", statuses);
         model.addObject("types", types);
         model.addObject("priorities", priorities);
-        model.addObject("users", users);
+        model.addObject("assignees", assignees);
         model.addObject("projects", projects);
 
         return model;
