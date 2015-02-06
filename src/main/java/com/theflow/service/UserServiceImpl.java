@@ -2,6 +2,7 @@ package com.theflow.service;
 
 import com.theflow.dao.CompanyDao;
 import com.theflow.dao.UserDao;
+import com.theflow.dao.UserRoleDao;
 import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserRole;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
     
+    @Autowired
+    private UserRoleDao userRoleDao;
+    
     //Saves user from registration page. Assignes admin role
     @Override
     public int saveUserReg(UserDto userDto) throws EmailExistsException, CompanyExistsException{
@@ -46,10 +50,14 @@ public class UserServiceImpl implements UserService{
         Company company = new Company(userDto.getCompanyName());
         int companyId = companyDao.saveCompany(company);
         user.setCompany(companyDao.getCompanyById(companyId));
-        user.getUserRole().add(new UserRole(user,"ROLE_ADMIN"));
+        UserRole roleAdmin = new UserRole(user,"ROLE_ADMIN");
+        //user.getUserRole().add(new UserRole(user,"ROLE_ADMIN"));
         user.setEnabled(true);
 
-        return userDao.saveUserReg(user);
+        int userId = userDao.saveUserReg(user);
+        roleAdmin.setUser(userDao.getUserById(userId));
+        userRoleDao.saveRole(roleAdmin);
+        return userId;
     }
     
     private boolean emailExist(String email) {
