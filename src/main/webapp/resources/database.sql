@@ -20,9 +20,10 @@ user_id int(11) not null auto_increment,
 firstname varchar(40) not null,
 lastname varchar(40) not null,
 email varchar(255) not null UNIQUE,
-password varchar(20) not null,
+password varchar(60) not null,
 enabled TINYINT NOT NULL DEFAULT 1,
 PRIMARY KEY (user_id),
+FOREIGN KEY (company_id) REFERENCES companies(company_id),
 KEY (email)
 );
 

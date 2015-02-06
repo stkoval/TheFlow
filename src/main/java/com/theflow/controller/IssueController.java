@@ -72,7 +72,7 @@ public class IssueController {
 
     //creating new issue
     @RequestMapping("issue/add")
-    public ModelAndView addIssueForm() {
+    public ModelAndView showCreateIssueForm() {
         ModelAndView model = new ModelAndView("issue/addissue", "issue", new IssueDto());
         List<String> types = issueService.getIssueTypes();
         List<String> statuses = issueService.getIssueStatuses();

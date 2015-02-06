@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.theflow.dao;
 
 import com.theflow.domain.User;
@@ -10,14 +5,12 @@ import com.theflow.service.FlowUserDetailsService;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -37,9 +30,10 @@ public class UserDaoImpl implements UserDao {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void saveUserReg(User user) {
+    public int saveUserReg(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         sessionFactory.getCurrentSession().save(user);
+        return user.getUserId();
     }
 
     @Override
@@ -68,7 +62,7 @@ public class UserDaoImpl implements UserDao {
         if (users.size() > 0) {
             return users.get(0);
         } else {
-            throw new UsernameNotFoundException("user not found");
+            return null;
         }
     }
 

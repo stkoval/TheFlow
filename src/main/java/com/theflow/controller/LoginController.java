@@ -7,7 +7,6 @@ package com.theflow.controller;
 
 import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
-import com.theflow.dto.UserDto;
 import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
 import java.util.List;
@@ -53,11 +52,5 @@ public class LoginController {
     public String denied() {
 
         return "403";
-    }
-    
-    
-    @RequestMapping(value = "user/registration", method = RequestMethod.GET)
-    public ModelAndView showRegistrationForm() {
-        return new ModelAndView("user/add", "user", new UserDto());
     }
 }

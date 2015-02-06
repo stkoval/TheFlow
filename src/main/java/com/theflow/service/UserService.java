@@ -8,12 +8,14 @@ package com.theflow.service;
 import com.theflow.domain.User;
 import com.theflow.dto.UserDto;
 import java.util.List;
+import validation.CompanyExistsException;
+import validation.EmailExistsException;
 
 /**
  *
  * @author Stas
  */
 public interface UserService {
-    public void saveUserReg(UserDto userDto);
+    public int saveUserReg(UserDto userDto) throws EmailExistsException, CompanyExistsException;
     public List<User> getAllUsers();
 }

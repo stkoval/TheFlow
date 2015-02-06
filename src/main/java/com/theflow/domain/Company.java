@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,6 +23,7 @@ import javax.persistence.Table;
 public class Company implements Serializable {
 
     @Id
+    @GeneratedValue
     @Column(name = "company_id")
     private int companyId;
     

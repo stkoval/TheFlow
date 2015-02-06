@@ -5,18 +5,48 @@
  */
 package com.theflow.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
+import validation.PasswordMatches;
+import validation.ValidEmail;
+
 /**
  *
  * @author Stas
  */
+@PasswordMatches
 public class UserDto {
     
     private int userId;
+    
+    @NotNull
+    @NotEmpty
+    @Size(min = 2, max = 30)
     private String firstName;
+    
+    @NotNull
+    @NotEmpty
+    @Size(min = 2, max = 30)
     private String lastName;
+    
+    @ValidEmail
+    @NotNull
+    @NotEmpty
     private String email;
-    private String login;
+    
+    @NotNull
+    @NotEmpty
+    @Size(min = 6, max = 20)
     private String password;
+    
+    @NotNull
+    @NotEmpty
+    private String matchingPassword;
+    
+    @NotNull
+    @NotEmpty
+    @Size(min = 3, max = 30)
     private String companyName;
 
     public int getUserId() {
@@ -51,14 +81,6 @@ public class UserDto {
         this.email = email;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -74,5 +96,12 @@ public class UserDto {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
-    
+
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
 }

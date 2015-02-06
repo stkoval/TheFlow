@@ -10,7 +10,7 @@
 
     </head>
     <body>
-    	<object th:include="fragments/layout :: styles" th:remove="tag" />
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
 
         <div class="container-login">
             <div class="outer">
@@ -49,6 +49,7 @@
                                 </span>
                             </button>
                         </form>
+                        <a th:href="@{user/registration}">Registration</a> 
                     </div>
                 </div>
             </div>

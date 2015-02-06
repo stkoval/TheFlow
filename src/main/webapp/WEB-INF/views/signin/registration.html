@@ -1,16 +1,75 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>New user</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="image_src" href="/theflow/resources/img/logo.png" />
     </head>
     <body>
-        <div>TODO write content</div>
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
+        <div class="container">
+            <!--<div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>-->
+            <div class="span12">
+                <h>
+                    <div th:text="#{label.form.title}"></div>
+                </h>
+                <form th:object="${user}" method="POST" th:action="@{/user/save}" enctype="utf8">
+                    <div>
+                        <tr>
+                            <td th:text="#{label.user.firstName}"></td>
+                            <td th:field="*{firstName}">
+                                <input type="text" class="form-control" id="firstName" placeholder="firstName" th:field="*{firstName}"/>
+                            </td>
+                            <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name Error</td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{label.user.lastName}"></td>
+                            <td>
+                                <input type="text" class="form-control" id="lastName" placeholder="lastName" th:field="*{lastName}"/>
+                            </td>
+                            <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{label.user.company}"></td>
+                            <td>
+                                <input type="text" class="form-control" id="lastName" placeholder="companyName" th:field="*{companyName}"/>
+                            </td>
+                            <td th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}">Name Error</td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{label.user.email}"></td>
+                            <td>
+                                <input type="text" class="form-control" id="email" placeholder="email" th:field="*{email}"/>
+                            </td>
+                            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{label.user.password}"></td>
+                            <td>
+                                <input type="password" class="form-control" id="password" placeholder="password" th:field="*{password}"/>
+                            </td>
+                            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{label.user.confirmPass}"></td>
+                            <td>
+                                <input type="password" class="form-control" id="password" placeholder="password" th:field="*{matchingPassword}"/>
+                            </td>
+                            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+                        </tr>
+<!--                        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                            <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>    
+                        </div>-->
+                        <button type="submit">
+                            <div th:text="#{label.form.submit}"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <object th:include="fragments/layout :: script" th:remove="tag"/>
     </body>
+
 </html>

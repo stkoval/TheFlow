@@ -36,6 +36,9 @@ public class FlowUserDetailsService implements UserDetailsService {
         logger.debug("******inside userDetailsService*******username: " + username);
 
         com.theflow.domain.User user = userDao.findByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("No user found with username: "+ username);
+        }
 
         List<GrantedAuthority> authorities
                 = buildUserAuthority(user.getUserRole());

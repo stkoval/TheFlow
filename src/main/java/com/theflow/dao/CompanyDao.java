@@ -13,5 +13,7 @@ import com.theflow.domain.Company;
  */
 public interface CompanyDao {
     public Company getCompanyById(int id);
-    public void saveCompany(Company company);
+    public int saveCompany(Company company);
+
+    public Company findByName(String companyName);
 }
