@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface UserDao {
     
-    public int saveUserReg(User user);
+    public int saveUser(User user);
     
     public void updateUser(User user);
     

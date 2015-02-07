@@ -30,7 +30,7 @@ public class UserDaoImpl implements UserDao {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public int saveUserReg(User user) {
+    public int saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         sessionFactory.getCurrentSession().save(user);
         return user.getUserId();

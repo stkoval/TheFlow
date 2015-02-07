@@ -18,4 +18,6 @@ import validation.EmailExistsException;
 public interface UserService {
     public int saveUserReg(UserDto userDto) throws EmailExistsException, CompanyExistsException;
     public List<User> getAllUsers();
+
+    public int saveUserEmp(UserDto userDto) throws EmailExistsException;
 }

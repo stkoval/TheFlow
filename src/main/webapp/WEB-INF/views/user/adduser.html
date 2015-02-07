@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>New user</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>
+        <div class="container">
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
+            <!--<div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>-->
+            <div class="span12">
+                <h>
+                    <div th:text="#{label.form.title}"></div>
+                </h>
+                <form th:object="${user}" method="POST" th:action="@{/user/saveuser}" enctype="utf8">
+                    <div>
+                        <table>
+                            <tr>
+                                <td th:text="#{label.user.firstName}"></td>
+                                <td th:field="*{firstName}">
+                                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}"/>
+                                </td>
+                                <td th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name Error</td>
+                            </tr>
+                            <tr>
+                                <td th:text="#{label.user.lastName}"></td>
+                                <td>
+                                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}"/>
+                                </td>
+                                <td th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</td>
+                            </tr>
+                            <tr>
+                                <td th:text="#{label.user.email}"></td>
+                                <td>
+                                    <input type="text" class="form-control" id="email" th:field="*{email}"/>
+                                </td>
+                                <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</td>
+                            </tr>
+                            <tr>
+                                <td th:text="#{label.user.password}"></td>
+                                <td>
+                                    <input type="password" class="form-control" id="password" th:field="*{password}"/>
+                                </td>
+                                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+                            </tr>
+                            <tr>
+                                <td th:text="#{label.user.confirmPass}"></td>
+                                <td>
+                                    <input type="password" class="form-control" id="password" th:field="*{matchingPassword}"/>
+                                </td>
+                                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+                            </tr>
+                        </table>
+                        <!--                        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                                                    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>    
+                                                </div>-->
+                        <button type="submit">
+                            <div th:text="#{label.form.submit}"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        <object th:include="fragments/layout :: script" th:remove="tag"/>
+        </div>
+    </body>
+
+</html>

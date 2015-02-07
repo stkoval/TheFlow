@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.theflow.controller;
 
 import com.theflow.dto.UserDto;
@@ -12,6 +7,7 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,7 +34,7 @@ public class UserController {
 
     @RequestMapping("profile")
     public String showProfile() {
-        return "profile/profile";
+        return "user/profile";
     }
 
     @RequestMapping(value = "user/registration", method = RequestMethod.GET)
@@ -48,8 +44,18 @@ public class UserController {
         model.addObject("user", user);
         return model;
     }
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "user/add", method = RequestMethod.GET)
+    public ModelAndView showAddNewUserForm() {
+        ModelAndView model = new ModelAndView("user/adduser");
+        UserDto user = new UserDto();
+        model.addObject("user", user);
+        return model;
+    }
 
-    @RequestMapping(value = "/user/save", method = RequestMethod.POST)
+    //save account user after registration procees from login page
+    @RequestMapping(value = "/user/saveaccount", method = RequestMethod.POST)
     public ModelAndView registerNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
         logger.debug("Registering user account with information: {}" + userDto);
         if (result.hasErrors()) {
@@ -58,7 +64,7 @@ public class UserController {
 
         logger.debug("No validation errors found. Continuing registration process.");
 
-        String registered = saveNewUser(userDto);
+        String registered = saveNewUserAccount(userDto);
         if (registered.equals("emailExsists")) {
             result.rejectValue("email", "message.emailError");
             return new ModelAndView("signin/registration", "user", userDto);
@@ -70,8 +76,29 @@ public class UserController {
         model.addObject("message", messageSource.getMessage("label.successRegister.title", null, Locale.ENGLISH));
         return model;
     }
+    
+    //add new user to existing company through manage users page by admin user
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/user/saveuser", method = RequestMethod.POST)
+    public ModelAndView addNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
+        logger.debug("Registering user account with information: {}" + userDto);
+        if (result.hasErrors()) {
+            return new ModelAndView("user/adduser", "user", userDto);
+        }
 
-    private String saveNewUser(UserDto userDto) {
+        logger.debug("No validation errors found. Continuing registration process.");
+
+        String registered = saveNewUserAccount(userDto);
+        if (registered.equals("emailExsists")) {
+            result.rejectValue("email", "message.emailError");
+            return new ModelAndView("user/add", "user", userDto);
+        } 
+        ModelAndView model = new ModelAndView("user/manage");
+        model.addObject("message", messageSource.getMessage("label.successAddUser.title", null, Locale.ENGLISH));
+        return model;
+    }
+
+    private String saveNewUserAccount(UserDto userDto) {
         try {
             userService.saveUserReg(userDto);
         } catch (EmailExistsException e) {
@@ -79,6 +106,15 @@ public class UserController {
         } catch (CompanyExistsException ex) {
             return "companyExists";
         }
+        return "success";
+    }
+    
+    private String saveNewUserEmployee(UserDto userDto) {
+        try {
+            userService.saveUserEmp(userDto);
+        } catch (EmailExistsException e) {
+            return "emailExsists";
+        } 
         return "success";
     }
 }

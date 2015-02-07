@@ -28,11 +28,11 @@ KEY (email)
 );
 
 insert into users(company_id, firstname, lastname, email, password) 
-values(1, 'Kurt', 'Cobain', 'KCobain@test.com', '111111');
+values(1, 'Kurt', 'Cobain', 'KCobain@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
 insert into users(company_id, firstname, lastname, email, password) 
-values(1, 'Egor', 'Letov', 'Egorka@test.com', '111111');
+values(1, 'Egor', 'Letov', 'Egorka@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
 insert into users(company_id, firstname, lastname, email, password) 
-values(1, 'Victor', 'Coy', 'Coy@test.com', '111111');
+values(1, 'Victor', 'Coy', 'Coy@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
 
 DROP TABLE IF EXISTS user_roles;
 CREATE TABLE user_roles (
