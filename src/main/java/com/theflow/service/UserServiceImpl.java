@@ -111,4 +111,14 @@ public class UserServiceImpl implements UserService {
         userRoleDao.saveRole(roleUser);
         return userId;
     }
+
+    @Override
+    public void removeUser(int id) {
+        userDao.removeUser(id);
+    }
+
+    @Override
+    public User getUserById(int id) {
+        return userDao.getUserById(id);
+    }
 }

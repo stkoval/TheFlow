@@ -1,5 +1,6 @@
 package com.theflow.controller;
 
+import com.theflow.domain.User;
 import com.theflow.dto.UserDto;
 import com.theflow.service.UserService;
 import java.util.Locale;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -116,5 +118,22 @@ public class UserController {
             return "emailExsists";
         } 
         return "success";
+    }
+    
+    //removes issue from database
+    @RequestMapping(value = "user/remove/{id}", method = RequestMethod.GET)
+    public ModelAndView removeUser(@PathVariable int id) {
+        userService.removeUser(id);
+        return new ModelAndView("redirect:../../home");
+    }
+    
+    @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView editUser(@PathVariable int id) {
+
+        ModelAndView model = new ModelAndView("user/edit");
+        User user = userService.getUserById(id);
+        model.addObject("user", user);
+
+        return model;
     }
 }

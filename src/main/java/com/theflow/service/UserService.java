@@ -20,4 +20,8 @@ public interface UserService {
     public List<User> getAllUsers();
 
     public int saveUserEmp(UserDto userDto) throws EmailExistsException;
+
+    public void removeUser(int id);
+    
+    public User getUserById(int id);
 }
