@@ -11,7 +11,7 @@ $(document).ready(function(e){
 
 	$('.selectpicker').selectpicker();
 	
-	$('#search-issue-top').multiselect({
+	var multifilter = $('#search-issue-top').multiselect({
 		buttonText: function(options, select) {
 			dtable.search( '').columns().search( '' ).draw();
 			if (options.length === 0) { return searchLabel; }
@@ -34,12 +34,14 @@ $(document).ready(function(e){
 					labels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>');
 				}
 
-				if($filter  == 'all') { clearLabels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>'); /*dtable.search( '').columns().search( '' ).draw();*/ }
+				if($filter  == 'all') {
+					clearLabels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>');
+				}
 				else { dtable.column($col).search($filter).draw(); }
 				
 			});
 			if(clearLabels.length > 0) {
-				return searchLabel + ':&nbsp;' + clearLabels.join('&nbsp;') + ' ';				
+				return searchLabel + ':&nbsp;' + clearLabels.join('&nbsp;') + ' ';
 			} else {
 				return searchLabel + ':&nbsp;' + labels.join('&nbsp;') + ' ';
 			}			
