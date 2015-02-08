@@ -73,14 +73,18 @@ public class FlowUserDetailsService implements UserDetailsService {
         private String fullName;
         private int userId;
         private int CompanyId;
+        private String firstName;
+        private String lastName;
 
-        
+
 
         public User(String username, String password, List<GrantedAuthority> authorities, String firstname, String lastname, int userId, boolean enabled, int companyId) {
             super(username, password, enabled, true, true, true, authorities);
             fullName = firstname + " " + lastname;
             this.userId = userId;
             this.CompanyId = companyId;
+            this.firstName = firstname;
+            this.lastName = lastname;
         }
 
 
@@ -116,6 +120,22 @@ public class FlowUserDetailsService implements UserDetailsService {
 
         public void setCompanyId(int CompanyId) {
             this.CompanyId = CompanyId;
+        }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
         }
     }
 }

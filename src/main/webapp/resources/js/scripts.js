@@ -2,7 +2,7 @@ $(document).ready(function(e){
 	
 	var searchLabel =$('#search-issue-top').attr('rel');
 	
-	$('#issuesList').dataTable();
+	var dtable = $('#issuesList').DataTable({"order": [[ 0, 'desc' ]],"bDestroy": true,"searching": true});
 	
 	$('#logtimepicker').datetimepicker({
     	pickDate: false,
@@ -13,14 +13,18 @@ $(document).ready(function(e){
 	
 	$('#search-issue-top').multiselect({
 		buttonText: function(options, select) {
+			dtable.search( '').columns().search( '' ).draw();
 			if (options.length === 0) { return searchLabel; }
 			else {
 				var labels = [];
 				var clearLabels = [];
 				options.each(function() {
 				
-				var labelType = 'label-info';	
-				
+				var labelType = 'label-info';
+
+				var $filter = $(this).val();
+				var $col = $(this).attr('data-col');
+
 				if ($(this).attr('label-type') !== undefined) { labelType = $(this).attr('label-type'); }
 					
 				if ($(this).attr('label') !== undefined) {
@@ -29,8 +33,9 @@ $(document).ready(function(e){
 				else {
 					labels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>');
 				}
-				
-				if($(this).val() == 'all') { clearLabels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>'); }
+
+				if($filter  == 'all') { clearLabels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>'); /*dtable.search( '').columns().search( '' ).draw();*/ }
+				else { dtable.column($col).search($filter).draw(); }
 				
 			});
 			if(clearLabels.length > 0) {

@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
     <head>
         
     </head>
@@ -46,10 +45,10 @@
                                 <div class="col-md-6 col-xs-6">
                                     <select id="search-issue-top" multiple="multiple" rel="<i class='fa fa-search'></i>&nbsp;Search isssues">
                                         <option value="all" label-type="label-primary">All</option>
-                                        <option value="highpriority" label-type="label-success">High priority</option>
-                                        <option value="recent" label-type="label-warning">Recent</option>
-                                        <option value="assigned" label-type="label-danger">Assigned to me</option>
-                                        <option value="extended">Extended search</option>
+                                        <option value="High" data-col="4" label-type="label-success">High priority</option>
+                                        <option value="New" data-col="2" label-type="label-warning">Recent</option>
+                                        <option value="Letov" data-col="5" label-type="label-danger">Assigned to me</option>
+                                        <option value="Bug" data-col="3" label-type="label-danger">Bug</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 col-xs-6">
@@ -124,7 +123,8 @@
             <script src="../../../resources/js/jquery.slimscroll.min.js" type="text/javascript" th:src="@{/resources/js/jquery.slimscroll.min.js}"></script> 
             <script src="../../../resources/js/bootstrap-multiselect.js" type="text/javascript" th:src="@{/resources/js/bootstrap-multiselect.js}"></script>  
             <script src="../../../resources/datatables/js/jquery.dataTables.js" type="text/javascript" th:src="@{/resources/datatables/js/jquery.dataTables.js}"></script>
-            <script src="../../../resources/datatables/bootstrap/3/dataTables.bootstrap.js" type="text/javascript" th:src="@{/resources/datatables/bootstrap/3/dataTables.bootstrap.js}"></script>   
+            <script src="../../../resources/datatables/bootstrap/3/dataTables.bootstrap.js" type="text/javascript" th:src="@{/resources/datatables/bootstrap/3/dataTables.bootstrap.js}"></script>
+            <script src="../../../resources/datatables/bootstrap/3/dataTables.bootstrap.js" type="text/javascript" th:src="@{/resources/datatables/js/fnFilterClear.js}"></script>
             <script src="../../../resources/js/fileinput.js" type="text/javascript" th:src="@{/resources/js/fileinput.js}"></script> 
             <script src="../../../resources/js/moment.js" type="text/javascript" th:src="@{/resources/js/moment.js}"></script>
             <script src="../../../resources/js/bootstrap-datetimepicker.js" type="text/javascript" th:src="@{/resources/js/bootstrap-datetimepicker.js}"></script>
