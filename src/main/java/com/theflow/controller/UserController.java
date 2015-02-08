@@ -75,7 +75,7 @@ public class UserController {
             return new ModelAndView("signin/registration", "user", userDto);
         }
         ModelAndView model = new ModelAndView("signin/login");
-        model.addObject("message", messageSource.getMessage("label.successRegister.title" + " " + userDto.getEmail(), null, Locale.ENGLISH));
+        model.addObject("message", messageSource.getMessage("label.successRegister.title", null, Locale.ENGLISH) + " " + userDto.getEmail());
         return model;
     }
     
