@@ -90,7 +90,7 @@ public class UserController {
 
         logger.debug("No validation errors found. Continuing registration process.");
 
-        String registered = saveNewUserAccount(userDto);
+        String registered = saveNewUserEmployee(userDto);
         if (registered.equals("emailExsists")) {
             result.rejectValue("email", "message.emailError");
             return new ModelAndView("user/add", "user", userDto);

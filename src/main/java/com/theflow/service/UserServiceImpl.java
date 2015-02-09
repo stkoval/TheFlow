@@ -89,19 +89,12 @@ public class UserServiceImpl implements UserService {
                     + userDto.getEmail());
         }
         
-        FlowUserDetailsService.User principal
-                        = (FlowUserDetailsService.User) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
-        
         User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        int companyId = principal.getCompanyId();
-        Company company = companyDao.getCompanyById(companyId);
+        Company company = companyDao.findByName(userDto.getCompanyName());
         user.setCompany(company);
         UserRole roleUser = new UserRole(user, "ROLE_USER");
         user.setEnabled(true);
