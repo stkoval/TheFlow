@@ -136,4 +136,11 @@ public class UserController {
 
         return model;
     }
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "/users/manage", method = RequestMethod.GET)
+    public ModelAndView showManageUsersPage() {
+        ModelAndView model = new ModelAndView("user/manage");
+        return model;
+    }
 }

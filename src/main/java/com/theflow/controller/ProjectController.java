@@ -10,6 +10,7 @@ import com.theflow.service.ProjectService;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,7 +39,8 @@ public class ProjectController {
         return model;
     }
     
-    @RequestMapping(value = "project/manage", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value = "projects/manage", method = RequestMethod.GET)
     public ModelAndView showManageProjectsPage() {
         ModelAndView model = new ModelAndView("project/manage");
         List<Project> projects = projectService.getProjectList();

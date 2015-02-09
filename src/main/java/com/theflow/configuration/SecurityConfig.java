@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signin/registration").permitAll()
                 .antMatchers("/user/saveaccount").permitAll()
                 .anyRequest().authenticated()
+                .and().exceptionHandling().accessDeniedPage("/403")
                 .and()
                 .formLogin().defaultSuccessUrl("/home", true)
                 .loginPage("/login")
