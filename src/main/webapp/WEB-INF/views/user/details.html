@@ -19,6 +19,7 @@ and open the template in the editor.
             <select>User role
                 <option th:each="role : ${roles}" 
                         th:value="${role}" 
+                        th:if="${current_role == role.toString()}" th:selected="true"
                         th:text="${role}">Role</option>
             </select>
         </div>
