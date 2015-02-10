@@ -1,13 +1,18 @@
 package com.theflow.controller;
 
+import com.theflow.dao.UserRoleDao;
 import com.theflow.domain.User;
 import com.theflow.dto.UserDto;
 import com.theflow.service.UserService;
+import helpers.UserRoleConstants;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,6 +20,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
@@ -33,8 +40,11 @@ public class UserController {
 
     @Autowired
     private MessageSource messageSource;
+    
+    @Autowired
+    private UserRoleDao userRoleDao;
 
-    @RequestMapping("profile")
+    @RequestMapping(value="profile", method = RequestMethod.GET)
     public String showProfile() {
         return "user/profile";
     }
@@ -47,7 +57,7 @@ public class UserController {
         return model;
     }
     
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/add", method = RequestMethod.GET)
     public ModelAndView showAddNewUserForm() {
         ModelAndView model = new ModelAndView("user/adduser");
@@ -80,7 +90,7 @@ public class UserController {
     }
     
     //add new user to existing company through manage users page by admin user
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "/user/saveuser", method = RequestMethod.POST)
     public ModelAndView addNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
         logger.debug("Registering user account with information: {}" + userDto);
@@ -121,12 +131,14 @@ public class UserController {
     }
     
     //removes issue from database
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeUser(@PathVariable int id) {
         userService.removeUser(id);
         return new ModelAndView("redirect:../../home");
     }
     
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editUser(@PathVariable int id) {
 
@@ -137,10 +149,31 @@ public class UserController {
         return model;
     }
     
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "/users/manage", method = RequestMethod.GET)
     public ModelAndView showManageUsersPage() {
         ModelAndView model = new ModelAndView("user/manage");
+        List<User> users = userService.getAllUsers();
+        model.addObject("users", users);
         return model;
+    }
+    
+    @PreAuthorize("hasRole('Admin')")
+    @RequestMapping(value = "user/details/{id}", method = RequestMethod.GET)
+    public ModelAndView showUserDetails(@PathVariable int id) {
+        ModelAndView model = new ModelAndView("user/details");
+        User user = userService.getUserById(id);
+        List<UserRoleConstants> roles = Arrays.asList(UserRoleConstants.values());
+        model.addObject("user", user);
+        model.addObject("roles", roles);
+        return model;
+    }
+    
+    @PreAuthorize("hasRole('Admin')")
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(value = "user/changerole/{id}", method = RequestMethod.GET)
+    public void changeUserAuchorities(@RequestParam(value = "role") String role,
+            @PathVariable int id) {
+        userService.changeUserRole(role, id);
     }
 }

@@ -93,7 +93,7 @@ public class FlowUserDetailsService implements UserDetailsService {
         public boolean isAdmin() {
             logger.debug("************inside principle isAdmin method*********auth.length: " + getAuthorities().size());
             for (GrantedAuthority ga : getAuthorities()) {
-                if (ga.getAuthority().equals("ROLE_ADMIN")) {
+                if (ga.getAuthority().equals("Admin")) {
                     return true;
                 }
             }

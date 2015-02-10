@@ -39,7 +39,7 @@ public class ProjectController {
         return model;
     }
     
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "projects/manage", method = RequestMethod.GET)
     public ModelAndView showManageProjectsPage() {
         ModelAndView model = new ModelAndView("project/manage");
