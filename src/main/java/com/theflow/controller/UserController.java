@@ -164,8 +164,10 @@ public class UserController {
         ModelAndView model = new ModelAndView("user/details");
         User user = userService.getUserById(id);
         List<UserRoleConstants> roles = Arrays.asList(UserRoleConstants.values());
+        String currentRole = user.getUserRole().toArray()[0].toString();
         model.addObject("user", user);
         model.addObject("roles", roles);
+        model.addObject("current_role", currentRole);
         return model;
     }
     

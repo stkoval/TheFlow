@@ -33,6 +33,10 @@ public enum UserRoleConstants {
         throw new IllegalArgumentException();
     }
 
+    public String getName() {
+        return name;
+    }
+    
     @Override
     public String toString() {
         return name;
