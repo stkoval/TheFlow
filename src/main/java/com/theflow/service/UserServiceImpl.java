@@ -9,7 +9,6 @@ import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import validation.CompanyExistsException;
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService {
         Company company = new Company(userDto.getCompanyName());
         int companyId = companyDao.saveCompany(company);
         user.setCompany(companyDao.getCompanyById(companyId));
-        UserRole roleAdmin = new UserRole(user, "ROLE_ADMIN");
+        UserRole roleAdmin = new UserRole(user, "Admin");
         user.setEnabled(true);
 
         int userId = userDao.saveUser(user);
@@ -89,21 +88,14 @@ public class UserServiceImpl implements UserService {
                     + userDto.getEmail());
         }
         
-        FlowUserDetailsService.User principal
-                        = (FlowUserDetailsService.User) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
-        
         User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        int companyId = principal.getCompanyId();
-        Company company = companyDao.getCompanyById(companyId);
+        Company company = companyDao.findByName(userDto.getCompanyName());
         user.setCompany(company);
-        UserRole roleUser = new UserRole(user, "ROLE_USER");
+        UserRole roleUser = new UserRole(user, "User");
         user.setEnabled(true);
 
         int userId = userDao.saveUser(user);
@@ -114,11 +106,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUser(int id) {
+        UserRole userRole = userRoleDao.getRoleByUserId(id);
+        userRoleDao.removeRole(userRole);
         userDao.removeUser(id);
     }
 
     @Override
     public User getUserById(int id) {
         return userDao.getUserById(id);
+    }
+
+    //change user role on manage users page
+    @Override
+    public void changeUserRole(String role, int id) {
+        //User user = userDao.getUserById(id);
+        UserRole userRole = userRoleDao.getRoleByUserId(id);
+        userRole.setRole(role);
+        userRoleDao.updateRole(userRole);
     }
 }

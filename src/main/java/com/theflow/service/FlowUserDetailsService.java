@@ -51,7 +51,7 @@ public class FlowUserDetailsService implements UserDetailsService {
     // org.springframework.security.core.userdetails.User
     private User buildUserForAuthentication(com.theflow.domain.User user,
             List<GrantedAuthority> authorities) {
-        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId(), user.isEnabled(), user.getCompany().getCompanyId());
+        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId(), user.isEnabled(), user.getCompany().getCompanyId(), user.getCompany().getName());
     }
 
     private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
@@ -72,26 +72,28 @@ public class FlowUserDetailsService implements UserDetailsService {
         
         private String fullName;
         private int userId;
-        private int CompanyId;
+        private int companyId;
         private String firstName;
         private String lastName;
+        private String companyName;
 
 
 
-        public User(String username, String password, List<GrantedAuthority> authorities, String firstname, String lastname, int userId, boolean enabled, int companyId) {
+        public User(String username, String password, List<GrantedAuthority> authorities, String firstName, String lastName, int userId, boolean enabled, int companyId, String companyName) {
             super(username, password, enabled, true, true, true, authorities);
-            fullName = firstname + " " + lastname;
+            fullName = firstName + " " + lastName;
             this.userId = userId;
-            this.CompanyId = companyId;
-            this.firstName = firstname;
-            this.lastName = lastname;
+            this.companyId = companyId;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.companyName = companyName;
         }
 
 
         public boolean isAdmin() {
             logger.debug("************inside principle isAdmin method*********auth.length: " + getAuthorities().size());
             for (GrantedAuthority ga : getAuthorities()) {
-                if (ga.getAuthority().equals("ROLE_ADMIN")) {
+                if (ga.getAuthority().equals("Admin")) {
                     return true;
                 }
             }
@@ -115,11 +117,11 @@ public class FlowUserDetailsService implements UserDetailsService {
         }
 
         public int getCompanyId() {
-            return CompanyId;
+            return companyId;
         }
 
         public void setCompanyId(int CompanyId) {
-            this.CompanyId = CompanyId;
+            this.companyId = CompanyId;
         }
 
         public String getFirstName() {
@@ -137,5 +139,14 @@ public class FlowUserDetailsService implements UserDetailsService {
         public void setLastName(String lastName) {
             this.lastName = lastName;
         }
+
+        public String getCompanyName() {
+            return companyName;
+        }
+
+        public void setCompanyName(String companyName) {
+            this.companyName = companyName;
+        }
+        
     }
 }

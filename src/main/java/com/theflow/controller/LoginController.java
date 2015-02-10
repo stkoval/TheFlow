@@ -48,9 +48,9 @@ public class LoginController {
         return model;
     }
     
-    @RequestMapping(value = "/403", method = RequestMethod.POST)
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
     public String denied() {
 
-        return "403";
+        return "/signin/403";
     }
 }

@@ -103,11 +103,11 @@ END//
 delimiter;
 
 insert into user_roles(username, user_role)
-values('KCobain@test.com', 'ROLE_USER');
+values('KCobain@test.com', 'User');
 insert into user_roles(username, user_role)
-values('Egorka@test.com', 'ROLE_ADMIN');
+values('Egorka@test.com', 'Admin');
 insert into user_roles(username, user_role)
-values('Coy@test.com', 'ROLE_USER');
+values('Coy@test.com', 'User');
 
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
 values('issue1', 'description', 'TASK', 'NEW', 'HIGH', '1', '1', '1');

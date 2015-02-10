@@ -24,4 +24,6 @@ public interface UserService {
     public void removeUser(int id);
     
     public User getUserById(int id);
+    
+    public void changeUserRole(String role, int id);
 }
