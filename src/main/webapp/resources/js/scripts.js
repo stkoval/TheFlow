@@ -10,41 +10,43 @@ $(document).ready(function(e){
     });
 
 	$('.selectpicker').selectpicker();
-	
-	var multifilter = $('#search-issue-top').multiselect({
+
+	$('#search-issue-top').multiselect({
 		buttonText: function(options, select) {
+			var sValue = $('.dataTables_filter input').val();
 			dtable.search( '').columns().search( '' ).draw();
+			$('.dataTables_filter input').val(sValue);
 			if (options.length === 0) { return searchLabel; }
 			else {
 				var labels = [];
 				var clearLabels = [];
 				options.each(function() {
-				
-				var labelType = 'label-info';
 
-				var $filter = $(this).val();
-				var $col = $(this).attr('data-col');
+					var labelType = 'label-info';
 
-				if ($(this).attr('label-type') !== undefined) { labelType = $(this).attr('label-type'); }
-					
-				if ($(this).attr('label') !== undefined) {
-					labels.push('<span class="label '+labelType+'">'+$(this).attr('label')+'</span>');
-				}
-				else {
-					labels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>');
-				}
+					var $filter = $(this).val();
+					var $col = $(this).attr('data-col');
 
-				if($filter  == 'all') {
-					clearLabels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>');
+					if ($(this).attr('label-type') !== undefined) { labelType = $(this).attr('label-type'); }
+
+					if ($(this).attr('label') !== undefined) {
+						labels.push('<span class="label '+labelType+'">'+$(this).attr('label')+'</span>');
+					}
+					else {
+						labels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>');
+					}
+
+					if($filter  == 'all') { clearLabels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>'); }
+					else { dtable.column($col).search($filter).draw(); $('.dataTables_filter input').val(sValue); }
+
+				});
+				if(clearLabels.length > 0) {
+					dtable.search( '').columns().search( '' ).draw();
+					$('.dataTables_filter input').val(sValue);
+					return searchLabel + ':&nbsp;' + clearLabels.join('&nbsp;') + ' ';
+				} else {
+					return searchLabel + ':&nbsp;' + labels.join('&nbsp;') + ' ';
 				}
-				else { dtable.column($col).search($filter).draw(); }
-				
-			});
-			if(clearLabels.length > 0) {
-				return searchLabel + ':&nbsp;' + clearLabels.join('&nbsp;') + ' ';
-			} else {
-				return searchLabel + ':&nbsp;' + labels.join('&nbsp;') + ' ';
-			}			
 			}
 		}
 	});
