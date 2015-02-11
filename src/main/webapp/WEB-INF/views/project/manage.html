@@ -6,6 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <div>Manage users view</div>
+        <div>
+            <a class="btn" th:href="@{/project/add}">Add</a>
+            <a class="btn" th:href="@{/project/edit} + ${userid}">Remove</a>
+            <a class="btn" th:href="@{/project/remove} + ${userid}">Edit</a>
+        </div>
+        <div>
+            <ul th:each="project : ${projects}">
+                <li th:text="${project.projName}"></li>
+            </ul>
+        </div>
     </body>
 </html>

@@ -78,7 +78,7 @@ creation_date datetime null,
 modification_date datetime null,
 PRIMARY KEY (issue_id),
 FOREIGN KEY (creator_id) REFERENCES users(user_id),
-FOREIGN KEY (project_id) REFERENCES projects(project_id)
+FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE
 );
 
 drop trigger if exists issues_insert;

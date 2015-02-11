@@ -140,7 +140,7 @@ public class IssueController {
     public ModelAndView updateIssue(@ModelAttribute(value = "issue") IssueDto issueDto, BindingResult result) {
 
         issueService.updateIssue(issueDto);
-        return new ModelAndView("redirect:../home");
+        return new ModelAndView("redirect:/home");
     }
 
     @RequestMapping(value = "issue/details/{id}", method = RequestMethod.GET)

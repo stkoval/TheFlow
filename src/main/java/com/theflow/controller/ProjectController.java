@@ -25,12 +25,12 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class ProjectController {
-    
+
     static final Logger logger = Logger.getLogger(ProjectController.class.getName());
-    
+
     @Autowired
     private ProjectService projectService;
-    
+
     @RequestMapping(value = "project/list")
     public ModelAndView getProjectList() {
         List<Project> projects = projectService.getProjectList();
@@ -38,52 +38,58 @@ public class ProjectController {
         model.addObject("projects", projects);
         return model;
     }
-    
+
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "projects/manage", method = RequestMethod.GET)
     public ModelAndView showManageProjectsPage() {
         ModelAndView model = new ModelAndView("project/manage");
         List<Project> projects = projectService.getProjectList();
-        
+
         model.addObject("projects", projects);
-        
-        return model;
-    }
-    
-    @RequestMapping("project/add")
-    public ModelAndView addProjectForm() {
-        ModelAndView model = new ModelAndView("issue/addissue", "project", new Project());
 
         return model;
     }
-    
+
+    @PreAuthorize("hasRole('Admin')")
+    @RequestMapping("project/add")
+    public ModelAndView addProjectForm() {
+        ModelAndView model = new ModelAndView("project/addproject", "project", new Project());
+
+        return model;
+    }
+
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "project/save", method = RequestMethod.POST)
     public ModelAndView saveProject(@ModelAttribute(value = "project") Project project, BindingResult result) {
 
         projectService.saveProject(project);
 
-        return new ModelAndView("redirect: manage");
+        return new ModelAndView("redirect:/projects/manage");
     }
-    
-     @RequestMapping(value = "project/remove/{id}", method = RequestMethod.GET)
+
+    @PreAuthorize("hasRole('Admin')")
+    @RequestMapping(value = "project/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeProject(@PathVariable int id) {
         projectService.removeProject(id);
-        return new ModelAndView("redirect:../manage");
+        return new ModelAndView("redirect:/projects/manage");
     }
-    
+
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "project/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editProject(@PathVariable int id) {
 
         ModelAndView model = new ModelAndView("project/edit");
         Project project = projectService.getProjectById(id);
-        
+        model.addObject("project", project);
+
         return model;
     }
-    
+
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "project/update", method = RequestMethod.POST)
     public ModelAndView updateProject(@ModelAttribute(value = "project") Project project, BindingResult result) {
-        
+
         projectService.updateProject(project);
-        return new ModelAndView("redirect: manage");
+        return new ModelAndView("redirect:/projects/manage");
     }
 }

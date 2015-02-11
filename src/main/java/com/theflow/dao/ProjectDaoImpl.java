@@ -38,10 +38,12 @@ public class ProjectDaoImpl implements ProjectDao{
     @Override
     public void removeProject(int id) {
         Session session = sessionFactory.getCurrentSession();
-        String hql = "delete from Project where projectId = :projectId";
-        Query q = session.createQuery(hql);
-        q.setParameter("projectId", id);
-        q.executeUpdate();
+        Project p = (Project)session.get(Project.class, id);
+//        String hql = "delete from Project where projectId = :projectId";
+//        Query q = session.createQuery(hql);
+//        q.setParameter("projectId", id);
+//        q.executeUpdate();
+        session.delete(p);
     }
 
     @Override
