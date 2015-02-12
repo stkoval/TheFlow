@@ -93,7 +93,7 @@ public class IssueController {
     @RequestMapping(value = "issue/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeIssue(@PathVariable int id) {
         issueService.removeIssue(id);
-        return new ModelAndView("redirect:../../home");
+        return new ModelAndView("redirect:/home/home");
     }
 
     //get all issues related to Company

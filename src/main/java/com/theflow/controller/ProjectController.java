@@ -124,4 +124,13 @@ public class ProjectController {
 //        return new ModelAndView("redirect:/projects/manage");
         return null;
     }
+    
+    @PreAuthorize("hasRole('Admin')")
+    @RequestMapping(value = "project/details/{id}", method = RequestMethod.GET)
+    public ModelAndView showProjectDetails(@PathVariable int id) {
+        Project project = projectService.getProjectById(id);
+        ModelAndView model = new ModelAndView("project/details");
+        model.addObject("project", project);
+        return model;
+    }
 }
