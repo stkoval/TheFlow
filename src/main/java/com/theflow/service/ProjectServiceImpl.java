@@ -9,11 +9,18 @@ import com.theflow.dao.CompanyDao;
 import com.theflow.dao.ProjectDao;
 import com.theflow.domain.Company;
 import com.theflow.domain.Project;
+import com.theflow.dto.ProjectDto;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import validation.ProjectNameExistsException;
 
 /**
  *
@@ -35,7 +42,11 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void saveProject(Project project) {
+    public void saveProject(ProjectDto projectDto) throws ProjectNameExistsException {
+        if (projectNameExists(projectDto.getProjName())) {
+            throw new ProjectNameExistsException("There is a project with that name already added: "
+                    + projectDto.getProjName());
+        }
         FlowUserDetailsService.User principal
                         = (FlowUserDetailsService.User) SecurityContextHolder
                         .getContext()
@@ -43,7 +54,30 @@ public class ProjectServiceImpl implements ProjectService{
                         .getPrincipal();
         int companyId = principal.getCompanyId();
         Company currentCompany  = companyDao.getCompanyById(companyId);
+        Project project = new Project();
+        project.setProjName(projectDto.getProjName());
+        project.setProjDescription(projectDto.getProjDescription());
+        SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
+        Date startDate = null;
+        Date releaseDate = null;
+        if (projectDto.getStartDate() != null || !projectDto.getStartDate().equals("")) {
+            try {
+                startDate = df.parse(projectDto.getStartDate());
+            } catch (ParseException ex) {
+                Logger.getLogger(ProjectServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (projectDto.getReleaseDate() != null || !projectDto.getReleaseDate().equals("")) {
+            try {
+                releaseDate = df.parse(projectDto.getReleaseDate());
+            } catch (ParseException ex) {
+                Logger.getLogger(ProjectServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        project.setStartDate(startDate);
+        project.setReleaseDate(releaseDate);
         project.setCompany(currentCompany);
+        project.setActive(true);
         projectDao.saveProject(project);
     }
 
@@ -58,7 +92,15 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void updateProject(Project project) {
-        projectDao.updateProject(project);
+    public void updateProject(ProjectDto project) {
+//        projectDao.updateProject(project);
+    }
+
+    private boolean projectNameExists(String projName) {
+        Project project = projectDao.findByName(projName);
+        if (project != null) {
+            return true;
+        }
+        return false;
     }
 }

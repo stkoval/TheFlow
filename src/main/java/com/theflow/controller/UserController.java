@@ -103,7 +103,7 @@ public class UserController {
         String registered = saveNewUserEmployee(userDto);
         if (registered.equals("emailExsists")) {
             result.rejectValue("email", "message.emailError");
-            return new ModelAndView("user/add", "user", userDto);
+            return new ModelAndView("/user/adduser", "user", userDto);
         } 
         ModelAndView model = new ModelAndView("user/manage");
         model.addObject("message", messageSource.getMessage("label.successAddUser.title", null, Locale.ENGLISH));
@@ -135,7 +135,7 @@ public class UserController {
     @RequestMapping(value = "user/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeUser(@PathVariable int id) {
         userService.removeUser(id);
-        return new ModelAndView("redirect:../../home");
+        return new ModelAndView("redirect:/home/home");
     }
     
     @PreAuthorize("hasRole('Admin')")

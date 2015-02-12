@@ -1,6 +1,5 @@
 package com.theflow.dto;
 
-import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -17,10 +16,13 @@ public class ProjectDto {
     @NotEmpty
     @Size(min = 2, max = 30)
     private String projName;
+    
     private String projDescription;
-    private int companyId;
-    private Date startDate;
-    private Date releaseDate;
+
+    private String startDate;
+    
+    private String releaseDate;
+    
     private boolean active;
 
     public int getProjectId() {
@@ -47,27 +49,19 @@ public class ProjectDto {
         this.projDescription = projDescription;
     }
 
-    public int getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
-    }
-
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -77,5 +71,10 @@ public class ProjectDto {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectDto{" + "projectId=" + projectId + ", projName=" + projName + '}';
     }
 }
