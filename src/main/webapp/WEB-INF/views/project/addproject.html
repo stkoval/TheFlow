@@ -1,10 +1,14 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
     <head>
-        <title>Edit issue</title>
+        <title>New project</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="image_src" href="/theflow/resources/img/logo.png" />
+
     </head>
     <body>
-        <object th:include="fragments/layout :: styles" th:remove="tag"/>
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
 
         <div id="wrap">        
             <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
@@ -21,7 +25,7 @@
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <h1 class="main-title text-center">Edit project</h1>
+                        <h1 class="main-title text-center">Create project</h1>
                     </div>
                     <div class="col-md-3">
                     </div>
@@ -30,19 +34,11 @@
                 <div class="row">
                     <div class="col-md-12">
 
-                        <form class="form-horizontal issue-full-form"  data-toggle="validator" id="createIssueForm" th:object="${project}" th:action="@{/project/update}" method="post">
-
-                            <div class="form-group">
-                                <label for="name" class="col-sm-2 control-label">ID</label>
-                                <div class="col-sm-10">
-                                    <input type="hidden" class="form-control" id="project_id" placeholder="ID" th:field="*{projectId}"/>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
+                        <form class="form-horizontal issue-full-form"  data-toggle="validator" id="createIssueForm" th:object="${project}" th:action="@{/project/save}" method="post">
                             <div class="form-group">
                                 <label for="name" class="col-sm-2 control-label">Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="project_name" placeholder="Name" th:field="*{projName}"/>
+                                    <input type="text" class="form-control" id="name" placeholder="Name" th:field="*{projName}" required>
                                     <div class="help-block with-errors"></div>
                                     <div class="with-errors" th:if="${#fields.hasErrors('projName')}" th:errors="*{projName}"></div>
                                 </div>
@@ -56,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="start_date" class="col-sm-2 control-label">Start date</label>
+                                <label for="start_date" class="col-sm-2 control-label">Start date:</label>
                                 <div class="col-sm-10">
                                     <input type='text' class="form-control" id="start_date" th:field="*{startDate}"/>
                                     <div class="help-block with-errors"></div>
@@ -64,30 +60,29 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="release_date" class="col-sm-2 control-label">Release date</label>
+                                <label for="release_date" class="col-sm-2 control-label">Release date:</label>
                                 <div class="col-sm-10">
                                     <input type='text' class="form-control" id="release_date" th:field="*{releaseDate}"/>
                                     <div class="help-block with-errors"></div>
                                     <div class="with-errors" th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></div>
                                 </div>
                             </div>
+                            <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-2"> 
-                                    <button type="submit" class="fancy-button medium blueRiver basic nomargin">Save <span class="icon"><i class="fa fa-check-circle"></i></span></button>
+                                    <button type="submit" class="fancy-button medium blueRiver basic nomargin">Create <span class="icon"><i class="fa fa-check-circle"></i></span></button>
                                 </div>
-                            </div>
                         </form>
-
                     </div>           
-                </div>                
+                </div>
             </div>
             <div id="push"></div>
         </div>
 
         <div th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'" th:remove="tag">&nbsp;</div>
 
-        <!--<sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>-->        
-        <object th:include="fragments/layout :: script" th:remove="tag"/>
-        <!--<script th:src="@{/resources/js/createIssueCall.js}"></script>-->
+    <sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>        
+    <object th:include="fragments/layout :: script" th:remove="tag"/>
+    <script th:src="@{/resources/js/createIssueCall.js}"></script>
 
-    </body>
+</body>
 </html>

@@ -6,7 +6,9 @@
 package com.theflow.service;
 
 import com.theflow.domain.Project;
+import com.theflow.dto.ProjectDto;
 import java.util.List;
+import validation.ProjectNameExistsException;
 
 
 /**
@@ -17,11 +19,11 @@ public interface ProjectService {
 
     public List<Project> getProjectList();
 
-    public void saveProject(Project project);
+    public void saveProject(ProjectDto project) throws ProjectNameExistsException;
 
     public void removeProject(int id);
 
     public Project getProjectById(int id);
 
-    public void updateProject(Project project);
+    public void updateProject(ProjectDto project) throws ProjectNameExistsException;
 }

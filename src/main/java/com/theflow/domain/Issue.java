@@ -2,6 +2,7 @@ package com.theflow.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -148,7 +150,8 @@ public class Issue implements Serializable {
     @ManyToOne
     private User creator;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
+    @Cascade({ org.hibernate.annotations.CascadeType.ALL})
     @JoinColumn(name = "project_id")
     private Project project;
 

@@ -93,7 +93,7 @@ public class IssueController {
     @RequestMapping(value = "issue/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeIssue(@PathVariable int id) {
         issueService.removeIssue(id);
-        return new ModelAndView("redirect:../../home");
+        return new ModelAndView("redirect:/home/home");
     }
 
     //get all issues related to Company
@@ -140,7 +140,7 @@ public class IssueController {
     public ModelAndView updateIssue(@ModelAttribute(value = "issue") IssueDto issueDto, BindingResult result) {
 
         issueService.updateIssue(issueDto);
-        return new ModelAndView("redirect:../home");
+        return new ModelAndView("redirect:/home");
     }
 
     @RequestMapping(value = "issue/details/{id}", method = RequestMethod.GET)
