@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.theflow.service;
 
 import com.theflow.dao.CompanyDao;
@@ -92,8 +87,39 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void updateProject(ProjectDto project) {
-//        projectDao.updateProject(project);
+    public void updateProject(ProjectDto projectDto) throws ProjectNameExistsException {
+        Project project = projectDao.getProjectById(projectDto.getProjectId());
+        if (!project.getProjName().equals(projectDto.getProjName())) {
+            
+            if (projectNameExists(projectDto.getProjName())) {
+                throw new ProjectNameExistsException("There is a project with that name already added: "
+                        + projectDto.getProjName());
+            } else {
+                project.setProjName(projectDto.getProjName());
+            }
+        }
+        project.setProjDescription(projectDto.getProjDescription());
+        SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
+        Date startDate = null;
+        Date releaseDate = null;
+        if (projectDto.getStartDate() != null || !projectDto.getStartDate().equals("")) {
+            try {
+                startDate = df.parse(projectDto.getStartDate());
+            } catch (ParseException ex) {
+                Logger.getLogger(ProjectServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (projectDto.getReleaseDate() != null || !projectDto.getReleaseDate().equals("")) {
+            try {
+                releaseDate = df.parse(projectDto.getReleaseDate());
+            } catch (ParseException ex) {
+                Logger.getLogger(ProjectServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        project.setStartDate(startDate);
+        project.setReleaseDate(releaseDate);
+        projectDao.updateProject(project);
     }
 
     private boolean projectNameExists(String projName) {

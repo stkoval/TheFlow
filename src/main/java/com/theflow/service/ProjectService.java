@@ -19,11 +19,11 @@ public interface ProjectService {
 
     public List<Project> getProjectList();
 
-    public void saveProject(ProjectDto project)  throws ProjectNameExistsException;
+    public void saveProject(ProjectDto project) throws ProjectNameExistsException;
 
     public void removeProject(int id);
 
     public Project getProjectById(int id);
 
-    public void updateProject(ProjectDto project);
+    public void updateProject(ProjectDto project) throws ProjectNameExistsException;
 }

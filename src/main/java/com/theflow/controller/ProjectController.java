@@ -35,7 +35,7 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
-    
+
     @Autowired
     private MessageSource messageSource;
 
@@ -69,27 +69,27 @@ public class ProjectController {
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "project/save", method = RequestMethod.POST)
     public ModelAndView saveProject(@ModelAttribute(value = "project") @Valid ProjectDto projectDto, BindingResult result) {
-        
+
         logger.debug("Adding new project with information: {}" + projectDto);
         if (result.hasErrors()) {
             return new ModelAndView("project/addproject", "project", projectDto);
         }
 
         logger.debug("No validation errors found. Continuing adding new project.");
-        
-        String projectSavingStatus = saveNewProjectStatus(projectDto);
+
+        String projectSavingStatus = saveNewProjectAndStatus(projectDto);
 
         if (projectSavingStatus.equals("nameExsists")) {
             result.rejectValue("projName", "message.projectNameError");
             return new ModelAndView("/project/addproject", "project", projectDto);
         }
-        
+
         ModelAndView model = new ModelAndView("/projects/manage");
         model.addObject("message", messageSource.getMessage("label.successAddedProject.title", null, Locale.ENGLISH) + projectDto.getProjName());
         return new ModelAndView("redirect:/projects/manage");
     }
-    
-    private String saveNewProjectStatus(ProjectDto projectDto) {
+
+    private String saveNewProjectAndStatus(ProjectDto projectDto) {
         try {
             projectService.saveProject(projectDto);
         } catch (ProjectNameExistsException e) {
@@ -118,13 +118,24 @@ public class ProjectController {
 
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "project/update", method = RequestMethod.POST)
-    public ModelAndView updateProject(@ModelAttribute(value = "project") ProjectDto projectDto, BindingResult result) {
+    public ModelAndView updateProject(@ModelAttribute(value = "project") @Valid ProjectDto projectDto, BindingResult result) {
 
-        projectService.updateProject(projectDto);
-//        return new ModelAndView("redirect:/projects/manage");
-        return null;
+        if (result.hasErrors()) {
+            return new ModelAndView("project/edit", "project", projectDto);
+        }
+        
+        try {
+            projectService.updateProject(projectDto);
+        } catch (ProjectNameExistsException ex) {
+            result.rejectValue("projName", "message.projectNameError");
+            return new ModelAndView("/project/edit", "project", projectDto);
+        }
+
+        ModelAndView model = new ModelAndView("/projects/manage");
+        model.addObject("message", messageSource.getMessage("label.successUpdatedProject.title", null, Locale.ENGLISH) + projectDto.getProjName());
+        return new ModelAndView("redirect:/project/details/" + projectDto.getProjectId());
     }
-    
+
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "project/details/{id}", method = RequestMethod.GET)
     public ModelAndView showProjectDetails(@PathVariable int id) {
