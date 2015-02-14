@@ -17,6 +17,7 @@ public class ProjectDto {
     @Size(min = 2, max = 30)
     private String projName;
     
+    @Size(max = 1000)
     private String projDescription;
 
     private String startDate;

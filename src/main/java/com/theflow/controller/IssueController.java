@@ -13,6 +13,7 @@ import com.theflow.service.UserService;
 import java.util.List;
 import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,11 +64,11 @@ public class IssueController {
     }
 
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
-    public ModelAndView saveIssue(@ModelAttribute(value = "issue") IssueDto issueDto, BindingResult result) {
+    public ModelAndView saveIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
 
         issueService.saveIssue(issueDto);
 
-        return new ModelAndView("redirect:../home");
+        return new ModelAndView("redirect:/home");
     }
 
     //creating new issue
@@ -93,7 +94,7 @@ public class IssueController {
     @RequestMapping(value = "issue/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeIssue(@PathVariable int id) {
         issueService.removeIssue(id);
-        return new ModelAndView("redirect:/home/home");
+        return new ModelAndView("redirect:/home");
     }
 
     //get all issues related to Company
@@ -109,7 +110,6 @@ public class IssueController {
         List<Project> projects = projectService.getProjectList();
         model.addObject("issues", issues);
 
-        //to delete when ajax will be implemented
         model.addObject("projects", projects);
         return model;
     }
@@ -137,7 +137,7 @@ public class IssueController {
     }
 
     @RequestMapping(value = "issue/update", method = RequestMethod.POST)
-    public ModelAndView updateIssue(@ModelAttribute(value = "issue") IssueDto issueDto, BindingResult result) {
+    public ModelAndView updateIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
 
         issueService.updateIssue(issueDto);
         return new ModelAndView("redirect:/home");
@@ -154,12 +154,12 @@ public class IssueController {
     @RequestMapping(value = "issue/assign/{issue_id}", method = RequestMethod.GET)
     public ModelAndView assignToCurrentUser(@PathVariable int issue_id) {
         issueService.assignToCurrentUser(issue_id);
-        return new ModelAndView("redirect:../../home");
+        return new ModelAndView("redirect:/home");
     }
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, Exception exception) {
-        logger.error("Request: " + req.getRequestURL() + " raised " + exception);
+        logger.error("Request: " + req.getRequestURL() + " exception " + exception);
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", exception);

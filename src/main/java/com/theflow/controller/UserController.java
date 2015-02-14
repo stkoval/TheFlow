@@ -1,10 +1,8 @@
 package com.theflow.controller;
 
-import com.theflow.dao.UserRoleDao;
 import com.theflow.domain.User;
 import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
-import com.theflow.service.FlowUserDetailsService;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
 import java.util.ArrayList;
@@ -12,15 +10,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +37,7 @@ import validation.EmailExistsException;
 @Controller
 public class UserController {
 
-    static final Logger logger = Logger.getLogger(IssueController.class.getName());
+    static final Logger logger = Logger.getLogger(UserController.class.getName());
 
     @Autowired
     private UserService userService;
@@ -185,5 +184,16 @@ public class UserController {
     public void changeUserAuchorities(@RequestParam(value = "role") String role,
             @PathVariable int id) {
         userService.changeUserRole(role, id);
+    }
+    
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleError(HttpServletRequest req, Exception exception) {
+        logger.error("Request: " + req.getRequestURL() + " exception " + exception);
+
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", exception);
+        mav.addObject("url", req.getRequestURL());
+        mav.setViewName("error/error");
+        return mav;
     }
 }
