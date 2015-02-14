@@ -2,18 +2,23 @@ package com.theflow.controller;
 
 import com.theflow.dao.UserRoleDao;
 import com.theflow.domain.User;
+import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
+import com.theflow.service.FlowUserDetailsService;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,12 +46,15 @@ public class UserController {
     @Autowired
     private MessageSource messageSource;
     
-    @Autowired
-    private UserRoleDao userRoleDao;
-
     @RequestMapping(value="profile", method = RequestMethod.GET)
-    public String showProfile() {
-        return "user/profile";
+    public ModelAndView showProfile() {
+        ModelAndView model = new ModelAndView("user/profile");
+        User user = userService.getUserById(userService.getPrinciple().getUserId());
+        Set<UserRole> roles = user.getUserRole();
+        List<UserRole> listRoles = new ArrayList<>(roles);
+        model.addObject("user", user);
+        model.addObject("roles", listRoles);
+        return model;
     }
 
     @RequestMapping(value = "user/registration", method = RequestMethod.GET)
