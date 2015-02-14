@@ -32,22 +32,22 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>TITLE</th>
-                                        <th>STATUS</th>
-                                        <th>TYPE</th>
-                                        <th>PRIORITY</th>
-                                        <th>ASSIGNEE</th>
+                                        <th th:text="#{label.issue.title}">TITLE</th>
+                                        <th th:text="#{label.issue.status}">STATUS</th>
+                                        <th th:text="#{label.issue.type}">TYPE</th>
+                                        <th th:text="#{label.issue.priority}">PRIORITY</th>
+                                        <th th:text="#{label.issue.assignee}">ASSIGNEE</th>
                                     </tr>
                                 </thead>
                                              
                                 <tfoot>
                                     <tr>
                                         <th>ID</th>
-                                        <th>TITLE</th>
-                                        <th>STATUS</th>
-                                        <th>TYPE</th>
-                                        <th>PRIORITY</th>
-                                        <th>ASSIGNEE</th>
+                                        <th th:text="#{label.issue.title}">TITLE</th>
+                                        <th th:text="#{label.issue.status}">STATUS</th>
+                                        <th th:text="#{label.issue.type}">TYPE</th>
+                                        <th th:text="#{label.issue.priority}">PRIORITY</th>
+                                        <th th:text="#{label.issue.assignee}">ASSIGNEE</th>
                                     </tr>
                                 </tfoot>
                              
@@ -58,7 +58,7 @@
                                         <td th:text="${issue.status}">status</td>
                                         <td th:text="${issue.type}">type</td>
                                         <td th:text="${issue.priority}">priority</td>
-                                        <td th:text="${issue.assignee.lastName}">assignee</td>
+                                        <td th:text="${issue.assignee.fullName}">assignee</td>
                                     </tr>
                                 </tbody>
                             </table>    

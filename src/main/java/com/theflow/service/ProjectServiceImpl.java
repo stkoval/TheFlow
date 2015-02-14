@@ -52,7 +52,7 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = new Project();
         project.setProjName(projectDto.getProjName());
         project.setProjDescription(projectDto.getProjDescription());
-        SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
         Date startDate = null;
         Date releaseDate = null;
         if (projectDto.getStartDate() != null || !projectDto.getStartDate().equals("")) {
@@ -99,7 +99,7 @@ public class ProjectServiceImpl implements ProjectService{
             }
         }
         project.setProjDescription(projectDto.getProjDescription());
-        SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
         Date startDate = null;
         Date releaseDate = null;
         if (projectDto.getStartDate() != null || !projectDto.getStartDate().equals("")) {

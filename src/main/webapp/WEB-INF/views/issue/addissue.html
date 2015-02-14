@@ -25,7 +25,7 @@
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <h1 class="main-title text-center">Create issue</h1>
+                        <h1 class="main-title text-center" th:text="#{issue.create.title}">Create issue</h1>
                     </div>
                     <div class="col-md-3">
                     </div>
@@ -36,70 +36,70 @@
             
                         <form class="form-horizontal issue-full-form"  data-toggle="validator" id="createIssueForm" th:object="${issue}" th:action="@{save}" method="post">
                             <div class="form-group">
-                                <label for="title" class="col-sm-2 control-label">Title</label>
+                                <label for="title" class="col-sm-2 control-label" th:text="#{label.issue.title}">Title</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="title" placeholder="Title" th:field="*{title}" required>
                                     <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="description" class="col-sm-2 control-label">Description</label>
+                                <label for="description" class="col-sm-2 control-label" th:text="#{label.issue.description}">Description</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
                                     <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="type" class="col-sm-2 control-label">Type</label>
+                                <label for="type" class="col-sm-2 control-label" th:text="#{label.issue.type}">Type</label>
                                 <div class="col-sm-10">
                                     <select class="selectpicker" id="type" th:field="*{type}" required>
                                         <option th:each="type : ${types}"  th:value="${type}" th:text="${type}"></option>
                                     </select>
                                     <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="priority" class="col-sm-2 control-label">Priority</label>
+                                <label for="priority" class="col-sm-2 control-label" th:text="#{label.issue.priority}">Priority</label>
                                 <div class="col-sm-10">
                                     <select id="priority" class="selectpicker" th:field="*{priority}" required>
                                         <option th:each="priority : ${priorities}"  th:value="${priority}" th:text="${priority}"></option>
                                     </select>
                                     <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="assignee_id" class="col-sm-2 control-label">Assignee_id</label>
+                                <label for="assignee_id" class="col-sm-2 control-label" th:text="#{label.issue.assignee}">Assignee</label>
                                 <div class="col-sm-10">
                                     <select class="selectpicker" id="assignee_id" th:field="*{assigneeId}" required>
                                         <!--<option value="1">1</option>-->
                                         <option th:each="assignee : ${assignees}"  th:value="${assignee.userId}" th:text="${assignee.fullName}"></option>
                                     </select>
                                     <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('assigneeId')}" th:errors="*{assigneeId}"></div>
                                 </div>
                             </div>
-                            <!--<div class="form-group">
-                                <label class="col-sm-2 control-label">Attach files:</label>
-                                <div class="col-sm-10">
-                                    <input id="issue-attachment" class="file" type="file" multiple=true data-preview-file-type="any">
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>-->
                             <div class="form-group">
-                                <label for="project_id" class="col-sm-2 control-label">Project_id</label>
+                                <label for="project_id" class="col-sm-2 control-label" th:text="#{label.issue.project}">Project</label>
                                 <div class="col-sm-10">
                                     <select class="selectpicker" id="project_id" th:field="*{projectId}" required>
                                         <option th:each="project : ${projects}"  th:value="${project.projectId}" th:text="${project.projName}"></option>
                                     </select>
                                     <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('projectId')}" th:errors="*{projectId}"></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="estimated_time" class="col-sm-2 control-label">Estimated time:</label>
+                                <label for="estimated_time" class="col-sm-2 control-label" th:text="#{label.issue.esttime}">Estimated time:</label>
                                 <div class="col-sm-10">
                                     <div class='date' id='issuetimepicker'>
                                         <input type='text' class="form-control" id="estimated_time" th:field="*{estimatedTime}"  required />
                                     </div>
                                     <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('estimatedTime')}" th:errors="*{estimatedTime}"></div>
                                 </div>
                             </div>
                             <div class="form-group">

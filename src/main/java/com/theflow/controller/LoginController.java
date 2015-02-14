@@ -5,14 +5,17 @@
  */
 package com.theflow.controller;
 
+import static com.theflow.controller.IssueController.logger;
 import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
 import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -52,5 +55,16 @@ public class LoginController {
     public String denied() {
 
         return "/signin/403";
+    }
+    
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleError(HttpServletRequest req, Exception exception) {
+        logger.error("Request: " + req.getRequestURL() + " exception " + exception);
+
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", exception);
+        mav.addObject("url", req.getRequestURL());
+        mav.setViewName("error/error");
+        return mav;
     }
 }

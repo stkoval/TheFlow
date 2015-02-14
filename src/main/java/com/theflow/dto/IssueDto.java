@@ -1,6 +1,9 @@
 package com.theflow.dto;
 
 import java.util.Date;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -9,13 +12,22 @@ import java.util.Date;
  */
 public class IssueDto {
     private Integer issueId;
+    
+    @NotNull
+    @NotEmpty
+    @Size(min = 1, max = 50)
     private String title;
+    
+    @Size(max = 1000)
     private String description;
     private String type;
     private String status;
     private String priority;
     private Integer assigneeId;
     private Integer creatorId;
+    
+    @NotNull
+    @NotEmpty
     private Integer projectId;
     private String estimatedTime;
     private String loggedTime;
