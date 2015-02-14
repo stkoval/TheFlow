@@ -39,6 +39,18 @@
                                     <i class="fa fa-paper-plane"></i>&nbsp;<strong class="text-left"><small>the</small><b>Flow</b></strong>
                                 </a>
                             </div>
+                            <sec:authorize access="hasRole('admin')" var="isAdmin">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                        Admin tools
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" th:href="@{/users/manage}">Manage users</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" th:href="@{/projects/manage}">Manage projects</a></li>
+                                    </ul>
+                                </div>
+                            </sec:authorize>
                             
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="top-navbar">
