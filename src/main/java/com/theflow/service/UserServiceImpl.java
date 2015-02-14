@@ -9,6 +9,7 @@ import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import validation.CompanyExistsException;
@@ -123,5 +124,10 @@ public class UserServiceImpl implements UserService {
         UserRole userRole = userRoleDao.getRoleByUserId(id);
         userRole.setRole(role);
         userRoleDao.updateRole(userRole);
+    }
+
+    @Override
+    public FlowUserDetailsService.User getPrinciple() {
+        return (FlowUserDetailsService.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
