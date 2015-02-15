@@ -75,9 +75,7 @@
         
         <div id="sidebar" class="col-md-3 col-xs-12" th:fragment="sidebar">
             <a th:href="@{/issue/add}" class="fancy-button medium blueHole basic">New issue <span class="icon"><i class="fa fa-file"></i></span></a>
-            <a th:href="@{/issue/all}" class="fancy-button medium blueRiver basic">Assign to me <span class="icon"><i class="fa fa-user"></i></span></a>
-            <a th:href="@{/issue/all}" class="fancy-button medium alizarin basic">Remove <span class="icon"><i class="fa fa-times"></i></span></a>
-            <a th:href="@{/issue/all}" class="fancy-button medium esmerald basic">Edit <span class="icon"><i class="fa fa-edit"></i></span></a>
+            <a th:href="@{/issue/all}" class="fancy-button medium blueRiver basic">All issues <span class="icon"><i class="fa fa-user"></i></span></a>
             <div class="well well-sm">
                 <h3>Projects:</h3>
                 <div class="scroll-tree">
@@ -86,7 +84,7 @@
                     </ul>
                 </div>
             </div>
-            <a th:href="@{/project/list}" class="fancy-button medium blueHole basic">New project <span class="icon"><i class="fa fa-asterisk"></i></span></a>
+            <a th:href="@{/project/add}" class="fancy-button medium blueHole basic">New project <span class="icon"><i class="fa fa-asterisk"></i></span></a>
         </div>
         
         <!--/*  Multiple fragments may be defined in one file */-->
