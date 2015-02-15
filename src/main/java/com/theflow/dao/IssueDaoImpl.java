@@ -132,4 +132,13 @@ public class IssueDaoImpl implements IssueDao {
         }
         return (List<Issue>) cr.list();
     }
+
+    @Override
+    public List<Issue> getIssueByProjectId(int projectId) {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria cr = session.createCriteria(Issue.class);
+        cr.add(Restrictions.eq("project.projectId", projectId));
+        
+        return (List<Issue>) cr.list();
+    }
 }

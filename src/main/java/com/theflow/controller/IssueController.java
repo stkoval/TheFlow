@@ -157,6 +157,24 @@ public class IssueController {
         return new ModelAndView("redirect:/home");
     }
 
+    
+    @RequestMapping(value = "issue/byproject/{id}", method = RequestMethod.GET)
+    public ModelAndView getIssuesByProjectId(@PathVariable int id) {
+        ModelAndView model = new ModelAndView("/issue/table");
+        List<Issue> issues = issueService.getIssuesByProjectId(id);
+        if (issues == null) {
+            String message = "There are no issues created";
+            model.addObject("message", message);
+            return model;
+        }
+        List<Project> projects = projectService.getProjectList();
+        model.addObject("issues", issues);
+
+        model.addObject("projects", projects);
+        return model;
+    }
+            
+            
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, Exception exception) {
         logger.error("Request: " + req.getRequestURL() + " exception " + exception);
