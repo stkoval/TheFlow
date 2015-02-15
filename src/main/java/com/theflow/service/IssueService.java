@@ -38,4 +38,6 @@ public interface IssueService {
 
     public void assignToCurrentUser(int sueId);
     
+    public List<Issue> getIssuesByProjectId(int projectId);
+    
 }

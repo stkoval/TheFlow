@@ -207,4 +207,11 @@ public class IssueServiceImpl implements IssueService {
         issue.setAssignee(current);
         issueDao.saveIssue(issue);
     }
+
+    @Override
+    @Transactional
+    public List<Issue> getIssuesByProjectId(int projectId) {
+        List<Issue> issues = issueDao.getIssueByProjectId(projectId);
+        return issues;
+    }
 }
