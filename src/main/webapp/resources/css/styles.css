@@ -323,6 +323,13 @@ button.fancy-button .icon {
   border-top: 1px dotted #bbb;
   padding: 10px; }
 
+#issuesList td {
+  vertical-align: middle; }
+
+.tools-cell {
+  width: 60px;
+  padding: 0px; }
+
 #wrap {
   min-height: 100%;
   min-height: 100vh;

@@ -37,6 +37,7 @@
                                         <th th:text="#{label.issue.type}">TYPE</th>
                                         <th th:text="#{label.issue.priority}">PRIORITY</th>
                                         <th th:text="#{label.issue.assignee}">ASSIGNEE</th>
+                                        <th class="tools-cell">Tools</th>
                                     </tr>
                                 </thead>
                                              
@@ -48,17 +49,30 @@
                                         <th th:text="#{label.issue.type}">TYPE</th>
                                         <th th:text="#{label.issue.priority}">PRIORITY</th>
                                         <th th:text="#{label.issue.assignee}">ASSIGNEE</th>
+                                        <th class="tools-cell">Tools</th>
                                     </tr>
                                 </tfoot>
                              
                                 <tbody>
                                     <tr th:each="issue : ${issues}">
                                         <td th:text="${issue.issueId}">id</td>
-                                        <td th:text="${issue.title}">title</td>
+                                        <td><a th:href="@{/issue/detail(id=${issue.issueId})}" th:text="${issue.title}">name</a></td>
                                         <td th:text="${issue.status}">status</td>
                                         <td th:text="${issue.type}">type</td>
                                         <td th:text="${issue.priority}">priority</td>
                                         <td th:text="${issue.assignee.fullName}">assignee</td>
+                                        <td class="tools-cell">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueHole basic" data-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa fa-cog"></i> <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">Action</a></li>
+                                                    <li><a href="#">Another action</a></li>
+                                                    <li><a href="#">Something else here</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>    

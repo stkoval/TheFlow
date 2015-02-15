@@ -18,7 +18,7 @@
 
                     <div id="main" class="col-md-9 col-xs-12">
 
-                        <h1 class="main-title text-center">Welcome <div th:text="${#authentication.principal.fullName}">username</div></h1>
+                        <h1 class="main-title text-center">Welcome <span th:text="${#authentication.principal.fullName}">username</span></h1>
 
                         <div th:replace="issue/table :: issue-list">&nbsp;</div>
 
