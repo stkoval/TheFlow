@@ -56,7 +56,7 @@
                                 <tbody>
                                     <tr th:each="issue : ${issues}">
                                         <td th:text="${issue.issueId}">id</td>
-                                        <td><a th:href="@{/issue/detail(id=${issue.issueId})}" th:text="${issue.title}">name</a></td>
+                                        <td><a th:href="@{'/issue/details/' + ${issue.issueId}}" th:text="${issue.title}">name</a></td>
                                         <td th:text="${issue.status}">status</td>
                                         <td th:text="${issue.type}">type</td>
                                         <td th:text="${issue.priority}">priority</td>
@@ -67,9 +67,9 @@
                                                     <i class="fa fa-cog"></i> <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
-                                                    <li><a href="#">Action</a></li>
-                                                    <li><a href="#">Another action</a></li>
-                                                    <li><a href="#">Something else here</a></li>
+                                                    <li><a href="#" th:href="@{'/issue/edit/' + ${issue.issueId}}">Edit</a></li>
+                                                    <li><a href="#" th:href="@{'/issue/assign/' + ${issue.issueId}}">Assign to me</a></li>
+                                                    <li><a href="#" th:href="@{'/issue/remove/' + ${issue.issueId}}">Remove</a></li>
                                                 </ul>
                                             </div>
                                         </td>
