@@ -27,7 +27,6 @@ public class IssueDto {
     private Integer creatorId;
     
     @NotNull
-    @NotEmpty
     private Integer projectId;
     private String estimatedTime;
     private String loggedTime;
