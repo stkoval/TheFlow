@@ -3,11 +3,17 @@ package com.theflow.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theflow.domain.Issue;
-import com.theflow.dto.IssueDTO;
-import com.theflow.dto.IssueSearchCriteria;
+import com.theflow.domain.Project;
+import com.theflow.domain.User;
+import com.theflow.dto.IssueDto;
+import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.IssueService;
+import com.theflow.service.ProjectService;
+import com.theflow.service.UserService;
 import java.util.List;
 import java.util.logging.Level;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,26 +39,20 @@ public class IssueController {
     @Autowired
     private IssueService issueService;
 
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private UserService userService;
+
     //searching issue header smart search
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "issues/search")
-    public String searchIssues(@RequestParam(value = "new") boolean statusNew,
-            @RequestParam(value = "to_me") boolean toMe,
-            @RequestParam(value = "high") boolean high,
-            @RequestParam(value = "task") boolean task,
-            @RequestParam(value = "bug") boolean bug,
-            @RequestParam(value = "all") boolean all,
-            @RequestParam(value = "project_id") int projectId
+    public String searchIssues(@RequestParam(value = "filter", required = false) String[] filter,
+            @RequestParam(value = "project_id", required = false) Integer projectId
     ) {
-        List<IssueDTO> issues = issueService.searchIssues(new IssueSearchCriteria(statusNew, toMe, high, task, bug, all, projectId));
-//        ModelAndView model = new ModelAndView("issue/table");
-//        if (issues == null) {
-//            String message = "There are no requested issues found";
-//            model.addObject("message", message);
-//            return model;
-//        }
+        List<IssueDto> issues = issueService.searchIssues(new IssueSearchParams(filter, projectId));
 
-//        model.addObject("issues", issues);
         String issuesString = "";
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -61,25 +63,38 @@ public class IssueController {
         return issuesString;
     }
 
-    //creating new issue
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute(value = "issue") IssueDTO issueDTO, BindingResult result) {
+    public ModelAndView saveIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
 
-        issueService.saveIssue(issueDTO);
+        issueService.saveIssue(issueDto);
 
-        return "home/home";
+        return new ModelAndView("redirect:/home");
     }
 
-    //show issue creation page
+    //creating new issue
     @RequestMapping("issue/add")
-    public ModelAndView addIssueForm() {
-        return new ModelAndView("issue/addissue", "issue", new IssueDTO());
+    public ModelAndView showCreateIssueForm() {
+        ModelAndView model = new ModelAndView("issue/addissue", "issue", new IssueDto());
+        List<String> types = issueService.getIssueTypes();
+        List<String> statuses = issueService.getIssueStatuses();
+        List<String> priorities = issueService.getIssuePriorities();
+        List<User> assignees = userService.getAllUsers();
+        List<Project> projects = projectService.getProjectList();
+
+        model.addObject("statuses", statuses);
+        model.addObject("types", types);
+        model.addObject("priorities", priorities);
+        model.addObject("assignees", assignees);
+        model.addObject("projects", projects);
+
+        return model;
     }
 
     //removes issue from database
-    @RequestMapping("issue/remove/{id}")
-    public void removeIssue(@RequestParam int id) {
+    @RequestMapping(value = "issue/remove/{id}", method = RequestMethod.GET)
+    public ModelAndView removeIssue(@PathVariable int id) {
         issueService.removeIssue(id);
+        return new ModelAndView("redirect:/home");
     }
 
     //get all issues related to Company
@@ -92,7 +107,64 @@ public class IssueController {
             model.addObject("message", message);
             return model;
         }
+        List<Project> projects = projectService.getProjectList();
         model.addObject("issues", issues);
+
+        model.addObject("projects", projects);
         return model;
+    }
+
+    @RequestMapping(value = "issue/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView editIssue(@PathVariable int id) {
+
+        ModelAndView model = new ModelAndView("issue/edit");
+        Issue issue = issueService.getIssueById(id);
+        List<String> types = issueService.getIssueTypes();
+        List<String> statuses = issueService.getIssueStatuses();
+        List<String> priorities = issueService.getIssuePriorities();
+        List<User> users = userService.getAllUsers();
+        List<Project> projects = projectService.getProjectList();
+        IssueDto issueDto = issueService.populateIssueDtoFildsFromIssue(issue, id);
+
+        model.addObject("statuses", statuses);
+        model.addObject("types", types);
+        model.addObject("priorities", priorities);
+        model.addObject("users", users);
+        model.addObject("projects", projects);
+        model.addObject("issue", issueDto);
+
+        return model;
+    }
+
+    @RequestMapping(value = "issue/update", method = RequestMethod.POST)
+    public ModelAndView updateIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
+
+        issueService.updateIssue(issueDto);
+        return new ModelAndView("redirect:/home");
+    }
+
+    @RequestMapping(value = "issue/details/{id}", method = RequestMethod.GET)
+    public ModelAndView showIssueDetails(@PathVariable int id) {
+        ModelAndView model = new ModelAndView("issue/details");
+        Issue issue = issueService.getIssueById(id);
+        model.addObject("issue", issue);
+        return model;
+    }
+
+    @RequestMapping(value = "issue/assign/{issue_id}", method = RequestMethod.GET)
+    public ModelAndView assignToCurrentUser(@PathVariable int issue_id) {
+        issueService.assignToCurrentUser(issue_id);
+        return new ModelAndView("redirect:/home");
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleError(HttpServletRequest req, Exception exception) {
+        logger.error("Request: " + req.getRequestURL() + " exception " + exception);
+
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", exception);
+        mav.addObject("url", req.getRequestURL());
+        mav.setViewName("error/error");
+        return mav;
     }
 }

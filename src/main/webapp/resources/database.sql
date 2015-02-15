@@ -20,18 +20,19 @@ user_id int(11) not null auto_increment,
 firstname varchar(40) not null,
 lastname varchar(40) not null,
 email varchar(255) not null UNIQUE,
-password varchar(20) not null,
+password varchar(60) not null,
 enabled TINYINT NOT NULL DEFAULT 1,
 PRIMARY KEY (user_id),
+FOREIGN KEY (company_id) REFERENCES companies(company_id),
 KEY (email)
 );
 
 insert into users(company_id, firstname, lastname, email, password) 
-values(1, 'Kurt', 'Cobain', 'KCobain@test.com', '111111');
+values(1, 'Kurt', 'Cobain', 'KCobain@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
 insert into users(company_id, firstname, lastname, email, password) 
-values(1, 'Egor', 'Letov', 'Egorka@test.com', '111111');
+values(1, 'Egor', 'Letov', 'Egorka@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
 insert into users(company_id, firstname, lastname, email, password) 
-values(1, 'Victor', 'Coy', 'Coy@test.com', '111111');
+values(1, 'Victor', 'Coy', 'Coy@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
 
 DROP TABLE IF EXISTS user_roles;
 CREATE TABLE user_roles (
@@ -49,13 +50,16 @@ project_id int not null auto_increment,
 name varchar(100) not null,
 company_id int(11) not null,
 description text,
+start_date datetime null,
+release_date datetime null,
+active TINYINT NOT NULL DEFAULT 1,
 PRIMARY KEY (project_id)
 );
 
-insert into projects(name, company_id, description) 
-values('TestProject1', 1, 'This is a test project');
-insert into projects(name, company_id, description) 
-values('TestProject2', 1, 'This is a test project');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('TestProject1', 1, 'This is a test project', '11.11.15', '12.12.16');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('TestProject2', 1, 'This is a test project', '11.11.15', '12.12.16');
 
 DROP TABLE IF EXISTS issues;
 create table issues (
@@ -74,7 +78,7 @@ creation_date datetime null,
 modification_date datetime null,
 PRIMARY KEY (issue_id),
 FOREIGN KEY (creator_id) REFERENCES users(user_id),
-FOREIGN KEY (project_id) REFERENCES projects(project_id)
+FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE
 );
 
 drop trigger if exists issues_insert;
@@ -99,11 +103,11 @@ END//
 delimiter;
 
 insert into user_roles(username, user_role)
-values('KCobain@test.com', 'ROLE_USER');
+values('KCobain@test.com', 'User');
 insert into user_roles(username, user_role)
-values('Egorka@test.com', 'ROLE_ADMIN');
+values('Egorka@test.com', 'Admin');
 insert into user_roles(username, user_role)
-values('Coy@test.com', 'ROLE_USER');
+values('Coy@test.com', 'User');
 
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
 values('issue1', 'description', 'TASK', 'NEW', 'HIGH', '1', '1', '1');

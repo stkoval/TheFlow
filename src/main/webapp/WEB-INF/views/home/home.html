@@ -1,36 +1,38 @@
-<html>
-
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
     <head>
         <title>Welcome!</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
-        <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+
     </head>
     <body>
-        <div th:replace="fragments/header :: header">&nbsp;</div>
-        <div class="container">
-            <!--/* Handle the flash task */-->
-            <p>
-                Welcome to the Spring MVC + Thymeleaf application!
-                <span sec:authentication="name">bob</span>
-            <p>
-            <form class="form-inline" method="get" th:action="@{issue/all}">
-                <button type="submit" class="btn btn-primary btn-lg">GET ISSUES</button>
-            </form>
-            <form class="form-inline" method="get" th:action="@{issue/add}">
-                <button type="submit" class="btn btn-primary btn-lg">ADD ISSUES</button>
-            </form>
-            <form class="form-inline" method="get" th:action="@{project/list}">
-                <button type="submit" class="btn btn-primary btn-lg">GET PROJECTS</button>
-            </form>
-        </p>
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
 
+        <div id="wrap">        
+            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
 
-    </p>
-    <sec:authorize access="hasRole('admin')" var="isAdmin">
-        <!--<div th:replace="fragments/footer :: ${authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'">&copy; 2013 The Static Templates</div>-->
-</div>
+            <div class="container main-content">
+                <div class="row">
+
+                    <div th:replace="fragments/layout :: sidebar">&nbsp;</div>
+
+                    <div id="main" class="col-md-9 col-xs-12">
+
+                        <h1 class="main-title text-center">Welcome <span th:text="${#authentication.principal.fullName}">username</span></h1>
+
+                        <div th:replace="issue/table :: issue-list">&nbsp;</div>
+
+                    </div>
+
+                </div> 
+            </div>
+            <div id="push"></div>
+        </div>
+
+        <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
+
+    <sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>        
+    <object th:include="fragments/layout :: script" th:remove="tag"/>
+
 </body>
 </html>

@@ -1,7 +1,9 @@
 package com.theflow.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -32,7 +37,19 @@ public class Project implements Serializable {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
-    
+
+    @Column(name = "start_date")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date startDate;
+
+    @Column(name = "release_date")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date releaseDate;
+
+    @Column(name = "active", columnDefinition = "TINYINT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean active;
+
     public Project() {
     }
 
@@ -77,6 +94,30 @@ public class Project implements Serializable {
         return hash;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -96,5 +137,10 @@ public class Project implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" + "projectId=" + projectId + ", projName=" + projName + ", company=" + company + ", startDate=" + startDate + ", releaseDate=" + releaseDate + ", active=" + active + '}';
     }
 }

@@ -1,17 +1,21 @@
 package com.theflow.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -19,36 +23,42 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "users")
-public class User  implements Serializable{
-    
+public class User implements Serializable {
+
     @Id
     @GeneratedValue
     @Column(name = "user_id")
     private int userId;
-    
+
     @Column(name = "firstname")
     private String firstName;
-    
+
     @Column(name = "lastname")
     private String lastName;
-    
+
     @Column(name = "email")
     private String email;
-    
+
     @Column(name = "password")
     private String password;
     
+    @Formula("concat(firstname, ' ', lastname)")
+    private String fullName;
+
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
-    
+
+    @Column(name = "enabled", columnDefinition = "TINYINT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
-    
-    @OneToMany(mappedBy = "user")
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserRole> userRole;
-    
+
     @OneToMany(mappedBy = "assignee")
     private List<Issue> assignedIssues;
+
     public User() {
     }
 
@@ -93,6 +103,9 @@ public class User  implements Serializable{
     }
 
     public Set<UserRole> getUserRole() {
+        if (userRole == null) {
+            return new HashSet<>();
+        }
         return userRole;
     }
 
@@ -107,7 +120,7 @@ public class User  implements Serializable{
     public void setAssignedIssues(List<Issue> assignedIssues) {
         this.assignedIssues = assignedIssues;
     }
-    
+
     public Company getCompany() {
         return company;
     }
@@ -124,6 +137,15 @@ public class User  implements Serializable{
         this.enabled = enabled;
     }
     
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName() {
+        this.fullName = this.firstName + " " + this.lastName;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;

@@ -6,6 +6,7 @@
 package com.theflow.dao;
 
 import com.theflow.domain.User;
+import java.util.List;
 
 /**
  *
@@ -13,7 +14,7 @@ import com.theflow.domain.User;
  */
 public interface UserDao {
     
-    public void saveUserReg(User user);
+    public int saveUser(User user);
     
     public void updateUser(User user);
     
@@ -24,4 +25,6 @@ public interface UserDao {
     public User findByEmail(String email);
     
     public User getCurrentUser();
+    
+    public List<User> getAllUsers();
 }

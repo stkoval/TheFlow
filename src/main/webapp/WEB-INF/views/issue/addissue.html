@@ -1,67 +1,123 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
     <head>
         <title>New issue</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="/theFlow/resources/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/theFlow/resources/css/styles.css" rel="stylesheet">
+        <link rel="image_src" href="/theflow/resources/img/logo.png" />
+        
     </head>
     <body>
-        <form class="form-horizontal" id="createIssueForm" th:object="${issue}" th:action="@{save}" method="post">
-            <h1 style="margin-left:50%">Create issue</h1>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Title</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="title" placeholder="Title" th:field="*{title}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Description</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="description" placeholder="Description" th:field="*{description}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Type</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="type" placeholder="Type" th:field="*{type}">
-                </div>
-            </div>
+    	<object th:include="fragments/layout :: styles" th:remove="tag" />
 
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Priority</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="priority" placeholder="Priority" th:field="*{priority}">
+    	<div id="wrap">        
+            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
+            
+            <div class="container main-content">
+            
+                <div class="row">
+                    <div class="col-md-3 nav-col text-left">
+                        <a th:href="@{/issue/all}" class="fancy-button medium blueRiver icon basic">
+                            <span class="icon pull-left">
+                                <i class="fa fa-chevron-left"></i>
+                            </span>
+                            &nbsp;Back
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="main-title text-center" th:text="#{issue.create.title}">Create issue</h1>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+            
+                        <form class="form-horizontal issue-full-form"  data-toggle="validator" id="createIssueForm" th:object="${issue}" th:action="@{save}" method="post">
+                            <div class="form-group">
+                                <label for="title" class="col-sm-2 control-label" th:text="#{label.issue.title}">Title</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="title" placeholder="Title" th:field="*{title}" required>
+                                    <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="description" class="col-sm-2 control-label" th:text="#{label.issue.description}">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+                                    <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="type" class="col-sm-2 control-label" th:text="#{label.issue.type}">Type</label>
+                                <div class="col-sm-10">
+                                    <select class="selectpicker" id="type" th:field="*{type}" required>
+                                        <option th:each="type : ${types}"  th:value="${type}" th:text="${type}"></option>
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="priority" class="col-sm-2 control-label" th:text="#{label.issue.priority}">Priority</label>
+                                <div class="col-sm-10">
+                                    <select id="priority" class="selectpicker" th:field="*{priority}" required>
+                                        <option th:each="priority : ${priorities}"  th:value="${priority}" th:text="${priority}"></option>
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="assignee_id" class="col-sm-2 control-label" th:text="#{label.issue.assignee}">Assignee</label>
+                                <div class="col-sm-10">
+                                    <select class="selectpicker" id="assignee_id" th:field="*{assigneeId}" required>
+                                        <!--<option value="1">1</option>-->
+                                        <option th:each="assignee : ${assignees}"  th:value="${assignee.userId}" th:text="${assignee.fullName}"></option>
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('assigneeId')}" th:errors="*{assigneeId}"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="project_id" class="col-sm-2 control-label" th:text="#{label.issue.project}">Project</label>
+                                <div class="col-sm-10">
+                                    <select class="selectpicker" id="project_id" th:field="*{projectId}" required>
+                                        <option th:each="project : ${projects}"  th:value="${project.projectId}" th:text="${project.projName}"></option>
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('projectId')}" th:errors="*{projectId}"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="estimated_time" class="col-sm-2 control-label" th:text="#{label.issue.esttime}">Estimated time:</label>
+                                <div class="col-sm-10">
+                                    <div class='date' id='issuetimepicker'>
+                                        <input type='text' class="form-control" id="estimated_time" th:field="*{estimatedTime}"  required />
+                                    </div>
+                                    <div class="help-block with-errors"></div>
+                                    <div class="with-errors" th:if="${#fields.hasErrors('estimatedTime')}" th:errors="*{estimatedTime}"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10 col-sm-offset-2"> 
+                                <button type="submit" class="fancy-button medium blueRiver basic nomargin">Create <span class="icon"><i class="fa fa-check-circle"></i></span></button>
+                            </div>
+                        </form>
+                    </div>           
                 </div>
             </div>
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Assignee_id</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="assignee_id" placeholder="Assignee_id" th:field="*{assignee_id}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Project_id</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="project_id" placeholder="Project_id" th:field="*{project_id}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Estimated_time</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="estimated_time" placeholder="Estimated_time" th:field="*{estimated_time}">
-                </div>
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-
-        <script src="/theFlow/resources/js/createIssueCall.js"></script>
-        <script src="/theFlow/resources/js/jquery-1.11.1.js"></script>
+        	<div id="push"></div>
+        </div>
+        
+        <div th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'" th:remove="tag">&nbsp;</div>
+        
+        <sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>        
+        <object th:include="fragments/layout :: script" th:remove="tag"/>
+        <script th:src="@{/resources/js/createIssueCall.js}"></script>
+    
     </body>
 </html>

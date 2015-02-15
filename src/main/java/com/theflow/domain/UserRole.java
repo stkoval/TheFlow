@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.theflow.domain;
 
 import java.io.Serializable;
@@ -23,7 +18,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "user_roles", uniqueConstraints = @UniqueConstraint(columnNames = {"user_role", "username"}))
-public class UserRole implements Serializable{
+public class UserRole implements Serializable {
 
     private Integer userRoleId;
     private User user;
@@ -66,5 +61,10 @@ public class UserRole implements Serializable{
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return role;
     }
 }

@@ -20,7 +20,9 @@ public interface ProjectDao {
     
     public void removeProject(int id);
     
-    public Project getProject(int id);
+    public Project getProjectById(int id);
 
     public List<Project> getProjectList();
+
+    public Project findByName(String projName);
 }

@@ -6,8 +6,8 @@
 package com.theflow.service;
 
 import com.theflow.domain.Issue;
-import com.theflow.dto.IssueDTO;
-import com.theflow.dto.IssueSearchCriteria;
+import com.theflow.dto.IssueDto;
+import com.theflow.dto.IssueSearchParams;
 import java.util.List;
 
 /**
@@ -16,14 +16,26 @@ import java.util.List;
  */
 public interface IssueService {
 
-    public List<IssueDTO> searchIssues(IssueSearchCriteria criteria);
+    public List<IssueDto> searchIssues(IssueSearchParams criteria);
 
-    public void saveIssue(IssueDTO issueDTO);
+    public void saveIssue(IssueDto issueDto);
     
-    public void editIssue(int issue_id, IssueDTO issueDTO);
-
     public void removeIssue(int id);
     
+    public Issue getIssueById(int id);
+    
+    public void updateIssue(IssueDto issueDto);
+    
     public List<Issue> getAllIssues();
+    
+    public List<String> getIssueTypes();
+    
+    public List<String> getIssueStatuses();
+    
+    public List<String> getIssuePriorities();
+    
+    public IssueDto populateIssueDtoFildsFromIssue(Issue issue, int id);
+
+    public void assignToCurrentUser(int sueId);
     
 }

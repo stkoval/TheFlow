@@ -30,7 +30,23 @@
             <groupId>org.springframework</groupId>  
             <artifactId>spring-orm</artifactId>  
             <version>${spring.version}</version>  
-        </dependency>  
+        </dependency> 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.1</version>
+        </dependency>
+ 
         <dependency>  
             <groupId>org.springframework</groupId>  
             <artifactId>spring-jdbc</artifactId>  
@@ -106,6 +122,18 @@
             <artifactId>thymeleaf-layout-dialect</artifactId>
             <version>1.2.7</version>
         </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.0.0.GA</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.2.0.Final</version>
+        </dependency>
+
     </dependencies>
 
 

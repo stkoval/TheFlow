@@ -2,6 +2,7 @@ package com.theflow.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -22,17 +25,98 @@ public class Issue implements Serializable {
 
     public static enum IssueType {
 
-        TASK, BUG
+        TASK("Task"),
+        BUG("Bug");
+
+        private final String name;
+
+        private IssueType(String s) {
+            name = s;
+        }
+
+        public boolean equalsString(String otherName) {
+            return (otherName == null) ? false : name.equals(otherName);
+        }
+
+        public static IssueType getEnum(String value) {
+            for (IssueType v : values()) {
+                if ((v.name).equalsIgnoreCase(value)) {
+                    return v;
+                }
+            }
+            throw new IllegalArgumentException();
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     public static enum IssueStatus {
 
-        NEW, INPROGRESS, TESTINGREADY, TESTING, REVIEW, RESOLVED, ONHOLD
+        NEW("New"),
+        INPROGRESS("In progress"),
+        TESTINGREADY("Ready for testing"),
+        TESTING("Testing"),
+        REVIEW("Review"),
+        RESOLVED("Resolved"),
+        ONHOLD("On hold");
+
+        private final String name;
+
+        private IssueStatus(String s) {
+            name = s;
+        }
+
+        public boolean equalsString(String otherName) {
+            return (otherName == null) ? false : name.equals(otherName);
+        }
+        
+        public static IssueStatus getEnum(String value) {
+            for (IssueStatus v : values()) {
+                if ((v.name).equalsIgnoreCase(value)) {
+                    return v;
+                }
+            }
+            throw new IllegalArgumentException();
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     public static enum IssuePriority {
 
-        HIGH, MEDIUM, LOW
+        HIGH("High"),
+        MEDIUM("Medium"),
+        LOW("Low");
+
+        private final String name;
+
+        private IssuePriority(String s) {
+            name = s;
+        }
+
+        public boolean equalsString(String otherName) {
+            return (otherName == null) ? false : name.equals(otherName);
+        }
+        
+        public static IssuePriority getEnum(String value) {
+            for (IssuePriority v : values()) {
+                if ((v.name).equalsIgnoreCase(value)) {
+                    return v;
+                }
+            }
+            throw new IllegalArgumentException();
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     @Id
@@ -66,7 +150,8 @@ public class Issue implements Serializable {
     @ManyToOne
     private User creator;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
+    @Cascade({ org.hibernate.annotations.CascadeType.ALL})
     @JoinColumn(name = "project_id")
     private Project project;
 
@@ -77,9 +162,11 @@ public class Issue implements Serializable {
     private String loggedTime;
 
     @Column(name = "creation_date")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date creationDate;
 
     @Column(name = "modification_date")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date lastModificationDate;
 
     public Issue() {

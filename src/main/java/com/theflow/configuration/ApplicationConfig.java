@@ -5,21 +5,29 @@
  */
 package com.theflow.configuration;
 
+import java.util.Locale;
 import java.util.Properties;
 import org.hibernate.SessionFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.Ordered;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import validation.EmailValidator;
+import validation.PasswordMatchesValidator;
 
 /**
  *
@@ -31,7 +39,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableTransactionManagement
 @Import({SecurityConfig.class, ThymeleafConfig.class})
 public class ApplicationConfig extends WebMvcConfigurerAdapter {
-    
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("signin/login");
@@ -74,7 +82,39 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
     //Create a transaction manager
     @Bean
-    public HibernateTransactionManager txManager() {
+    public HibernateTransactionManager transactionManager() {
         return new HibernateTransactionManager(sessionFactory());
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
+        cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
+        return cookieLocaleResolver;
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:messages");
+        messageSource.setUseCodeAsDefaultMessage(true);
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(0);
+        return messageSource;
+    }
+    
+    @Bean
+    public EmailValidator usernameValidator() {
+        return new EmailValidator();
+    }
+
+    @Bean
+    public PasswordMatchesValidator passwordMatchesValidator() {
+        return new PasswordMatchesValidator();
     }
 }

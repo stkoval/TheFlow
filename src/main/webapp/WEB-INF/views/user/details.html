@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
+        <div class="col-md-9">
+            <h3 class="issue-title" th:text="${user.fullName}">Full Name</h3>
+            <h3 class="issue-title" th:text="${user.email}">Email</h3>
+            <h3 class="issue-title" th:text="${user.company.name}">Company</h3>
+            <select>User role
+                <option th:each="role : ${roles}" 
+                        th:value="${role}" 
+                        th:if="${current_role == role.toString()}" th:selected="true"
+                        th:text="${role}">Role</option>
+            </select>
+        </div>
+    </body>
+</html>
