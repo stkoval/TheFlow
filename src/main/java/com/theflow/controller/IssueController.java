@@ -129,7 +129,7 @@ public class IssueController {
         model.addObject("statuses", statuses);
         model.addObject("types", types);
         model.addObject("priorities", priorities);
-        model.addObject("users", users);
+        model.addObject("assignees", users);
         model.addObject("projects", projects);
         model.addObject("issue", issueDto);
 
