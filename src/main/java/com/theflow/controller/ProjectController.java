@@ -5,11 +5,9 @@
  */
 package com.theflow.controller;
 
-import static com.theflow.controller.IssueController.logger;
 import com.theflow.domain.Project;
 import com.theflow.dto.ProjectDto;
 import com.theflow.service.ProjectService;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +50,7 @@ public class ProjectController {
         return model;
     }
 
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "projects/manage", method = RequestMethod.GET)
     public ModelAndView showManageProjectsPage() {
         ModelAndView model = new ModelAndView("project/manage");
@@ -63,7 +61,7 @@ public class ProjectController {
         return model;
     }
 
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping("project/add")
     public ModelAndView addProjectForm() {
         ModelAndView model = new ModelAndView("project/addproject", "project", new Project());
@@ -110,7 +108,7 @@ public class ProjectController {
         return new ModelAndView("redirect:/projects/manage");
     }
 
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "project/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editProject(@PathVariable int id) {
 
@@ -141,7 +139,7 @@ public class ProjectController {
         return new ModelAndView("redirect:/project/details/" + projectDto.getProjectId());
     }
 
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "project/details/{id}", method = RequestMethod.GET)
     public ModelAndView showProjectDetails(@PathVariable int id) {
         Project project = projectService.getProjectById(id);

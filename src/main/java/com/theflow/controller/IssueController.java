@@ -10,8 +10,6 @@ import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
 import com.theflow.service.UserService;
-import java.nio.file.AccessDeniedException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -66,6 +65,7 @@ public class IssueController {
         return issuesString;
     }
 
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
     public ModelAndView saveIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
 
@@ -94,6 +94,7 @@ public class IssueController {
     }
 
     //removes issue from database
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeIssue(@PathVariable int id) {
         issueService.removeIssue(id);
@@ -139,6 +140,7 @@ public class IssueController {
         return model;
     }
 
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/update", method = RequestMethod.POST)
     public ModelAndView updateIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
 
