@@ -5,8 +5,6 @@ import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
-import java.nio.file.AccessDeniedException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -148,7 +146,7 @@ public class UserController {
         return new ModelAndView("redirect:/home/home");
     }
     
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editUser(@PathVariable int id) {
 
@@ -159,7 +157,7 @@ public class UserController {
         return model;
     }
     
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "/users/manage", method = RequestMethod.GET)
     public ModelAndView showManageUsersPage() {
         ModelAndView model = new ModelAndView("user/manage");
@@ -168,7 +166,7 @@ public class UserController {
         return model;
     }
     
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "user/details/{id}", method = RequestMethod.GET)
     public ModelAndView showUserDetails(@PathVariable int id) {
         ModelAndView model = new ModelAndView("user/details");

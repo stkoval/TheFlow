@@ -52,9 +52,11 @@ public class LoginController {
     }
     
     @RequestMapping(value = "/403", method = RequestMethod.GET)
-    public String denied() {
+    public ModelAndView denied(HttpServletRequest req) {
+        ModelAndView model = new ModelAndView("/signin/403");
+        model.addObject("url", req.getRequestURL());
 
-        return "/signin/403";
+        return model;
     }
     
     @ExceptionHandler(Exception.class)
