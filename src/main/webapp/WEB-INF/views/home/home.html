@@ -31,7 +31,7 @@
 
         <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
 
-    <sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>        
+    <sec:authorize access="hasRole('Admin')" var="isAdmin"></sec:authorize>        
     <object th:include="fragments/layout :: script" th:remove="tag"/>
 
 </body>

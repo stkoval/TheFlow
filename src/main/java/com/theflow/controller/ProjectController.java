@@ -9,11 +9,13 @@ import static com.theflow.controller.IssueController.logger;
 import com.theflow.domain.Project;
 import com.theflow.dto.ProjectDto;
 import com.theflow.service.ProjectService;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -149,7 +151,7 @@ public class ProjectController {
     }
     
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleError(HttpServletRequest req, Exception exception) {
+    public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
         logger.error("Request: " + req.getRequestURL() + " exception " + exception);
 
         ModelAndView mav = new ModelAndView();

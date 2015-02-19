@@ -46,13 +46,13 @@
                                         <option value="all" label-type="label-primary">All</option>
                                         <option value="High" data-col="4" label-type="label-success">High priority</option>
                                         <option value="New" data-col="2" label-type="label-warning">Recent</option>
-                                        <option value="Letov" data-col="5" label-type="label-info">Assigned to me</option>
+                                        <option value="${#authenticaton.principal.fullName}" data-col="5" label-type="label-info">Assigned to me</option>
                                         <option value="Bug" data-col="3" label-type="label-danger">Bug</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 col-xs-6">
                                     <ul class="nav navbar-nav navbar-right">
-                                        <li access="hasRole('admin')" var="isAdmin" class="dropdown">
+                                        <li access="hasRole('Admin')" var="isAdmin" class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> Admin tools</a>
                                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#" th:href="@{/users/manage}">Manage users</a></li>
