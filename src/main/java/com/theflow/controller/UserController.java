@@ -5,6 +5,8 @@ import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
+import java.nio.file.AccessDeniedException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -187,7 +190,7 @@ public class UserController {
     }
     
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleError(HttpServletRequest req, Exception exception) {
+    public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
         logger.error("Request: " + req.getRequestURL() + " exception " + exception);
 
         ModelAndView mav = new ModelAndView();

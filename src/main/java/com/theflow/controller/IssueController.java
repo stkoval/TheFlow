@@ -10,6 +10,8 @@ import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
 import com.theflow.service.UserService;
+import java.nio.file.AccessDeniedException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -157,7 +160,6 @@ public class IssueController {
         return new ModelAndView("redirect:/home");
     }
 
-    
     @RequestMapping(value = "issue/byproject/{id}", method = RequestMethod.GET)
     public ModelAndView getIssuesByProjectId(@PathVariable int id) {
         ModelAndView model = new ModelAndView("/issue/table");
@@ -173,10 +175,9 @@ public class IssueController {
         model.addObject("projects", projects);
         return model;
     }
-            
-            
+
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleError(HttpServletRequest req, Exception exception) {
+    public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
         logger.error("Request: " + req.getRequestURL() + " exception " + exception);
 
         ModelAndView mav = new ModelAndView();
