@@ -53,6 +53,12 @@
                         <div class="with-errors" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
                     </div>
                     <button  class="fancy-button medium blueHole basic login-button" type="submit" th:text="#{label.form.submit}"></button>
+                    <a class="fancy-button medium blueHole basic login-button text-center" th:href="@{user/login}">
+                        Login
+                        <span class="icon">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </a>
                 </form>
             </div>
         </div>

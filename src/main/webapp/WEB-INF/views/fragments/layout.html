@@ -46,7 +46,8 @@
                                         <option value="all" label-type="label-primary">All</option>
                                         <option value="High" data-col="4" label-type="label-success">High priority</option>
                                         <option value="New" data-col="2" label-type="label-warning">Recent</option>
-                                        <option value="${#authenticaton.principal.fullName}" data-col="5" label-type="label-info">Assigned to me</option>
+                                        <!--TO DO: th:value instead value="${#authenticaton.principal.fullName}" - authenticaton.principal.fullName = empty -->
+                                        <option value="Egor Letov" data-col="5" label-type="label-info">Assigned to me</option>
                                         <option value="Bug" data-col="3" label-type="label-danger">Bug</option>
                                     </select>
                                 </div>
