@@ -87,9 +87,9 @@ public class ProjectController {
             return new ModelAndView("/project/addproject", "project", projectDto);
         }
 
-        ModelAndView model = new ModelAndView("/projects/manage");
+        ModelAndView model = new ModelAndView("redirect:/projects/manage");
         model.addObject("message", messageSource.getMessage("label.successAddedProject.title", null, Locale.ENGLISH) + projectDto.getProjName());
-        return new ModelAndView("redirect:/projects/manage");
+        return model;
     }
 
     private String saveNewProjectAndStatus(ProjectDto projectDto) {

@@ -113,8 +113,8 @@ public class UserController {
             result.rejectValue("email", "message.emailError");
             return new ModelAndView("/user/adduser", "user", userDto);
         } 
-        ModelAndView model = new ModelAndView("user/manage");
-        model.addObject("message", messageSource.getMessage("label.successAddUser.title", null, Locale.ENGLISH));
+        ModelAndView model = new ModelAndView("redirect:/users/manage");
+        model.addObject("message", messageSource.getMessage("label.successAddUser.title", null, Locale.ENGLISH) + userDto.getEmail());
         return model;
     }
 
