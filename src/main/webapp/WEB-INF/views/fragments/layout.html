@@ -6,16 +6,7 @@
     <body>   
     
         <object th:fragment="styles">
-            <link href="../../../resources/css/bootstrap.min.css" type="text/css" rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}"/>
-            <link href="../../../resources/css/fancy-buttons.css" type="text/css" rel="stylesheet" th:href="@{/resources/css/fancy-buttons.css}"/>
-            <link href="../../../resources/css/font-awesome.min.css" type="text/css" rel="stylesheet" id="font-awesome-css" media="all" th:href="@{/resources/css/font-awesome.min.css}" />
-            <link href="../../../resources/css/bootstrap-multiselect.css" type="text/css" rel="stylesheet" th:href="@{/resources/css/bootstrap-multiselect.css}"/>
-            <link href="../../../resources/datatables/bootstrap/3/dataTables.bootstrap.css" type="text/css" rel="stylesheet" th:href="@{/resources/datatables/bootstrap/3/dataTables.bootstrap.css}"/>
-            <link href="../../../resources/css/fileinput.css" media="all" rel="stylesheet" type="text/css" th:href="@{/resources/css/fileinput.css}" />
-            <link href="../../../resources/css/bootstrap-datetimepicker.min.css" media="all" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}" /> 
-            <link href="../../../resources/css/bootstrap-switch.min.css" media="all" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-switch.min.css}" />
-            <link href="../../../resources/css/bootstrap-switch.min.css" media="all" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-select.css}" />
-            <link href="../../../resources/css/styles.css" type="text/css" rel="stylesheet" th:href="@{/resources/css/styles.css}" />
+            <link href="../../../resources/css/compiled.min.css" type="text/css" rel="stylesheet" th:href="@{/resources/css/compiled.min.css}"/>
             
             <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300&subset=latin,cyrillic" rel="stylesheet" type="text/css">
             <link href="http://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet" type="text/css">
@@ -46,9 +37,9 @@
                                         <option value="all" label-type="label-primary">All</option>
                                         <option value="High" data-col="4" label-type="label-success">High priority</option>
                                         <option value="New" data-col="2" label-type="label-warning">Recent</option>
-                                        <!--TO DO: th:value instead value="${#authenticaton.principal.fullName}" - authenticaton.principal.fullName = empty -->
-                                        <option value="Egor Letov" data-col="5" label-type="label-info">Assigned to me</option>
+                                        <option value="${authentication.principal.fullName}" data-col="5" label-type="label-info">Assigned to me</option>
                                         <option value="Bug" data-col="3" label-type="label-danger">Bug</option>
+                                        <option value="Task" data-col="3" label-type="label-danger">Task</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 col-xs-6">
@@ -107,20 +98,7 @@
         
         <object th:fragment="script">
             <!-- Common JS -->
-            <script src="../../../resources/js/jquery.min.js" type="text/javascript" th:src="@{/resources/js/jquery.min.js}"></script>
-            <script src="../../../resources/js/bootstrap.min.js" type="text/javascript" th:src="@{/resources/js/bootstrap.min.js}"></script>   
-            <script src="../../../resources/js/jquery.slimscroll.min.js" type="text/javascript" th:src="@{/resources/js/jquery.slimscroll.min.js}"></script> 
-            <script src="../../../resources/js/bootstrap-multiselect.js" type="text/javascript" th:src="@{/resources/js/bootstrap-multiselect.js}"></script>  
-            <script src="../../../resources/datatables/js/jquery.dataTables.js" type="text/javascript" th:src="@{/resources/datatables/js/jquery.dataTables.js}"></script>
-            <script src="../../../resources/datatables/bootstrap/3/dataTables.bootstrap.js" type="text/javascript" th:src="@{/resources/datatables/bootstrap/3/dataTables.bootstrap.js}"></script>
-            <script src="../../../resources/datatables/bootstrap/3/dataTables.bootstrap.js" type="text/javascript" th:src="@{/resources/datatables/js/fnFilterClear.js}"></script>
-            <script src="../../../resources/js/fileinput.js" type="text/javascript" th:src="@{/resources/js/fileinput.js}"></script> 
-            <script src="../../../resources/js/moment.js" type="text/javascript" th:src="@{/resources/js/moment.js}"></script>
-            <script src="../../../resources/js/bootstrap-datetimepicker.js" type="text/javascript" th:src="@{/resources/js/bootstrap-datetimepicker.js}"></script>
-            <script src="../../../resources/js/validator.min.js" th:src="@{/resources/js/validator.min.js}"></script>        
-            <script src="../../../resources/js/bootstrap-switch.min.js" th:src="@{/resources/js/bootstrap-switch.min.js}"></script>
-            <script src="../../../resources/js/bootstrap-switch.min.js" th:src="@{/resources/js/bootstrap-select.js}"></script>
-            <script src="../../../resources/js/scripts.js" type="text/javascript" th:src="@{/resources/js/scripts.js}"></script>
+            <script src="../../../resources/js/jquery.min.js" type="text/javascript" th:src="@{/resources/js/compiled.min.js}"></script>
          </object>    
         
     </body>
