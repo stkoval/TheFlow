@@ -91,11 +91,19 @@
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-        <dependency>
+        <!--        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
+        </dependency>-->
+        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
         </dependency>
+
+
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring3</artifactId>

@@ -31,8 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
-        auth.inMemoryAuthentication().withUser("user").password("user").roles("USER");
-        auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
     }
 
     @Override
@@ -56,7 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .sessionManagement()
+                .maximumSessions(1);
     }
 
     @Bean
