@@ -32,12 +32,20 @@
                             </div>
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="top-navbar">
-                                <div class="col-md-3 col-xs-3">
-                                    <select id="search-issue-top" multiple="multiple" rel="<i class='fa fa-search'></i>&nbsp;Search isssues">
+                                <div class="col-md-3 col-xs-3" th:switch="${#httpServletRequest.requestURI}">
+                                    <select id="search-issue-top" multiple="multiple" rel="<i class='fa fa-search'></i>&nbsp;Search isssues" th:case="'/theflow/issue/all'">
                                         <option value="all" label-type="label-primary">All</option>
                                         <option value="High" data-col="4" label-type="label-success">High priority</option>
                                         <option value="New" data-col="2" label-type="label-warning">Recent</option>
-                                        <option value="${authentication.principal.fullName}" data-col="5" label-type="label-info">Assigned to me</option>
+                                        <option th:value="${#authentication.principal.fullName}" data-col="5" label-type="label-info">Assigned to me</option>
+                                        <option value="Bug" data-col="3" label-type="label-danger">Bug</option>
+                                        <option value="Task" data-col="3" label-type="label-danger">Task</option>
+                                    </select>
+                                    <select id="search-issue-top" multiple="multiple" rel="<i class='fa fa-search'></i>&nbsp;Search isssues" th:case="'/theflow/home'">
+                                        <option value="all" label-type="label-primary">All</option>
+                                        <option value="High" data-col="4" label-type="label-success">High priority</option>
+                                        <option value="New" data-col="2" label-type="label-warning">Recent</option>
+                                        <option th:value="${#authentication.principal.fullName}" data-col="5" label-type="label-info">Assigned to me</option>
                                         <option value="Bug" data-col="3" label-type="label-danger">Bug</option>
                                         <option value="Task" data-col="3" label-type="label-danger">Task</option>
                                     </select>
@@ -83,7 +91,7 @@
         <div th:fragment="footer">
             <div id="footer">
                 <div class="container">
-                    <p class="muted credit text-center">&copy; theFloat 2015</p>
+                    <p class="muted credit text-center">&copy; theFloat 2015 <span th:text="${#httpServletRequest.requestURI}"></span></p>
                 </div>
             </div>
         </div>  
