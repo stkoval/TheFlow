@@ -38619,7 +38619,7 @@ $(document).ready(function(e){
 		slimScrollInit($scrollTree);
 	}
 	
-	var $logtimepicker = $('#logtimepicker');
+	var $logtimepicker = $('.logtimepicker');
 	
 	if($logtimepicker.length) {
 		$logtimepicker.datetimepicker({
