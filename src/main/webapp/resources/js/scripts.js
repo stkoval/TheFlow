@@ -61,16 +61,7 @@ $(document).ready(function(e){
 	
 	if($logtimepicker.length) {
 		$logtimepicker.datetimepicker({
-			pickDate: false,
-			sideBySide: true
-		});
-	}
-	
-	var $issuetimepicker = $('#issuetimepicker');
-	
-	if($issuetimepicker.length) {
-		$issuetimepicker.datetimepicker({
-			pickDate: false,
+			format: 'YYYY-MM-DD',
 			sideBySide: true
 		});
 	}

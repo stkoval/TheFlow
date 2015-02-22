@@ -62,12 +62,12 @@
                                                 <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueRiver basic status-toggle text-left" data-toggle="dropdown" aria-expanded="false">
                                                     <span th:text="${issue.status}"></span> <span class="caret"></span>
                                                 </button>
-                                                <ul class="dropdown-menu" role="menu" th:switch="${issue.status}">
+                                                <ul class="dropdown-menu" role="menu">
                                                     <!-- TO DO - hide actual status like th:if="issue.hasNotStatus('New')" -->
-                                                    <li th:case="New"><a href="#" th:href="@{'/issue/status/' + ${issue.issueId}} + '?status=new'">New</a></li>
-                                                    <li th:case="'Review'"><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=review'}">Review</a></li>
-                                                    <li th:case="'In Progress'"><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=in_progress'}">In Progress</a></li>
-                                                    <li th:case="*"><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=resolved'}">Resolved</a></li>
+                                                    <li><a href="#" th:href="@{'/issue/status/' + ${issue.issueId}} + '?status=new'">New</a></li>
+                                                    <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=review'}">Review</a></li>
+                                                    <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=in_progress'}">In Progress</a></li>
+                                                    <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=resolved'}">Resolved</a></li>
                                                 </ul>
                                             </div>
                                         </td>
