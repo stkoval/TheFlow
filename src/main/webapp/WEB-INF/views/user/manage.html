@@ -12,43 +12,68 @@
     <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
 
     <div class="container main-content">
+
         <div class="row">
+            <div class="col-md-3 nav-col text-left">
+                <a th:href="@{/issue/all}" class="fancy-button medium blueRiver icon basic">
+                    <span class="icon pull-left">
+                        <i class="fa fa-chevron-left"></i>
+                    </span>
+                    &nbsp;Back
+                </a>
+            </div>
+            <div class="col-md-6">
+                <h1 class="main-title text-center">Manage users</h1>
+            </div>
+            <div class="col-md-3 text-right">
+                <a th:href="@{/user/add}" class="fancy-button medium blueRiver icon basic pull-right">
+                    <span class="icon pull-left">
+                        <i class="fa fa-user-plus"></i>
+                    </span>
+                    &nbsp;Add user
+                </a>
+            </div>
+        </div>
 
-            <div th:replace="fragments/layout :: sidebar">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-12">
+                <table id="issuesList" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Company</th>
+                            <th class="tools-cell">Tools</th>
+                        </tr>
+                    </thead>
 
-            <div id="main" class="col-md-9 col-xs-12">
-
-                <div class="row">
-                    <div class="col-md-3 nav-col text-left">
-                        <a href="/" class="fancy-button medium blueRiver icon basic">
-                            <span class="icon pull-left">
-                                <i class="fa fa-chevron-left"></i>
-                            </span>
-                            &nbsp;Back
-                        </a>
-                    </div>
-                    <div class="col-md-6">
-                        <h1 class="main-title text-center">Manage users</h1>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="/" class="fancy-button medium blueRiver icon basic" th:href="@{/user/add}">
-                            <span class="icon pull-left">
-                                <i class="fa fa-chevron-left"></i>
-                            </span>
-                            &nbsp;Add user
-                        </a>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <ul th:each="user : ${users}">
-                        <li>
-                            <a class="btn" th:href="@{/user/details/} + ${user.userId}" th:text="${user.fullName}"></a>
-                            <a class="btn" th:href="@{/user/edit/} + ${user.userId}">Edit</a>
-                            <a class="btn" th:href="@{/user/remove/} + ${user.userId}">Remove</a>
-                        </li>
-                    </ul>
-                </div>
+                    <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Company</th>
+                            <th class="tools-cell">Tools</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr th:each="user : ${users}">
+                            <td><a th:href="@{/user/details/} + ${user.userId}" th:text="${user.fullName}"></a></td>
+                            <td><b th:text="${user.email}"></b></td>
+                            <td><b th:text="${user.company.name}"></b></td>
+                            <td class="tools-cell">
+                                <div class="btn-group">
+                                    <button type="button" class="btn dropdown-toggle fancy-button small blueHole basic" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-cog"></i> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a th:href="@{/user/edit/} + ${user.userId}">Edit</a></li>
+                                        <li><a th:href="@{/user/remove/} + ${user.userId}">Remove</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
