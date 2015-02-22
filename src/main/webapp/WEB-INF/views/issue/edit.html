@@ -109,7 +109,7 @@
                         <div class="form-group">
                             <label for="estimated_time" class="col-sm-2 control-label" th:text="#{label.issue.esttime}">Estimated_time</label>
                             <div class="col-sm-10">
-                                <input type='text' class="form-control logtimepicker" id="estimated_time" placeholder="EstimatedTime" th:field="*{estimatedTime}"/>
+                                <input type='text' class="form-control logtimerange" id="estimated_time" placeholder="EstimatedTime" th:field="*{estimatedTime}"/>
                                 <div class="help-block with-errors"></div>
                                 <div class="with-errors" th:if="${#fields.hasErrors('estimatedTime')}" th:errors="*{estimatedTime}"></div>
                             </div>

@@ -58,10 +58,19 @@ $(document).ready(function(e){
 	}
 	
 	var $logtimepicker = $('.logtimepicker');
-	
+
 	if($logtimepicker.length) {
 		$logtimepicker.datetimepicker({
 			format: 'YYYY-MM-DD',
+			sideBySide: true
+		});
+	}
+
+	var $logtimerange = $('.logtimerange');
+
+	if($logtimerange.length) {
+		$logtimerange.datetimepicker({
+			format: 'HH:mm',
 			sideBySide: true
 		});
 	}
