@@ -167,8 +167,6 @@
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
-                    <warSourceExcludes>bower_components/**</warSourceExcludes>
-                    <warSourceExcludes>node_modules/**</warSourceExcludes>
                 </configuration>
             </plugin>
             <plugin>
