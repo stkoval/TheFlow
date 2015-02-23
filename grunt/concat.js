@@ -4,6 +4,7 @@ module.exports = {
             'bower_components/jquery/dist/jquery.js',
             'bower_components/slimScroll/jquery.slimscroll.js',
             'bower_components/moment/moment.js',
+            'bower_components/jquery.cookie/jquery.cookie.js',
             'bower_components/bootstrap/dist/js/bootstrap.js',
             'bower_components/bootstrap-fileinput/js/fileinput.js',
             'bower_components/datatables/media/js/jquery.dataTables.js',

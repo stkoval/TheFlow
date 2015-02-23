@@ -11,15 +11,27 @@ $(document).ready(function(e){
 
 	$('.selectpicker').selectpicker();
 
+	$.cookie.json = true;
+
 	$('#search-issue-top').multiselect({
 		buttonText: function(options, select) {
 			var sValue = $('.dataTables_filter input').val();
 			dtable.search( '').columns().search( '' ).draw();
 			$('.dataTables_filter input').val(sValue);
+
+			var selectedFilters = $.cookie('filterFlow');
+			var parsedJSON = JSON.parse(selectedFilters);
+			for (var i=0;i<parsedJSON.length;i++) {
+				console.log(parsedJSON[i].filter);
+				$('#search-issue-top option[data-col='+ parsedJSON[i].col + ']').attr('selected','selected');
+			}
+
 			if (options.length === 0) { return searchLabel; }
 			else {
 				var labels = [];
+				var filters = [];
 				var clearLabels = [];
+
 				options.each(function() {
 
 					var labelType = 'label-info';
@@ -36,10 +48,15 @@ $(document).ready(function(e){
 						labels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>');
 					}
 
+					filters.push({col: $col, filter: $filter});
+
 					if($filter  == 'all') { clearLabels.push('<span class="label '+labelType+'">'+$(this).html()+'</span>'); }
 					else { dtable.column($col).search($filter).draw(); $('.dataTables_filter input').val(sValue); }
 
 				});
+				$.removeCookie('filterFlow');
+				$.cookie('filterFlow', JSON.stringify(filters));
+
 				if(clearLabels.length > 0) {
 					dtable.search( '').columns().search( '' ).draw();
 					$('.dataTables_filter input').val(sValue);
