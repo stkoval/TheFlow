@@ -143,7 +143,7 @@ public class UserController {
     @RequestMapping(value = "user/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeUser(@PathVariable int id) {
         userService.removeUser(id);
-        return new ModelAndView("redirect:/home/home");
+        return new ModelAndView("redirect:/home");
     }
     
     @PreAuthorize("hasAnyRole('Admin','Observer')")
