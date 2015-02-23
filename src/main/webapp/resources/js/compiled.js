@@ -38703,7 +38703,10 @@ $(document).ready(function(e){
 			var parsedJSON = JSON.parse(selectedFilters);
 			for (var i=0;i<parsedJSON.length;i++) {
 				console.log(parsedJSON[i].filter);
-				$('#search-issue-top option[data-col='+ parsedJSON[i].col + ']').attr('selected','selected');
+				//$('#search-issue-top option[data-col='+ parsedJSON[i].col + ']').attr('selected','selected');
+				if(parsedJSON[i].filter != 'all') {
+					dtable.column(parsedJSON[i].col).search(parsedJSON[i].filter).draw();
+				}
 			}
 
 			if (options.length === 0) { return searchLabel; }
