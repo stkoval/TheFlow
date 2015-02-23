@@ -214,4 +214,13 @@ public class IssueServiceImpl implements IssueService {
         List<Issue> issues = issueDao.getIssueByProjectId(projectId);
         return issues;
     }
+
+    @Override
+    @Transactional
+    public void changeIssueStatus(String status, int id) {
+        Issue issue = issueDao.getIssueById(id);
+        IssueStatus issueStatus = IssueStatus.getEnum(status);
+        issue.setStatus(issueStatus);
+        issueDao.updateIssue(issue);
+    }
 }

@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -176,6 +178,15 @@ public class IssueController {
 
         model.addObject("projects", projects);
         return model;
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(value = "issue/status/{id}", method = RequestMethod.GET)
+    public ModelAndView changeIssueStatus(@RequestParam(value = "status") String status,
+            @PathVariable int id) {
+        status = status.replace('_', ' ');
+        issueService.changeIssueStatus(status, id);
+        return new ModelAndView("redirect:/home");
     }
 
     @ExceptionHandler(Exception.class)

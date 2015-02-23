@@ -39,5 +39,7 @@ public interface IssueService {
     public void assignToCurrentUser(int sueId);
     
     public List<Issue> getIssuesByProjectId(int projectId);
+
+    public void changeIssueStatus(String status, int id);
     
 }
