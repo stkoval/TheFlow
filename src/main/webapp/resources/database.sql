@@ -64,7 +64,7 @@ values('TestProject2', 1, 'This is a test project', '11.11.15', '12.12.16');
 DROP TABLE IF EXISTS issues;
 create table issues (
 issue_id int not null auto_increment,
-title varchar(40) not null UNIQUE,
+title varchar(40) not null,
 description text,
 type varchar(15),
 status varchar(15),
