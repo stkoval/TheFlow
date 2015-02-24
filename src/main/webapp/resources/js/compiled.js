@@ -38692,7 +38692,18 @@ $(document).ready(function(e){
 	$('.selectpicker').selectpicker();
 
 	$.cookie.json = true;
-	var clickTrigger = false;
+
+	var selectedFilters = $.cookie('filterFlow');
+	if(selectedFilters) {
+		var parsedJSON = JSON.parse(selectedFilters);
+		console.log(parsedJSON);
+		for (var i=0;i<parsedJSON.length;i++) {
+			if(parsedJSON[i].filter != 'all') {
+				dtable.column(parsedJSON[i].col).search(parsedJSON[i].filter).draw();
+				$('#search-issue-top option[value="' + parsedJSON[i].filter + '"]').attr('selected', 'selected');
+			}
+		}
+	}
 
 	$('#search-issue-top').multiselect({
 		buttonText: function(options, select) {
@@ -38700,38 +38711,12 @@ $(document).ready(function(e){
 			dtable.search( '').columns().search( '' ).draw();
 			$('.dataTables_filter input').val(sValue);
 
-			var selectedFilters = $.cookie('filterFlow');
-			if(selectedFilters && !clickTrigger) {
-				var parsedJSON = JSON.parse(selectedFilters);
-				for (var i=0;i<parsedJSON.length;i++) {
-					if(parsedJSON[i].filter != 'all') {
-						dtable.column(parsedJSON[i].col).search(parsedJSON[i].filter).draw();
-						$('#search-issue-top option[value="' + parsedJSON[i].filter + '"]').trigger( "click" );
-					}
-				}
-			}
-
-			if (options.length === 0) { return searchLabel; }
+			if (options.length === 0) { $.removeCookie('filterFlow'); return searchLabel; }
 			else {
 				var labels = [];
 				var filters = [];
 				var clearLabels = [];
-				var selectedFilters = $.cookie('filterFlow');
-
-				if(!clickTrigger) {
-					dtable.search('').columns().search('').draw();
-					clickTrigger = true;
-					if(selectedFilters) {
-						var parsedJSON = JSON.parse(selectedFilters);
-						for (var i = 0; i < parsedJSON.length; i++) {
-							/*if (parsedJSON[i].filter != 'all') {
-							 clabelType = $('#search-issue-top option[value="' + parsedJSON[i].filter + '"]').attr('label-type');
-							 console.log(clabelType);
-							 labels.push('<span class="label ' + clabelType + '">' + parsedJSON[i].filter + '</span>');
-							 }*/
-						}
-					}
-				}
+				dtable.search('').columns().search('').draw();
 				options.each(function() {
 
 					var labelType = 'label-info';
