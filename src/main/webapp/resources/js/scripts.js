@@ -3,6 +3,10 @@ $(document).ready(function(e){
 	var searchLabel =$('#search-issue-top').attr('rel');
 	
 	var dtable = $('#issuesList').DataTable({"order": [[ 0, 'desc' ]],"bDestroy": true,"searching": true});
+
+	var ptable = $('#projectList').DataTable({"order": [[ 0, 'desc' ]],"bDestroy": true,"searching": true});
+
+	var dutable = $('#usersList').DataTable({"order": [[ 0, 'desc' ]],"bDestroy": true,"searching": true});
 	
 	$('#logtimepicker').datetimepicker({
     	pickDate: false,
