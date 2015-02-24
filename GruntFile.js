@@ -10,5 +10,7 @@ module.exports = function(grunt) {
 
     // We need our bower components in order to develop
     gtx.alias('build:app',  ['clean:components','bower-install-simple','concat:components','uglify:components','recess:components', 'copy:fonts']);
+    gtx.alias('build:js',  ['concat:components','uglify:components']);
+    gtx.alias('build:css',  ['recess:components']);
     gtx.finalise();
 }
