@@ -41,5 +41,9 @@ public interface IssueService {
     public List<Issue> getIssuesByProjectId(int projectId);
 
     public void changeIssueStatus(String status, int id);
+
+    public void changeIssueType(String type, int id);
+
+    public void changeIssueAssignee(int userId, int id);
     
 }
