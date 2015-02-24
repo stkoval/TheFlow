@@ -21,7 +21,7 @@
                         </div>
                         <form class="form-signin" data-toggle="validator" id="loginForm" th:action="@{/login}" method="post">
                             <h2 class="form-signin-heading">Please sign in</h2>
-                            <div th:if="${param.error}" class="alert alert-error">    
+                            <div th:if="${param.error}" class="alert alert-warning">
                                 Invalid username or password.
                             </div>
                             <div th:if="${param.logout}" class="alert alert-success"> 
