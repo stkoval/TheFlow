@@ -223,4 +223,22 @@ public class IssueServiceImpl implements IssueService {
         issue.setStatus(issueStatus);
         issueDao.updateIssue(issue);
     }
+
+    @Override
+    @Transactional
+    public void changeIssueType(String type, int id) {
+        Issue issue = issueDao.getIssueById(id);
+        IssueType issueType = IssueType.getEnum(type);
+        issue.setType(issueType);
+        issueDao.updateIssue(issue);
+    }
+
+    @Override
+    @Transactional
+    public void changeIssueAssignee(int userId, int id) {
+        Issue issue = issueDao.getIssueById(id);
+        User assignee = userDao.getUserById(userId);
+        issue.setAssignee(assignee);
+        issueDao.updateIssue(issue);
+    }
 }
