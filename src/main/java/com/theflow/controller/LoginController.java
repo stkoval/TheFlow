@@ -71,11 +71,15 @@ public class LoginController {
         
         //This section destroys issue serch cookie
         Cookie filterFlow = null;
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("filterFlow")) {
-                cookie.setMaxAge(0);
-                filterFlow = cookie;
-                break;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null && cookies.length != 0) {
+            
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("filterFlow")) {
+                    cookie.setMaxAge(0);
+                    filterFlow = cookie;
+                    break;
+                }
             }
         }
         if (filterFlow != null) {
