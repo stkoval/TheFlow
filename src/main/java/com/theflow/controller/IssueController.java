@@ -96,7 +96,7 @@ public class IssueController {
     //removes issue from database
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/remove/{id}", method = RequestMethod.GET)
-    public ModelAndView removeIssue(@PathVariable int issueId) {
+    public ModelAndView removeIssue(@PathVariable(value = "id") int issueId) {
         issueService.removeIssue(issueId);
         return new ModelAndView("redirect:/home");
     }
@@ -119,7 +119,7 @@ public class IssueController {
     }
 
     @RequestMapping(value = "issue/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editIssue(@PathVariable int issueId) {
+    public ModelAndView editIssue(@PathVariable(value = "id") int issueId) {
 
         ModelAndView model = new ModelAndView("issue/edit");
         Issue issue = issueService.getIssueById(issueId);
@@ -149,7 +149,7 @@ public class IssueController {
     }
 
     @RequestMapping(value = "issue/details/{id}", method = RequestMethod.GET)
-    public ModelAndView showIssueDetails(@PathVariable int issueId) {
+    public ModelAndView showIssueDetails(@PathVariable(value = "id") int issueId) {
         ModelAndView model = new ModelAndView("issue/details");
         Issue issue = issueService.getIssueById(issueId);
         model.addObject("issue", issue);
@@ -157,13 +157,13 @@ public class IssueController {
     }
 
     @RequestMapping(value = "issue/assign/{issue_id}", method = RequestMethod.GET)
-    public ModelAndView assignToCurrentUser(@PathVariable int issue_id) {
+    public ModelAndView assignToCurrentUser(@PathVariable(value = "id") int issue_id) {
         issueService.assignToCurrentUser(issue_id);
         return new ModelAndView("redirect:/home");
     }
 
     @RequestMapping(value = "issue/byproject/{id}", method = RequestMethod.GET)
-    public ModelAndView getIssuesByProjectId(@PathVariable int issueId) {
+    public ModelAndView getIssuesByProjectId(@PathVariable(value = "id") int issueId) {
         ModelAndView model = new ModelAndView("/issue/table");
         List<Issue> issues = issueService.getIssuesByProjectId(issueId);
         if (issues == null) {
@@ -180,7 +180,7 @@ public class IssueController {
 
     @RequestMapping(value = "issue/status/{id}", method = RequestMethod.GET)
     public ModelAndView changeIssueStatus(@RequestParam(value = "status") String status,
-            @PathVariable int issueId) {
+            @PathVariable(value = "id") int issueId) {
         status = status.replace('_', ' ');
         issueService.changeIssueStatus(status, issueId);
         return new ModelAndView("redirect:/home");
@@ -188,14 +188,14 @@ public class IssueController {
     
     @RequestMapping(value = "issue/type/{id}", method = RequestMethod.GET)
     public ModelAndView changeIssueType(@RequestParam(value = "type") String type,
-            @PathVariable int issueId) {
+            @PathVariable(value = "id") int issueId) {
         issueService.changeIssueType(type, issueId);
         return new ModelAndView("redirect:/home");
     }
     
     @RequestMapping(value = "issue/assignee/{id}", method = RequestMethod.GET)
     public ModelAndView changeIssueAssignee(@RequestParam(value = "assignee_id") int userId,
-            @PathVariable int issueId) {
+            @PathVariable(value = "id") int issueId) {
         issueService.changeIssueAssignee(userId, issueId);
         return new ModelAndView("redirect:/home");
     }

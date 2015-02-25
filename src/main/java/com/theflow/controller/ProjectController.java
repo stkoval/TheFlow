@@ -94,14 +94,14 @@ public class ProjectController {
 
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "project/remove/{id}", method = RequestMethod.GET)
-    public ModelAndView removeProject(@PathVariable int projectId) {
+    public ModelAndView removeProject(@PathVariable(value = "id") int projectId) {
         projectService.removeProject(projectId);
         return new ModelAndView("redirect:/projects/manage");
     }
 
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "project/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editProject(@PathVariable int projectId) {
+    public ModelAndView editProject(@PathVariable(value = "id") int projectId) {
 
         ModelAndView model = new ModelAndView("project/edit");
         Project project = projectService.getProjectById(projectId);
@@ -132,7 +132,7 @@ public class ProjectController {
 
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "project/details/{id}", method = RequestMethod.GET)
-    public ModelAndView showProjectDetails(@PathVariable int projectId) {
+    public ModelAndView showProjectDetails(@PathVariable(value = "id") int projectId) {
         Project project = projectService.getProjectById(projectId);
         ModelAndView model = new ModelAndView("project/details");
         model.addObject("project", project);

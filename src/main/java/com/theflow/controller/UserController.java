@@ -126,7 +126,7 @@ public class UserController {
     //removes user from database
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/remove/{id}", method = RequestMethod.GET)
-    public ModelAndView removeUser(@PathVariable int userId) {
+    public ModelAndView removeUser(@PathVariable(value = "id") int userId) {
         userService.removeUser(userId);
         return new ModelAndView("redirect:/home");
     }
@@ -134,7 +134,7 @@ public class UserController {
     //edit user from profile page
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editUser(@PathVariable int userId) {
+    public ModelAndView editUser(@PathVariable(value = "id") int userId) {
 
         ModelAndView model = new ModelAndView("user/edit");
         User user = userService.getUserById(userId);
@@ -154,7 +154,7 @@ public class UserController {
     
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "user/details/{id}", method = RequestMethod.GET)
-    public ModelAndView showUserDetails(@PathVariable int userId) {
+    public ModelAndView showUserDetails(@PathVariable(value = "id") int userId) {
         ModelAndView model = new ModelAndView("user/details");
         User user = userService.getUserById(userId);
         List<UserRoleConstants> roles = Arrays.asList(UserRoleConstants.values());
@@ -168,7 +168,7 @@ public class UserController {
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/role/{id}", method = RequestMethod.GET)
     public void changeUserAuthorities(@RequestParam(value = "role") String role,
-            @PathVariable int userId) {
+            @PathVariable(value = "id") int userId) {
         userService.changeUserRole(role, userId);
     }
     
