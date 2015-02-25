@@ -16,10 +16,10 @@ import validation.EmailExistsException;
  * @author Stas
  */
 public interface UserService {
-    public int saveUserReg(UserDto userDto) throws EmailExistsException, CompanyExistsException;
+    public int saveUserAddedAfterRegistration(UserDto userDto) throws EmailExistsException, CompanyExistsException;
     public List<User> getAllUsers();
 
-    public int saveUserEmp(UserDto userDto) throws EmailExistsException;
+    public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException;
 
     public void removeUser(int id);
     

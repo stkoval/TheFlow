@@ -49,14 +49,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().defaultSuccessUrl("/home", true)
                 .loginPage("/login")
-                .and().logout().logoutSuccessUrl("/login?logout")
+                .and().logout().logoutSuccessUrl("/login?logout").deleteCookies("filterFlow")
                 .permitAll()
                 .and()
                 .rememberMe()
                 .and()
                 .csrf().disable()
                 .sessionManagement()
-                .maximumSessions(1);
+                .maximumSessions(1)
+                .expiredUrl("/expired");
     }
 
     @Bean
