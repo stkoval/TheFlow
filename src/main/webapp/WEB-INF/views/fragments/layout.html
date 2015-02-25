@@ -14,7 +14,7 @@
         </object> 
     
         <div th:fragment="header">
-            <div class="container-fluid header-container navbar-fixed-top">
+            <div class="container-fluid header-container navbar-fixed-top">        	
                 <div class="container header-centred">        
                     <div id="header" class="header row">
                         <div class="navbar">
@@ -47,8 +47,7 @@
                                         <option th:value="${#authentication.principal.fullName}" data-col="5" label-type="label-info">Assigned to me</option>
                                         <option value="Bug" data-col="3" label-type="label-danger">Bug</option>
                                     </select>
-                                    <!--<select id="search-issue-top" multiple="multiple" rel="<i class='fa fa-search'></i>&nbsp;Search isssues" th:case="'/issue/byproject/' + ${project.projectId}">-->
-                                    <select id="search-issue-top" multiple="multiple" rel="<i class='fa fa-search'></i>&nbsp;Search isssues" th:case="'/issue/byproject/'">
+                                    <select id="search-issue-top" multiple="multiple" rel="<i class='fa fa-search'></i>&nbsp;Search isssues" th:case="'/theflow/issue/byproject'">
                                         <option value="all" label-type="label-primary">All</option>
                                         <option value="High" data-col="4" label-type="label-success">High priority</option>
                                         <option value="New" data-col="2" label-type="label-warning">Recent</option>

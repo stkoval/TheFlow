@@ -47,7 +47,7 @@ public class UserController {
     private MessageSource messageSource;
     
     @RequestMapping(value="profile", method = RequestMethod.GET)
-    public ModelAndView showProfile() {
+    public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
         User user = userService.getUserById(userService.getPrinciple().getUserId());
         Set<UserRole> roles = user.getUserRole();
@@ -65,6 +65,7 @@ public class UserController {
         return model;
     }
     
+    //add user by admin from manage project page
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/add", method = RequestMethod.GET)
     public ModelAndView showAddNewUserForm() {
@@ -84,14 +85,16 @@ public class UserController {
 
         logger.debug("No validation errors found. Continuing registration process.");
 
-        String registered = saveNewUserAccount(userDto);
-        if (registered.equals("emailExsists")) {
+        try {
+            userService.saveUserAddedAfterRegistration(userDto);
+        } catch (EmailExistsException e) {
             result.rejectValue("email", "message.emailError");
             return new ModelAndView("signin/registration", "user", userDto);
-        } else if (registered.equals("companyExists")) {
+        } catch (CompanyExistsException ex) {
             result.rejectValue("companyName", "message.companyError");
             return new ModelAndView("signin/registration", "user", userDto);
         }
+        
         ModelAndView model = new ModelAndView("signin/login");
         model.addObject("message", messageSource.getMessage("label.successRegister.title", null, Locale.ENGLISH) + " " + userDto.getEmail());
         return model;
@@ -108,50 +111,33 @@ public class UserController {
 
         logger.debug("No validation errors found. Continuing registration process.");
 
-        String registered = saveNewUserEmployee(userDto);
-        if (registered.equals("emailExsists")) {
+        try {
+            userService.saveUserAddedByAdmin(userDto);
+        } catch (EmailExistsException e) {
             result.rejectValue("email", "message.emailError");
             return new ModelAndView("/user/adduser", "user", userDto);
-        } 
+        }
+        
         ModelAndView model = new ModelAndView("redirect:/users/manage");
         model.addObject("message", messageSource.getMessage("label.successAddUser.title", null, Locale.ENGLISH) + userDto.getEmail());
         return model;
     }
 
-    private String saveNewUserAccount(UserDto userDto) {
-        try {
-            userService.saveUserReg(userDto);
-        } catch (EmailExistsException e) {
-            return "emailExsists";
-        } catch (CompanyExistsException ex) {
-            return "companyExists";
-        }
-        return "success";
-    }
-    
-    private String saveNewUserEmployee(UserDto userDto) {
-        try {
-            userService.saveUserEmp(userDto);
-        } catch (EmailExistsException e) {
-            return "emailExsists";
-        } 
-        return "success";
-    }
-    
-    //removes issue from database
+    //removes user from database
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/remove/{id}", method = RequestMethod.GET)
-    public ModelAndView removeUser(@PathVariable int id) {
-        userService.removeUser(id);
+    public ModelAndView removeUser(@PathVariable int userId) {
+        userService.removeUser(userId);
         return new ModelAndView("redirect:/home");
     }
     
+    //edit user from profile page
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editUser(@PathVariable int id) {
+    public ModelAndView editUser(@PathVariable int userId) {
 
         ModelAndView model = new ModelAndView("user/edit");
-        User user = userService.getUserById(id);
+        User user = userService.getUserById(userId);
         model.addObject("user", user);
 
         return model;
@@ -168,9 +154,9 @@ public class UserController {
     
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "user/details/{id}", method = RequestMethod.GET)
-    public ModelAndView showUserDetails(@PathVariable int id) {
+    public ModelAndView showUserDetails(@PathVariable int userId) {
         ModelAndView model = new ModelAndView("user/details");
-        User user = userService.getUserById(id);
+        User user = userService.getUserById(userId);
         List<UserRoleConstants> roles = Arrays.asList(UserRoleConstants.values());
         String currentRole = user.getUserRole().toArray()[0].toString();
         model.addObject("user", user);
@@ -180,11 +166,10 @@ public class UserController {
     }
     
     @PreAuthorize("hasRole('Admin')")
-    @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(value = "user/changerole/{id}", method = RequestMethod.GET)
-    public void changeUserAuchorities(@RequestParam(value = "role") String role,
-            @PathVariable int id) {
-        userService.changeUserRole(role, id);
+    @RequestMapping(value = "user/role/{id}", method = RequestMethod.GET)
+    public void changeUserAuthorities(@RequestParam(value = "role") String role,
+            @PathVariable int userId) {
+        userService.changeUserRole(role, userId);
     }
     
     @ExceptionHandler(Exception.class)

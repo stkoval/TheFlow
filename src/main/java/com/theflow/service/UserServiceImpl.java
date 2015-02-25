@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     //Saves user from registration page. Assignes admin role
     @Override
-    public int saveUserReg(UserDto userDto) throws EmailExistsException, CompanyExistsException {
+    public int saveUserAddedAfterRegistration(UserDto userDto) throws EmailExistsException, CompanyExistsException {
         if (emailExist(userDto.getEmail())) {
             throw new EmailExistsException("There is an account with that email adress: "
                     + userDto.getEmail());
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 
     //add new user to existing company through manage users page. Assignes user role
     @Override
-    public int saveUserEmp(UserDto userDto) throws EmailExistsException {
+    public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException {
         if (emailExist(userDto.getEmail())) {
             throw new EmailExistsException("There is an account with that email adress: "
                     + userDto.getEmail());

@@ -42,7 +42,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("signin/login");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 
@@ -107,7 +106,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         messageSource.setCacheSeconds(0);
         return messageSource;
     }
-    
+
     @Bean
     public EmailValidator usernameValidator() {
         return new EmailValidator();

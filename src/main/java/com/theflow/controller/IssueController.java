@@ -96,8 +96,8 @@ public class IssueController {
     //removes issue from database
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/remove/{id}", method = RequestMethod.GET)
-    public ModelAndView removeIssue(@PathVariable int id) {
-        issueService.removeIssue(id);
+    public ModelAndView removeIssue(@PathVariable int issueId) {
+        issueService.removeIssue(issueId);
         return new ModelAndView("redirect:/home");
     }
 
@@ -119,16 +119,16 @@ public class IssueController {
     }
 
     @RequestMapping(value = "issue/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editIssue(@PathVariable int id) {
+    public ModelAndView editIssue(@PathVariable int issueId) {
 
         ModelAndView model = new ModelAndView("issue/edit");
-        Issue issue = issueService.getIssueById(id);
+        Issue issue = issueService.getIssueById(issueId);
         List<String> types = issueService.getIssueTypes();
         List<String> statuses = issueService.getIssueStatuses();
         List<String> priorities = issueService.getIssuePriorities();
         List<User> users = userService.getAllUsers();
         List<Project> projects = projectService.getProjectList();
-        IssueDto issueDto = issueService.populateIssueDtoFildsFromIssue(issue, id);
+        IssueDto issueDto = issueService.populateIssueDtoFildsFromIssue(issue, issueId);
 
         model.addObject("statuses", statuses);
         model.addObject("types", types);
@@ -149,9 +149,9 @@ public class IssueController {
     }
 
     @RequestMapping(value = "issue/details/{id}", method = RequestMethod.GET)
-    public ModelAndView showIssueDetails(@PathVariable int id) {
+    public ModelAndView showIssueDetails(@PathVariable int issueId) {
         ModelAndView model = new ModelAndView("issue/details");
-        Issue issue = issueService.getIssueById(id);
+        Issue issue = issueService.getIssueById(issueId);
         model.addObject("issue", issue);
         return model;
     }
@@ -163,9 +163,9 @@ public class IssueController {
     }
 
     @RequestMapping(value = "issue/byproject/{id}", method = RequestMethod.GET)
-    public ModelAndView getIssuesByProjectId(@PathVariable int id) {
+    public ModelAndView getIssuesByProjectId(@PathVariable int issueId) {
         ModelAndView model = new ModelAndView("/issue/table");
-        List<Issue> issues = issueService.getIssuesByProjectId(id);
+        List<Issue> issues = issueService.getIssuesByProjectId(issueId);
         if (issues == null) {
             String message = "There are no issues created";
             model.addObject("message", message);
@@ -180,23 +180,23 @@ public class IssueController {
 
     @RequestMapping(value = "issue/status/{id}", method = RequestMethod.GET)
     public ModelAndView changeIssueStatus(@RequestParam(value = "status") String status,
-            @PathVariable int id) {
+            @PathVariable int issueId) {
         status = status.replace('_', ' ');
-        issueService.changeIssueStatus(status, id);
+        issueService.changeIssueStatus(status, issueId);
         return new ModelAndView("redirect:/home");
     }
     
     @RequestMapping(value = "issue/type/{id}", method = RequestMethod.GET)
     public ModelAndView changeIssueType(@RequestParam(value = "type") String type,
-            @PathVariable int id) {
-        issueService.changeIssueType(type, id);
+            @PathVariable int issueId) {
+        issueService.changeIssueType(type, issueId);
         return new ModelAndView("redirect:/home");
     }
     
     @RequestMapping(value = "issue/assignee/{id}", method = RequestMethod.GET)
     public ModelAndView changeIssueAssignee(@RequestParam(value = "assignee_id") int userId,
-            @PathVariable int id) {
-        issueService.changeIssueAssignee(userId, id);
+            @PathVariable int issueId) {
+        issueService.changeIssueAssignee(userId, issueId);
         return new ModelAndView("redirect:/home");
     }
 

@@ -63,7 +63,7 @@ public class ProjectController {
 
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping("project/add")
-    public ModelAndView addProjectForm() {
+    public ModelAndView addProjectPage() {
         ModelAndView model = new ModelAndView("project/addproject", "project", new Project());
 
         return model;
@@ -78,11 +78,11 @@ public class ProjectController {
             return new ModelAndView("project/addproject", "project", projectDto);
         }
 
-        logger.debug("No validation errors found. Continuing adding new project.");
+        logger.debug("No validation errors found. Continue adding new project.");
 
-        String projectSavingStatus = saveNewProjectAndStatus(projectDto);
-
-        if (projectSavingStatus.equals("nameExsists")) {
+        try {
+            projectService.saveProject(projectDto);
+        } catch (ProjectNameExistsException e) {
             result.rejectValue("projName", "message.projectNameError");
             return new ModelAndView("/project/addproject", "project", projectDto);
         }
@@ -92,28 +92,19 @@ public class ProjectController {
         return model;
     }
 
-    private String saveNewProjectAndStatus(ProjectDto projectDto) {
-        try {
-            projectService.saveProject(projectDto);
-        } catch (ProjectNameExistsException e) {
-            return "nameExsists";
-        }
-        return "success";
-    }
-
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "project/remove/{id}", method = RequestMethod.GET)
-    public ModelAndView removeProject(@PathVariable int id) {
-        projectService.removeProject(id);
+    public ModelAndView removeProject(@PathVariable int projectId) {
+        projectService.removeProject(projectId);
         return new ModelAndView("redirect:/projects/manage");
     }
 
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "project/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editProject(@PathVariable int id) {
+    public ModelAndView editProject(@PathVariable int projectId) {
 
         ModelAndView model = new ModelAndView("project/edit");
-        Project project = projectService.getProjectById(id);
+        Project project = projectService.getProjectById(projectId);
         model.addObject("project", project);
 
         return model;
@@ -141,8 +132,8 @@ public class ProjectController {
 
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "project/details/{id}", method = RequestMethod.GET)
-    public ModelAndView showProjectDetails(@PathVariable int id) {
-        Project project = projectService.getProjectById(id);
+    public ModelAndView showProjectDetails(@PathVariable int projectId) {
+        Project project = projectService.getProjectById(projectId);
         ModelAndView model = new ModelAndView("project/details");
         model.addObject("project", project);
         return model;
