@@ -78,7 +78,6 @@ public class LoginController {
                 if (cookie.getName().equals("filterFlow")) {
                     cookie.setMaxAge(0);
                     filterFlow = cookie;
-                    break;
                 }
             }
         }

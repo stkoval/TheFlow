@@ -8,7 +8,7 @@ company_id int not null auto_increment,
 company_name varchar(100) not null,
 key(company_name),
 primary key (company_id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into companies (company_name)
 values('DemoCompany1');
@@ -25,7 +25,7 @@ enabled TINYINT NOT NULL DEFAULT 1,
 PRIMARY KEY (user_id),
 FOREIGN KEY (company_id) REFERENCES companies(company_id),
 KEY (email)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into users(company_id, firstname, lastname, email, password) 
 values(1, 'Kurt', 'Cobain', 'KCobain@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
@@ -42,7 +42,7 @@ user_role varchar(45) NOT NULL,
 PRIMARY KEY (user_role_id),
 UNIQUE KEY uni_username_role (user_role,username),
 KEY fk_username_idx (username),
-CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (email));
+CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (email)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS projects;
 create table projects (
@@ -54,7 +54,7 @@ start_date datetime null,
 release_date datetime null,
 active TINYINT NOT NULL DEFAULT 1,
 PRIMARY KEY (project_id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into projects(name, company_id, description, start_date, release_date) 
 values('TestProject1', 1, 'This is a test project', '11.11.15', '12.12.16');
@@ -79,7 +79,7 @@ modification_date datetime null,
 PRIMARY KEY (issue_id),
 FOREIGN KEY (creator_id) REFERENCES users(user_id),
 FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 drop trigger if exists issues_insert;
 delimiter//

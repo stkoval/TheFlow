@@ -63,6 +63,8 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     private Properties getHibernateProperties() {
         Properties prop = new Properties();
         prop.put("hibernate.show_sql", "true");
+        prop.put("hibernate.connection.useUnicode", "true");
+        prop.put("hibernate.connection.characterEncoding", "UTF-8");
         prop.put("hibernate.dialect",
                 "org.hibernate.dialect.MySQL5Dialect");
         return prop;
@@ -73,7 +75,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/flowdb");
+        ds.setUrl("jdbc:mysql://localhost:3306/flowdb?characterEncoding=UTF-8");
         ds.setUsername("root");
         ds.setPassword("root");
         return ds;

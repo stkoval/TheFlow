@@ -7,6 +7,7 @@ package com.theflow.configuration;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -34,5 +35,13 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
         servletContext.addListener(new SessionListener());
+        registerCharachterEncodingFilter(servletContext);
+    }
+
+    private void registerCharachterEncodingFilter(ServletContext aContext) {
+        CharacterEncodingFilter cef = new CharacterEncodingFilter();
+        cef.setForceEncoding(true);
+        cef.setEncoding("UTF-8");
+        aContext.addFilter("charachterEncodingFilter", cef).addMappingForUrlPatterns(null, true, "/*");
     }
 }

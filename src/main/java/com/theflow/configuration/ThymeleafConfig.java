@@ -28,6 +28,7 @@ public class ThymeleafConfig {
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("LEGACYHTML5");
+        resolver.setCharacterEncoding("UTF-8");
         resolver.setOrder(1);
         return resolver;
     }
@@ -52,6 +53,7 @@ public class ThymeleafConfig {
     public ThymeleafViewResolver thymeleafViewResolver() {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
+        resolver.setCharacterEncoding("UTF-8");
 
         return resolver;
     }
