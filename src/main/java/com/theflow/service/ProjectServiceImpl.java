@@ -9,9 +9,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,9 @@ public class ProjectServiceImpl implements ProjectService{
     
     @Autowired
     private CompanyDao companyDao;
+    
+    @Autowired
+    MessageSource messageSource; 
 
     @Override
     public List<Project> getProjectList() {
@@ -39,7 +44,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public void saveProject(ProjectDto projectDto) throws ProjectNameExistsException {
         if (projectNameExists(projectDto.getProjName())) {
-            throw new ProjectNameExistsException("There is a project with that name already added: "
+            throw new ProjectNameExistsException(messageSource.getMessage("message.project.exists", null, Locale.ENGLISH)
                     + projectDto.getProjName());
         }
         FlowUserDetailsService.User principal
@@ -91,6 +96,7 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectDao.getProjectById(projectDto.getProjectId());
         if (!project.getProjName().equals(projectDto.getProjName())) {
             
+            //checking if project name is already exist
             if (projectNameExists(projectDto.getProjName())) {
                 throw new ProjectNameExistsException("There is a project with that name already added: "
                         + projectDto.getProjName());

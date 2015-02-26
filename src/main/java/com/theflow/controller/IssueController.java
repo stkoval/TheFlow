@@ -65,6 +65,7 @@ public class IssueController {
         return issuesString;
     }
 
+    //saving issue after issue creation form is populated
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
     public ModelAndView saveIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
@@ -74,7 +75,6 @@ public class IssueController {
         return new ModelAndView("redirect:/home");
     }
 
-    //creating new issue
     @RequestMapping("issue/add")
     public ModelAndView showCreateIssueForm() {
         ModelAndView model = new ModelAndView("issue/addissue", "issue", new IssueDto());
@@ -93,7 +93,6 @@ public class IssueController {
         return model;
     }
 
-    //removes issue from database
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeIssue(@PathVariable(value = "id") int issueId) {
@@ -101,7 +100,7 @@ public class IssueController {
         return new ModelAndView("redirect:/home");
     }
 
-    //get all issues related to Company
+    //get all issues related to company
     @RequestMapping(value = "issue/all", method = RequestMethod.GET)
     public ModelAndView getAllIssues() {
         ModelAndView model = new ModelAndView("issue/table");
@@ -119,7 +118,7 @@ public class IssueController {
     }
 
     @RequestMapping(value = "issue/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editIssue(@PathVariable(value = "id") int issueId) {
+    public ModelAndView showIssueEditForm(@PathVariable(value = "id") int issueId) {
 
         ModelAndView model = new ModelAndView("issue/edit");
         Issue issue = issueService.getIssueById(issueId);
@@ -140,6 +139,7 @@ public class IssueController {
         return model;
     }
 
+    //updating issue after issue edit form is populated
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/update", method = RequestMethod.POST)
     public ModelAndView updateIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
@@ -149,19 +149,21 @@ public class IssueController {
     }
 
     @RequestMapping(value = "issue/details/{id}", method = RequestMethod.GET)
-    public ModelAndView showIssueDetails(@PathVariable(value = "id") int issueId) {
+    public ModelAndView showIssueDetailsPage(@PathVariable(value = "id") int issueId) {
         ModelAndView model = new ModelAndView("issue/details");
         Issue issue = issueService.getIssueById(issueId);
         model.addObject("issue", issue);
         return model;
     }
 
+    //Assign issue to current authenticated user
     @RequestMapping(value = "issue/assign/{issue_id}", method = RequestMethod.GET)
     public ModelAndView assignToCurrentUser(@PathVariable(value = "id") int issue_id) {
         issueService.assignToCurrentUser(issue_id);
         return new ModelAndView("redirect:/home");
     }
 
+    //Get issues related to project with projectId = id
     @RequestMapping(value = "issue/byproject/{id}", method = RequestMethod.GET)
     public ModelAndView getIssuesByProjectId(@PathVariable(value = "id") int issueId) {
         ModelAndView model = new ModelAndView("/issue/table");
@@ -178,6 +180,7 @@ public class IssueController {
         return model;
     }
 
+    //change issue status
     @RequestMapping(value = "issue/status/{id}", method = RequestMethod.GET)
     public ModelAndView changeIssueStatus(@RequestParam(value = "status") String status,
             @PathVariable(value = "id") int issueId) {
@@ -186,6 +189,7 @@ public class IssueController {
         return new ModelAndView("redirect:/home");
     }
     
+    //change issue type
     @RequestMapping(value = "issue/type/{id}", method = RequestMethod.GET)
     public ModelAndView changeIssueType(@RequestParam(value = "type") String type,
             @PathVariable(value = "id") int issueId) {
@@ -193,6 +197,7 @@ public class IssueController {
         return new ModelAndView("redirect:/home");
     }
     
+    //change issue assignee
     @RequestMapping(value = "issue/assignee/{id}", method = RequestMethod.GET)
     public ModelAndView changeIssueAssignee(@RequestParam(value = "assignee_id") int userId,
             @PathVariable(value = "id") int issueId) {
