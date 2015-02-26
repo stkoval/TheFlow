@@ -158,8 +158,8 @@ public class IssueController {
 
     //Assign issue to current authenticated user
     @RequestMapping(value = "issue/assign/{id}", method = RequestMethod.GET)
-    public ModelAndView assignToCurrentUser(@PathVariable(value = "id") int issue_id) {
-        issueService.assignToCurrentUser(issue_id);
+    public ModelAndView assignToCurrentUser(@PathVariable(value = "id") int issueId) {
+        issueService.assignToCurrentUser(issueId);
         return new ModelAndView("redirect:/home");
     }
 
