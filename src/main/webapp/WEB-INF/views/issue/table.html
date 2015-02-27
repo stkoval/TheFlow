@@ -63,8 +63,8 @@
                                                     <span th:text="${issue.status}"></span> <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
-                                                    <!-- TO DO - hide actual status like th:if="issue.hasNotStatus('New')" -->
-                                                    <li><a href="#" th:href="@{'/issue/status/' + ${issue.issueId}} + '?status=new'">New</a></li>
+                                                    <!-- TO DO - <li><a th:class="${isCurrent('New', ${issue.issueId}) ? hidden : show" th:href="@{'/issue/status/' + ${issue.issueId}} + '?status=new'">New</a></li> -->
+                                                    <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=new'}">New</a></li>
                                                     <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=review'}">Review</a></li>
                                                     <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=in_progress'}">In Progress</a></li>
                                                     <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=resolved'}">Resolved</a></li>
