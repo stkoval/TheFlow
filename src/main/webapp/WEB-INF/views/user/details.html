@@ -13,10 +13,7 @@
 
             <div class="container main-content">
                 <div class="row">
-
-                    <div th:replace="fragments/layout :: sidebar">&nbsp;</div>
-
-                    <div id="main" class="col-md-9 col-xs-12">
+                    <div id="main" class="col-md-12 col-xs-12">
                         <h3 class="issue-title" th:text="${user.fullName}">Full Name</h3>
                         <h3 class="issue-title" th:text="${user.email}">Email</h3>
                         <h3 class="issue-title" th:text="${user.company.name}">Company</h3>

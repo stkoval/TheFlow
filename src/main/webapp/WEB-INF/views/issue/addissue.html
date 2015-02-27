@@ -27,7 +27,13 @@
                     <div class="col-md-6">
                         <h1 class="main-title text-center" th:text="#{issue.create.title}">Create issue</h1>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 text-right">
+                        <a th:href="@{/issue/all}" class="fancy-button medium blueRiver icon basic">
+                            <span class="icon pull-left">
+                                <i class="fa fa-list"></i>
+                            </span>
+                            &nbsp;All issues
+                        </a>
                     </div>
                 </div>
                 
