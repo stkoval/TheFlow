@@ -9,7 +9,9 @@
 </head>
 <body>
     <object th:include="fragments/layout :: styles" th:remove="tag"/>
-
+    <div th:fragment="issue-list">
+        <th:block th:if="${message != null}"/>
+    </div>
     <div id="wrap">
         <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
 
