@@ -1,5 +1,8 @@
 @button-status-width: 150px;
 @button-type-width: 80px;
+@button-priority-width: 100px;
+@button-assignee-width: auto;
+
 body {
   font-family: "Open Sans", Arial, sans-serif;
   height: 100%; }
@@ -379,12 +382,24 @@ button.fancy-button .icon,
 .user-buttons-row {
   margin-top: 20px; }
 
-.status-toggle, .status-dropdown, .status-cell {
+.status-cell {
   width:@button-status-width;
 }
 
-.type-toggle, .type-dropdown, .type-cell {
+.type-cell {
   width:@button-type-width;
+}
+
+.priority-cell {
+  width:@button-priority-width;
+}
+
+.assignee-cell {
+  width:@button-priority-width;
+}
+
+.cell-button {
+  width:100%;
 }
 
 /* Set the fixed height of the footer here */
