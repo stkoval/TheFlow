@@ -215,7 +215,7 @@ public class IssueController {
 
     //change issue assignee
     @RequestMapping(value = "issue/{id}/assignee", method = RequestMethod.GET)
-    public ModelAndView changeIssueAssignee(@RequestParam(value = "assignee_id") int userId,
+    public ModelAndView changeIssueAssignee(@RequestParam(value = "assignee") int userId,
             @PathVariable(value = "id") int issueId) {
         issueService.changeIssueAssignee(userId, issueId);
         return new ModelAndView("redirect:/home");
