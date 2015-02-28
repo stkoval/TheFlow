@@ -7,6 +7,7 @@ import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
+import com.theflow.dto.UserProfileDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -104,6 +105,15 @@ public class UserServiceImpl implements UserService {
         userRoleDao.saveRole(roleUser);
         return userId;
     }
+    
+    @Override
+    public void updateUser(UserProfileDto userDto) {
+        User user = userDao.getUserById(userDto.getUserId());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+
+        userDao.updateUser(user);
+    }
 
     @Override
     public void removeUser(int id) {
@@ -120,14 +130,13 @@ public class UserServiceImpl implements UserService {
     //change user role on manage users page
     @Override
     public void changeUserRole(String role, int id) {
-        //User user = userDao.getUserById(id);
         UserRole userRole = userRoleDao.getRoleByUserId(id);
         userRole.setRole(role);
         userRoleDao.updateRole(userRole);
     }
 
     @Override
-    public FlowUserDetailsService.User getPrinciple() {
+    public FlowUserDetailsService.User getPrincipal() {
         return (FlowUserDetailsService.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

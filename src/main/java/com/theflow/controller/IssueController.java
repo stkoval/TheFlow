@@ -181,7 +181,7 @@ public class IssueController {
     }
 
     //change issue status
-    @RequestMapping(value = "issue/status/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "issue/{id}/status", method = RequestMethod.GET)
     public ModelAndView changeIssueStatus(@RequestParam(value = "status") String status,
             @PathVariable(value = "id") int issueId) {
         status = status.replace('_', ' ');
@@ -190,7 +190,7 @@ public class IssueController {
     }
     
     //change issue type
-    @RequestMapping(value = "issue/type/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "issue/{id}/type", method = RequestMethod.GET)
     public ModelAndView changeIssueType(@RequestParam(value = "type") String type,
             @PathVariable(value = "id") int issueId) {
         issueService.changeIssueType(type, issueId);
@@ -198,7 +198,7 @@ public class IssueController {
     }
     
     //change issue assignee
-    @RequestMapping(value = "issue/assignee/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "issue/{id}/assignee", method = RequestMethod.GET)
     public ModelAndView changeIssueAssignee(@RequestParam(value = "assignee_id") int userId,
             @PathVariable(value = "id") int issueId) {
         issueService.changeIssueAssignee(userId, issueId);

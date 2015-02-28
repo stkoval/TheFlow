@@ -37,7 +37,6 @@ public class ThymeleafConfig {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolver(templateResolver());
-        //engine.addTemplateResolver(urlTemplateResolver());
         engine.addDialect(new SpringSecurityDialect());
         engine.addDialect(new TilesDialect());
         engine.addDialect(new LayoutDialect());
