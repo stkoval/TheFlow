@@ -114,6 +114,10 @@ public class IssueController {
         model.addObject("issues", issues);
 
         model.addObject("projects", projects);
+
+        List<User> users = userService.getAllUsers();
+        model.addObject("users", users);
+
         return model;
     }
 
@@ -177,6 +181,10 @@ public class IssueController {
         model.addObject("issues", issues);
 
         model.addObject("projects", projects);
+
+        List<User> users = userService.getAllUsers();
+        model.addObject("users", users);
+
         return model;
     }
 
@@ -188,7 +196,7 @@ public class IssueController {
         issueService.changeIssueStatus(status, issueId);
         return new ModelAndView("redirect:/home");
     }
-    
+
     //change issue type
     @RequestMapping(value = "issue/{id}/type", method = RequestMethod.GET)
     public ModelAndView changeIssueType(@RequestParam(value = "type") String type,
@@ -196,7 +204,15 @@ public class IssueController {
         issueService.changeIssueType(type, issueId);
         return new ModelAndView("redirect:/home");
     }
-    
+
+//change issue priority
+    @RequestMapping(value = "issue/{id}/priority", method = RequestMethod.GET)
+    public ModelAndView changeIssuePriority(@RequestParam(value = "priority") String priority,
+            @PathVariable(value = "id") int issueId) {
+        issueService.changeIssuePriority(priority, issueId);
+        return new ModelAndView("redirect:/home");
+    }
+
     //change issue assignee
     @RequestMapping(value = "issue/{id}/assignee", method = RequestMethod.GET)
     public ModelAndView changeIssueAssignee(@RequestParam(value = "assignee_id") int userId,

@@ -241,4 +241,12 @@ public class IssueServiceImpl implements IssueService {
         issue.setAssignee(assignee);
         issueDao.updateIssue(issue);
     }
+
+    @Override
+    public void changeIssuePriority(String priority, int issueId) {
+        Issue issue = issueDao.getIssueById(issueId);
+        IssuePriority issuePriority = IssuePriority.getEnum(priority);
+        issue.setPriority(issuePriority);
+        issueDao.updateIssue(issue);
+    }
 }
