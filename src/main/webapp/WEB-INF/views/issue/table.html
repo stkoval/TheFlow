@@ -64,7 +64,7 @@
                                                     <!-- TO DO - <li><a th:class="${isCurrent('New', ${issue.issueId}) ? hidden : show" th:href="@{'/issue/status/' + ${issue.issueId}} + '?status=new'">New</a></li> -->
                                                     <li th:if="${issue.status.toString()} != 'New'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=new'}">New</a></li>
                                                     <li th:if="${issue.status.toString()} != 'Review'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=review'}">Review</a></li>
-                                                    <li th:if="${issue.status.toString()} != 'In progress'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=in_progress'}">In Progress</a></li>
+                                                    <li th:if="${issue.status.toString()} != 'In progress'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=in_progress'}">In progress</a></li>
                                                     <li th:if="${issue.status.toString()} != 'Resolved'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=resolved'}">Resolved</a></li>
                                                 </ul>
                                             </div>
