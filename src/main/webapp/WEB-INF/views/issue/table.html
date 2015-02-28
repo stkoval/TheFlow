@@ -18,8 +18,6 @@
                 	<div th:replace="fragments/layout :: sidebar">&nbsp;</div>
                     
                     <div id="main" class="col-md-9 col-xs-12">
-                    
-                    	<h1 class="main-title text-center">Issues list</h1>
 
                         <div th:fragment="issue-list">                           
                             
@@ -62,16 +60,26 @@
                                                 <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueRiver basic status-toggle text-left" data-toggle="dropdown" aria-expanded="false">
                                                     <span th:text="${issue.status}"></span> <span class="caret"></span>
                                                 </button>
-                                                <ul class="dropdown-menu" role="menu">
+                                                <ul class="dropdown-menu status-dropdown" role="menu">
                                                     <!-- TO DO - <li><a th:class="${isCurrent('New', ${issue.issueId}) ? hidden : show" th:href="@{'/issue/status/' + ${issue.issueId}} + '?status=new'">New</a></li> -->
-                                                    <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=new'}">New</a></li>
-                                                    <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=review'}">Review</a></li>
-                                                    <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=in_progress'}">In Progress</a></li>
-                                                    <li><a th:href="@{'/issue/status/' + ${issue.issueId} + '?status=resolved'}">Resolved</a></li>
+                                                    <li th:if="${issue.status.toString()} != 'New'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=new'}">New</a></li>
+                                                    <li th:if="${issue.status.toString()} != 'Review'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=review'}">Review</a></li>
+                                                    <li th:if="${issue.status.toString()} != 'In Progress'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=in_progress'}">In Progress</a></li>
+                                                    <li th:if="${issue.status.toString()} != 'Resolved'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=resolved'}">Resolved</a></li>
                                                 </ul>
                                             </div>
                                         </td>
-                                        <td th:text="${issue.type}">type</td>
+                                        <td class="type-cell">
+                                            <div class="dropdown">
+                                                <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueRiver basic type-toggle text-left" data-toggle="dropdown" aria-expanded="false">
+                                                    <span th:text="${issue.type}"></span> <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu type-dropdown" role="menu">
+                                                    <li th:if="${issue.type.toString()} != 'Bug'"><a th:href="@{'/issue/' + ${issue.issueId} + '/type?type=bug'}">Bug</a></li>
+                                                    <li th:if="${issue.type.toString()} != 'Task'"><a th:href="@{'/issue/' + ${issue.issueId} + '/type?type=task'}">Task</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
                                         <td th:text="${issue.priority}">priority</td>
                                         <td th:text="${issue.assignee.fullName}">assignee</td>
                                         <td class="tools-cell">

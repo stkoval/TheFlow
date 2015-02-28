@@ -21,9 +21,15 @@
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <h1 class="main-title text-center">Edit project</h1>
+                        <h1 class="main-title text-center">Edit project <span th:text="${project.projName}"></span></h1>
                     </div>
                     <div class="col-md-3">
+                        <a th:href="@{'/issue/byproject/' + ${project.projectId}}" class="fancy-button medium blueRiver icon basic pull-right">
+                            <span class="icon pull-left">
+                                <i class="fa fa-folder-open"></i>
+                            </span>
+                            &nbsp;Project issues
+                        </a>
                     </div>
                 </div>
 
@@ -75,7 +81,7 @@
                                 </div>
                             </div>
                         </form>
-
+                        </div>
                     </div>           
                 </div>                
             </div>
