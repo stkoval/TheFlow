@@ -1,5 +1,6 @@
+@tolls-button-width: 60px;
 @button-status-width: 150px;
-@button-type-width: 80px;
+@button-type-width: 100px;
 @button-priority-width: 150px;
 @button-assignee-width: auto;
 
@@ -334,14 +335,46 @@ button.fancy-button .icon,
   padding: 10px; }
 
 #issuesList td {
-  vertical-align: middle; }
+  vertical-align: middle;
+  i {
+    display: none;
+  }
+  i.fa {
+    display:inline-block;
+  }
+  div.dropdown {
+    button {
+      margin:0px;
+      text-align: center;
+    }
+  }
+  .cell-button {
+    width:100%;
+  }
+}
 
-#issuesList td i {
-  display:none; }
+.status-cell {
+  width:@button-status-width;
+}
+
+.type-cell {
+  width:@button-type-width;
+
+}
+
+.priority-cell {
+  width: @button-priority-width;
+}
+.assignee-cell {
+  width:@button-priority-width;
+}
 
 .tools-cell {
-  width: 60px;
-  padding: 0px; }
+  width: @tolls-button-width;
+  button {
+    width: @tolls-button-width;
+  }
+}
 
 #wrap {
   min-height: 100%;
@@ -386,25 +419,6 @@ button.fancy-button .icon,
 .user-buttons-row {
   margin-top: 20px; }
 
-.status-cell {
-  width:@button-status-width;
-}
-
-.type-cell {
-  width:@button-type-width;
-}
-
-.priority-cell {
-  width:@button-priority-width;
-}
-
-.assignee-cell {
-  width:@button-priority-width;
-}
-
-.cell-button {
-  width:100%;
-}
 
 /* Set the fixed height of the footer here */
 #push,
