@@ -74,9 +74,9 @@
                                             <li th:if="${issue.status.toString()} != 'Review'"><a
                                                 th:href="@{'/issue/' + ${issue.issueId} + '/status?status=review'}">Review</a>
                                             </li>
-                                            <li th:if="${issue.status.toString()} != 'In Progress'"><a
+                                            <li th:if="${issue.status.toString()} != 'In progress'"><a
                                                 th:href="@{'/issue/' + ${issue.issueId} + '/status?status=in_progress'}">In
-                                                Progress</a></li>
+                                                progress</a></li>
                                             <li th:if="${issue.status.toString()} != 'Resolved'"><a
                                                 th:href="@{'/issue/' + ${issue.issueId} + '/status?status=resolved'}">Resolved</a>
                                             </li>
