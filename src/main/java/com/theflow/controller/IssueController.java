@@ -205,7 +205,7 @@ public class IssueController {
         return new ModelAndView("redirect:/home");
     }
 
-//change issue priority
+    //change issue priority
     @RequestMapping(value = "issue/{id}/priority", method = RequestMethod.GET)
     public ModelAndView changeIssuePriority(@RequestParam(value = "priority") String priority,
             @PathVariable(value = "id") int issueId) {

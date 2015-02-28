@@ -243,6 +243,7 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
+    @Transactional
     public void changeIssuePriority(String priority, int issueId) {
         Issue issue = issueDao.getIssueById(issueId);
         IssuePriority issuePriority = IssuePriority.getEnum(priority);
