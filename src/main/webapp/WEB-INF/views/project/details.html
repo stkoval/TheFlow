@@ -13,20 +13,39 @@
 
     <div class="container main-content">
         <div class="row">
+            <div class="col-md-3 nav-col text-left">
+                <a th:href="@{/projects/manage}" class="fancy-button medium blueRiver icon basic">
+                                        <span class="icon pull-left">
+                                            <i class="fa fa-chevron-left"></i>
+                                        </span>
+                    &nbsp;Back
+                </a>
+            </div>
+            <div class="col-md-6 nav-col text-left">
+                <h1 class="main-title text-center" th:text="${project.projName}"></h1>
+            </div>
+            <div class="col-md-3 text-right">
+                <a th:href="@{'/issue/byproject/' + ${project.projectId}}" class="fancy-button medium blueRiver icon basic pull-right">
+                            <span class="icon pull-left">
+                                <i class="fa fa-folder-open"></i>
+                            </span>
+                    &nbsp;Project issues
+                </a>
+            </div>
+        </div>
 
-            <div th:replace="fragments/layout :: sidebar">&nbsp;</div>
-
-            <div id="main" class="col-md-9 col-xs-12">
-                <h3 class="issue-title" th:text="${project.projName}">Name</h3>
-                <h3 class="issue-title" th:text="${project.projDescription}">Description</h3>
-                <h3 class="issue-title" th:text="${project.company.name}">Company</h3>
-                <h3 class="issue-title" th:text="${project.startDate}">Start Date</h3>
-                <h3 class="issue-title" th:text="${project.releaseDate}">Release Date</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="issue-title" th:text="${project.projDescription}">Description</p>
+                <p th:text="${project.company.name}">Company</p>
+                <p class="issue-title" th:text="${project.startDate}">Start Date</p>
+                <p class="issue-title" th:text="${project.releaseDate}">Release Date</p>
             </div>
         </div>
     </div>
     <div id="push"></div>
 </div>
+
 <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
 
 <object th:include="fragments/layout :: script" th:remove="tag"/>

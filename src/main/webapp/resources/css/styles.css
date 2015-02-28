@@ -209,6 +209,9 @@ a.logo-top.navbar-brand {
 .login-button {
   width: 100%;
 }
+#search-issue-top {
+  display: none;
+}
 #sidebar a.fancy-button,
 .nav-col a.fancy-button {
   margin-left: 0px;
@@ -226,7 +229,8 @@ a.logo-top.navbar-brand {
   margin-top: 0px;
   padding-top: 0px;
 }
-button.fancy-button .icon {
+button.fancy-button .icon,
+.login-button.fancy-button .icon {
   display: inline-block;
   float: none;
   line-height: 20px;
@@ -375,6 +379,20 @@ button.fancy-button .icon {
 }
 .user-buttons-row {
   margin-top: 20px;
+}
+.status-toggle,
+.status-dropdown {
+  width: 150px;
+}
+.status-cell {
+  width: 150px;
+}
+.type-toggle,
+.type-dropdown {
+  width: 150px;
+}
+.status-cell {
+  width: 150px;
 }
 /* Set the fixed height of the footer here */
 #push,
