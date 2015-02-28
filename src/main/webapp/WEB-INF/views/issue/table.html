@@ -19,12 +19,7 @@
                     
                     <div id="main" class="col-md-9 col-xs-12">
 
-                        <div th:fragment="issue-list">                           
-                            
-                            <th:block th:if="${message != null}">
-                                <!--/* The message code is returned from the @Controller */-->
-                                <div th:replace="fragments/alert :: alert">&nbsp;</div>
-                            </th:block>
+                        <div th:fragment="issue-list">
                                                 
                             <table id="issuesList" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
