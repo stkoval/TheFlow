@@ -3,6 +3,7 @@ package com.theflow.controller;
 import com.theflow.domain.User;
 import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
+import com.theflow.dto.UserProfileDto;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
@@ -49,7 +48,7 @@ public class UserController {
     @RequestMapping(value="profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
-        User user = userService.getUserById(userService.getPrinciple().getUserId());
+        User user = userService.getUserById(userService.getPrincipal().getUserId());
         Set<UserRole> roles = user.getUserRole();
         List<UserRole> listRoles = new ArrayList<>(roles);
         model.addObject("user", user);
@@ -77,7 +76,7 @@ public class UserController {
 
     //save account user after registration procees from login page
     @RequestMapping(value = "/user/saveaccount", method = RequestMethod.POST)
-    public ModelAndView registerNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
+    public ModelAndView saveNewUserFromRegistration(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
         logger.debug("Registering user account with information: {}" + userDto);
         if (result.hasErrors()) {
             return new ModelAndView("signin/registration", "user", userDto);
@@ -103,7 +102,7 @@ public class UserController {
     //add new user to existing company through manage users page by admin user
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "/user/saveuser", method = RequestMethod.POST)
-    public ModelAndView addNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
+    public ModelAndView saveNewUserFromAdminTools(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
         logger.debug("Registering user account with information: {}" + userDto);
         if (result.hasErrors()) {
             return new ModelAndView("user/adduser", "user", userDto);
@@ -132,15 +131,25 @@ public class UserController {
     }
     
     //edit user from profile page
-    @PreAuthorize("hasAnyRole('Admin','Observer')")
-    @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editUser(@PathVariable(value = "id") int userId) {
+    @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView showUserEditForm(@PathVariable(value = "id") int userId) {
 
         ModelAndView model = new ModelAndView("user/edit");
         User user = userService.getUserById(userId);
         model.addObject("user", user);
 
         return model;
+    }
+    
+    @PreAuthorize("hasAnyRole('Admin','User')")
+    @RequestMapping(value = "/user/update", method = RequestMethod.POST)
+    public ModelAndView updateIssue(@ModelAttribute(value = "user") @Valid UserProfileDto userDto, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return new ModelAndView("/user/edit", "user", userDto);
+        }
+        userService.updateUser(userDto);
+        return new ModelAndView("redirect:/users/manage");
     }
     
     @PreAuthorize("hasAnyRole('Admin','Observer')")

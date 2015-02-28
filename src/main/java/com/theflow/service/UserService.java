@@ -7,6 +7,7 @@ package com.theflow.service;
 
 import com.theflow.domain.User;
 import com.theflow.dto.UserDto;
+import com.theflow.dto.UserProfileDto;
 import java.util.List;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
@@ -27,5 +28,7 @@ public interface UserService {
     
     public void changeUserRole(String role, int id);
     
-    public FlowUserDetailsService.User getPrinciple();
+    public FlowUserDetailsService.User getPrincipal();
+    
+    public void updateUser(UserProfileDto userDto);
 }

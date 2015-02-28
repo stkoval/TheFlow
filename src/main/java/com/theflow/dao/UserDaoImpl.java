@@ -38,7 +38,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateUser(User user) {
-
+        Session session = sessionFactory.getCurrentSession();
+        session.update(user);
     }
 
     @Override
