@@ -57,7 +57,7 @@
                                         <td><a th:href="@{'/issue/details/' + ${issue.issueId}}" th:text="${issue.title}">name</a></td>
                                         <td class="status-cell">
                                             <div class="dropdown">
-                                                <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueRiver basic status-toggle text-left" data-toggle="dropdown" aria-expanded="false">
+                                                <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueRiver basic status-toggle text-left cell-button" data-toggle="dropdown" aria-expanded="false">
                                                     <span th:text="${issue.status}"></span> <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu status-dropdown" role="menu">
@@ -71,7 +71,7 @@
                                         </td>
                                         <td class="type-cell">
                                             <div class="dropdown">
-                                                <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueRiver basic type-toggle text-left" data-toggle="dropdown" aria-expanded="false">
+                                                <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueRiver basic type-toggle text-left cell-button" data-toggle="dropdown" aria-expanded="false">
                                                     <span th:text="${issue.type}"></span> <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu type-dropdown" role="menu">
@@ -80,8 +80,30 @@
                                                 </ul>
                                             </div>
                                         </td>
-                                        <td th:text="${issue.priority}">priority</td>
-                                        <td th:text="${issue.assignee.fullName}">assignee</td>
+                                        <td class="priority-cell">
+                                            <div class="dropdown">
+                                                <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueRiver basic type-toggle text-left cell-button" data-toggle="dropdown" aria-expanded="false">
+                                                    <span th:text="${issue.priority}"></span> <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu type-dropdown" role="menu">
+                                                    <li th:if="${issue.priority.toString()} != 'Bug'"><a th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=high'}">High</a></li>
+                                                    <li th:if="${issue.priority.toString()} != 'Medium'"><a th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=medium'}">Medium</a></li>
+                                                    <li th:if="${issue.priority.toString()} != 'Low'"><a th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=low'}">Low</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td class="assignee-cell">
+                                            <div class="dropdown">
+                                                <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueRiver basic type-toggle text-left cell-button" data-toggle="dropdown" aria-expanded="false">
+                                                    <span th:text="${issue.assignee.fullName}"></span> <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu assignee-dropdown" role="menu">
+                                                    <li th:each="user : ${users}" th:if="${user.fullName.toString()} != ${issue.assignee.fullName}">
+                                                        <a th:href="@{'/issue/' + ${issue.issueId} + '/assignee?assignee=' + ${user.userId}}" th:text="${user.fullName}">User name</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
                                         <td class="tools-cell">
                                             <div class="dropdown">
                                                 <button type="button" class="btn btn-default dropdown-toggle fancy-button small blueHole basic" data-toggle="dropdown" aria-expanded="false">
