@@ -45,5 +45,7 @@ public interface IssueService {
     public void changeIssueType(String type, int id);
 
     public void changeIssueAssignee(int userId, int id);
+
+    public void changeIssuePriority(String priority, int sueId);
     
 }

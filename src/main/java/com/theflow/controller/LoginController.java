@@ -7,8 +7,10 @@ package com.theflow.controller;
 
 import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
+import com.theflow.domain.User;
 import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
+import com.theflow.service.UserService;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.Cookie;
@@ -38,13 +40,16 @@ public class LoginController {
     private IssueService issueService;
     
     @Autowired
+    private UserService userService;
+    
+    @Autowired
     MessageSource messageSource;
     
     static final Logger logger = Logger.getLogger(LoginController.class.getName());
     
-    @RequestMapping(value = "home", method = RequestMethod.GET)
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
     public ModelAndView showHomePage() {
-        ModelAndView model = new ModelAndView("home/home");
+        ModelAndView model = new ModelAndView("/home/home");
 
         //populating project list in the left sidebar
         List<Project> projects = projectService.getProjectList();
@@ -53,6 +58,9 @@ public class LoginController {
         //populating issue table
         List<Issue> issues = issueService.getAllIssues();
         model.addObject("issues", issues);
+        
+        List<User> users = userService.getAllUsers();
+        model.addObject("users", users);
         
         return model;
     }
