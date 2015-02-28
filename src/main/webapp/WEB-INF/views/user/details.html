@@ -1,62 +1,62 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-    <head>
-        <title>Add user</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Add user</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    </head>
-    <body>
+</head>
+<body>
     <object th:include="fragments/layout :: styles" th:remove="tag" />
 
-        <div id="wrap">
-            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
+    <div id="wrap">
+        <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
 
-            <div class="container main-content">
-                <div class="row">
-                    <div class="col-md-3 nav-col text-left">
-                        <a th:href="@{/users/manage}" class="fancy-button medium blueRiver icon basic">
-                                        <span class="icon pull-left">
-                                            <i class="fa fa-chevron-left"></i>
-                                        </span>
-                            &nbsp;Back
-                        </a>
-                    </div>
-                    <div class="col-md-6 nav-col text-left">
-                        <h1 class="main-title text-center" th:text="${user.email}"></h1>
-                    </div>
-                    <div class="col-md-3 text-right">
-                        <a th:href="@{/users/manage}" class="fancy-button medium blueRiver icon basic pull-right">
-                                        <span class="icon pull-left">
-                                            <i class="fa fa-users"></i>
-                                        </span>
-                            &nbsp;All users
-                        </a>
-                    </div>
+        <div class="container main-content">
+            <div class="row">
+                <div class="col-md-3 nav-col text-left">
+                    <a th:href="@{/users/manage}" class="fancy-button medium blueRiver icon basic">
+                                            <span class="icon pull-left">
+                                                <i class="fa fa-chevron-left"></i>
+                                            </span>
+                        &nbsp;Back
+                    </a>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <img class="img-responsive" src="/theflow/resources/img/no_avatar.gif" width="100%"/>
-                    </div>
-                    <div class="col-md-6">
-                        <h3 class="main-title" th:text="${user.fullName}"></h3>
-                        <p><a th:href ="${user.email}" th:text="${user.email}">Email</a></p>
-                        <p th:text="${user.company.name}">Company</p>
-                        <select class="selectpicker">
-                            <option th:each="role : ${roles}"
-                                    th:value="${role}"
-                                    th:if="${current_role == role.toString()}" th:selected="true"
-                                    th:text="${role}">Role</option>
-                        </select>
-                    </div>
+                <div class="col-md-6 nav-col text-left">
+                    <h1 class="main-title text-center" th:text="${user.email}"></h1>
+                </div>
+                <div class="col-md-3 text-right">
+                    <a th:href="@{/users/manage}" class="fancy-button medium blueRiver icon basic pull-right">
+                                            <span class="icon pull-left">
+                                                <i class="fa fa-users"></i>
+                                            </span>
+                        &nbsp;All users
+                    </a>
                 </div>
             </div>
-            <div id="push"></div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <img class="img-responsive" src="/theflow/resources/img/no_avatar.gif" width="100%"/>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="main-title" th:text="${user.fullName}"></h3>
+                    <p><a th:href ="${user.email}" th:text="${user.email}">Email</a></p>
+                    <p th:text="${user.company.name}">Company</p>
+                    <select class="selectpicker">
+                        <option th:each="role : ${roles}"
+                                th:value="${role}"
+                                th:if="${current_role == role.toString()}" th:selected="true"
+                                th:text="${role}">Role</option>
+                    </select>
+                </div>
+            </div>
         </div>
+        <div id="push"></div>
+    </div>
 
-        <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
+    <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
 
-        <object th:include="fragments/layout :: script" th:remove="tag"/>
+    <object th:include="fragments/layout :: script" th:remove="tag"/>
 
 </body>
 </html>
