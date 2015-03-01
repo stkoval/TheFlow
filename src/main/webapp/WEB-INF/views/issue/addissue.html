@@ -38,7 +38,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8 col-md-offset-2">
 
                 <form class="form-horizontal issue-full-form"  data-toggle="validator" id="createIssueForm" th:object="${issue}" th:action="@{save}" method="post">
                     <div class="form-group">
@@ -102,7 +102,7 @@
                         <label for="estimated_time" class="col-sm-2 control-label" th:text="#{label.issue.esttime}">Estimated time:</label>
                         <div class="col-sm-10">
                             <div class='date'>
-                                <input type='text' class="form-control logtimerange" id="estimated_time" th:field="*{estimatedTime}"  required />
+                                <input type='text' class="form-control logtimerange" id="estimated_time" th:field="*{estimatedTime}" value="00:00" required />
                             </div>
                             <div class="help-block with-errors"></div>
                             <div class="with-errors" th:if="${#fields.hasErrors('estimatedTime')}" th:errors="*{estimatedTime}"></div>
