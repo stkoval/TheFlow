@@ -71,12 +71,21 @@
                                             <li th:if="${issue.status.toString()} != 'New'"><a
                                                 th:href="@{'/issue/' + ${issue.issueId} + '/status?status=new'}">New</a>
                                             </li>
+                                            <li th:if="${issue.status.toString()} != 'In progress'"><a
+                                                th:href="@{'/issue/' + ${issue.issueId} + '/status?status=in_progress'}">In progress</a>
+                                            </li>
+                                            <li th:if="${issue.status.toString()} != 'Test ready'"><a
+                                                th:href="@{'/issue/' + ${issue.issueId} + '/status?status=test_ready'}">Test ready</a>
+                                            </li>
+                                            <li th:if="${issue.status.toString()} != 'Testing'"><a
+                                                th:href="@{'/issue/' + ${issue.issueId} + '/status?status=testing'}">Testing</a>
+                                            </li>
+                                            <li th:if="${issue.status.toString()} != 'On hold'"><a
+                                                th:href="@{'/issue/' + ${issue.issueId} + '/status?status=on_hold'}">On hold</a>
+                                            </li>
                                             <li th:if="${issue.status.toString()} != 'Review'"><a
                                                 th:href="@{'/issue/' + ${issue.issueId} + '/status?status=review'}">Review</a>
                                             </li>
-                                            <li th:if="${issue.status.toString()} != 'In progress'"><a
-                                                th:href="@{'/issue/' + ${issue.issueId} + '/status?status=in_progress'}">In
-                                                progress</a></li>
                                             <li th:if="${issue.status.toString()} != 'Resolved'"><a
                                                 th:href="@{'/issue/' + ${issue.issueId} + '/status?status=resolved'}">Resolved</a>
                                             </li>
