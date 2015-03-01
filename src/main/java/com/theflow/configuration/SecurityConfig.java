@@ -56,8 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .sessionManagement()
-                .maximumSessions(1)
-                .expiredUrl("/expired");
+                .maximumSessions(1);
     }
 
     @Bean
