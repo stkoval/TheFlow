@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -60,9 +60,13 @@ public class UserDaoImpl implements UserDao {
     public User findByEmail(String email) {
         List<User> users = new ArrayList<>();
 
+        FlowUserDetailsService.User principal = getPrincipal();
+        int companyId = principal.getCompanyId();
+
         users = sessionFactory.getCurrentSession()
-                .createQuery("from User where email=?")
+                .createQuery("from User where email=? and companyId=?")
                 .setParameter(0, email)
+                .setParameter(1, companyId)
                 .list();
         if (users.size() > 0) {
             return users.get(0);
@@ -80,15 +84,18 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         Session session = sessionFactory.getCurrentSession();
-        FlowUserDetailsService.User principal
-                        = (FlowUserDetailsService.User) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
+        FlowUserDetailsService.User principal = getPrincipal();
         int companyId = principal.getCompanyId();
         String hql = "from User where company.companyId = " + companyId;
         Query q = session.createQuery(hql);
-        List<User> users = (List<User>)q.list();
+        List<User> users = (List<User>) q.list();
         return users;
+    }
+
+    private FlowUserDetailsService.User getPrincipal() {
+        return (FlowUserDetailsService.User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
     }
 }

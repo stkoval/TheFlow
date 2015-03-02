@@ -46,7 +46,7 @@ public class UserDto {
     @NotEmpty
     @Size(min = 3, max = 30)
     private String companyName;
-
+    
     public int getUserId() {
         return userId;
     }

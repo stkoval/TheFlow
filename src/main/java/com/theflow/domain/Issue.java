@@ -23,6 +23,14 @@ import org.hibernate.annotations.Cascade;
 @Table(name = "issues")
 public class Issue implements Serializable {
 
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+
     public static enum IssueType {
 
         TASK("Task"),
@@ -168,6 +176,9 @@ public class Issue implements Serializable {
     @Column(name = "modification_date")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date lastModificationDate;
+    
+    @Column(name = "company_id")
+    private int companyId;
 
     public Issue() {
     }
@@ -276,4 +287,31 @@ public class Issue implements Serializable {
         this.lastModificationDate = lastModificationDate;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + this.issueId;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Issue other = (Issue) obj;
+        if (this.issueId != other.issueId) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    @Override
+    public String toString() {
+        return "Issue{" + "issueId=" + issueId + ", title=" + title + ", type=" + type + ", status=" + status + ", priority=" + priority + ", companyId=" + companyId + '}';
+    }
 }

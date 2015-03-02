@@ -1,5 +1,6 @@
 package com.theflow.service;
 
+import com.theflow.dao.CompanyDao;
 import com.theflow.dao.UserDao;
 import com.theflow.domain.UserRole;
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public class FlowUserDetailsService implements UserDetailsService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private CompanyDao companyDao;
+
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username)
@@ -37,7 +41,7 @@ public class FlowUserDetailsService implements UserDetailsService {
 
         com.theflow.domain.User user = userDao.findByEmail(username);
         if (user == null) {
-            throw new UsernameNotFoundException("No user found with username: "+ username);
+            throw new UsernameNotFoundException("No user found with username: " + username);
         }
 
         List<GrantedAuthority> authorities
@@ -51,33 +55,31 @@ public class FlowUserDetailsService implements UserDetailsService {
     // org.springframework.security.core.userdetails.User
     private User buildUserForAuthentication(com.theflow.domain.User user,
             List<GrantedAuthority> authorities) {
-        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId(), user.isEnabled(), user.getCompany().getCompanyId(), user.getCompany().getName());
+        String companyName = companyDao.getCompanyById(user.getCompanyId()).getName();
+        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId(), user.isEnabled(), user.getCompanyId(), companyName);
     }
 
-    private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+    private List<GrantedAuthority> buildUserAuthority(String userRole) {
 
         Set<GrantedAuthority> setAuths = new HashSet<>();
 
         // Build user's authorities
-        for (UserRole userRole : userRoles) {
-            setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
-        }
+        setAuths.add(new SimpleGrantedAuthority(userRole));
 
         List<GrantedAuthority> Result = new ArrayList<>(setAuths);
 
         return Result;
     }
 //
+
     public static class User extends org.springframework.security.core.userdetails.User {
-        
+
         private String fullName;
         private int userId;
         private int companyId;
         private String firstName;
         private String lastName;
         private String companyName;
-
-
 
         public User(String username, String password, List<GrantedAuthority> authorities, String firstName, String lastName, int userId, boolean enabled, int companyId, String companyName) {
             super(username, password, enabled, true, true, true, authorities);
@@ -89,11 +91,10 @@ public class FlowUserDetailsService implements UserDetailsService {
             this.companyName = companyName;
         }
 
-
         public boolean isAdmin() {
             logger.debug("************inside principle isAdmin method*********auth.length: " + getAuthorities().size());
             for (GrantedAuthority ga : getAuthorities()) {
-                if (ga.getAuthority().equals("Admin")) {
+                if (ga.getAuthority().equals("Admin") || ga.getAuthority().equals("Account")) {
                     return true;
                 }
             }
@@ -147,6 +148,6 @@ public class FlowUserDetailsService implements UserDetailsService {
         public void setCompanyName(String companyName) {
             this.companyName = companyName;
         }
-        
+
     }
 }

@@ -49,10 +49,9 @@ public class UserController {
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
         User user = userService.getUserById(userService.getPrincipal().getUserId());
-        Set<UserRole> roles = user.getUserRole();
-        List<UserRole> listRoles = new ArrayList<>(roles);
+        String role = user.getUserRole();
         model.addObject("user", user);
-        model.addObject("roles", listRoles);
+        model.addObject("role", role);
         return model;
     }
 
@@ -167,15 +166,13 @@ public class UserController {
         ModelAndView model = new ModelAndView("user/details");
         User user = userService.getUserById(userId);
         List<UserRoleConstants> roles = Arrays.asList(UserRoleConstants.values());
-        String currentRole = user.getUserRole().toArray()[0].toString();
         model.addObject("user", user);
         model.addObject("roles", roles);
-        model.addObject("current_role", currentRole);
         return model;
     }
     
     @PreAuthorize("hasRole('Admin')")
-    @RequestMapping(value = "user/role/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "user/{id}/role", method = RequestMethod.GET)
     public void changeUserAuthorities(@RequestParam(value = "role") String role,
             @PathVariable(value = "id") int userId) {
         userService.changeUserRole(role, userId);

@@ -19,32 +19,22 @@ company_id int(11) not null,
 user_id int(11) not null auto_increment,
 firstname varchar(40) not null,
 lastname varchar(40) not null,
-email varchar(255) not null UNIQUE,
+email varchar(255) not null,
 password varchar(60) not null,
 enabled TINYINT NOT NULL DEFAULT 1,
+user_role varchar(20) not null,
 PRIMARY KEY (user_id),
-FOREIGN KEY (company_id) REFERENCES companies(company_id),
-KEY (email)
+FOREIGN KEY (company_id) REFERENCES companies(company_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into users(company_id, firstname, lastname, email, password) 
-values(1, 'Kurt', 'Cobain', 'KCobain@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
-insert into users(company_id, firstname, lastname, email, password) 
-values(1, 'Egor', 'Letov', 'Egorka@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
-insert into users(company_id, firstname, lastname, email, password) 
-values(1, 'Victor', 'Coy', 'Coy@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
-insert into users(company_id, firstname, lastname, email, password) 
-values(1, 'John', 'Smith', 'jsmith@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja');
-
-DROP TABLE IF EXISTS user_roles;
-CREATE TABLE user_roles (
-user_role_id int(11) NOT NULL AUTO_INCREMENT,
-username varchar(45) NOT NULL,
-user_role varchar(45) NOT NULL,
-PRIMARY KEY (user_role_id),
-UNIQUE KEY uni_username_role (user_role,username),
-KEY fk_username_idx (username),
-CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (email)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+insert into users(company_id, firstname, lastname, email, password, user_role) 
+values(1, 'Kurt', 'Cobain', 'KCobain@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 'User');
+insert into users(company_id, firstname, lastname, email, password, user_role) 
+values(1, 'Egor', 'Letov', 'Egorka@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 'Admin');
+insert into users(company_id, firstname, lastname, email, password, user_role) 
+values(1, 'Victor', 'Coy', 'Coy@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 'User');
+insert into users(company_id, firstname, lastname, email, password, user_role) 
+values(1, 'John', 'Smith', 'jsmith@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 'Admin');
 
 DROP TABLE IF EXISTS projects;
 create table projects (
@@ -78,6 +68,7 @@ estimated_time varchar(10),
 logged_time varchar(10),
 creation_date datetime null,
 modification_date datetime null,
+company_id int not null,
 PRIMARY KEY (issue_id),
 FOREIGN KEY (creator_id) REFERENCES users(user_id),
 FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE
@@ -104,34 +95,25 @@ FOR EACH ROW BEGIN
 END//
 delimiter;
 
-insert into user_roles(username, user_role)
-values('KCobain@test.com', 'User');
-insert into user_roles(username, user_role)
-values('Egorka@test.com', 'Admin');
-insert into user_roles(username, user_role)
-values('Coy@test.com', 'User');
-insert into user_roles(username, user_role)
-values('jsmith@test.com', 'Admin');
-
-insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
-values('issue1', 'description', 'TASK', 'NEW', 'HIGH', '4', '1', '1');
-insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
-values('issue2', 'description', 'TASK', 'NEW', 'MEDIUM', '4', '1', '2');
-insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
-values('issue3', 'description', 'TASK', 'NEW', 'LOW', '4', '1', '1');
-insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
-values('issue4', 'description', 'TASK', 'RESOLVED', 'LOW', '4', '2', '2');
-insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
-values('issue5', 'description', 'TASK', 'INPROGRESS', 'MEDIUM', '3', '2', '1');
-insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
-values('issue6', 'description', 'TASK', 'REVIEW', 'LOW', '2', '1', '2');
-insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
-values('issue7', 'description', 'BUG', 'NEW', 'HIGH', '4', '1', '1');
-insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
-values('issue8', 'description', 'BUG', 'NEW', 'MEDIUM', '1', '2', '2');
-insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
-values('issue9', 'description', 'BUG', 'REVIEW', 'LOW', '4', '1', '1');
-insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id)
-values('issue10', 'description', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '1', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue1', 'description', 'TASK', 'NEW', 'HIGH', '4', '1', '1', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue2', 'description', 'TASK', 'NEW', 'MEDIUM', '4', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue3', 'description', 'TASK', 'NEW', 'LOW', '4', '1', '1', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue4', 'description', 'TASK', 'RESOLVED', 'LOW', '4', '2', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue5', 'description', 'TASK', 'INPROGRESS', 'MEDIUM', '3', '2', '1', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue6', 'description', 'TASK', 'REVIEW', 'LOW', '2', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue7', 'description', 'BUG', 'NEW', 'HIGH', '4', '1', '1', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue8', 'description', 'BUG', 'NEW', 'MEDIUM', '1', '2', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue9', 'description', 'BUG', 'REVIEW', 'LOW', '4', '1', '1', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue10', 'description', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '1', '1', '1');
 
 

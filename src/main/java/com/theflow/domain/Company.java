@@ -30,12 +30,6 @@ public class Company implements Serializable {
     @Column(name = "company_name")
     private String name;
     
-    @OneToMany(mappedBy = "company")
-    private Set<User> employees;
-    
-    @OneToMany(mappedBy = "company")
-    private Set<Project> projects;
-    
     public Company() {}
     
     public Company(String name) {
@@ -58,19 +52,31 @@ public class Company implements Serializable {
         this.name = name;
     }
 
-    public Set<User> getEmployees() {
-        return employees;
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 17 * hash + this.companyId;
+        return hash;
     }
 
-    public void setEmployees(Set<User> employees) {
-        this.employees = employees;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Company other = (Company) obj;
+        if (this.companyId != other.companyId) {
+            return false;
+        }
+        return true;
     }
 
-    public Set<Project> getProjectIds() {
-        return projects;
+    @Override
+    public String toString() {
+        return "Company{" + "companyId=" + companyId + ", name=" + name + '}';
     }
-
-    public void setProjectIds(Set<Project> projects) {
-        this.projects = projects;
-    }
+    
 }
