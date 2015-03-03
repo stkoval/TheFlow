@@ -117,7 +117,7 @@
                                             <span th:text="${issue.priority}"></span> <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu type-dropdown" role="menu">
-                                            <li th:if="${issue.priority.toString()} != 'Bug'"><a
+                                            <li th:if="${issue.priority.toString()} != 'High'"><a
                                                 th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=high'}">High</a>
                                             </li>
                                             <li th:if="${issue.priority.toString()} != 'Medium'"><a
