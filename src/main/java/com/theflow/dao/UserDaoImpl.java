@@ -102,13 +102,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findUserByUsernameAndSubdomain(String username, String subdomain) {
+    public User findUserByUsernameAndCompanyId(String username, int companyId) {
         Session session = sessionFactory.getCurrentSession();
 //        List<User> users = new ArrayList<>();
         
         Criteria criteria = session.createCriteria(User.class);
         criteria.add(Restrictions.eq("email", username));
-//        criteria.add(Restrictions.eq("company.alias", subdomain));
+        criteria.add(Restrictions.eq("companyId", companyId));
 
 //        users = sessionFactory.getCurrentSession()
 //                .createQuery("from User where email=:email and company.alias=:subdomain")

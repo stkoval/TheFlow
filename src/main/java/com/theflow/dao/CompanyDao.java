@@ -18,5 +18,7 @@ public interface CompanyDao {
 
     public Company getCompanyByName(String companyName);
     
+    public Company getCompanyByAlias(String companyName);
+    
     public List<String> getAllCompanyAliases();
 }

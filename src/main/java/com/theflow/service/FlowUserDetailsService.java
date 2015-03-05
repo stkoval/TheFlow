@@ -2,6 +2,7 @@ package com.theflow.service;
 
 import com.theflow.dao.CompanyDao;
 import com.theflow.dao.UserDao;
+import com.theflow.domain.Company;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,21 +39,25 @@ public class FlowUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String input)
             throws UsernameNotFoundException {
+        input = input+":democompany1";
         logger.debug("******inside userDetailsService*******input: " + input);
 
         String[] split = input.split(":");
-//        if (split.length < 2) {
-//            System.out.println("User did not enter both username and subdomain.");
-//            throw new UsernameNotFoundException("Must specify both username and subdomain");
-//        }
+        if (split.length < 2) {
+            System.out.println("User did not enter both username and subdomain.");
+            throw new UsernameNotFoundException("Must specify both username and subdomain");
+        }
 
-//        String username = split[0];
-//        String domain = split[1];
+        String username = split[0];
+        String domain = split[1];
 
-//        System.out.println("Username = " + username);
-//        System.out.println("Corporate domain = " + domain);
+        System.out.println("Username = " + username);
+        System.out.println("Subdomain = " + domain);
+        
+        Company company = companyDao.getCompanyByAlias(domain);
+        int companyId = company.getCompanyId();
 
-        com.theflow.domain.User user = userDao.findUserByUsernameAndSubdomain(input, "democompany1");//findUserByUsernameAndSubdomain(username, domain);
+        com.theflow.domain.User user = userDao.findUserByUsernameAndCompanyId(username, companyId);//findUserByUsernameAndSubdomain(username, domain);
         if (user == null) {
             throw new UsernameNotFoundException("No user found with username: " + input);
         }

@@ -56,4 +56,18 @@ public class CompanyDaoImpl implements CompanyDao{
         Query q = session.createSQLQuery(sql);
         return q.list();
     }
+
+    @Override
+    public Company getCompanyByAlias(String companyAlias) {
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "from Company where companyAlias = :companyAlias";
+        Query q = session.createQuery(hql);
+        q.setParameter("companyAlias", companyAlias);
+        List<Company> companies = q.list();
+        if (companies.size() > 0) {
+            return companies.get(0);
+        } else {
+            return null;
+        }
+    }
 }
