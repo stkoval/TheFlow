@@ -19,7 +19,7 @@
                         <div class="logo logo-login">
                             <i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong>
                         </div>
-                        <form class="form-signin" data-toggle="validator" id="loginForm" th:action="@{/login}" method="post">
+                        <form class="form-signin" data-toggle="validator" id="loginForm" th:action="@{/login}" method="post"><!--"@{'/' + ${companyAlias} + '/login'}"-->
                             <h2 class="form-signin-heading">Please sign in</h2>
                             <div th:if="${param.error}" class="alert alert-warning">
                                 Invalid username or password.

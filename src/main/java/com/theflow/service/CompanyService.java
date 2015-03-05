@@ -6,7 +6,8 @@
 package com.theflow.service;
 
 import com.theflow.domain.Company;
-import java.util.List;
+import validation.CompanyExistsException;
+import validation.CompanyNotExistException;
 
 /**
  *
@@ -14,8 +15,9 @@ import java.util.List;
  */
 public interface CompanyService {
 
-    public boolean companyExists(String companyName);
-    public List<Company> getAllCompanies();
-
-    public Company getCompanyById();
+    public Company getCompanyById(int companyId);
+    
+    public boolean checkIfCompanyExists(String companyName) throws CompanyNotExistException;
+    
+    public void saveNewCompany(Company company) throws CompanyExistsException;
 }

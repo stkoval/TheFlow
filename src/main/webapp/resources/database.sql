@@ -6,12 +6,13 @@ DROP TABLE IF EXISTS companies;
 create table companies (
 company_id int not null auto_increment,
 company_name varchar(100) not null,
-key(company_name),
+company_alias varchar(16) not null,
+key(company_alias),
 primary key (company_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into companies (company_name)
-values('DemoCompany1');
+insert into companies (company_name, company_alias)
+values('Demo Company1', 'democompany1');
 
 DROP TABLE IF EXISTS users;
 create table users (
@@ -49,9 +50,9 @@ PRIMARY KEY (project_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into projects(name, company_id, description, start_date, release_date) 
-values('TestProject1', 1, 'This is a test project', '11.11.15', '12.12.16');
+values('TestProject1', '1', 'This is a test project', '11.11.15', '12.12.16');
 insert into projects(name, company_id, description, start_date, release_date) 
-values('TestProject2', 1, 'This is a test project', '11.11.15', '12.12.16');
+values('TestProject2', '1', 'This is a test project', '11.11.15', '12.12.16');
 
 DROP TABLE IF EXISTS issues;
 create table issues (

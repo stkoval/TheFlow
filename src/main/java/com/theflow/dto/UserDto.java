@@ -5,6 +5,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import validation.PasswordMatches;
+import validation.ValidCompanyAlias;
 import validation.ValidEmail;
 
 /**
@@ -46,6 +47,12 @@ public class UserDto {
     @NotEmpty
     @Size(min = 3, max = 30)
     private String companyName;
+    
+    @NotNull
+    @NotEmpty
+    @Size(min = 3, max = 16)
+    @ValidCompanyAlias
+    private String companyAlias;
     
     public int getUserId() {
         return userId;
@@ -101,5 +108,13 @@ public class UserDto {
 
     public void setMatchingPassword(String matchingPassword) {
         this.matchingPassword = matchingPassword;
+    }
+
+    public String getCompanyAlias() {
+        return companyAlias;
+    }
+
+    public void setCompanyAlias(String companyAlias) {
+        this.companyAlias = companyAlias;
     }
 }

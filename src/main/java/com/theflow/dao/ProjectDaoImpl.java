@@ -57,7 +57,7 @@ public class ProjectDaoImpl implements ProjectDao {
         Session session = sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(Project.class);
         FlowUserDetailsService.User principal = (FlowUserDetailsService.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        cr.add(Restrictions.eq("company.id", principal.getCompanyId()));
+        cr.add(Restrictions.eq("companyId", principal.getCompanyId()));
         return (List<Project>) cr.list();
     }
 

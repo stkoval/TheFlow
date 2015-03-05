@@ -6,6 +6,7 @@
 package com.theflow.dao;
 
 import com.theflow.domain.Company;
+import java.util.List;
 
 /**
  *
@@ -15,5 +16,7 @@ public interface CompanyDao {
     public Company getCompanyById(int id);
     public int saveCompany(Company company);
 
-    public Company findByName(String companyName);
+    public Company getCompanyByName(String companyName);
+    
+    public List<String> getAllCompanyAliases();
 }

@@ -1,16 +1,13 @@
 package com.theflow.controller;
 
 import com.theflow.domain.User;
-import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -76,12 +73,9 @@ public class UserController {
     //save account user after registration procees from login page
     @RequestMapping(value = "/user/saveaccount", method = RequestMethod.POST)
     public ModelAndView saveNewUserFromRegistration(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
-        logger.debug("Registering user account with information: {}" + userDto);
         if (result.hasErrors()) {
             return new ModelAndView("signin/registration", "user", userDto);
         }
-
-        logger.debug("No validation errors found. Continuing registration process.");
 
         try {
             userService.saveUserAddedAfterRegistration(userDto);
@@ -185,7 +179,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", exception);
         mav.addObject("url", req.getRequestURL());
-        mav.setViewName("error/error");
+        mav.setViewName("/error/error");
         return mav;
     }
 }

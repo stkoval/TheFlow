@@ -30,13 +30,12 @@ public class CompanyDaoImpl implements CompanyDao{
 
     @Override
     public int saveCompany(Company company) {
-        Company c = company;
-        sessionFactory.getCurrentSession().save(c);
+        sessionFactory.getCurrentSession().save(company);
         return company.getCompanyId();
     }
 
     @Override
-    public Company findByName(String companyName) {
+    public Company getCompanyByName(String companyName) {
         Session session = sessionFactory.getCurrentSession();
         String hql = "from Company where name = :name";
         Query q = session.createQuery(hql);
@@ -47,5 +46,14 @@ public class CompanyDaoImpl implements CompanyDao{
         } else {
             return null;
         }
+    }
+
+    //checks if company alias get from request path matches any existing company alias from db
+    @Override
+    public List<String> getAllCompanyAliases() {
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "select alias from companies";
+        Query q = session.createSQLQuery(sql);
+        return q.list();
     }
 }

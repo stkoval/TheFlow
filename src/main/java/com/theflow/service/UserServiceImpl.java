@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean emailExist(String email) {
-        User user = userDao.findByEmail(email);
+        User user = userDao.findUserByEmail(email);
         if (user != null) {
             return true;
         }
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean companyExist(String companyName) {
-        Company company = companyDao.findByName(companyName);
+        Company company = companyDao.getCompanyByName(companyName);
         if (company != null) {
             return true;
         }
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        Company company = companyDao.findByName(userDto.getCompanyName());
+        Company company = companyDao.getCompanyByName(userDto.getCompanyName());
         user.setCompanyId(company.getCompanyId());
         user.setEnabled(true);
         user.setUserRole(UserRoleConstants.USER);

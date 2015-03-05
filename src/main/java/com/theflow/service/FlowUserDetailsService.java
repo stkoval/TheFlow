@@ -2,7 +2,6 @@ package com.theflow.service;
 
 import com.theflow.dao.CompanyDao;
 import com.theflow.dao.UserDao;
-import com.theflow.domain.UserRole;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class FlowUserDetailsService implements UserDetailsService {
 
     static final Logger logger = Logger.getLogger(FlowUserDetailsService.class.getName());
+    
+    public FlowUserDetailsService() {}
 
     //get user from the database, via Hibernate
     @Autowired
@@ -35,13 +36,25 @@ public class FlowUserDetailsService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserDetails loadUserByUsername(String username)
+    public UserDetails loadUserByUsername(String input)
             throws UsernameNotFoundException {
-        logger.debug("******inside userDetailsService*******username: " + username);
+        logger.debug("******inside userDetailsService*******input: " + input);
 
-        com.theflow.domain.User user = userDao.findByEmail(username);
+        String[] split = input.split(":");
+//        if (split.length < 2) {
+//            System.out.println("User did not enter both username and subdomain.");
+//            throw new UsernameNotFoundException("Must specify both username and subdomain");
+//        }
+
+//        String username = split[0];
+//        String domain = split[1];
+
+//        System.out.println("Username = " + username);
+//        System.out.println("Corporate domain = " + domain);
+
+        com.theflow.domain.User user = userDao.findUserByUsernameAndSubdomain(input, "democompany1");//findUserByUsernameAndSubdomain(username, domain);
         if (user == null) {
-            throw new UsernameNotFoundException("No user found with username: " + username);
+            throw new UsernameNotFoundException("No user found with username: " + input);
         }
 
         List<GrantedAuthority> authorities
@@ -70,7 +83,10 @@ public class FlowUserDetailsService implements UserDetailsService {
 
         return Result;
     }
-//
+
+    private String getCompanyAliasFromCookie() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     public static class User extends org.springframework.security.core.userdetails.User {
 

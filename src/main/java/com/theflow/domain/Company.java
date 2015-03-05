@@ -30,6 +30,9 @@ public class Company implements Serializable {
     @Column(name = "company_name")
     private String name;
     
+    @Column(name = "company_alias")
+    private String companyAlias;
+    
     public Company() {}
     
     public Company(String name) {
@@ -51,7 +54,15 @@ public class Company implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    
+    public String getAlias() {
+        return companyAlias;
+    }
 
+    public void setAlias(String alias) {
+        this.companyAlias = alias;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
@@ -78,5 +89,4 @@ public class Company implements Serializable {
     public String toString() {
         return "Company{" + "companyId=" + companyId + ", name=" + name + '}';
     }
-    
 }

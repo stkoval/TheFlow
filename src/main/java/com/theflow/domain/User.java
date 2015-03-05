@@ -48,6 +48,7 @@ public class User implements Serializable {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 
+    @Column(name = "user_role")
     private String userRole;
 
     @OneToMany(mappedBy = "assignee")

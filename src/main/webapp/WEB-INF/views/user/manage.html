@@ -59,7 +59,7 @@
                         <tr th:each="user : ${users}">
                             <td><a th:href="@{/user/details/} + ${user.userId}" th:text="${user.fullName}"></a></td>
                             <td><b th:text="${user.email}"></b></td>
-                            <td><b th:text="${user.company.name}"></b></td>
+                            <td><b th:text="${user.companyId}"></b></td>
                             <td class="tools-cell">
                                 <div class="btn-group">
                                     <button type="button" class="btn dropdown-toggle fancy-button small blueHole basic" data-toggle="dropdown" aria-expanded="false">
