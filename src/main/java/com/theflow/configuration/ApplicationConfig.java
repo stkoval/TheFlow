@@ -39,7 +39,7 @@ import validation.PasswordMatchesValidator;
 @EnableTransactionManagement
 @Import({SecurityConfig.class, ThymeleafConfig.class})
 public class ApplicationConfig extends WebMvcConfigurerAdapter {
-
+    
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);

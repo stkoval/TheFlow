@@ -2,7 +2,6 @@ package com.theflow.service;
 
 import com.theflow.dao.CompanyDao;
 import com.theflow.dao.ProjectDao;
-import com.theflow.domain.Company;
 import com.theflow.domain.Project;
 import com.theflow.dto.ProjectDto;
 import java.text.ParseException;
@@ -53,7 +52,6 @@ public class ProjectServiceImpl implements ProjectService{
                         .getAuthentication()
                         .getPrincipal();
         int companyId = principal.getCompanyId();
-        Company currentCompany  = companyDao.getCompanyById(companyId);
         Project project = new Project();
         project.setProjName(projectDto.getProjName());
         project.setProjDescription(projectDto.getProjDescription());
@@ -76,7 +74,7 @@ public class ProjectServiceImpl implements ProjectService{
         }
         project.setStartDate(startDate);
         project.setReleaseDate(releaseDate);
-        project.setCompany(currentCompany);
+        project.setCompanyId(companyId);
         project.setActive(true);
         projectDao.saveProject(project);
     }

@@ -23,6 +23,7 @@ public class UserRole implements Serializable {
     private Integer userRoleId;
     private User user;
     private String role;
+    private int companyId;
 
     public UserRole() {
     }
@@ -66,5 +67,13 @@ public class UserRole implements Serializable {
     @Override
     public String toString() {
         return role;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 }

@@ -1,17 +1,13 @@
 package com.theflow.domain;
 
+import helpers.UserRoleConstants;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Formula;
@@ -45,16 +41,15 @@ public class User implements Serializable {
     @Formula("concat(firstname, ' ', lastname)")
     private String fullName;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
+    @Column(name = "company_id")
+    private int companyId;
 
     @Column(name = "enabled", columnDefinition = "TINYINT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<UserRole> userRole;
+    @Column(name = "user_role")
+    private String userRole;
 
     @OneToMany(mappedBy = "assignee")
     private List<Issue> assignedIssues;
@@ -102,15 +97,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Set<UserRole> getUserRole() {
-        if (userRole == null) {
-            return new HashSet<>();
-        }
+    public String getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(Set<UserRole> userRole) {
-        this.userRole = userRole;
+    public void setUserRole(UserRoleConstants userRole) {
+        this.userRole = userRole.getName();
     }
 
     public List<Issue> getAssignedIssues() {
@@ -119,14 +111,6 @@ public class User implements Serializable {
 
     public void setAssignedIssues(List<Issue> assignedIssues) {
         this.assignedIssues = assignedIssues;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
     }
 
     public boolean isEnabled() {
@@ -146,6 +130,14 @@ public class User implements Serializable {
         this.fullName = this.firstName + " " + this.lastName;
     }
 
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;
@@ -171,4 +163,10 @@ public class User implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", companyId=" + companyId + '}';
+    }
+
 }

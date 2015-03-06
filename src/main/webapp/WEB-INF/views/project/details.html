@@ -1,54 +1,53 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-<head>
-    <title>Project details</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <head>
+        <title>Project details</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-</head>
-<body>
-    <object th:include="fragments/layout :: styles" th:remove="tag" />
+    </head>
+    <body>
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
 
-    <div id="wrap">
-        <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
+        <div id="wrap">
+            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
 
-        <div class="container main-content">
-            <div class="row">
-                <div class="col-md-3 nav-col text-left">
-                    <a th:href="@{/projects/manage}" class="fancy-button medium blueRiver icon basic">
-                                            <span class="icon pull-left">
-                                                <i class="fa fa-chevron-left"></i>
-                                            </span>
-                        &nbsp;Back
-                    </a>
+            <div class="container main-content">
+                <div class="row">
+                    <div class="col-md-3 nav-col text-left">
+                        <a th:href="@{/projects/manage}" class="fancy-button medium blueRiver icon basic">
+                            <span class="icon pull-left">
+                                <i class="fa fa-chevron-left"></i>
+                            </span>
+                            &nbsp;Back
+                        </a>
+                    </div>
+                    <div class="col-md-6 nav-col text-left">
+                        <h1 class="main-title text-center" th:text="${project.projName}"></h1>
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <a th:href="@{'/issue/byproject/' + ${project.projectId}}" class="fancy-button medium blueRiver icon basic pull-right">
+                            <span class="icon pull-left">
+                                <i class="fa fa-folder-open"></i>
+                            </span>
+                            &nbsp;Project issues
+                        </a>
+                    </div>
                 </div>
-                <div class="col-md-6 nav-col text-left">
-                    <h1 class="main-title text-center" th:text="${project.projName}"></h1>
+
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <p class="issue-title" th:text="${project.projDescription}">Description</p>
+                        <p th:text="${project.companyId}">Company</p>
+                        <p class="issue-title" th:text="${project.startDate}">Start Date</p>
+                        <p class="issue-title" th:text="${project.releaseDate}">Release Date</p>
+                    </div>
                 </div>
-                <div class="col-md-3 text-right">
-                    <a th:href="@{'/issue/byproject/' + ${project.projectId}}" class="fancy-button medium blueRiver icon basic pull-right">
-                                <span class="icon pull-left">
-                                    <i class="fa fa-folder-open"></i>
-                                </span>
-                        &nbsp;Project issues
-                    </a>
-                </div>
+                <div id="push"></div>
             </div>
 
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <p class="issue-title" th:text="${project.projDescription}">Description</p>
-                    <p th:text="${project.company.name}">Company</p>
-                    <p class="issue-title" th:text="${project.startDate}">Start Date</p>
-                    <p class="issue-title" th:text="${project.releaseDate}">Release Date</p>
-                </div>
-            </div>
-        </div>
-        <div id="push"></div>
-    </div>
+            <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
 
-    <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
+            <object th:include="fragments/layout :: script" th:remove="tag"/>
 
-    <object th:include="fragments/layout :: script" th:remove="tag"/>
-
-</body>
+    </body>
 </html>

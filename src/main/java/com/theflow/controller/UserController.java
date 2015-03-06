@@ -1,16 +1,13 @@
 package com.theflow.controller;
 
 import com.theflow.domain.User;
-import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -49,10 +46,9 @@ public class UserController {
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
         User user = userService.getUserById(userService.getPrincipal().getUserId());
-        Set<UserRole> roles = user.getUserRole();
-        List<UserRole> listRoles = new ArrayList<>(roles);
+        String role = user.getUserRole();
         model.addObject("user", user);
-        model.addObject("roles", listRoles);
+        model.addObject("role", role);
         return model;
     }
 
@@ -77,12 +73,9 @@ public class UserController {
     //save account user after registration procees from login page
     @RequestMapping(value = "/user/saveaccount", method = RequestMethod.POST)
     public ModelAndView saveNewUserFromRegistration(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
-        logger.debug("Registering user account with information: {}" + userDto);
         if (result.hasErrors()) {
             return new ModelAndView("signin/registration", "user", userDto);
         }
-
-        logger.debug("No validation errors found. Continuing registration process.");
 
         try {
             userService.saveUserAddedAfterRegistration(userDto);
@@ -167,15 +160,13 @@ public class UserController {
         ModelAndView model = new ModelAndView("user/details");
         User user = userService.getUserById(userId);
         List<UserRoleConstants> roles = Arrays.asList(UserRoleConstants.values());
-        String currentRole = user.getUserRole().toArray()[0].toString();
         model.addObject("user", user);
         model.addObject("roles", roles);
-        model.addObject("current_role", currentRole);
         return model;
     }
     
     @PreAuthorize("hasRole('Admin')")
-    @RequestMapping(value = "user/role/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "user/{id}/role", method = RequestMethod.GET)
     public void changeUserAuthorities(@RequestParam(value = "role") String role,
             @PathVariable(value = "id") int userId) {
         userService.changeUserRole(role, userId);
@@ -188,7 +179,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", exception);
         mav.addObject("url", req.getRequestURL());
-        mav.setViewName("error/error");
+        mav.setViewName("/error/error");
         return mav;
     }
 }

@@ -22,9 +22,11 @@ public interface UserDao {
     
     public User getUserById(int id);
     
-    public User findByEmail(String email);
+    public User findUserByEmail(String email);
     
     public User getCurrentUser();
     
     public List<User> getAllUsers();
+    
+    public User findUserByUsernameAndCompanyId(String username, int companyId);
 }

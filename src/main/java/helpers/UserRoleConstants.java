@@ -6,9 +6,10 @@ package helpers;
  */
 public enum UserRoleConstants {
 
-    User("User"),
-    Admin("Admin"),
-    Observer("Observer");
+    USER("User"),
+    ADMIN("Admin"),
+    OBSERVER("Observer"),
+    ACCOUNT("Account");
 
     private final String name;
 

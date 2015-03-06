@@ -1,69 +1,72 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-<head>
-    <title>the Flow</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <head>
+        <title>the Flow</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <meta name="description" content=""/>
-    <link rel="image_src" href="" />
+        <meta name="description" content=""/>
+        <link rel="image_src" href="" />
 
-</head>
-<body>
-    <object th:include="fragments/layout :: styles" th:remove="tag" />
+    </head>
+    <body>
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
 
-    <div class="container-login">
-        <div class="outer">
-            <div class="inner">
-                <div class="centered">
-                    <div class="logo logo-login">
-                        <i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong>
+        <div class="container-login">
+            <div class="outer">
+                <div class="inner">
+                    <div class="centered">                    
+                        <div class="logo logo-login">
+                            <i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong>
+                        </div>
+                        <form class="form-signin" data-toggle="validator" id="loginForm" th:action="@{'/' + ${companyAlias} + '/j_spring_security_check'}" method="post"><!--"@{'/' + ${companyAlias} + '/login'}"-->
+                            <h2 class="form-signin-heading">Please sign in</h2>
+                            <div th:if="${param.error}" class="alert alert-warning">
+                                Invalid username or password.
+                            </div>
+                            <div th:if="${param.logout}" class="alert alert-success"> 
+                                You have been logged out.
+                            </div>
+                            <div th:if="${message}" class="alert alert-info" th:text="${message}">
+                            </div>
+                            <div class="form-group">
+                                <label for="username" class="sr-only">Email address</label>
+                                <input type="email" id="username" name="username" class="form-control" placeholder="Email address" required="required" autofocus data-error="Invalid email"/>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="companyAlias" name="companyAlias" class="form-control" th:value="${companyAlias}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="sr-only">Password</label>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required" data-error="Please, enter your password" data-minlength="6" data-minlength-error="Your password is too short, minimum 6 characters required"/>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="remember-me"/> Remember me
+                                </label>
+                            </div>
+                            <button class="fancy-button medium blueHole basic login-button" type="submit">
+                                Sign in
+                                <span class="icon">
+                                    <i class="fa fa-plane"></i>
+                                </span>
+                            </button>
+                            <a class="fancy-button medium blueHole basic login-button text-center" th:href="@{user/registration}">
+                                Registration
+                                <span class="icon">
+                                    <i class="fa fa-user-plus"></i>
+                                </span>
+                            </a>
+                        </form>
                     </div>
-                    <form class="form-signin" data-toggle="validator" id="loginForm" th:action="@{/login}" method="post">
-                        <h2 class="form-signin-heading">Please sign in</h2>
-                        <div th:if="${param.error}" class="alert alert-warning">
-                            Invalid username or password.
-                        </div>
-                        <div th:if="${param.logout}" class="alert alert-success">
-                            You have been logged out.
-                        </div>
-                        <div th:if="${message}" class="alert alert-info" th:text="${message}">
-                        </div>
-                        <div class="form-group">
-                            <label for="username" class="sr-only">Email address</label>
-                            <input type="email" id="username" name="username" class="form-control" placeholder="Email address" required="required" autofocus data-error="Invalid email"/>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class="sr-only">Password</label>
-                            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required" data-error="Please, enter your password" data-minlength="6" data-minlength-error="Your password is too short, minimum 6 characters required"/>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="remember-me"/> Remember me
-                            </label>
-                        </div>
-                        <button class="fancy-button medium blueHole basic login-button" type="submit">
-                            Sign in
-                                    <span class="icon">
-                                        <i class="fa fa-plane"></i>
-                                    </span>
-                        </button>
-                        <a class="fancy-button medium blueHole basic login-button text-center" th:href="@{user/registration}">
-                            Registration
-                                    <span class="icon">
-                                        <i class="fa fa-user-plus"></i>
-                                    </span>
-                        </a>
-                    </form>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <object th:include="fragments/layout :: script" th:remove="tag"/>
+        <object th:include="fragments/layout :: script" th:remove="tag"/>
 
-</body>
+    </body>
 </html>

@@ -2,12 +2,11 @@ package com.theflow.service;
 
 import com.theflow.dao.CompanyDao;
 import com.theflow.dao.UserDao;
-import com.theflow.dao.UserRoleDao;
 import com.theflow.domain.Company;
 import com.theflow.domain.User;
-import com.theflow.domain.UserRole;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
+import helpers.UserRoleConstants;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,9 +29,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private UserRoleDao userRoleDao;
-
     //Saves user from registration page. Assignes admin role
     @Override
     public int saveUserAddedAfterRegistration(UserDto userDto) throws EmailExistsException, CompanyExistsException {
@@ -51,18 +47,16 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userDto.getPassword());
         Company company = new Company(userDto.getCompanyName());
         int companyId = companyDao.saveCompany(company);
-        user.setCompany(companyDao.getCompanyById(companyId));
-        UserRole roleAdmin = new UserRole(user, "Admin");
+        user.setCompanyId(companyId);
+        user.setUserRole(UserRoleConstants.ACCOUNT);
         user.setEnabled(true);
 
         int userId = userDao.saveUser(user);
-        roleAdmin.setUser(userDao.getUserById(userId));
-        userRoleDao.saveRole(roleAdmin);
         return userId;
     }
 
     private boolean emailExist(String email) {
-        User user = userDao.findByEmail(email);
+        User user = userDao.findUserByEmail(email);
         if (user != null) {
             return true;
         }
@@ -70,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean companyExist(String companyName) {
-        Company company = companyDao.findByName(companyName);
+        Company company = companyDao.getCompanyByName(companyName);
         if (company != null) {
             return true;
         }
@@ -95,14 +89,12 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        Company company = companyDao.findByName(userDto.getCompanyName());
-        user.setCompany(company);
-        UserRole roleUser = new UserRole(user, "User");
+        Company company = companyDao.getCompanyByName(userDto.getCompanyName());
+        user.setCompanyId(company.getCompanyId());
         user.setEnabled(true);
+        user.setUserRole(UserRoleConstants.USER);
 
         int userId = userDao.saveUser(user);
-        roleUser.setUser(userDao.getUserById(userId));
-        userRoleDao.saveRole(roleUser);
         return userId;
     }
     
@@ -117,8 +109,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUser(int id) {
-        UserRole userRole = userRoleDao.getRoleByUserId(id);
-        userRoleDao.removeRole(userRole);
         userDao.removeUser(id);
     }
 
@@ -130,9 +120,9 @@ public class UserServiceImpl implements UserService {
     //change user role on manage users page
     @Override
     public void changeUserRole(String role, int id) {
-        UserRole userRole = userRoleDao.getRoleByUserId(id);
-        userRole.setRole(role);
-        userRoleDao.updateRole(userRole);
+        User user = userDao.getUserById(id);
+        user.setUserRole(UserRoleConstants.valueOf(role));
+        userDao.updateUser(user);
     }
 
     @Override
