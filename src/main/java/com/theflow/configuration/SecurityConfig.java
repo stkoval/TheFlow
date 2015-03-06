@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +16,9 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -64,11 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(authenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class)
-                .logout().logoutSuccessUrl("/index").deleteCookies("filterFlow")
-                .permitAll()
-//                .and()
-//                .rememberMe()
-                .and()
+                .addFilterBefore(logoutFilter(), LogoutFilter.class)//.logout()
                 .sessionManagement()
                 .maximumSessions(1)
                 .expiredUrl("/expired");
@@ -111,5 +109,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         LoginUrlAuthenticationEntryPoint loginUrl = new LoginUrlAuthenticationEntryPoint("/*/j_spring_security_check");
         return loginUrl;
     }
+    
+    @Bean
+    LogoutFilter logoutFilter() {
+        LogoutHandler[] handlers = {securityContextLogoutHandler(), logoutHandlerFilter()};
+        LogoutFilter filter = new LogoutFilter(logoutSuccessHandlerFilter(), handlers);
+        filter.setLogoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+        return filter;
+    }
+    
+    @Bean
+    SecurityContextLogoutHandler securityContextLogoutHandler() {
+        SecurityContextLogoutHandler handler = new SecurityContextLogoutHandler();
+        handler.setInvalidateHttpSession(true);
+        return handler;
+    }
 
+    @Bean
+    FlowLogoutSuccessHandlerFilter logoutSuccessHandlerFilter() {
+        FlowLogoutSuccessHandlerFilter filter = new FlowLogoutSuccessHandlerFilter();
+        return filter;
+    }
+    
+    @Bean
+    FlowLogoutHandlerFilter logoutHandlerFilter() {
+        FlowLogoutHandlerFilter filter = new FlowLogoutHandlerFilter();
+        return filter;
+    }
 }

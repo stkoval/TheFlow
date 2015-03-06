@@ -16,6 +16,7 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,7 @@ public class LoginController {
 
     @RequestMapping(value = "/{company}/login*", method = RequestMethod.GET)
     public ModelAndView showLoginPage(@PathVariable(value = "company") String companyAlias,
-            HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.debug("**********inside login controller********company: " + companyAlias);
 
         try {
@@ -102,9 +103,17 @@ public class LoginController {
                     cookie.setMaxAge(0);
                     response.addCookie(cookie);
                 }
+                if (cookie.getName().equals("subdomain")) {
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
             }
         }
         ModelAndView model = new ModelAndView("signin/login");
+        
+        Cookie subdomainCookie = new Cookie("subdomain", companyAlias);
+        subdomainCookie.setMaxAge(Integer.MAX_VALUE);
+        response.addCookie(subdomainCookie);
         
         model.addObject("companyAlias", "democompany1");
         logger.debug("**********inside login controller********companyAlias: ");

@@ -26,7 +26,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import validation.EmailValidator;
 import validation.PasswordMatchesValidator;
 
@@ -118,12 +117,5 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     @Bean
     public PasswordMatchesValidator passwordMatchesValidator() {
         return new PasswordMatchesValidator();
-    }
-
-    @Bean
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        RequestMappingHandlerMapping handlerMapping = new CustomRequestMappingHandlerMapping();
-        handlerMapping.setOrder(0);
-        return handlerMapping;
     }
 }
