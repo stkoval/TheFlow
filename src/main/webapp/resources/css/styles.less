@@ -1,11 +1,13 @@
+@tolls-button-width: 60px;
 @button-status-width: 150px;
-@button-type-width: 80px;
-@button-priority-width: 100px;
+@button-type-width: 100px;
+@button-priority-width: 150px;
 @button-assignee-width: auto;
 
 body {
   font-family: "Open Sans", Arial, sans-serif;
-  height: 100%; }
+  height: 100%;
+}
 
 #header {
   padding: 0px 0px; }
@@ -95,8 +97,8 @@ a.logo-top.navbar-brand {
 
 .logo-top {
   font-family: "Ubuntu Condensed", Tahoma, sans-serif; }
-  .logo-top small {
-    font-family: "Slabo 27px", serif; }
+.logo-top small {
+  font-family: "Slabo 27px", serif; }
 
 .issues-list {
   margin: 20px 0px; }
@@ -333,11 +335,46 @@ button.fancy-button .icon,
   padding: 10px; }
 
 #issuesList td {
-  vertical-align: middle; }
+  vertical-align: middle;
+  i {
+    display: none;
+  }
+  i.fa {
+    display:inline-block;
+  }
+  div.dropdown {
+    button {
+      margin:0px;
+      text-align: center;
+    }
+  }
+  .cell-button {
+    width:100%;
+  }
+}
+
+.status-cell {
+  width:@button-status-width;
+}
+
+.type-cell {
+  width:@button-type-width;
+
+}
+
+.priority-cell {
+  width: @button-priority-width;
+}
+.assignee-cell {
+  width:@button-priority-width;
+}
 
 .tools-cell {
-  width: 60px;
-  padding: 0px; }
+  width: @tolls-button-width;
+  button {
+    width: @tolls-button-width;
+  }
+}
 
 #wrap {
   min-height: 100%;
@@ -382,25 +419,6 @@ button.fancy-button .icon,
 .user-buttons-row {
   margin-top: 20px; }
 
-.status-cell {
-  width:@button-status-width;
-}
-
-.type-cell {
-  width:@button-type-width;
-}
-
-.priority-cell {
-  width:@button-priority-width;
-}
-
-.assignee-cell {
-  width:@button-priority-width;
-}
-
-.cell-button {
-  width:100%;
-}
 
 /* Set the fixed height of the footer here */
 #push,

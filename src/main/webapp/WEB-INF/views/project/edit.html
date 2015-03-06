@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-8 col-md-offset-2">
 
                         <form class="form-horizontal issue-full-form"  data-toggle="validator" id="createIssueForm" th:object="${project}" th:action="@{/project/update}" method="post">
 
@@ -76,23 +76,23 @@
                                     <div class="with-errors" th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></div>
                                 </div>
                             </div>
-                                <div class="col-sm-10 col-sm-offset-2"> 
-                                    <button type="submit" class="fancy-button medium blueRiver basic nomargin">Save <span class="icon"><i class="fa fa-check-circle"></i></span></button>
-                                </div>
+                            <div class="col-sm-10 col-sm-offset-2"> 
+                                <button type="submit" class="fancy-button medium blueRiver basic nomargin">Save <span class="icon"><i class="fa fa-check-circle"></i></span></button>
                             </div>
-                        </form>
-                        </div>
-                    </div>           
-                </div>                
-            </div>
-            <div id="push"></div>
-        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>           
+        </div>                
+    </div>
+    <div id="push"></div>
+</div>
 
-        <div th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'" th:remove="tag">&nbsp;</div>
+<div th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'" th:remove="tag">&nbsp;</div>
 
-        <!--<sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>-->        
-        <object th:include="fragments/layout :: script" th:remove="tag"/>
-        <!--<script th:src="@{/resources/js/createIssueCall.js}"></script>-->
+<!--<sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>-->        
+<object th:include="fragments/layout :: script" th:remove="tag"/>
+<!--<script th:src="@{/resources/js/createIssueCall.js}"></script>-->
 
-    </body>
+</body>
 </html>

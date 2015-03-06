@@ -7,59 +7,59 @@
     <link rel="image_src" href="/theflow/resources/img/logo.png" />
 </head>
 <body>
-<object th:include="fragments/layout :: styles" th:remove="tag" />
-<div class="container">
-    <div class="outer">
-        <div class="inner">
-            <div class="centered">
+    <object th:include="fragments/layout :: styles" th:remove="tag" />
+    <div class="container">
+        <div class="outer">
+            <div class="inner">
+                <div class="centered">
+                    <form th:object="${user}" method="POST" th:action="@{/user/saveaccount}" enctype="utf8" class="form-signin" data-toggle="validator">
+                        <h2 class="form-signin-heading text-center" th:text="#{label.form.title}"></h2>
 
-                <form th:object="${user}" method="POST" th:action="@{/user/saveaccount}" enctype="utf8" class="form-signin" data-toggle="validator">
-                    <h2 class="form-signin-heading text-center" th:text="#{label.form.title}"></h2>
-
-                    <div class="form-group">
-                        <label th:text="#{label.user.firstName}"></label>
-                        <input type="text" class="form-control" id="firstName" placeholder="firstName" th:field="*{firstName}" required/>
-                        <div class="help-block with-errors"></div>
-                        <div class="with-errors" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
-                    </div>
-                    <div class="form-group">
-                        <label th:text="#{label.user.lastName}"></label>
-                        <input type="text" class="form-control" id="lastName" placeholder="lastName" th:field="*{lastName}" required/>
-                        <div class="help-block with-errors"></div>
-                        <div class="with-errors" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</div>
-                    </div>
-                    <div class="form-group">
-                        <label th:text="#{label.user.company}"></label>
-                        <input type="text" class="form-control" id="lastName" placeholder="companyName" th:field="*{companyName}" required/>
-                        <div class="help-block with-errors"></div>
-                        <div class="with-errors" th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}">Name Error</div>
-                    </div>
-                    <div class="form-group">
-                        <label th:text="#{label.user.email}"></label>
-                        <input type="text" class="form-control" id="email" placeholder="email" th:field="*{email}" required/>
-                        <div class="help-block with-errors"></div>
-                        <div class="with-errors" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</div>
-                    </div>
-                    <div class="form-group">
-                        <label th:text="#{label.user.password}"></label>
-                        <input type="password" class="form-control" id="password" placeholder="password" th:field="*{password}" required/>
-                        <div class="help-block with-errors"></div>
-                        <div class="with-errors" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
-                    </div>
-                    <div class="form-group">
-                        <label th:text="#{label.user.confirmPass}"></label>
-                        <input type="password" class="form-control" id="passwordconfirm" data-match="#password" placeholder="password" th:field="*{matchingPassword}" required/>
-                        <div class="help-block with-errors"></div>
-                        <div class="with-errors" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
-                    </div>
-                    <button  class="fancy-button medium blueHole basic login-button" type="submit" th:text="#{label.form.submit}"></button>
-                    <a class="fancy-button medium blueHole basic login-button text-center" th:href="@{user/login}">
-                        Login
-                        <span class="icon">
-                            <i class="fa fa-user"></i>
-                        </span>
-                    </a>
-                </form>
+                        <div class="form-group">
+                            <label th:text="#{label.user.firstName}"></label>
+                            <input type="text" class="form-control" id="firstName" placeholder="firstName" th:field="*{firstName}" required/>
+                            <div class="help-block with-errors"></div>
+                            <div class="with-errors" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{label.user.lastName}"></label>
+                            <input type="text" class="form-control" id="lastName" placeholder="lastName" th:field="*{lastName}" required/>
+                            <div class="help-block with-errors"></div>
+                            <div class="with-errors" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</div>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{label.user.company}"></label>
+                            <input type="text" class="form-control" id="lastName" placeholder="companyName" th:field="*{companyName}" required/>
+                            <div class="help-block with-errors"></div>
+                            <div class="with-errors" th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}">Name Error</div>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{label.user.email}"></label>
+                            <input type="text" class="form-control" id="email" placeholder="email" th:field="*{email}" required/>
+                            <div class="help-block with-errors"></div>
+                            <div class="with-errors" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</div>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{label.user.password}"></label>
+                            <input type="password" class="form-control" id="password" placeholder="password" th:field="*{password}" required/>
+                            <div class="help-block with-errors"></div>
+                            <div class="with-errors" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{label.user.confirmPass}"></label>
+                            <input type="password" class="form-control" id="passwordconfirm" data-match="#password" placeholder="password" th:field="*{matchingPassword}" required/>
+                            <div class="help-block with-errors"></div>
+                            <div class="with-errors" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
+                        </div>
+                        <button  class="fancy-button medium blueHole basic login-button" type="submit" th:text="#{label.form.submit}"></button>
+                        <a class="fancy-button medium blueHole basic login-button text-center" th:href="@{user/login}">
+                            Login
+                            <span class="icon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                        </a>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

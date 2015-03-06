@@ -10,7 +10,7 @@
     <body>
         <object th:include="fragments/layout :: styles" th:remove="tag" />
 
-        <div id="wrap">        
+        <div id="wrap">
             <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
 
             <div class="container main-content">
@@ -32,7 +32,7 @@
                                 <i class="fa fa-edit"></i>
                             </span>
                             &nbsp;Edit
-                        </a> 
+                        </a>
                     </div>
                 </div>
 
@@ -64,7 +64,7 @@
 
         <div th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'" th:remove="tag">&nbsp;</div>
 
-    <sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>        
+    <sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>
     <object th:include="fragments/layout :: script" th:remove="tag"/>
 
 </body>

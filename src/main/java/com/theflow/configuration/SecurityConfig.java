@@ -68,8 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(logoutFilter(), LogoutFilter.class)//.logout()
                 .sessionManagement()
-                .maximumSessions(1)
-                .expiredUrl("/expired");
+                .maximumSessions(1);
     }
 
     @Bean

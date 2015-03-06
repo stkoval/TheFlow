@@ -16,9 +16,9 @@
             <div class="row">
                 <div class="col-md-3 nav-col text-left">
                     <a th:href="@{/users/manage}" class="fancy-button medium blueRiver icon basic">
-                    <span class="icon pull-left">
-                        <i class="fa fa-chevron-left"></i>
-                    </span>
+                        <span class="icon pull-left">
+                            <i class="fa fa-chevron-left"></i>
+                        </span>
                         &nbsp;Back
                     </a>
                 </div>
@@ -26,17 +26,20 @@
                     <h1 class="main-title text-center">Add user</h1>
                 </div>
                 <div class="col-md-3 text-right">
-                    <a th:href="@{/user/add}" class="fancy-button medium blueRiver icon basic pull-right">
-                            <span class="icon pull-left">
-                                <i class="fa fa-users"></i>
-                            </span>
+                    <a th:href="@{/users/manage}" class="fancy-button medium blueRiver icon basic pull-right">
+                                <span class="icon pull-left">
+                                    <i class="fa fa-users"></i>
+                                </span>
                         &nbsp;All users
                     </a>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-12 nav-col text-left">
+                <div class="col-md-6">
+                    <img class="img-responsive" src="/theflow/resources/img/no_avatar.gif" width="100%"/>
+                </div>
+                <div class="col-md-6 col-xs-12">
                     <form th:object="${user}" method="POST" th:action="@{/user/saveuser}" enctype="utf8"
                           data-toggle="validator">
                         <div class="form-group">
