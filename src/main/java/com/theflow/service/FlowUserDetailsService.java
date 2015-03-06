@@ -39,7 +39,6 @@ public class FlowUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String input)
             throws UsernameNotFoundException {
-        input = input+":democompany1";
         logger.debug("******inside userDetailsService*******input: " + input);
 
         String[] split = input.split(":");

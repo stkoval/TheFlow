@@ -19,7 +19,7 @@
                         <div class="logo logo-login">
                             <i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong>
                         </div>
-                        <form class="form-signin" data-toggle="validator" id="loginForm" th:action="@{/login}" method="post"><!--"@{'/' + ${companyAlias} + '/login'}"-->
+                        <form class="form-signin" data-toggle="validator" id="loginForm" th:action="@{'/' + ${companyAlias} + '/j_spring_security_check'}" method="post"><!--"@{'/' + ${companyAlias} + '/login'}"-->
                             <h2 class="form-signin-heading">Please sign in</h2>
                             <div th:if="${param.error}" class="alert alert-warning">
                                 Invalid username or password.
@@ -33,6 +33,9 @@
                                 <label for="username" class="sr-only">Email address</label>
                                 <input type="email" id="username" name="username" class="form-control" placeholder="Email address" required="required" autofocus data-error="Invalid email"/>
                                 <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="companyAlias" name="companyAlias" class="form-control" th:value="${companyAlias}"/>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="sr-only">Password</label>

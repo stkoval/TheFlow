@@ -37,7 +37,7 @@ public class CompanyDaoImpl implements CompanyDao{
     @Override
     public Company getCompanyByName(String companyName) {
         Session session = sessionFactory.getCurrentSession();
-        String hql = "from Company where name = :name";
+        String hql = "from Company where company_name = :name";
         Query q = session.createQuery(hql);
         q.setParameter("name", companyName);
         List<Company> companies = q.list();
@@ -52,7 +52,7 @@ public class CompanyDaoImpl implements CompanyDao{
     @Override
     public List<String> getAllCompanyAliases() {
         Session session = sessionFactory.getCurrentSession();
-        String sql = "select alias from companies";
+        String sql = "select company_alias from companies";
         Query q = session.createSQLQuery(sql);
         return q.list();
     }

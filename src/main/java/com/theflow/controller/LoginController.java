@@ -80,45 +80,18 @@ public class LoginController {
         return model;
     }
 
-//    @RequestMapping(value = "/{company}/login*", method = RequestMethod.GET)
-//    public ModelAndView showLoginPage(@PathVariable(value = "company") String companyAlias,
-//            HttpServletRequest request, HttpServletResponse response) {
-//        logger.debug("**********inside login controller********company: " + companyAlias);
-//        ModelAndView model = new ModelAndView("signin/login");
-//
-//        try {
-//            boolean companyExists = companyService.checkIfCompanyExists(companyAlias);
-//        } catch (CompanyNotExistException ex) {
-//            ModelAndView m = new ModelAndView("redirect:/index");
-//            return m;
-//        }
-//
-//        //This section destroys issue serch cookie
-//        Cookie[] cookies = request.getCookies();
-//        if (cookies != null && cookies.length != 0) {
-//
-//            for (Cookie cookie : request.getCookies()) {
-//                if (cookie.getName().equals("filterFlow")) {
-//                    cookie.setMaxAge(0);
-//                    response.addCookie(cookie);
-//                }
-//                if (cookie.getName().equals("company")) {
-//                    cookie.setMaxAge(0);
-//                    response.addCookie(cookie);
-//                }
-//            }
-//        }
-        
-    @RequestMapping(value = "/login*", method = RequestMethod.GET)
-    public ModelAndView showLoginPage(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView model = new ModelAndView("signin/login");
+    @RequestMapping(value = "/{company}/login*", method = RequestMethod.GET)
+    public ModelAndView showLoginPage(@PathVariable(value = "company") String companyAlias,
+            HttpServletRequest request, HttpServletResponse response) {
+        logger.debug("**********inside login controller********company: " + companyAlias);
 
-//        try {
-//            boolean companyExists = companyService.checkIfCompanyExists(companyAlias);
-//        } catch (CompanyNotExistException ex) {
-//            ModelAndView m = new ModelAndView("redirect:/index");
-//            return m;
-//        }
+        try {
+            boolean companyExists = companyService.checkIfCompanyExists(companyAlias);
+        } catch (CompanyNotExistException ex) {
+            ModelAndView m = new ModelAndView("redirect:/index");
+            m.addObject("message", "invalid url");
+            return m;
+        }
 
         //This section destroys issue serch cookie
         Cookie[] cookies = request.getCookies();
@@ -129,18 +102,10 @@ public class LoginController {
                     cookie.setMaxAge(0);
                     response.addCookie(cookie);
                 }
-                if (cookie.getName().equals("company")) {
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                }
             }
         }
-
-        //sets cookie with company alias
-        Cookie company = new Cookie("company", "democompany1");
-        company.setMaxAge(5*60);
-        response.addCookie(company);
-
+        ModelAndView model = new ModelAndView("signin/login");
+        
         model.addObject("companyAlias", "democompany1");
         logger.debug("**********inside login controller********companyAlias: ");
         return model;

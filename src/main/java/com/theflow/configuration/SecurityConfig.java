@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf().disable()
+                .httpBasic().authenticationEntryPoint(LoginUrlAuthenticationEntryPoint()).and()
                 .authorizeRequests()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/*/login").permitAll()
@@ -55,21 +57,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/user/saveaccount").permitAll()
                 .anyRequest().authenticated()
-                .and().exceptionHandling().accessDeniedPage("/403")//.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint())
+                .and().exceptionHandling().accessDeniedPage("/403")
                 .and()
                 .formLogin().defaultSuccessUrl("/home", true)
-                .loginPage("/login");
-//                .and()
-//                .addFilterBefore(new TwoFactorAuthenticationFilter(),
-//                        UsernamePasswordAuthenticationFilter.class).formLogin().defaultSuccessUrl("/home", true).loginPage("/login").permitAll();
-//                .logout().logoutSuccessUrl("/login?logout").deleteCookies("filterFlow")
-//                .permitAll()
+                .loginPage("/*/login").loginProcessingUrl("/j_spring_security_check")
+                .and()
+                .addFilterBefore(authenticationFilter(),
+                        UsernamePasswordAuthenticationFilter.class)
+                .logout().logoutSuccessUrl("/index").deleteCookies("filterFlow")
+                .permitAll()
 //                .and()
 //                .rememberMe()
-//                .and()
-//                .sessionManagement()
-//                .maximumSessions(1)
-//                .expiredUrl("/expired");
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .expiredUrl("/expired");
     }
 
     @Bean
@@ -80,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public TwoFactorAuthenticationFilter authenticationFilter() throws Exception {
         TwoFactorAuthenticationFilter authFilter = new TwoFactorAuthenticationFilter();
-        authFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login", "POST")); //"/*/login**", "POST"
+        authFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/*/j_spring_security_check", "POST")); //"/*/login**", "POST"
         authFilter.setUsernameParameter("username");
         authFilter.setPasswordParameter("password");
         authFilter.setAuthenticationSuccessHandler(SavedRequestAwareAuthenticationSuccessHandler());
@@ -106,7 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public LoginUrlAuthenticationEntryPoint LoginUrlAuthenticationEntryPoint() {
-        LoginUrlAuthenticationEntryPoint loginUrl = new LoginUrlAuthenticationEntryPoint("/login");
+        LoginUrlAuthenticationEntryPoint loginUrl = new LoginUrlAuthenticationEntryPoint("/*/j_spring_security_check");
         return loginUrl;
     }
 
