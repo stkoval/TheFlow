@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Type;
@@ -41,18 +42,15 @@ public class User implements Serializable {
     @Formula("concat(firstname, ' ', lastname)")
     private String fullName;
 
-    @Column(name = "company_id")
-    private int companyId;
-
     @Column(name = "enabled", columnDefinition = "TINYINT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 
-    @Column(name = "user_role")
-    private String userRole;
-
     @OneToMany(mappedBy = "assignee")
     private List<Issue> assignedIssues;
+    
+    @OneToOne(mappedBy = "user")
+    private UserCompany userCompany;
 
     public User() {
     }
@@ -97,14 +95,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(UserRoleConstants userRole) {
-        this.userRole = userRole.getName();
-    }
-
     public List<Issue> getAssignedIssues() {
         return assignedIssues;
     }
@@ -130,12 +120,20 @@ public class User implements Serializable {
         this.fullName = this.firstName + " " + this.lastName;
     }
 
-    public int getCompanyId() {
-        return companyId;
+//    public int getCompanyId() {
+//        return companyId;
+//    }
+//
+//    public void setCompanyId(int companyId) {
+//        this.companyId = companyId;
+//    }
+//    
+    public UserCompany getUserCompany() {
+        return userCompany;
     }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
+    public void setUserCompany(UserCompany userCompany) {
+        this.userCompany = userCompany;
     }
     
     @Override
@@ -166,7 +164,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", companyId=" + companyId + '}';
+        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + '}';
     }
 
 }

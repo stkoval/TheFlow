@@ -9,6 +9,7 @@ import com.theflow.domain.User;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import java.util.List;
+import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
 
@@ -17,7 +18,7 @@ import validation.EmailExistsException;
  * @author Stas
  */
 public interface UserService {
-    public int saveUserAddedAfterRegistration(UserDto userDto) throws EmailExistsException, CompanyExistsException;
+    public int saveUserAddedAfterRegistration(UserDto userDto) throws EmailExistsException, CompanyExistsException, CompanyAliasExistsException;
     public List<User> getAllUsers();
 
     public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException;

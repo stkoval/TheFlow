@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
 
@@ -46,12 +47,13 @@ public class UserController {
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
         User user = userService.getUserById(userService.getPrincipal().getUserId());
-        String role = user.getUserRole();
+        String role = user.getUserCompany().getUserRole();
         model.addObject("user", user);
         model.addObject("role", role);
         return model;
     }
 
+    //user registration from landing page
     @RequestMapping(value = "user/registration", method = RequestMethod.GET)
     public ModelAndView showUserRegistrationForm() {
         ModelAndView model = new ModelAndView("signin/registration");
@@ -83,6 +85,9 @@ public class UserController {
             result.rejectValue("email", "message.emailError");
             return new ModelAndView("signin/registration", "user", userDto);
         } catch (CompanyExistsException ex) {
+            result.rejectValue("companyName", "message.companyError");
+            return new ModelAndView("signin/registration", "user", userDto);
+        } catch (CompanyAliasExistsException ex) {
             result.rejectValue("companyName", "message.companyError");
             return new ModelAndView("signin/registration", "user", userDto);
         }

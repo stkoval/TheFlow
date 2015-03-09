@@ -6,6 +6,7 @@
 package com.theflow.dao;
 
 import com.theflow.domain.Company;
+import com.theflow.domain.UserCompany;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;

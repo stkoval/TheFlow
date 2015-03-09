@@ -62,7 +62,7 @@ public class FlowUserDetailsService implements UserDetailsService {
         }
 
         List<GrantedAuthority> authorities
-                = buildUserAuthority(user.getUserRole());
+                = buildUserAuthority(user.getUserCompany().getUserRole());
 
         return buildUserForAuthentication(user, authorities);
 
@@ -72,10 +72,10 @@ public class FlowUserDetailsService implements UserDetailsService {
     // org.springframework.security.core.userdetails.User
     private User buildUserForAuthentication(com.theflow.domain.User user,
             List<GrantedAuthority> authorities) {
-        Company company = companyDao.getCompanyById(user.getCompanyId());
+        Company company = user.getUserCompany().getCompany(); //companyDao.getCompanyById(user.getCompanyId());
         String companyName = company.getName();
         String companyAlias = company.getAlias();
-        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId(), user.isEnabled(), user.getCompanyId(), companyName, companyAlias);
+        return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId(), user.isEnabled(), company.getCompanyId(), companyName, companyAlias);
     }
 
     private List<GrantedAuthority> buildUserAuthority(String userRole) {

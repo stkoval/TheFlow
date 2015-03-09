@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import validation.CompanyNotExistException;
 
 /**
  *
@@ -81,14 +80,14 @@ public class LoginController {
         return model;
     }
 
-    @RequestMapping(value = "/{company}/login*", method = RequestMethod.GET)
-    public ModelAndView showLoginPage(@PathVariable(value = "company") String companyAlias,
+    @RequestMapping(value = "/{subdomain}/login", method = RequestMethod.GET)
+    public ModelAndView showLoginPage(@PathVariable(value = "subdomain") String companyAlias,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.debug("**********inside login controller********company: " + companyAlias);
 
-        try {
-            boolean companyExists = companyService.checkIfCompanyExists(companyAlias);
-        } catch (CompanyNotExistException ex) {
+        boolean isSubdomain = companyService.checkIfPartOfPathSubdomain(companyAlias);
+
+        if (!isSubdomain) {
             ModelAndView m = new ModelAndView("redirect:/index");
             m.addObject("message", "invalid url");
             return m;
@@ -96,7 +95,8 @@ public class LoginController {
 
         //This section destroys issue serch cookie
         Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0) {
+        if (cookies != null && cookies.length
+                != 0) {
 
             for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals("filterFlow")) {
@@ -110,33 +110,39 @@ public class LoginController {
             }
         }
         ModelAndView model = new ModelAndView("signin/login");
-        
-        Cookie subdomainCookie = new Cookie("subdomain", companyAlias);
-        subdomainCookie.setMaxAge(Integer.MAX_VALUE);
-        response.addCookie(subdomainCookie);
-        
-        model.addObject("companyAlias", "democompany1");
-        logger.debug("**********inside login controller********companyAlias: ");
+
+        session.setAttribute(
+                "subdomain", companyAlias);
+
+        model.addObject(
+                "companyAlias", "democompany1");
+        logger.debug(
+                "**********inside login controller********companyAlias: " + companyAlias);
         return model;
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
     public ModelAndView showLandingPage() {
         ModelAndView model = new ModelAndView("/home/landing");
         return model;
     }
 
-    @RequestMapping(value = "/{company}", method = RequestMethod.GET)
-    public ModelAndView redirectToLogin1(@PathVariable(value = "company") String companyName) {
-        ModelAndView model = new ModelAndView("redirect:/" + companyName + "/login");
-        return model;
-    }
-
-    @RequestMapping(value = "/{company}/", method = RequestMethod.GET)
-    public ModelAndView redirectToLogin2(@PathVariable(value = "company") String companyName) {
-        ModelAndView model = new ModelAndView("redirect:/" + companyName + "/login");
-        return model;
-    }
+//    @RequestMapping(value = "/{path}", method = RequestMethod.GET)
+//    public ModelAndView redirectToLogin1(@PathVariable(value = "path") String path) {
+//        boolean isSubdomain = companyService.checkIfPartOfPathSubdomain(path);
+//        if (isSubdomain) {
+//            ModelAndView model = new ModelAndView("redirect:/" + path + "/login");
+//            return model;
+//        } else {
+//            return new ModelAndView("redirect:/path");
+//        }
+//    }
+//
+//    @RequestMapping(value = "/{company}/", method = RequestMethod.GET)
+//    public ModelAndView redirectToLogin2(@PathVariable(value = "company") String companyName) {
+//        ModelAndView model = new ModelAndView("redirect:/" + companyName + "/login");
+//        return model;
+//    }
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {

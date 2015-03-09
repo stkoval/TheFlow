@@ -16,26 +16,44 @@ values('Demo Company1', 'democompany1');
 
 DROP TABLE IF EXISTS users;
 create table users (
-company_id int(11) not null,
 user_id int(11) not null auto_increment,
 firstname varchar(40) not null,
 lastname varchar(40) not null,
 email varchar(255) not null,
 password varchar(60) not null,
 enabled TINYINT NOT NULL DEFAULT 1,
-user_role varchar(20) not null,
-PRIMARY KEY (user_id),
-FOREIGN KEY (company_id) REFERENCES companies(company_id)
+PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into users(company_id, firstname, lastname, email, password, user_role) 
-values(1, 'Kurt', 'Cobain', 'KCobain@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 'User');
-insert into users(company_id, firstname, lastname, email, password, user_role) 
-values(1, 'Egor', 'Letov', 'Egorka@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 'Admin');
-insert into users(company_id, firstname, lastname, email, password, user_role) 
-values(1, 'Victor', 'Coy', 'Coy@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 'User');
-insert into users(company_id, firstname, lastname, email, password, user_role) 
-values(1, 'John', 'Smith', 'jsmith@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 'Admin');
+DROP TABLE IF EXISTS users_companies;
+create table users_companies (
+user_company_id int(11) not null auto_increment,
+user_id int(11) not null,
+company_id int not null,
+user_role varchar(20) not null,
+PRIMARY KEY (user_company_id),
+FOREIGN KEY (company_id) REFERENCES companies(company_id),
+FOREIGN KEY (user_id) REFERENCES users(user_id),
+INDEX user_company_key (user_id,company_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert into users(firstname, lastname, email, password, enabled) 
+values('Kurt', 'Cobain', 'KCobain@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Egor', 'Letov', 'Egorka@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Victor', 'Coy', 'Coy@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('John', 'Smith', 'jsmith@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+
+insert into users_companies(user_id, company_id, user_role) 
+values(1, 1, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(2, 1, 'Admin');
+insert into users_companies(user_id, company_id, user_role) 
+values(3, 1, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(4, 1, 'User');
 
 DROP TABLE IF EXISTS projects;
 create table projects (
