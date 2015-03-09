@@ -6,13 +6,15 @@
 package com.theflow.domain;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -28,11 +30,11 @@ public class UserCompany implements Serializable {
     @Column(name = "user_company_id")
     private int UserCompanyId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -45,6 +47,14 @@ public class UserCompany implements Serializable {
 
     public void setUserCompanyId(int UserCompanyId) {
         this.UserCompanyId = UserCompanyId;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public Company getCompany() {
@@ -61,14 +71,6 @@ public class UserCompany implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
     }
 
     @Override

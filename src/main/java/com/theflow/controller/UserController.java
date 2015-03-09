@@ -1,13 +1,16 @@
 package com.theflow.controller;
 
 import com.theflow.domain.User;
+import com.theflow.domain.UserCompany;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
+import com.theflow.service.FlowUserDetailsService;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -46,8 +49,18 @@ public class UserController {
     @RequestMapping(value="profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
+        
         User user = userService.getUserById(userService.getPrincipal().getUserId());
-        String role = user.getUserCompany().getUserRole();
+        FlowUserDetailsService.User principal = userService.getPrincipal();
+        
+        String role = "";
+        Set<UserCompany> userCompanies = user.getUserCompanies();
+        for (UserCompany userCompany : userCompanies) {
+            if (userCompany.getCompany().getCompanyId() == principal.getCompanyId()) {
+                role = userCompany.getUserRole();
+            }
+        }
+        
         model.addObject("user", user);
         model.addObject("role", role);
         return model;
@@ -88,7 +101,7 @@ public class UserController {
             result.rejectValue("companyName", "message.companyError");
             return new ModelAndView("signin/registration", "user", userDto);
         } catch (CompanyAliasExistsException ex) {
-            result.rejectValue("companyName", "message.companyError");
+            result.rejectValue("companyAlias", "message.companyAliasError");
             return new ModelAndView("signin/registration", "user", userDto);
         }
         

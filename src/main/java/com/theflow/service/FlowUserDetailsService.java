@@ -3,6 +3,7 @@ package com.theflow.service;
 import com.theflow.dao.CompanyDao;
 import com.theflow.dao.UserDao;
 import com.theflow.domain.Company;
+import com.theflow.domain.UserCompany;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -56,23 +57,22 @@ public class FlowUserDetailsService implements UserDetailsService {
         Company company = companyDao.getCompanyByAlias(domain);
         int companyId = company.getCompanyId();
 
-        com.theflow.domain.User user = userDao.findUserByUsernameAndCompanyId(username, companyId);//findUserByUsernameAndSubdomain(username, domain);
+        com.theflow.domain.User user = userDao.findUserByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException("No user found with username: " + input);
         }
 
         List<GrantedAuthority> authorities
-                = buildUserAuthority(user.getUserCompany().getUserRole());
+                = buildUserAuthority(getUserRole(user, company));
 
-        return buildUserForAuthentication(user, authorities);
+        return buildUserForAuthentication(user, authorities, company);
 
     }
 
     // Converts com.theflow.domain.User user to
     // org.springframework.security.core.userdetails.User
     private User buildUserForAuthentication(com.theflow.domain.User user,
-            List<GrantedAuthority> authorities) {
-        Company company = user.getUserCompany().getCompany(); //companyDao.getCompanyById(user.getCompanyId());
+            List<GrantedAuthority> authorities, Company company) {
         String companyName = company.getName();
         String companyAlias = company.getAlias();
         return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId(), user.isEnabled(), company.getCompanyId(), companyName, companyAlias);
@@ -90,8 +90,15 @@ public class FlowUserDetailsService implements UserDetailsService {
         return Result;
     }
 
-    private String getCompanyAliasFromCookie() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private String getUserRole(com.theflow.domain.User user, Company company) {
+        String role = "";
+        Set<UserCompany> userCompanies = user.getUserCompanies();
+        for (UserCompany userCompany : userCompanies) {
+            if (userCompany.getCompany().getCompanyId() == company.getCompanyId()) {
+                role = userCompany.getUserRole();
+            }
+        }
+        return role;
     }
 
     public static class User extends org.springframework.security.core.userdetails.User {

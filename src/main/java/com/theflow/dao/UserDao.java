@@ -28,5 +28,5 @@ public interface UserDao {
     
     public List<User> getAllUsers();
     
-    public User findUserByUsernameAndCompanyId(String username, int companyId);
+//    public User findUserByUsernameAndCompanyId(String username, int companyId);
 }

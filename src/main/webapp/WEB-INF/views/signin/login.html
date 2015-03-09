@@ -19,10 +19,10 @@
                         <div class="logo logo-login">
                             <i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong>
                         </div>
-                        <form class="form-signin" data-toggle="validator" id="loginForm" th:action="@{'/' + ${companyAlias} + '/j_spring_security_check'}" method="post"><!--"@{'/' + ${companyAlias} + '/login'}"-->
+                        <form class="form-signin" data-toggle="validator" id="loginForm" th:action="@{'/j_spring_security_check'}" method="post">
                             <h2 class="form-signin-heading">Please sign in</h2>
                             <div th:if="${param.error}" class="alert alert-warning">
-                                Invalid username or password.
+                                Invalid input.
                             </div>
                             <div th:if="${param.logout}" class="alert alert-success"> 
                                 You have been logged out.
@@ -35,7 +35,9 @@
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
-                                <input type="hidden" id="companyAlias" name="companyAlias" class="form-control" th:value="${companyAlias}"/>
+                                <label for="username" class="sr-only">Company subdomain</label>
+                                <input type="text" id="companyAlias" name="companyAlias" class="form-control" placeholder="Company alias" required="required" autofocus data-error="Invalid company alias"/>
+                                <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="sr-only">Password</label>

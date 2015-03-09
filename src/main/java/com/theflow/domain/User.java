@@ -4,12 +4,18 @@ import helpers.UserRoleConstants;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Type;
@@ -38,7 +44,7 @@ public class User implements Serializable {
 
     @Column(name = "password")
     private String password;
-    
+
     @Formula("concat(firstname, ' ', lastname)")
     private String fullName;
 
@@ -48,9 +54,9 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "assignee")
     private List<Issue> assignedIssues;
-    
-    @OneToOne(mappedBy = "user")
-    private UserCompany userCompany;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserCompany> userCompanies;
 
     public User() {
     }
@@ -110,7 +116,6 @@ public class User implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    
 
     public String getFullName() {
         return fullName;
@@ -120,22 +125,14 @@ public class User implements Serializable {
         this.fullName = this.firstName + " " + this.lastName;
     }
 
-//    public int getCompanyId() {
-//        return companyId;
-//    }
-//
-//    public void setCompanyId(int companyId) {
-//        this.companyId = companyId;
-//    }
-//    
-    public UserCompany getUserCompany() {
-        return userCompany;
+    public Set<UserCompany> getUserCompanies() {
+        return userCompanies;
     }
 
-    public void setUserCompany(UserCompany userCompany) {
-        this.userCompany = userCompany;
+    public void setUserCompanies(Set<UserCompany> userCompanies) {
+        this.userCompanies = userCompanies;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 5;

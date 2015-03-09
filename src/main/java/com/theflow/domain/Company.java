@@ -1,10 +1,12 @@
 package com.theflow.domain;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -25,6 +27,9 @@ public class Company implements Serializable {
     
     @Column(name = "company_alias")
     private String companyAlias;
+    
+    @OneToMany(mappedBy = "company")
+    private Set<UserCompany> userCompanies;
     
     public Company() {}
     

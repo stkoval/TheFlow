@@ -32,9 +32,10 @@ user_id int(11) not null,
 company_id int not null,
 user_role varchar(20) not null,
 PRIMARY KEY (user_company_id),
-FOREIGN KEY (company_id) REFERENCES companies(company_id),
-FOREIGN KEY (user_id) REFERENCES users(user_id),
-INDEX user_company_key (user_id,company_id)
+KEY `fk_user` (`user_id`),
+KEY `fk_group` (`company_id`),
+CONSTRAINT `fk_company` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`),
+CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into users(firstname, lastname, email, password, enabled) 

@@ -1,6 +1,7 @@
 package com.theflow.dao;
 
 import com.theflow.domain.User;
+import com.theflow.domain.UserCompany;
 import com.theflow.service.FlowUserDetailsService;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,13 +63,9 @@ public class UserDaoImpl implements UserDao {
     public User findUserByEmail(String email) {
         List<User> users = new ArrayList<>();
 
-        FlowUserDetailsService.User principal = getPrincipal();
-        int companyId = principal.getCompanyId();
-
         users = sessionFactory.getCurrentSession()
-                .createQuery("from User where email=? and companyId=?")
+                .createQuery("from User where email=?")
                 .setParameter(0, email)
-                .setParameter(1, companyId)
                 .list();
         if (users.size() > 0) {
             return users.get(0);
@@ -88,8 +85,9 @@ public class UserDaoImpl implements UserDao {
         Session session = sessionFactory.getCurrentSession();
         FlowUserDetailsService.User principal = getPrincipal();
         int companyId = principal.getCompanyId();
-        String hql = "from User where companyId = " + companyId;
+        String hql = "select uc.user from UserCompany uc where uc.company.companyId = :companyId";
         Query q = session.createQuery(hql);
+        q.setParameter("companyId", companyId);
         List<User> users = (List<User>) q.list();
         return users;
     }
@@ -101,20 +99,21 @@ public class UserDaoImpl implements UserDao {
                 .getPrincipal();
     }
 
-    @Override
-    public User findUserByUsernameAndCompanyId(String username, int companyId) {
-        Session session = sessionFactory.getCurrentSession();
-
-        String hql = "from User u where u.email = :username and u.userCompany.company.companyId = :companyId";
-        Query q = session.createQuery(hql);
-        q.setParameter("username", username);
-        q.setParameter("companyId", companyId);
-        
-        List<User> users = q.list();
-        if (users.size() > 0) {
-            return users.get(0);
-        } else {
-            return null;
-        }
-    }
+//    @Override
+//    public User findUserByUsernameAndCompanyId(String username, int companyId) {
+//        Session session = sessionFactory.getCurrentSession();
+//
+//        
+//        String hql = "from User u where u.email = :username and u.userCompany.company.companyId = :companyId";
+//        Query q = session.createQuery(hql);
+//        q.setParameter("username", username);
+//        q.setParameter("companyId", companyId);
+//
+//        List<User> users = q.list();
+//        if (users.size() > 0) {
+//            return users.get(0);
+//        } else {
+//            return null;
+//        }
+//    }
 }

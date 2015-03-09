@@ -27,7 +27,7 @@ public interface UserService {
     
     public User getUserById(int id);
     
-    public void changeUserRole(String role, int id);
+    public void changeUserRole(String role, int userId);
     
     public FlowUserDetailsService.User getPrincipal();
     

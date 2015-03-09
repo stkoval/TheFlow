@@ -21,7 +21,7 @@ import javax.validation.Payload;
  */
 @Target({ TYPE, FIELD, ANNOTATION_TYPE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = CompanyAliasValidator.class)
 @Documented
 public @interface ValidCompanyAlias {
 
