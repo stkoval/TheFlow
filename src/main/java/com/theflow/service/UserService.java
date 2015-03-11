@@ -12,6 +12,7 @@ import java.util.List;
 import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
+import validation.UserNotFoundException;
 
 /**
  *
@@ -32,4 +33,6 @@ public interface UserService {
     public FlowUserDetailsService.User getPrincipal();
     
     public void updateUser(UserProfileDto userDto);
+
+    public void addExistingUserToCompany(String email) throws UserNotFoundException;
 }

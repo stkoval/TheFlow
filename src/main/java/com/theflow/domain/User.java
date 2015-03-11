@@ -55,7 +55,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "assignee")
     private List<Issue> assignedIssues;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserCompany> userCompanies;
 
     public User() {

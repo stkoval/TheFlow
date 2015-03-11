@@ -53,7 +53,7 @@
                             </tr>
                             <tr>
                                 <td>Role</td>
-                                <td th:text="${user.userCompany.userRole}"></td>Role</td>
+                                <td th:text="${#authentication.principal.role}"></td>Role</td>
                             </tr>
                         </table> 
                     </div> 

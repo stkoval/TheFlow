@@ -33,6 +33,20 @@
                             &nbsp;Add user
                         </a>
                     </div>
+                    <div class="col-md-3 text-right">
+                        <form th:object="${userEmail}" method="POST" th:action="@{/user/add_existing}">
+                            <div class="form-group">
+                                <label th:text="#{label.user.addexisting}"></label>
+                                <input type="text" class="form-control" id="email" placeholder="email"
+                                       th:field="*{email}" required/>
+
+                                <div class="help-block with-errors"></div>
+                                <div class="with-errors" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                                    Name Error
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="row">

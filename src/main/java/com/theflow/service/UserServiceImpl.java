@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
+import validation.UserNotFoundException;
 
 /**
  *
@@ -159,5 +160,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public FlowUserDetailsService.User getPrincipal() {
         return (FlowUserDetailsService.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    @Override
+    public void addExistingUserToCompany(String email) throws UserNotFoundException{
+        User user = userDao.findUserByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException("User not found");
+        }
     }
 }

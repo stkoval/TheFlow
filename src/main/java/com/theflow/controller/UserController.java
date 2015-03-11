@@ -3,6 +3,7 @@ package com.theflow.controller;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
 import com.theflow.dto.UserDto;
+import com.theflow.dto.UserEmailDto;
 import com.theflow.dto.UserProfileDto;
 import com.theflow.service.FlowUserDetailsService;
 import com.theflow.service.UserService;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -30,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
+import validation.UserNotFoundException;
 
 /**
  *
@@ -45,14 +48,14 @@ public class UserController {
 
     @Autowired
     private MessageSource messageSource;
-    
-    @RequestMapping(value="profile", method = RequestMethod.GET)
+
+    @RequestMapping(value = "profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
-        
+
         User user = userService.getUserById(userService.getPrincipal().getUserId());
         FlowUserDetailsService.User principal = userService.getPrincipal();
-        
+
         String role = "";
         Set<UserCompany> userCompanies = user.getUserCompanies();
         for (UserCompany userCompany : userCompanies) {
@@ -60,7 +63,7 @@ public class UserController {
                 role = userCompany.getUserRole();
             }
         }
-        
+
         model.addObject("user", user);
         model.addObject("role", role);
         return model;
@@ -74,7 +77,7 @@ public class UserController {
         model.addObject("user", user);
         return model;
     }
-    
+
     //add user by admin from manage project page
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/add", method = RequestMethod.GET)
@@ -104,12 +107,12 @@ public class UserController {
             result.rejectValue("companyAlias", "message.companyAliasError");
             return new ModelAndView("signin/registration", "user", userDto);
         }
-        
+
         ModelAndView model = new ModelAndView("signin/login");
         model.addObject("message", messageSource.getMessage("label.successRegister.title", null, Locale.ENGLISH) + " " + userDto.getEmail());
         return model;
     }
-    
+
     //add new user to existing company through manage users page by admin user
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "/user/saveuser", method = RequestMethod.POST)
@@ -127,7 +130,7 @@ public class UserController {
             result.rejectValue("email", "message.emailError");
             return new ModelAndView("/user/adduser", "user", userDto);
         }
-        
+
         ModelAndView model = new ModelAndView("redirect:/users/manage");
         model.addObject("message", messageSource.getMessage("label.successAddUser.title", null, Locale.ENGLISH) + userDto.getEmail());
         return model;
@@ -140,7 +143,20 @@ public class UserController {
         userService.removeUser(userId);
         return new ModelAndView("redirect:/home");
     }
-    
+
+    //add user that already registered
+    @PreAuthorize("hasRole('Admin')")
+    @RequestMapping(value = "/user/add_existing", method = RequestMethod.POST)
+    public ModelAndView addExistingUserToCompany(@ModelAttribute("userEmail") @Valid UserEmailDto userEmailDto, BindingResult result) {
+        try {
+            userService.addExistingUserToCompany(userEmailDto.getEmail());
+        } catch (UserNotFoundException ex) {
+            result.rejectValue("email", "message.emailError");
+            return new ModelAndView("redirect:/users/manage");
+        }
+        return new ModelAndView("redirect:/users/manage");
+    }
+
     //edit user from profile page
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showUserEditForm(@PathVariable(value = "id") int userId) {
@@ -151,7 +167,7 @@ public class UserController {
 
         return model;
     }
-    
+
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/user/update", method = RequestMethod.POST)
     public ModelAndView updateIssue(@ModelAttribute(value = "user") @Valid UserProfileDto userDto, BindingResult result) {
@@ -162,16 +178,17 @@ public class UserController {
         userService.updateUser(userDto);
         return new ModelAndView("redirect:/users/manage");
     }
-    
+
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "/users/manage", method = RequestMethod.GET)
     public ModelAndView showManageUsersPage() {
         ModelAndView model = new ModelAndView("user/manage");
         List<User> users = userService.getAllUsers();
         model.addObject("users", users);
+        model.addObject("userEmail", new UserEmailDto());
         return model;
     }
-    
+
     @PreAuthorize("hasAnyRole('Admin','Observer')")
     @RequestMapping(value = "user/details/{id}", method = RequestMethod.GET)
     public ModelAndView showUserDetails(@PathVariable(value = "id") int userId) {
@@ -182,14 +199,14 @@ public class UserController {
         model.addObject("roles", roles);
         return model;
     }
-    
+
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/{id}/role", method = RequestMethod.GET)
     public void changeUserAuthorities(@RequestParam(value = "role") String role,
             @PathVariable(value = "id") int userId) {
         userService.changeUserRole(role, userId);
     }
-    
+
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
         logger.error("Request: " + req.getRequestURL() + " exception " + exception);
