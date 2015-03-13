@@ -13,6 +13,7 @@ import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
 import validation.UserNotFoundException;
+import validation.UsernameDuplicationException;
 
 /**
  *
@@ -22,7 +23,7 @@ public interface UserService {
     public int saveUserAddedAfterRegistration(UserDto userDto) throws EmailExistsException, CompanyExistsException, CompanyAliasExistsException;
     public List<User> getAllUsers();
 
-    public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException;
+    public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException, UsernameDuplicationException;
 
     public void removeUser(int id);
     
@@ -34,5 +35,5 @@ public interface UserService {
     
     public void updateUser(UserProfileDto userDto);
 
-    public void addExistingUserToCompany(String email) throws UserNotFoundException;
+    public void addExistingUserToCompany(String email);
 }

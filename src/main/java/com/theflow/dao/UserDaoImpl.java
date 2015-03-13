@@ -46,11 +46,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void removeUser(int id) {
+    public void removeUser(int userId, int companyId) {
         Session session = sessionFactory.getCurrentSession();
-        String hql = "delete from User where userId = :userId";
+        String hql = "delete from UserCompany uc where uc.user.userId = :userId and uc.company.companyId = :companyId";
         Query q = session.createQuery(hql);
-        q.setParameter("userId", id);
+        q.setParameter("userId", userId);
+        q.setParameter("companyId", companyId);
         q.executeUpdate();
     }
 
@@ -98,22 +99,4 @@ public class UserDaoImpl implements UserDao {
                 .getAuthentication()
                 .getPrincipal();
     }
-
-//    @Override
-//    public User findUserByUsernameAndCompanyId(String username, int companyId) {
-//        Session session = sessionFactory.getCurrentSession();
-//
-//        
-//        String hql = "from User u where u.email = :username and u.userCompany.company.companyId = :companyId";
-//        Query q = session.createQuery(hql);
-//        q.setParameter("username", username);
-//        q.setParameter("companyId", companyId);
-//
-//        List<User> users = q.list();
-//        if (users.size() > 0) {
-//            return users.get(0);
-//        } else {
-//            return null;
-//        }
-//    }
 }

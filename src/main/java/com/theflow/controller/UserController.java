@@ -3,7 +3,6 @@ package com.theflow.controller;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
 import com.theflow.dto.UserDto;
-import com.theflow.dto.UserEmailDto;
 import com.theflow.dto.UserProfileDto;
 import com.theflow.service.FlowUserDetailsService;
 import com.theflow.service.UserService;
@@ -12,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -32,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
-import validation.UserNotFoundException;
+import validation.UsernameDuplicationException;
 
 /**
  *
@@ -128,7 +126,13 @@ public class UserController {
             userService.saveUserAddedByAdmin(userDto);
         } catch (EmailExistsException e) {
             result.rejectValue("email", "message.emailError");
-            return new ModelAndView("/user/adduser", "user", userDto);
+            ModelAndView mav = new ModelAndView("/user/add_existing", "user", userDto);
+            mav.addObject("usernameExists", userDto.getEmail());
+            return mav;
+        } catch (UsernameDuplicationException ex) {
+            result.rejectValue("email", "message.duplicateUser");
+            ModelAndView mav = new ModelAndView("/user/adduser", "user", userDto);
+            
         }
 
         ModelAndView model = new ModelAndView("redirect:/users/manage");
@@ -141,19 +145,14 @@ public class UserController {
     @RequestMapping(value = "user/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeUser(@PathVariable(value = "id") int userId) {
         userService.removeUser(userId);
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView("redirect:/users/manage");
     }
 
     //add user that already registered
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "/user/add_existing", method = RequestMethod.POST)
-    public ModelAndView addExistingUserToCompany(@ModelAttribute("userEmail") @Valid UserEmailDto userEmailDto, BindingResult result) {
-        try {
-            userService.addExistingUserToCompany(userEmailDto.getEmail());
-        } catch (UserNotFoundException ex) {
-            result.rejectValue("email", "message.emailError");
-            return new ModelAndView("redirect:/users/manage");
-        }
+    public ModelAndView addExistingUserToCompany(HttpServletRequest request, BindingResult result) {
+        userService.addExistingUserToCompany(request.getParameter("username"));
         return new ModelAndView("redirect:/users/manage");
     }
 
@@ -185,7 +184,6 @@ public class UserController {
         ModelAndView model = new ModelAndView("user/manage");
         List<User> users = userService.getAllUsers();
         model.addObject("users", users);
-        model.addObject("userEmail", new UserEmailDto());
         return model;
     }
 

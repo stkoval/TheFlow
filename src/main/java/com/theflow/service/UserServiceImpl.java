@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
-import validation.UserNotFoundException;
+import validation.UsernameDuplicationException;
 
 /**
  *
@@ -100,10 +100,13 @@ public class UserServiceImpl implements UserService {
 
     //add new user to existing company through manage users page. Assignes user role
     @Override
-    public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException {
+    public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException, UsernameDuplicationException {
         if (emailExist(userDto.getEmail())) {
             throw new EmailExistsException("There is an account with that email adress: "
                     + userDto.getEmail());
+        }
+        if (userAlreadyAdded(userDto.getEmail())) {
+            throw new UsernameDuplicationException("User already added: " + userDto.getEmail());
         }
         
         User user = new User();
@@ -134,7 +137,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUser(int id) {
-        userDao.removeUser(id);
+        userDao.removeUser(id, getPrincipal().getCompanyId());
     }
 
     @Override
@@ -163,10 +166,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addExistingUserToCompany(String email) throws UserNotFoundException{
+    public void addExistingUserToCompany(String email) {
         User user = userDao.findUserByEmail(email);
-        if (user == null) {
-            throw new UserNotFoundException("User not found");
+        Company company = companyDao.getCompanyByName(getPrincipal().getCompanyName());
+        UserCompany userCompany = new UserCompany();
+        userCompany.setCompany(company);
+        userCompany.setUser(user);
+        userCompanyDao.saveUserCompany(userCompany);
+    }
+
+    private boolean userAlreadyAdded(String email) {
+        boolean added = false;
+        List<User> users = userCompanyDao.getUsersByCompanyId(getPrincipal().getCompanyId());
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                added = true;
+                break;
+            }
         }
+        return added;
     }
 }
