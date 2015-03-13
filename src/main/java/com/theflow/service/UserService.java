@@ -9,26 +9,31 @@ import com.theflow.domain.User;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import java.util.List;
+import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
+import validation.UserNotFoundException;
+import validation.UsernameDuplicationException;
 
 /**
  *
  * @author Stas
  */
 public interface UserService {
-    public int saveUserAddedAfterRegistration(UserDto userDto) throws EmailExistsException, CompanyExistsException;
+    public int saveUserAddedAfterRegistration(UserDto userDto) throws EmailExistsException, CompanyExistsException, CompanyAliasExistsException;
     public List<User> getAllUsers();
 
-    public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException;
+    public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException, UsernameDuplicationException;
 
     public void removeUser(int id);
     
     public User getUserById(int id);
     
-    public void changeUserRole(String role, int id);
+    public void changeUserRole(String role, int userId);
     
     public FlowUserDetailsService.User getPrincipal();
     
     public void updateUser(UserProfileDto userDto);
+
+    public void addExistingUserToCompany(String email);
 }

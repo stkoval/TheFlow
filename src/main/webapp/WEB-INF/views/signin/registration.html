@@ -28,10 +28,16 @@
                             <div class="with-errors" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</div>
                         </div>
                         <div class="form-group">
-                            <label th:text="#{label.user.company}"></label>
-                            <input type="text" class="form-control" id="lastName" placeholder="companyName" th:field="*{companyName}" required/>
+                            <label th:text="#{label.user.company.name}"></label>
+                            <input type="text" class="form-control" id="companyName" placeholder="companyName" th:field="*{companyName}" required/>
                             <div class="help-block with-errors"></div>
                             <div class="with-errors" th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}">Name Error</div>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{label.user.company.alias}"></label>
+                            <input type="text" class="form-control" id="companyAlias" placeholder="companyAlias" th:field="*{companyAlias}" required/>
+                            <div class="help-block with-errors"></div>
+                            <div class="with-errors" th:if="${#fields.hasErrors('companyAlias')}" th:errors="*{companyAlias}">Name Error</div>
                         </div>
                         <div class="form-group">
                             <label th:text="#{label.user.email}"></label>

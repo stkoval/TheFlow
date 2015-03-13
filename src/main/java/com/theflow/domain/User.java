@@ -4,11 +4,18 @@ import helpers.UserRoleConstants;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Type;
@@ -37,22 +44,19 @@ public class User implements Serializable {
 
     @Column(name = "password")
     private String password;
-    
+
     @Formula("concat(firstname, ' ', lastname)")
     private String fullName;
-
-    @Column(name = "company_id")
-    private int companyId;
 
     @Column(name = "enabled", columnDefinition = "TINYINT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 
-    @Column(name = "user_role")
-    private String userRole;
-
     @OneToMany(mappedBy = "assignee")
     private List<Issue> assignedIssues;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<UserCompany> userCompanies;
 
     public User() {
     }
@@ -97,14 +101,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(UserRoleConstants userRole) {
-        this.userRole = userRole.getName();
-    }
-
     public List<Issue> getAssignedIssues() {
         return assignedIssues;
     }
@@ -120,7 +116,6 @@ public class User implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    
 
     public String getFullName() {
         return fullName;
@@ -130,14 +125,14 @@ public class User implements Serializable {
         this.fullName = this.firstName + " " + this.lastName;
     }
 
-    public int getCompanyId() {
-        return companyId;
+    public Set<UserCompany> getUserCompanies() {
+        return userCompanies;
     }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
+    public void setUserCompanies(Set<UserCompany> userCompanies) {
+        this.userCompanies = userCompanies;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -166,7 +161,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", companyId=" + companyId + '}';
+        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + '}';
     }
 
 }

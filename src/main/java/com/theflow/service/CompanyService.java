@@ -17,7 +17,7 @@ public interface CompanyService {
 
     public Company getCompanyById(int companyId);
     
-    public boolean checkIfCompanyExists(String companyName) throws CompanyNotExistException;
+    public boolean checkIfPartOfPathSubdomain(String companyName);
     
     public void saveNewCompany(Company company) throws CompanyExistsException;
 }

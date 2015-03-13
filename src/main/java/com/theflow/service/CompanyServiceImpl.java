@@ -27,11 +27,11 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Transactional
     @Override
-    public boolean checkIfCompanyExists(String companyAlias) throws CompanyNotExistException {
+    public boolean checkIfPartOfPathSubdomain(String companyAlias) {
         List<String> companyNames = companyDao.getAllCompanyAliases();
         boolean exists = false;
         if (companyNames == null || companyNames.isEmpty()) {
-            throw new CompanyNotExistException("Company does not exist: " + companyAlias);
+            return false;
         } else {
             for (String name : companyNames) {
                 if (name.equalsIgnoreCase(companyAlias)) {
@@ -39,10 +39,7 @@ public class CompanyServiceImpl implements CompanyService{
                 }
             }
         }
-        if (exists == false) {
-            throw new CompanyNotExistException("Company does not exist: " + companyAlias);
-        }
-        return true;
+        return exists;
     }
 
     @Transactional

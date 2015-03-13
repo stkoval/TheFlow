@@ -65,7 +65,7 @@ public class Issue implements Serializable {
 
         NEW("New"),
         INPROGRESS("In progress"),
-        TESTINGREADY("Ready for testing"),
+        TESTINGREADY("Test ready"),
         TESTING("Testing"),
         REVIEW("Review"),
         RESOLVED("Resolved"),
