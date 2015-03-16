@@ -48,8 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .httpBasic().authenticationEntryPoint(LoginUrlAuthenticationEntryPoint()).and()
                 .authorizeRequests()
-                .antMatchers("/index").permitAll()
                 .antMatchers("/resources/**").permitAll()
+                .antMatchers("/index").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/signin/registration").permitAll()
@@ -105,7 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public LoginUrlAuthenticationEntryPoint LoginUrlAuthenticationEntryPoint() {
-        LoginUrlAuthenticationEntryPoint loginUrl = new LoginUrlAuthenticationEntryPoint("/*/j_spring_security_check");
+        LoginUrlAuthenticationEntryPoint loginUrl = new LoginUrlAuthenticationEntryPoint("/j_spring_security_check");
         return loginUrl;
     }
     

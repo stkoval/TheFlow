@@ -12,7 +12,9 @@ primary key (company_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into companies (company_name, company_alias)
-values('Demo Company1', 'democompany1');
+values('Microsoft', 'microsoft');
+insert into companies (company_name, company_alias)
+values('Apple', 'apple');
 
 DROP TABLE IF EXISTS users;
 create table users (
@@ -39,13 +41,17 @@ CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into users(firstname, lastname, email, password, enabled) 
-values('Kurt', 'Cobain', 'KCobain@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+values('Stephen', 'Elop', 'Stephen@microsoft.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 insert into users(firstname, lastname, email, password, enabled) 
-values('Egor', 'Letov', 'Egorka@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+values('Bill', 'Gates', 'BGates@microsoft.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 insert into users(firstname, lastname, email, password, enabled) 
-values('Victor', 'Coy', 'Coy@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+values('Mark', 'Pen', 'Mark@microsoft.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 insert into users(firstname, lastname, email, password, enabled) 
 values('John', 'Smith', 'jsmith@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Steve', 'Jobs', 'SJobs@apple.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Steve', 'Voznik', 'SVoznik@apple.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 
 insert into users_companies(user_id, company_id, user_role) 
 values(1, 1, 'User');
@@ -55,6 +61,10 @@ insert into users_companies(user_id, company_id, user_role)
 values(3, 1, 'User');
 insert into users_companies(user_id, company_id, user_role) 
 values(4, 1, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(5, 2, 'Admin');
+insert into users_companies(user_id, company_id, user_role) 
+values(6, 2, 'User');
 
 DROP TABLE IF EXISTS projects;
 create table projects (
@@ -69,9 +79,13 @@ PRIMARY KEY (project_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into projects(name, company_id, description, start_date, release_date) 
-values('TestProject1', '1', 'This is a test project', '11.11.15', '12.12.16');
+values('Explorer', '1', 'This is a test project', '11.11.15', '12.12.16');
 insert into projects(name, company_id, description, start_date, release_date) 
-values('TestProject2', '1', 'This is a test project', '11.11.15', '12.12.16');
+values('Windows11', '1', 'This is a test project', '11.11.15', '12.12.16');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('iTunes', '2', 'This is a test project', '11.11.15', '12.12.16');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('iSearch', '2', 'This is a test project', '11.11.15', '12.12.16');
 
 DROP TABLE IF EXISTS issues;
 create table issues (
@@ -135,5 +149,25 @@ insert into issues (title, description, type, status, priority, assignee_id, cre
 values('issue9', 'description', 'BUG', 'REVIEW', 'LOW', '4', '1', '1', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
 values('issue10', 'description', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '1', '1', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('music not playing', 'description', 'BUG', 'INPROGRESS', 'MEDIUM', '6', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue10', 'description', 'TASK', 'INPROGRESS', 'MEDIUM', '6', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue10', 'description', 'BUG', 'INPROGRESS', 'MEDIUM', '6', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue10', 'description', 'TASK', 'INPROGRESS', 'MEDIUM', '6', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue10', 'description', 'TASK', 'INPROGRESS', 'MEDIUM', '6', '5', '4', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue10', 'description', 'BUG', 'INPROGRESS', 'MEDIUM', '6', '5', '4', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue10', 'description', 'TASK', 'INPROGRESS', 'MEDIUM', '6', '5', '4', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue10', 'description', 'BUG', 'INPROGRESS', 'MEDIUM', '6', '5', '4', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue10', 'description', 'TASK', 'INPROGRESS', 'MEDIUM', '6', '5', '4', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('issue10', 'description', 'BUG', 'INPROGRESS', 'MEDIUM', '6', '5', '4', '2');
 
 
