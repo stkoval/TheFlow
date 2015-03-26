@@ -47,6 +47,7 @@ public class UserController {
     @Autowired
     private MessageSource messageSource;
 
+    @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
@@ -54,16 +55,18 @@ public class UserController {
         User user = userService.getUserById(userService.getPrincipal().getUserId());
         FlowUserDetailsService.User principal = userService.getPrincipal();
 
-        String role = "";
-        Set<UserCompany> userCompanies = user.getUserCompanies();
-        for (UserCompany userCompany : userCompanies) {
-            if (userCompany.getCompany().getCompanyId() == principal.getCompanyId()) {
-                role = userCompany.getUserRole();
-            }
-        }
+//        String role = "";
+//        if (!principal.getRole().equals("Cabinet")) {
+//            Set<UserCompany> userCompanies = user.getUserCompanies();
+//            for (UserCompany userCompany : userCompanies) {
+//                if (userCompany.getCompany().getCompanyId() == principal.getCompanyId()) {
+//                    role = userCompany.getUserRole();
+//                }
+//            }
+//        }
 
         model.addObject("user", user);
-        model.addObject("role", role);
+//        model.addObject("role", role);
         return model;
     }
 
@@ -132,7 +135,7 @@ public class UserController {
         } catch (UsernameDuplicationException ex) {
             result.rejectValue("email", "message.duplicateUser");
             ModelAndView mav = new ModelAndView("/user/adduser", "user", userDto);
-            
+
         }
 
         ModelAndView model = new ModelAndView("redirect:/users/manage");
@@ -157,6 +160,7 @@ public class UserController {
     }
 
     //edit user from profile page
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showUserEditForm(@PathVariable(value = "id") int userId) {
 

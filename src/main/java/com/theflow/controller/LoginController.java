@@ -52,7 +52,7 @@ public class LoginController {
 
     static final Logger logger = Logger.getLogger(LoginController.class.getName());
 
-    @PreAuthorize(value = "isAuthenticated()")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public ModelAndView showHomePage() {
         ModelAndView model = new ModelAndView("/home/home");
@@ -98,10 +98,25 @@ public class LoginController {
 
         return model;
     }
+    
+    @RequestMapping(value = "/cabinet_login", method = RequestMethod.GET)
+    public ModelAndView showCabinetLoginPage(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+
+        ModelAndView model = new ModelAndView("signin/cabinet_login");
+
+        return model;
+    }
 
     @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
     public ModelAndView showLandingPage() {
         ModelAndView model = new ModelAndView("/home/landing");
+        return model;
+    }
+    
+    @PreAuthorize("hasRole('Cabinet')")
+    @RequestMapping(value = {"/cabinet"}, method = RequestMethod.GET)
+    public ModelAndView showUserCabinet() {
+        ModelAndView model = new ModelAndView("/user/cabinet");
         return model;
     }
 

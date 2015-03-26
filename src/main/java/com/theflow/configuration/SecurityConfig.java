@@ -46,11 +46,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf().disable()
-                .httpBasic().authenticationEntryPoint(LoginUrlAuthenticationEntryPoint()).and()
+                .httpBasic().and()
                 .authorizeRequests()
                 .antMatchers("/index").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/cabinet_login").permitAll()
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/signin/registration").permitAll()
                 .antMatchers("/home/landing").permitAll()
@@ -65,10 +66,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(authenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class)
-                .logout().logoutSuccessUrl("/login?logout").logoutUrl("/logout").deleteCookies("filterFlow")//addFilterBefore(logoutFilter(), LogoutFilter.class)//
+                .logout().logoutSuccessUrl("/index").logoutUrl("/logout").deleteCookies("filterFlow")
                 .and()
                 .sessionManagement()
                 .maximumSessions(1);
+        http
+                .csrf().disable()
+                .httpBasic().and()
+                .authorizeRequests()
+                .antMatchers("/cabinet_login").permitAll()
+                .and()
+                .formLogin().defaultSuccessUrl("/cabinet", true)
+                .loginPage("/cabinet_login").loginProcessingUrl("/cabinet_login_process");
     }
 
     @Bean
@@ -95,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         handler.setAlwaysUseDefaultTargetUrl(true);
         return handler;
     }
-
+    
     @Bean
     public SimpleUrlAuthenticationFailureHandler SimpleUrlAuthenticationFailureHandler() {
         SimpleUrlAuthenticationFailureHandler handler = new SimpleUrlAuthenticationFailureHandler();
@@ -104,8 +113,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public LoginUrlAuthenticationEntryPoint LoginUrlAuthenticationEntryPoint() {
-        LoginUrlAuthenticationEntryPoint loginUrl = new LoginUrlAuthenticationEntryPoint("/*/j_spring_security_check");
+    public LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
+        LoginUrlAuthenticationEntryPoint loginUrl = new LoginUrlAuthenticationEntryPoint("/cabinet_login");
         return loginUrl;
     }
     
@@ -135,9 +144,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         FlowLogoutHandlerFilter filter = new FlowLogoutHandlerFilter();
         return filter;
     }
-    
-//    @Bean
-//    SubdomainHolder subdomainHolder() {
-//        return subdomainHolder();
-//    }
 }

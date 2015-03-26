@@ -75,6 +75,7 @@ public class IssueController {
         return new ModelAndView("redirect:/home");
     }
 
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping("issue/add")
     public ModelAndView showCreateIssueForm() {
         ModelAndView model = new ModelAndView("issue/addissue", "issue", new IssueDto());
@@ -101,6 +102,7 @@ public class IssueController {
     }
 
     //get all issues related to company
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/all", method = RequestMethod.GET)
     public ModelAndView getAllIssues() {
         ModelAndView model = new ModelAndView("issue/table");
@@ -121,6 +123,7 @@ public class IssueController {
         return model;
     }
 
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showIssueEditForm(@PathVariable(value = "id") int issueId) {
 
@@ -152,6 +155,7 @@ public class IssueController {
         return new ModelAndView("redirect:/home");
     }
 
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/details/{id}", method = RequestMethod.GET)
     public ModelAndView showIssueDetailsPage(@PathVariable(value = "id") int issueId) {
         ModelAndView model = new ModelAndView("issue/details");
@@ -161,6 +165,7 @@ public class IssueController {
     }
 
     //Assign issue to current authenticated user
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/assign/{id}", method = RequestMethod.GET)
     public ModelAndView assignToCurrentUser(@PathVariable(value = "id") int issueId) {
         issueService.assignToCurrentUser(issueId);
@@ -168,6 +173,7 @@ public class IssueController {
     }
 
     //Get issues related to project with projectId = id
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/byproject/{id}", method = RequestMethod.GET)
     public ModelAndView getIssuesByProjectId(@PathVariable(value = "id") int issueId) {
         ModelAndView model = new ModelAndView("/issue/table");
@@ -189,6 +195,7 @@ public class IssueController {
     }
 
     //change issue status
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/{id}/status", method = RequestMethod.GET)
     public ModelAndView changeIssueStatus(@RequestParam(value = "status") String status,
             @PathVariable(value = "id") int issueId) {
@@ -198,6 +205,7 @@ public class IssueController {
     }
 
     //change issue type
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/{id}/type", method = RequestMethod.GET)
     public ModelAndView changeIssueType(@RequestParam(value = "type") String type,
             @PathVariable(value = "id") int issueId) {
@@ -206,6 +214,7 @@ public class IssueController {
     }
 
     //change issue priority
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/{id}/priority", method = RequestMethod.GET)
     public ModelAndView changeIssuePriority(@RequestParam(value = "priority") String priority,
             @PathVariable(value = "id") int issueId) {
@@ -214,6 +223,7 @@ public class IssueController {
     }
 
     //change issue assignee
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/{id}/assignee", method = RequestMethod.GET)
     public ModelAndView changeIssueAssignee(@RequestParam(value = "assignee") int userId,
             @PathVariable(value = "id") int issueId) {
