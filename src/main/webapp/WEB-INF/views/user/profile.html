@@ -43,7 +43,7 @@
                     <div class="col-md-6">
                         <h3 class="main-title" sec:authentication="principal.fullName"></h3>
                         <table class="table table-striped table-hover table-info">
-                            <tr th:if="hasAnyRole('Admin', 'User')" sec:authorize="hasAnyRole('Admin', 'User')">
+                            <tr sec:authorize="hasAnyRole('Admin', 'User')">
                                 <td>Company</td>
                                 <td th:text="${#authentication.principal.companyName}">Company name</td>
                             </tr>
