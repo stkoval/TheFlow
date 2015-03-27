@@ -114,15 +114,15 @@ public class UserController {
 
         try {
             userService.saveUserAddedByAdmin(userDto);
+        } catch (UsernameDuplicationException ex) {
+            result.rejectValue("email", "message.duplicateUser");
+            ModelAndView mav = new ModelAndView("/user/adduser", "user", userDto);
+            return mav;
         } catch (EmailExistsException e) {
             result.rejectValue("email", "message.emailError");
             ModelAndView mav = new ModelAndView("/user/add_existing", "user", userDto);
             mav.addObject("usernameExists", userDto.getEmail());
             return mav;
-        } catch (UsernameDuplicationException ex) {
-            result.rejectValue("email", "message.duplicateUser");
-            ModelAndView mav = new ModelAndView("/user/adduser", "user", userDto);
-
         }
 
         ModelAndView model = new ModelAndView("redirect:/users/manage");
