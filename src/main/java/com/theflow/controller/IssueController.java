@@ -175,9 +175,9 @@ public class IssueController {
     //Get issues related to project with projectId = id
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/byproject/{id}", method = RequestMethod.GET)
-    public ModelAndView getIssuesByProjectId(@PathVariable(value = "id") int issueId) {
+    public ModelAndView getIssuesByProjectId(@PathVariable(value = "id") int projectId) {
         ModelAndView model = new ModelAndView("/issue/table");
-        List<Issue> issues = issueService.getIssuesByProjectId(issueId);
+        List<Issue> issues = issueService.getIssuesByProjectId(projectId);
         if (issues == null) {
             String message = "There are no issues created";
             model.addObject("message", message);
@@ -190,6 +190,8 @@ public class IssueController {
 
         List<User> users = userService.getAllUsers();
         model.addObject("users", users);
+        
+        model.addObject("projectId", projectId);
 
         return model;
     }

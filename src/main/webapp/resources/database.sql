@@ -201,7 +201,7 @@ values('Some problem3', 'Lorem ipsum dolor sit amet, consectetur adipisicing eli
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
 values('Some problem4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'REVIEW', 'LOW', '4', '1', '2', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('Some feature', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '3', '2', '1', '1');
+values('Some feature', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '3', '1', '2', '1');
 
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
 values('Feature 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'HIGH', '6', '5', '3', '2');
