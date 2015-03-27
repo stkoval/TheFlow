@@ -1,7 +1,6 @@
 package com.theflow.controller;
 
 import com.theflow.domain.User;
-import com.theflow.domain.UserCompany;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import com.theflow.service.FlowUserDetailsService;
@@ -10,7 +9,6 @@ import helpers.UserRoleConstants;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;

@@ -101,12 +101,12 @@ public class UserServiceImpl implements UserService {
     //add new user to existing company through manage users page. Assignes user role
     @Override
     public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException, UsernameDuplicationException {
+        if (userAlreadyAdded(userDto.getEmail())) {
+            throw new UsernameDuplicationException("User already added: " + userDto.getEmail());
+        }
         if (emailExist(userDto.getEmail())) {
             throw new EmailExistsException("There is an account with that email adress: "
                     + userDto.getEmail());
-        }
-        if (userAlreadyAdded(userDto.getEmail())) {
-            throw new UsernameDuplicationException("User already added: " + userDto.getEmail());
         }
         
         User user = new User();

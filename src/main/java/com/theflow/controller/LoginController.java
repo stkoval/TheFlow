@@ -120,6 +120,7 @@ public class LoginController {
         return model;
     }
     
+    @PreAuthorize("hasRole('Cabinet')")
     @RequestMapping(value = "/cabinet_sign_in/{userCompanyId}", method = RequestMethod.GET)
     public ModelAndView loginFromCabinetToCompany(@PathVariable(value = "userCompanyId") int ucId) {
 
@@ -139,7 +140,6 @@ public class LoginController {
         Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
         boolean isAuth = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
-        //authenticationManager.authenticate(auth);
         
         return new ModelAndView("redirect:/home");
     }
