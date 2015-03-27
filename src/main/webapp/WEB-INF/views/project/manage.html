@@ -40,8 +40,8 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Company</th>
-                                    <th>Start</th>
+                                    <th>Start date</th>
+                                    <th>Release date</th>
                                     <th class="tools-cell">Tools</th>
                                 </tr>
                             </thead>
@@ -49,8 +49,8 @@
                             <tfoot>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Company</th>
-                                    <th>Start</th>
+                                    <th>Start date</th>
+                                    <th>Release date</th>
                                     <th class="tools-cell">Tools</th>
                                 </tr>
                             </tfoot>
@@ -59,8 +59,8 @@
                                 <tr th:each="project : ${projects}">
                                     <td><a th:href="@{/project/details/} + ${project.projectId}" th:text="${project.projName}"></a>
                                     </td>
-                                    <td><b th:text="${project.companyId}"></b></td>
                                     <td><b th:text="${project.startDate}"></b></td>
+                                    <td><b th:text="${project.releaseDate}"></b></td>
                                     <td class="tools-cell">
                                         <div class="btn-group">
                                             <button type="button" class="btn dropdown-toggle fancy-button small blueHole basic"

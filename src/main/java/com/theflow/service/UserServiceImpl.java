@@ -101,12 +101,12 @@ public class UserServiceImpl implements UserService {
     //add new user to existing company through manage users page. Assignes user role
     @Override
     public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException, UsernameDuplicationException {
+        if (userAlreadyAdded(userDto.getEmail())) {
+            throw new UsernameDuplicationException("User already added: " + userDto.getEmail());
+        }
         if (emailExist(userDto.getEmail())) {
             throw new EmailExistsException("There is an account with that email adress: "
                     + userDto.getEmail());
-        }
-        if (userAlreadyAdded(userDto.getEmail())) {
-            throw new UsernameDuplicationException("User already added: " + userDto.getEmail());
         }
         
         User user = new User();
@@ -172,6 +172,7 @@ public class UserServiceImpl implements UserService {
         UserCompany userCompany = new UserCompany();
         userCompany.setCompany(company);
         userCompany.setUser(user);
+        userCompany.setUserRole("User");
         userCompanyDao.saveUserCompany(userCompany);
     }
 
@@ -185,5 +186,17 @@ public class UserServiceImpl implements UserService {
             }
         }
         return added;
+    }
+
+    @Override
+    public List<UserCompany> getUserCompaniesForCurrentUser() {
+        FlowUserDetailsService.User principal = getPrincipal();
+        List<UserCompany> userCompanies = userCompanyDao.getUserCompaniesByUserId(principal.getUserId());
+        return userCompanies;
+    }
+
+    @Override
+    public UserCompany getUserCompanyById(int ucId) {
+        return userCompanyDao.getUserCompanyById(ucId);
     }
 }

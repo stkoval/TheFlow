@@ -68,7 +68,7 @@ public class Issue implements Serializable {
         TESTINGREADY("Test ready"),
         TESTING("Testing"),
         REVIEW("Review"),
-        RESOLVED("Resolved"),
+        CLOSED("Closed"),
         ONHOLD("On hold");
 
         private final String name;

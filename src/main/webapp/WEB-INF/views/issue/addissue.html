@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label for="description" class="col-sm-2 control-label" th:text="#{label.issue.description}">Description</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+                            <textarea class="form-control" id="description" th:field="*{description}"></textarea>
                             <div class="help-block with-errors"></div>
                             <div class="with-errors" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
                         </div>
@@ -102,7 +102,7 @@
                         <label for="estimated_time" class="col-sm-2 control-label" th:text="#{label.issue.esttime}">Estimated time:</label>
                         <div class="col-sm-10">
                             <div class='date'>
-                                <input type='text' class="form-control logtimerange" id="estimated_time" th:field="*{estimatedTime}" value="00:00" required />
+                                <input type='text' class="form-control logtimerange" id="estimated_time" th:field="*{estimatedTime}" value="00:00"/>
                             </div>
                             <div class="help-block with-errors"></div>
                             <div class="with-errors" th:if="${#fields.hasErrors('estimatedTime')}" th:errors="*{estimatedTime}"></div>

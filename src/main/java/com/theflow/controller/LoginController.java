@@ -8,10 +8,13 @@ package com.theflow.controller;
 import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
 import com.theflow.domain.User;
+import com.theflow.domain.UserCompany;
 import com.theflow.service.CompanyService;
+import com.theflow.service.FlowUserDetailsService;
 import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
 import com.theflow.service.UserService;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +25,15 @@ import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,10 +59,13 @@ public class LoginController {
 
     @Autowired
     MessageSource messageSource;
+    
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     static final Logger logger = Logger.getLogger(LoginController.class.getName());
 
-    @PreAuthorize(value = "isAuthenticated()")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public ModelAndView showHomePage() {
         ModelAndView model = new ModelAndView("/home/home");
@@ -98,10 +111,51 @@ public class LoginController {
 
         return model;
     }
+    
+    @RequestMapping(value = "/cabinet_login", method = RequestMethod.GET)
+    public ModelAndView showCabinetLoginPage() {
+
+        ModelAndView model = new ModelAndView("signin/cabinet_login");
+
+        return model;
+    }
+    
+    @PreAuthorize("hasRole('Cabinet')")
+    @RequestMapping(value = "/cabinet_sign_in/{userCompanyId}", method = RequestMethod.GET)
+    public ModelAndView loginFromCabinetToCompany(@PathVariable(value = "userCompanyId") int ucId) {
+
+        FlowUserDetailsService.User principal = (FlowUserDetailsService.User)SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        UserCompany uc = userService.getUserCompanyById(ucId);
+        User user = userService.getUserById(principal.getUserId());
+        String companyName = uc.getCompany().getName();
+        String companyAlias = uc.getCompany().getAlias();
+        int companyId = uc.getCompany().getCompanyId();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(uc.getUserRole()));
+        FlowUserDetailsService.User userDetails = new FlowUserDetailsService.User(user.getEmail(), 
+                user.getPassword(), authorities, user.getFirstName(), user.getLastName(), 
+                user.getUserId(), user.isEnabled(), companyId, companyName, 
+                companyAlias, authorities.get(0).getAuthority());
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), authorities);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        boolean isAuth = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+        
+        return new ModelAndView("redirect:/home");
+    }
 
     @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
     public ModelAndView showLandingPage() {
         ModelAndView model = new ModelAndView("/home/landing");
+        return model;
+    }
+    
+    @PreAuthorize("hasRole('Cabinet')")
+    @RequestMapping(value = {"/cabinet"}, method = RequestMethod.GET)
+    public ModelAndView showUserCabinet() {
+        List<UserCompany> companies = userService.getUserCompaniesForCurrentUser();
+        ModelAndView model = new ModelAndView("/user/cabinet");
+        model.addObject("companies", companies);
         return model;
     }
 

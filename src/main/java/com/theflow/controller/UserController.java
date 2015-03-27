@@ -1,7 +1,6 @@
 package com.theflow.controller;
 
 import com.theflow.domain.User;
-import com.theflow.domain.UserCompany;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import com.theflow.service.FlowUserDetailsService;
@@ -10,7 +9,6 @@ import helpers.UserRoleConstants;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -47,6 +45,7 @@ public class UserController {
     @Autowired
     private MessageSource messageSource;
 
+    @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
@@ -54,16 +53,7 @@ public class UserController {
         User user = userService.getUserById(userService.getPrincipal().getUserId());
         FlowUserDetailsService.User principal = userService.getPrincipal();
 
-        String role = "";
-        Set<UserCompany> userCompanies = user.getUserCompanies();
-        for (UserCompany userCompany : userCompanies) {
-            if (userCompany.getCompany().getCompanyId() == principal.getCompanyId()) {
-                role = userCompany.getUserRole();
-            }
-        }
-
         model.addObject("user", user);
-        model.addObject("role", role);
         return model;
     }
 
@@ -124,15 +114,15 @@ public class UserController {
 
         try {
             userService.saveUserAddedByAdmin(userDto);
+        } catch (UsernameDuplicationException ex) {
+            result.rejectValue("email", "message.duplicateUser");
+            ModelAndView mav = new ModelAndView("/user/adduser", "user", userDto);
+            return mav;
         } catch (EmailExistsException e) {
             result.rejectValue("email", "message.emailError");
             ModelAndView mav = new ModelAndView("/user/add_existing", "user", userDto);
             mav.addObject("usernameExists", userDto.getEmail());
             return mav;
-        } catch (UsernameDuplicationException ex) {
-            result.rejectValue("email", "message.duplicateUser");
-            ModelAndView mav = new ModelAndView("/user/adduser", "user", userDto);
-            
         }
 
         ModelAndView model = new ModelAndView("redirect:/users/manage");
@@ -151,12 +141,13 @@ public class UserController {
     //add user that already registered
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "/user/add_existing", method = RequestMethod.POST)
-    public ModelAndView addExistingUserToCompany(HttpServletRequest request, BindingResult result) {
+    public ModelAndView addExistingUserToCompany(HttpServletRequest request) {
         userService.addExistingUserToCompany(request.getParameter("username"));
         return new ModelAndView("redirect:/users/manage");
     }
 
     //edit user from profile page
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showUserEditForm(@PathVariable(value = "id") int userId) {
 

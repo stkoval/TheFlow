@@ -12,7 +12,13 @@ primary key (company_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into companies (company_name, company_alias)
-values('Demo Company1', 'democompany1');
+values('Microsoft', 'microsoft');
+insert into companies (company_name, company_alias)
+values('Apple', 'apple');
+insert into companies (company_name, company_alias)
+values('Google', 'google');
+insert into companies (company_name, company_alias)
+values('Hooli', 'hooli');
 
 DROP TABLE IF EXISTS users;
 create table users (
@@ -39,22 +45,52 @@ CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into users(firstname, lastname, email, password, enabled) 
-values('Kurt', 'Cobain', 'KCobain@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+values('Bill', 'Gates', 'bgates@microsoft.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 insert into users(firstname, lastname, email, password, enabled) 
-values('Egor', 'Letov', 'Egorka@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+values('Patrick', 'Ryder', 'pryder@microsoft.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 insert into users(firstname, lastname, email, password, enabled) 
-values('Victor', 'Coy', 'Coy@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+values('Mario', 'Mucalo', 'mario@microsoft.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 insert into users(firstname, lastname, email, password, enabled) 
 values('John', 'Smith', 'jsmith@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Steve', 'Jobs', 'sjobs@apple.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Lisa', 'Bettany', 'lbettany@apple.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Ted', 'Cohn', 'tcohn@apple.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Adam', 'Johnson', 'johnson@apple.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Larry', 'Page', 'lpage@google.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Sergey', 'Brin', 'brin@google.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 
 insert into users_companies(user_id, company_id, user_role) 
-values(1, 1, 'User');
+values(1, 1, 'Admin');
 insert into users_companies(user_id, company_id, user_role) 
-values(2, 1, 'Admin');
+values(2, 1, 'User');
 insert into users_companies(user_id, company_id, user_role) 
 values(3, 1, 'User');
 insert into users_companies(user_id, company_id, user_role) 
 values(4, 1, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(5, 2, 'Admin');
+insert into users_companies(user_id, company_id, user_role) 
+values(6, 2, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(7, 2, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(8, 2, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(9, 3, 'Admin');
+insert into users_companies(user_id, company_id, user_role) 
+values(10, 3, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(4, 4, 'Admin');
+insert into users_companies(user_id, company_id, user_role) 
+values(4, 2, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(4, 3, 'User');
 
 DROP TABLE IF EXISTS projects;
 create table projects (
@@ -69,9 +105,19 @@ PRIMARY KEY (project_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into projects(name, company_id, description, start_date, release_date) 
-values('TestProject1', '1', 'This is a test project', '11.11.15', '12.12.16');
+values('Internet Explorer 12', '1', 'Develop new browser', '11.11.15', '12.12.16');
 insert into projects(name, company_id, description, start_date, release_date) 
-values('TestProject2', '1', 'This is a test project', '11.11.15', '12.12.16');
+values('Windows 12', '1', 'Develop new OS', '11.11.15', '12.12.16');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('iOS 10 kernel', '2', 'Develop new OS', '11.11.15', '12.12.16');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('Gmail', '3', 'Upgrade for google mail', '11.11.15', '12.12.16');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('Demo project 1', '4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '11.11.15', '12.12.16');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('Demo project 2', '4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '11.11.15', '12.12.16');
+insert into projects(name, company_id, description, start_date, release_date) 
+values('Demo project 3', '4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '11.11.15', '12.12.16');
 
 DROP TABLE IF EXISTS issues;
 create table issues (
@@ -116,24 +162,146 @@ END//
 delimiter;
 
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('issue1', 'description', 'TASK', 'NEW', 'HIGH', '4', '1', '1', '1');
+values('Search engine', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'HIGH', '2', '1', '1', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('issue2', 'description', 'TASK', 'NEW', 'MEDIUM', '4', '1', '2', '1');
+values('Skype integration', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'MEDIUM', '3', '1', '1', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('issue3', 'description', 'TASK', 'NEW', 'LOW', '4', '1', '1', '1');
+values('Tool bar', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'LOW', '4', '1', '1', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('issue4', 'description', 'TASK', 'RESOLVED', 'LOW', '4', '2', '2', '1');
+values('Some extension1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'CLOSED', 'LOW', '2', '1', '1', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('issue5', 'description', 'TASK', 'INPROGRESS', 'MEDIUM', '3', '2', '1', '1');
+values('Some extension2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '3', '1', '1', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('issue6', 'description', 'TASK', 'REVIEW', 'LOW', '2', '1', '2', '1');
+values('Some problem1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'REVIEW', 'LOW', '4', '1', '1', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('issue7', 'description', 'BUG', 'NEW', 'HIGH', '4', '1', '1', '1');
+values('Some extension3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'HIGH', '2', '1', '1', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('issue8', 'description', 'BUG', 'NEW', 'MEDIUM', '1', '2', '2', '1');
+values('Some problem2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'NEW', 'MEDIUM', '3', '1', '1', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('issue9', 'description', 'BUG', 'REVIEW', 'LOW', '4', '1', '1', '1');
+values('Some problem3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'REVIEW', 'LOW', '4', '1', '1', '1');
 insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
-values('issue10', 'description', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '1', '1', '1');
+values('Some extension4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '3', '1', '1', '1');
+
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Windows guide', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'HIGH', '2', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Gadget1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'MEDIUM', '3', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Gadget2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'LOW', '4', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Task manager', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'CLOSED', 'LOW', '2', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Gadget3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '3', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Some problem1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'REVIEW', 'LOW', '4', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Some problem2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'NEW', 'HIGH', '2', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Some problem3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'NEW', 'MEDIUM', '3', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Some problem4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'REVIEW', 'LOW', '4', '1', '2', '1');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Some feature', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '3', '1', '2', '1');
+
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'HIGH', '6', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'MEDIUM', '7', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'LOW', '8', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'CLOSED', 'LOW', '6', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 5', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '7', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '7', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug 2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '7', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug 3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '7', '5', '3', '2');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug 4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '7', '5', '3', '2');
+
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'HIGH', '10', '9', '4', '3');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'MEDIUM', '10', '9', '4', '3');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'LOW', '10', '9', '4', '3');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'CLOSED', 'LOW', '10', '9', '4', '3');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 5', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '10', '9', '4', '3');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '10', '9', '4', '3');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '10', '9', '4', '3');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '10', '9', '4', '3');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '10', '9', '4', '3');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug5', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '10', '9', '4', '3');
+
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'HIGH', '4', '4', '5', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'MEDIUM', '4', '4', '5', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'LOW', '4', '4', '5', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'CLOSED', 'LOW', '4', '4', '5', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 5', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '4', '4', '5', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug1', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '5', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '5', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug3', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '5', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug4', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '5', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug5', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '5', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 6', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'HIGH', '4', '4', '6', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 7', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'MEDIUM', '4', '4', '6', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 8', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'LOW', '4', '4', '6', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 9', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'CLOSED', 'LOW', '4', '4', '6', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 10', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '4', '4', '6', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug10', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '6', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug11', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '6', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug12', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '6', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug13', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '6', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug14', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '6', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 11', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'HIGH', '4', '4', '7', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 12', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'MEDIUM', '4', '4', '7', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 13', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'NEW', 'LOW', '4', '4', '7', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 14', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'CLOSED', 'LOW', '4', '4', '7', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Feature 15', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'TASK', 'INPROGRESS', 'MEDIUM', '4', '4', '7', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug15', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '7', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug16', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '7', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug17', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '7', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug18', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '7', '4');
+insert into issues (title, description, type, status, priority, assignee_id, creator_id, project_id, company_id)
+values('Bug19', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'BUG', 'INPROGRESS', 'MEDIUM', '4', '4', '7', '4');
 
 

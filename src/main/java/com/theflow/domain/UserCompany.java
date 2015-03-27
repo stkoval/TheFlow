@@ -28,7 +28,7 @@ public class UserCompany implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "user_company_id")
-    private int UserCompanyId;
+    private int userCompanyId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
@@ -42,11 +42,11 @@ public class UserCompany implements Serializable {
     private String userRole;
 
     public int getUserCompanyId() {
-        return UserCompanyId;
+        return userCompanyId;
     }
 
     public void setUserCompanyId(int UserCompanyId) {
-        this.UserCompanyId = UserCompanyId;
+        this.userCompanyId = UserCompanyId;
     }
 
     public String getUserRole() {
@@ -76,7 +76,7 @@ public class UserCompany implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 47 * hash + this.UserCompanyId;
+        hash = 47 * hash + this.userCompanyId;
         return hash;
     }
 
@@ -89,7 +89,7 @@ public class UserCompany implements Serializable {
             return false;
         }
         final UserCompany other = (UserCompany) obj;
-        if (this.UserCompanyId != other.UserCompanyId) {
+        if (this.userCompanyId != other.userCompanyId) {
             return false;
         }
         return true;
