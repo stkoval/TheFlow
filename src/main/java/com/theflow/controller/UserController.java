@@ -141,7 +141,7 @@ public class UserController {
     //add user that already registered
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "/user/add_existing", method = RequestMethod.POST)
-    public ModelAndView addExistingUserToCompany(HttpServletRequest request, BindingResult result) {
+    public ModelAndView addExistingUserToCompany(HttpServletRequest request) {
         userService.addExistingUserToCompany(request.getParameter("username"));
         return new ModelAndView("redirect:/users/manage");
     }

@@ -172,6 +172,7 @@ public class UserServiceImpl implements UserService {
         UserCompany userCompany = new UserCompany();
         userCompany.setCompany(company);
         userCompany.setUser(user);
+        userCompany.setUserRole("User");
         userCompanyDao.saveUserCompany(userCompany);
     }
 
