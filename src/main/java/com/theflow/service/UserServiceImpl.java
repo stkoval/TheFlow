@@ -186,4 +186,16 @@ public class UserServiceImpl implements UserService {
         }
         return added;
     }
+
+    @Override
+    public List<UserCompany> getUserCompaniesForCurrentUser() {
+        FlowUserDetailsService.User principal = getPrincipal();
+        List<UserCompany> userCompanies = userCompanyDao.getUserCompaniesByUserId(principal.getUserId());
+        return userCompanies;
+    }
+
+    @Override
+    public UserCompany getUserCompanyById(int ucId) {
+        return userCompanyDao.getUserCompanyById(ucId);
+    }
 }

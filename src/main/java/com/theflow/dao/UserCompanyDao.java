@@ -13,4 +13,8 @@ public interface UserCompanyDao {
     public void updateUserCompany(UserCompany userCompany);
 
     public List<User> getUsersByCompanyId(int companyId);
+
+    public List<UserCompany> getUserCompaniesByUserId(int userId);
+
+    public UserCompany getUserCompanyById(int ucId);
 }

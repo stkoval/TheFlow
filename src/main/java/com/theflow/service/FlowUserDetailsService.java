@@ -47,7 +47,7 @@ public class FlowUserDetailsService implements UserDetailsService {
             com.theflow.domain.User user = userDao.findUserByEmail(input);
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("Cabinet"));
-            return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName());
+            return new User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId());
         }
 
         String username = split[0];
@@ -125,12 +125,13 @@ public class FlowUserDetailsService implements UserDetailsService {
             this.companyAlias = companyAlias;
             this.role = role;
         }
-        public User(String username, String password, List<GrantedAuthority> authorities, String firstName, String lastName) {
+        public User(String username, String password, List<GrantedAuthority> authorities, String firstName, String lastName, int userId) {
             super(username, password, true, true, true, true, authorities);
             fullName = firstName + " " + lastName;
             this.firstName = firstName;
             this.lastName = lastName;
             this.role = authorities.get(0).getAuthority();
+            this.userId = userId;
         }
 
         public boolean isAdmin() {

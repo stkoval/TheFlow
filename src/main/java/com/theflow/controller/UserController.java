@@ -55,18 +55,7 @@ public class UserController {
         User user = userService.getUserById(userService.getPrincipal().getUserId());
         FlowUserDetailsService.User principal = userService.getPrincipal();
 
-//        String role = "";
-//        if (!principal.getRole().equals("Cabinet")) {
-//            Set<UserCompany> userCompanies = user.getUserCompanies();
-//            for (UserCompany userCompany : userCompanies) {
-//                if (userCompany.getCompany().getCompanyId() == principal.getCompanyId()) {
-//                    role = userCompany.getUserRole();
-//                }
-//            }
-//        }
-
         model.addObject("user", user);
-//        model.addObject("role", role);
         return model;
     }
 

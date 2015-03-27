@@ -6,6 +6,7 @@
 package com.theflow.service;
 
 import com.theflow.domain.User;
+import com.theflow.domain.UserCompany;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import java.util.List;
@@ -36,4 +37,8 @@ public interface UserService {
     public void updateUser(UserProfileDto userDto);
 
     public void addExistingUserToCompany(String email);
+
+    public List<UserCompany> getUserCompaniesForCurrentUser();
+
+    public UserCompany getUserCompanyById(int ucId);
 }
