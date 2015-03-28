@@ -37,6 +37,12 @@ public class Company implements Serializable {
         this.name = name;
     }
 
+    public Company(String name, String companyAlias) {
+        this.name = name;
+        this.companyAlias = companyAlias;
+    }
+    
+
     public int getCompanyId() {
         return companyId;
     }

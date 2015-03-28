@@ -6,6 +6,7 @@ import com.theflow.dao.UserDao;
 import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
+import com.theflow.dto.CompanyDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import helpers.UserRoleConstants;
@@ -198,5 +199,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserCompany getUserCompanyById(int ucId) {
         return userCompanyDao.getUserCompanyById(ucId);
+    }
+
+    @Override
+    public void saveNewCompanyFromCabinet(CompanyDto companyDto) throws CompanyAliasExistsException, CompanyExistsException {
+        if (companyExist(companyDto.getCompanyName())) {
+            throw new CompanyExistsException("There is a company already registered with name: "
+                    + companyDto.getCompanyName());
+        }
+        if (companyAliasExist(companyDto.getCompanyAlias())) {
+            throw new CompanyAliasExistsException("This company alias is alreade registered, please try another one: "
+                    + companyDto.getCompanyAlias());
+        }
+        FlowUserDetailsService.User principal = (FlowUserDetailsService.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Company company = new Company(companyDto.getCompanyName(), companyDto.getCompanyAlias());
+        User user = userDao.getUserById(principal.getUserId());
+        UserCompany uc = new UserCompany();
+        uc.setUser(user);
+        uc.setCompany(company);
+        uc.setUserRole("Admin");
+        userCompanyDao.saveUserCompany(uc);
     }
 }
