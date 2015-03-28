@@ -86,8 +86,8 @@
                                             <li th:if="${issue.status.toString()} != 'Review'"><a
                                                 th:href="@{'/issue/' + ${issue.issueId} + '/status?status=review'}">Review</a>
                                             </li>
-                                            <li th:if="${issue.status.toString()} != 'Resolved'"><a
-                                                th:href="@{'/issue/' + ${issue.issueId} + '/status?status=resolved'}">Resolved</a>
+                                            <li th:if="${issue.status.toString()} != 'Closed'"><a
+                                                th:href="@{'/issue/' + ${issue.issueId} + '/status?status=closed'}">Closed</a>
                                             </li>
                                         </ul>
                                     </div>
