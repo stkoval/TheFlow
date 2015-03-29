@@ -1,7 +1,7 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
-    <title>Edit issue</title>
+    <title th:text="@{'Edit issue ' + ${issue.title}}">Edit issue</title>
 </head>
 <body>
     <object th:include="fragments/layout :: styles" th:remove="tag"/>
@@ -13,7 +13,7 @@
 
             <div class="row">
                 <div class="col-md-3 nav-col text-left">
-                    <a th:href="@{/issue/all}" class="fancy-button medium blueRiver icon basic">
+                    <a th:href="@{'/issue/details/' + ${issue.issueId}}" class="fancy-button medium blueRiver icon basic">
                             <span class="icon pull-left">
                                 <i class="fa fa-chevron-left"></i>
                             </span>
@@ -23,7 +23,13 @@
                 <div class="col-md-6">
                     <h1 class="main-title text-center">Edit issue</h1>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 nav-col text-right">
+                    <a th:href="@{'/home'}" class="fancy-button medium blueRiver icon basic">
+                            <span class="icon pull-left">
+                                <i class="fa fa-user"></i>
+                            </span>
+                        &nbsp;Issues list
+                    </a>
                 </div>
             </div>
 
@@ -69,7 +75,9 @@
                         <div class="form-group">
                             <label for="status" class="col-sm-2 control-label" th:text="#{label.issue.status}">Status</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="status" placeholder="Status" th:field="*{status}"/>
+                                <select class="selectpicker" id="status" th:field="*{status}" required>
+                                    <option th:each="status : ${statuses}"  th:value="${status}" th:text="${status}"></option>
+                                </select>
                                 <div class="help-block with-errors"></div>
                                 <div class="with-errors" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
                             </div>
@@ -78,7 +86,7 @@
                         <div class="form-group">
                             <label for="priority" class="col-sm-2 control-label" th:text="#{label.issue.priority}">Priority</label>
                             <div class="col-sm-10">
-                                <select id="priority" class="selectpicker" th:field="*{priority}" required>
+                                <select id="priority" class="selectpicker" th:field="*{priority}">
                                     <option th:each="priority : ${priorities}"  th:value="${priority}" th:text="${priority}"></option>
                                 </select>
                                 <div class="help-block with-errors"></div>
@@ -88,7 +96,7 @@
                         <div class="form-group">
                             <label for="assignee_id" class="col-sm-2 control-label" th:text="#{label.issue.assignee}">Assignee</label>
                             <div class="col-sm-10">
-                                <select class="selectpicker" id="assignee_id" th:field="*{assigneeId}" required>
+                                <select class="selectpicker" id="assignee_id" th:field="*{assigneeId}">
                                     <!--<option value="1">1</option>-->
                                     <option th:each="assignee : ${assignees}"  th:value="${assignee.userId}" th:text="${assignee.fullName}"></option>
                                 </select>
@@ -99,7 +107,7 @@
                         <div class="form-group">
                             <label for="project_id" class="col-sm-2 control-label" th:text="#{label.issue.project}">Project</label>
                             <div class="col-sm-10">
-                                <select class="selectpicker" id="project_id" th:field="*{projectId}" required>
+                                <select class="selectpicker" id="project_id" th:field="*{projectId}">
                                     <option th:each="project : ${projects}"  th:value="${project.projectId}" th:text="${project.projName}"></option>
                                 </select>
                                 <div class="help-block with-errors"></div>
@@ -109,7 +117,7 @@
                         <div class="form-group">
                             <label for="estimated_time" class="col-sm-2 control-label" th:text="#{label.issue.esttime}">Estimated_time</label>
                             <div class="col-sm-10">
-                                <input type='text' class="form-control logtimerange" id="estimated_time" placeholder="EstimatedTime" th:field="*{estimatedTime}"/>
+                                <input type='text' value="00:00" class="form-control logtimerange" id="estimated_time" placeholder="EstimatedTime" th:field="*{estimatedTime}"/>
                                 <div class="help-block with-errors"></div>
                                 <div class="with-errors" th:if="${#fields.hasErrors('estimatedTime')}" th:errors="*{estimatedTime}"></div>
                             </div>

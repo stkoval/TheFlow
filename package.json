@@ -1,6 +1,7 @@
 {
     "name": "theflow",
     "description": "jirakiller",
+    "folder": "src/main/webapp/resources/",
     "repository": "https://bitbucket.org/ksepinc/theflow",
     "dependencies": {},
     "devDependencies": {

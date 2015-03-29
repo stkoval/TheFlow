@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label for="priority" class="col-sm-2 control-label" th:text="#{label.issue.priority}">Priority</label>
                         <div class="col-sm-10">
-                            <select id="priority" class="selectpicker" th:field="*{priority}" required>
+                            <select id="priority" class="selectpicker" th:field="*{priority}">
                                 <option th:each="priority : ${priorities}"  th:value="${priority}" th:text="${priority}"></option>
                             </select>
                             <div class="help-block with-errors"></div>
@@ -80,7 +80,7 @@
                     <div class="form-group">
                         <label for="assignee_id" class="col-sm-2 control-label" th:text="#{label.issue.assignee}">Assignee</label>
                         <div class="col-sm-10">
-                            <select class="selectpicker" id="assignee_id" th:field="*{assigneeId}" required>
+                            <select class="selectpicker" id="assignee_id" th:field="*{assigneeId}">
                                 <!--<option value="1">1</option>-->
                                 <option th:each="assignee : ${assignees}"  th:value="${assignee.userId}" th:text="${assignee.fullName}"></option>
                             </select>
@@ -91,7 +91,7 @@
                     <div class="form-group">
                         <label for="project_id" class="col-sm-2 control-label" th:text="#{label.issue.project}">Project</label>
                         <div class="col-sm-10">
-                            <select class="selectpicker" id="project_id" th:field="*{projectId}" required>
+                            <select class="selectpicker" id="project_id" th:field="*{projectId}">
                                 <option th:each="project : ${projects}"  th:value="${project.projectId}" th:text="${project.projName}"></option>
                             </select>
                             <div class="help-block with-errors"></div>

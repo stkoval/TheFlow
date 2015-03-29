@@ -14,8 +14,8 @@ module.exports = {
             'bower_components/bootstrap-switch/dist/js/bootstrap-switch.js',
             'bower_components/bootstrap-select/js/bootstrap-select.js',
             'bower_components/bootstrap-validator/js/validator.js',
-            'src/main/webapp/resources/js/scripts.js'
+            '<%= package.folder %>js/scripts.js'
         ],
-        dest:'src/main/webapp/resources/js/compiled.js'
+        dest:'<%= package.folder %>js/compiled.js'
     }
 }

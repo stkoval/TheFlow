@@ -13,8 +13,10 @@
             <div class="inner">
                 <div class="centered">
                     <form th:object="${user}" method="POST" th:action="@{/user/saveaccount}" enctype="utf8" class="form-signin" data-toggle="validator">
+                        <div class="logo logo-login">
+                            <i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong>
+                        </div>
                         <h2 class="form-signin-heading text-center" th:text="#{label.form.title}"></h2>
-
                         <div class="form-group">
                             <label th:text="#{label.user.firstName}"></label>
                             <input type="text" class="form-control" id="firstName" placeholder="firstName" th:field="*{firstName}" required/>
@@ -57,13 +59,32 @@
                             <div class="help-block with-errors"></div>
                             <div class="with-errors" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
                         </div>
-                        <button  class="fancy-button medium blueHole basic login-button" type="submit" th:text="#{label.form.submit}"></button>
-                        <a class="fancy-button medium blueHole basic login-button text-center" th:href="@{user/login}">
-                            Login
-                            <span class="icon">
-                                <i class="fa fa-user"></i>
-                            </span>
-                        </a>
+                        <div class="row buttons-row">
+                            <div class="col-md-4">
+                                <a class="fancy-button medium asbestos basic login-button text-center" th:href="@{/login}">
+                                    Sign in
+                                        <span class="icon">
+                                            <i class="fa fa-paper-plane"></i>
+                                        </span>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="fancy-button medium blueHole basic login-button" type="submit">
+                                    Submit
+                                        <span class="icon">
+                                            <i class="fa fa-user-plus"></i>
+                                        </span>
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <a class="fancy-button medium asbestos basic login-button text-center" th:href="@{/index}">
+                                    Home
+                                    <span class="icon">
+                                        <i class="fa fa-home"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

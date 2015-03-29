@@ -1,8 +1,7 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
-    <title>the Flow - Issue details</title>
-
+    <title th:text="@{'Issue ' + ${issue.title}}">Issue details</title>
 </head>
 <body>
 <object th:include="fragments/layout :: styles" th:remove="tag" />
@@ -14,7 +13,7 @@
 
         <div class="row">
             <div class="col-md-3 nav-col text-left">
-                <a href="/" class="fancy-button medium blueRiver icon basic">
+                <a th:href="@{/home}" class="fancy-button medium blueRiver icon basic">
                             <span class="icon pull-left">
                                 <i class="fa fa-chevron-left"></i>
                             </span>
@@ -22,40 +21,38 @@
                 </a>
             </div>
             <div class="col-md-6">
-                <h1 class="main-title text-center" th:text="#{issue.details.title}">Issue details</h1>
+                <h1 class="main-title text-center" th:text="${issue.title}">Issue details</h1>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 nav-col text-right">
+                <a th:href="@{'/issue/edit/' + ${issue.issueId}}" class="fancy-button medium esmerald icon basic">
+                                    <span class="icon pull-left">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                    &nbsp;Edit
+                </a>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <h5 class="issue-title" th:text="${issue.project.projName}">Project name</h5>
                         <h3 class="issue-title" th:text="${issue.title}">Issue title</h3>
                     </div>
-                    <div class="col-md-3 nav-col text-right">
-                        <a href="#" class="fancy-button medium esmerald icon basic">
-                                    <span class="icon pull-left">
-                                        <i class="fa fa-edit"></i>
-                                    </span>
-                            &nbsp;Edit
-                        </a>
-                    </div>
                     <div class="col-md-12">
                         <h5 th:text="#{label.issue.description}">Description</h5>
-                        <p th:text="${issue.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate eros sed felis sodales nec</p>
-                        <form enctype="multipart/form-data">
+                        <p th:text="${issue.description}">No description</p>
+                        <!--<form enctype="multipart/form-data">
                             <div class="form-group">
                                 <input id="issue-attachment" class="file" type="file" multiple=true data-preview-file-type="any">
                             </div>
-                        </form>
+                        </form>-->
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <h5 class="issue-title" th:text="#{label.issue.esttime}">Estimated time</h5>
+                <!--<h5 class="issue-title" th:text="#{label.issue.esttime}">Estimated time</h5>
                 <div class="progress">
                     <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
                         <span class="sr-only">40% Complete (success)</span>
@@ -71,27 +68,16 @@
                 <h3 class="issue-title" th:text="#{issue.logwork.title}">Log work</h3>
                 <form class="form-horizontal">
                     <div class='input-group date' id='logtimepicker'>
-                        <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-time"></span>
-                                </span>
+                        <input type='text' class="form-control logtimerange" id="log_work_time" />
                         <button type="submit" class="form-control esmerald basic fancy-button input-group-addon fancy-reset nomargin">
                             <i class="fa fa-edit"></i>&nbsp;Log
                         </button>
                     </div>
-                </form>
+                </form>-->
 
                 <div class="row issue-info-row">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <h3 class="issue-title" th:text="#{issue.characteristics.title}">Issue characteristics</h3>
-                    </div>
-                    <div class="col-md-3 nav-col text-right">
-                        <a href="#" class="fancy-button medium esmerald icon basic">
-                                    <span class="icon pull-left">
-                                        <i class="fa fa-edit"></i>
-                                    </span>
-                            &nbsp;Edit
-                        </a>
                     </div>
                 </div>
 
@@ -133,10 +119,13 @@
             <div class="col-md-12">
                 <div class="detailBox">
                     <div class="titleBox">
-                        <label>Comment Box</label>
+                        <label>Comments</label>
                         <button type="button" class="close" aria-hidden="true">&times;</button>
                     </div>
                     <div class="commentBox">
+                        <div id="disqus_thread"></div>
+                    </div>
+                    <!--<div class="commentBox">
                         <p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                     </div>
                     <div class="actionBox">
@@ -177,7 +166,7 @@
                                 <button class="btn btn-default">Add</button>
                             </div>
                         </form>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -195,5 +184,16 @@
 
 <!-- Common JS -->
 <object th:include="fragments/layout :: script" th:remove="tag"/>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'theflowproject';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
 </body>
 </html>

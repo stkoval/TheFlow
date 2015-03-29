@@ -49,18 +49,32 @@
                                     <input type="checkbox" value="remember-me"/> Remember me
                                 </label>
                             </div>
-                            <button class="fancy-button medium blueHole basic login-button" type="submit">
-                                Sign in
-                                <span class="icon">
-                                    <i class="fa fa-plane"></i>
-                                </span>
-                            </button>
-                            <a class="fancy-button medium blueHole basic login-button text-center" th:href="@{user/registration}">
-                                Registration
-                                <span class="icon">
-                                    <i class="fa fa-user-plus"></i>
-                                </span>
-                            </a>
+                            <div class="row buttons-row">
+                                <div class="col-md-4">
+                                    <a class="fancy-button medium asbestos basic login-button text-center" th:href="@{/user/registration}">
+                                        Sign up
+                                        <span class="icon">
+                                            <i class="fa fa-user-plus"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="fancy-button medium blueHole basic login-button" type="submit">
+                                        Submit
+                                        <span class="icon">
+                                            <i class="fa fa-paper-plane"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <a class="fancy-button medium asbestos basic login-button text-center" th:href="@{/index}">
+                                        Home
+                                    <span class="icon">
+                                        <i class="fa fa-home"></i>
+                                    </span>
+                                    </a>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

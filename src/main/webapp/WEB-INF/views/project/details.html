@@ -34,12 +34,27 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <p class="issue-title" th:text="${project.projDescription}">Description</p>
-                        <p th:text="${project.companyId}">Company</p>
-                        <p class="issue-title" th:text="${project.startDate}">Start Date</p>
-                        <p class="issue-title" th:text="${project.releaseDate}">Release Date</p>
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <table class="table table-striped table-hover table-info table-project-details">
+                                <tr>
+                                    <td th:text="#{label.issue.type}" >Description</td>
+                                    <td><p class="issue-title" th:text="${project.projDescription}">Description</p></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="#{label.issue.status}">Company</td>
+                                    <td><p th:text="${project.companyId}">Company</p></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="#{label.issue.priority}">Start Date</td>
+                                    <td><p class="issue-title" th:text="${project.startDate}">Start Date</p></td>
+                                </tr>
+                                <tr>
+                                    <td th:text="#{label.issue.priority}">Release Date</td>
+                                    <td><p class="issue-title" th:text="${project.releaseDate}">Release Date</p></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div id="push"></div>

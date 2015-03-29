@@ -1,4 +1,6 @@
 @tolls-button-width: 60px;
+@sign-button-width: 100px;
+@title-width: 250px;
 @button-status-width: 150px;
 @button-type-width: 100px;
 @button-priority-width: 150px;
@@ -219,6 +221,10 @@ a.logo-top.navbar-brand {
   display:none;
 }
 
+textarea.form-control {
+  min-height: 250px;
+}
+
 #sidebar a.fancy-button, .nav-col a.fancy-button {
   margin-left: 0px;
   margin-right: 0px; }
@@ -376,6 +382,40 @@ button.fancy-button .icon,
   }
 }
 
+.sign-cell {
+  width: @sign-button-width;
+  button {
+    width: @sign-button-width;
+  }
+}
+
+.title-cell {
+  width: @title-width;
+  a {
+    width: @title-width;
+    height: 19px;
+    display: inline-block;
+    overflow: hidden;
+  }
+}
+
+.buttons-row {
+  margin-bottom:50px;
+  .col-md-4 {
+    padding:0px;
+    &:first-child {
+      padding-right: 2px;
+    }
+    &:last-child {
+      padding-left: 2px;
+    }
+  }
+  .login-button {
+    margin:0px !important;
+    padding:10px 2px;
+  }
+}
+
 #wrap {
   min-height: 100%;
   min-height: 100vh;
@@ -419,6 +459,19 @@ button.fancy-button .icon,
 .user-buttons-row {
   margin-top: 20px; }
 
+table.table-project-details {
+  tr {
+    td {
+      &:first-child {
+        font-weight:bold;
+        width:80px;
+        padding-right:20px;
+        vertical-align: top;
+        text-align: right;
+      }
+    }
+  }
+}
 
 /* Set the fixed height of the footer here */
 #push,

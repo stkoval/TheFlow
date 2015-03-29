@@ -85,7 +85,7 @@
                 <h3>Projects:</h3>
                 <div class="scroll-tree">
                     <ul class="nav nav-pills nav-stacked sidebar" th:each="project : ${projects}">
-                        <li><a th:text="${project.projName}" th:href="@{'/issue/byproject/' + ${project.projectId}}"></a></li>
+                        <li th:class="${project.projectId == projectId}? 'active'"><a th:text="${project.projName}" th:href="@{'/issue/byproject/' + ${project.projectId}}"></a></li>
                     </ul>
                 </div>
             </div>

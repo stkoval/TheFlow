@@ -1,8 +1,8 @@
 module.exports = {
     components: {
         src:[
-            'src/main/webapp/resources/js/compiled.js'
+            '<%= package.folder %>js/compiled.js'
         ],
-        dest:'src/main/webapp/resources/js/compiled.min.js'
+        dest:'<%= package.folder %>js/compiled.min.js'
     }
 }

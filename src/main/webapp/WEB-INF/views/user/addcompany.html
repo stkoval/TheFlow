@@ -30,13 +30,13 @@
                             <span class="icon pull-left">
                                 <i class="fa fa-users"></i>
                             </span>
-                            &nbsp;All companies
+                            &nbsp;Your cabinet
                         </a>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 col-xs-12">
+                    <div class="col-md-6 col-md-offset-3 col-xs-12">
                         <form th:object="${company}" method="POST" th:action="@{/user/savecompany}" enctype="utf8"
                               data-toggle="validator">
                             <div class="form-group">
