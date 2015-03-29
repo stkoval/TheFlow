@@ -1,14 +1,127 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <h1>This is landing page with presentation content</h1>
-        <div><a th:href="@{/user/registration}">Registration</a></div>
-        <div><a th:href="@{/login}">Login to company</a></div>
-        <div><a th:href="@{/cabinet_login}">Go to own cabinet</a></div>
-    </body>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+  <head>
+    <title>theFlow Presentation</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="../../../resources/css/compiled.landing.min.css" type="text/css" th:href="@{/resources/css/compiled.landing.min.css}">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu+Condensed&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="/resources/img/favicon.png">
+  </head>
+  <body class="loading">
+    <div class="loader"><img src="/resources/img/svg/logo.svg" class="load-icon">
+      <div class="circle"></div>
+    </div>
+    <header class="entry-header">
+      <div class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" data-toggle="collapse" data-target="#bs-navbar-collapse" class="navbar-toggle collapsed"><i class="fa fa-paper-plane"></i></button><a href="#slide-1" class="navbar-brand nav-decks"><i class="navbar-brand-bg"></i><i class="logo"><img src="/resources/img/svg/logo.svg"></i><span>the<b>Flow</b></span></a>
+          </div>
+          <div id="bs-navbar-collapse" class="collapse navbar-collapse pull-right">
+            <ul class="nav navbar-nav">
+              <li><a href="#slide-1" data-toggle="tooltip" data-placement="bottom" title="theFlow" class="nav-decks fancy-button basic current-nav"><i class="fa fa-paper-plane"></i></a></li>
+              <li><a href="#slide-2" data-toggle="tooltip" data-placement="bottom" title="Tech" class="nav-decks fancy-button basic"><i class="fa fa-cogs"></i></a></li>
+              <li><a href="#slide-3" data-toggle="tooltip" data-placement="bottom" title="Edge" class="nav-decks fancy-button basic"><i class="fa fa-trophy"></i></a></li>
+              <li><a href="#slide-4" data-toggle="tooltip" data-placement="bottom" title="Usage" class="nav-decks fancy-button basic"><i class="fa fa-users"></i></a></li>
+              <li><a href="#slide-5" data-toggle="tooltip" data-placement="bottom" title="Try it!" class="nav-decks fancy-button basic"><i class="fa fa-sign-in"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section id="slide-1" class="homeSlide">
+        <div data-center="opacity:1;" data-top-bottom="opacity:0;" data-anchor-target="#slide-1" class="bcg">
+          <div data-center="opacity: 1;" data-top-bottom="opacity: 1;" data-anchor-target="#slide-1" class="hsContainer">
+            <div data-center="opacity: 1;right:0px;" data-top="opacity: 1;right:0px;" data-bottom="opacity: 1;right:0px;" data-top-bottom="opacity: 0;right:-550px;" data-bottom-top="opacity: 0;right:-550px;" data-anchor-target="#slide-1" class="hsContent">
+              <h2>Welcome to the Flow!</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sagittis magna et euismod rutrum. Nulla ornare congue condimentum. Sed aliquam egestas lacinia. Nulla ultrices mi sed nisl aliquet tincidunt. Mauris maximus ipsum vel lacus aliquam hendrerit. Nulla diam est, luctus ut convallis a, aliquam vitae odio. Suspendisse tellus nulla, lacinia ut interdum quis, convallis vitae ipsum. Sed ac ex at elit mattis tincidunt eget vitae tellus. Aliquam at efficitur nisl, ac lacinia urna.</p>
+            </div>
+          </div>
+          <div data-center="opacity: 1;" data-top-bottom="opacity: 1;" data-anchor-target="#slide-1" class="hsCarousel">
+            <ul data-center="opacity: 1;right:0px;" data-top="opacity: 1;right:0px;" data-bottom="opacity: 1;right:0px;" data-bottom-top="opacity: 1;right:0px;" data-top-bottom="opacity: 0;right:-1500px;" data-anchor-target="#slide-1" class="carouselContent">
+              <li class="item blue"><a data-toggle="tooltip" data-placement="top" title="Registration" th:href="@{/user/registration}"><i class="fa fa-user-plus"></i><span>Registration</span></a></li>
+              <li class="item blue"><a data-toggle="tooltip" data-placement="top" title="Login" th:href="@{/login}"><i class="glyphicon glyphicon-new-window"></i><span>Login</span></a></li>
+              <li class="item blue"><a data-toggle="tooltip" data-placement="top" title="Cabinet" th:href="@{/cabinet_login}"><i class="fa fa-briefcase"></i><span>Cabinet</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section id="slide-2" class="homeSlide slideLeft">
+        <div data-center="opacity:1;" data-top-bottom="opacity:0;" data--100-bottom="opacity: 1" data--100-top="opacity: 1" data-anchor-target="#slide-2" class="bcg">
+          <div data-center="opacity: 1;" data-top-bottom="opacity: 1;" data-anchor-target="#slide-2" class="hsContainer">
+            <div data-center="opacity: 1;left:0px;" data-top-bottom="opacity: 0;left:-550px;" data-top="opacity: 1;left:0px;" data-bottom="opacity: 1;left:0px;" data-bottom-top="opacity: 0;left:-550px;" data-anchor-target="#slide-2" class="hsContent">
+              <h2>Our technologies</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sagittis magna et euismod rutrum. Nulla ornare congue condimentum. Sed aliquam egestas lacinia. Nulla ultrices mi sed nisl aliquet tincidunt. Mauris maximus ipsum vel lacus aliquam hendrerit. Nulla diam est, luctus ut convallis a, aliquam vitae odio. Suspendisse tellus nulla, lacinia ut interdum quis, convallis vitae ipsum. Sed ac ex at elit mattis tincidunt eget vitae tellus. Aliquam at efficitur nisl, ac lacinia urna.</p>
+            </div>
+          </div>
+          <div data-center="opacity: 1;" data-top-bottom="opacity: 1;" data-anchor-target="#slide-2" class="hsCarousel">
+            <ul data-center="opacity: 1;right:0px;" data-top="opacity: 1;right:0px;" data-bottom="opacity: 1;right:0px;" data-bottom-top="opacity: 0;right:1500px;" data-top-bottom="opacity: 0;right:-1500px;" data-anchor-target="#slide-2" class="carouselContent">
+              <li class="item"><a data-toggle="tooltip" data-placement="top" title="Java Enterprise"><img src="/resources/img/techs/javaee.png" alt=""></a></li>
+              <li class="item"><img src="/resources/img/techs/spring.png" alt=""></li>
+              <li class="item"><img src="/resources/img/techs/themeleaf.png" alt=""></li>
+              <li class="item"><img src="/resources/img/techs/hibernate.png" alt=""></li>
+              <li class="item"><img src="/resources/img/techs/mysql.png" alt=""></li>
+              <li class="item"><img src="/resources/img/techs/nodejs.png" alt=""></li>
+              <li class="item"><img src="/resources/img/techs/bower.png" alt=""></li>
+              <li class="item"><img src="/resources/img/techs/grunt.png" alt=""></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section id="slide-3" class="homeSlide">
+        <div data-center="opacity:1;" data-top-bottom="opacity:0;" data--100-bottom="opacity: 1" data--100-top="opacity: 1" data-anchor-target="#slide-3" class="bcg">
+          <div data-center="opacity: 1" data-top-bottom="opacity: 1;" data-anchor-target="#slide-3" class="hsContainer">
+            <div data-center="opacity: 1;right:0px;" data-top="opacity: 1;right:0px;" data-bottom="opacity: 1;right:0px;" data-top-bottom="opacity: 0;right:-550px;" data-bottom-top="opacity: 0;right:-550px;" data-anchor-target="#slide-3" class="hsContent">
+              <h2>Welcome to the Flow!</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sagittis magna et euismod rutrum. Nulla ornare congue condimentum. Sed aliquam egestas lacinia. Nulla ultrices mi sed nisl aliquet tincidunt. Mauris maximus ipsum vel lacus aliquam hendrerit. Nulla diam est, luctus ut convallis a, aliquam vitae odio. Suspendisse tellus nulla, lacinia ut interdum quis, convallis vitae ipsum. Sed ac ex at elit mattis tincidunt eget vitae tellus. Aliquam at efficitur nisl, ac lacinia urna.</p>
+            </div>
+          </div>
+          <div data-center="opacity: 1;" data-top-bottom="opacity: 1;" data-anchor-target="#slide-2" class="hsCarousel">
+            <ul data-center="opacity: 1;right:0px;" data-top="opacity: 1;right:0px;" data-bottom="opacity: 1;right:0px;" data-bottom-top="opacity: 0;right:1500px;" data-top-bottom="opacity: 0;right:-1500px;" data-anchor-target="#slide-3" class="carouselContent">
+              <li class="item blue"><a data-toggle="tooltip" data-placement="top" title="Cool engine"><i class="fa fa-database"></i><span>Databse</span></a></li>
+              <li class="item blue"><a><i class="fa fa-users"></i><span>Users</span></a></li>
+              <li class="item blue"><a><i class="fa fa-desktop"></i><span>Desktop</span></a></li>
+              <li class="item blue"><a><i class="fa fa-envelope"></i><span>Email</span></a></li>
+              <li class="item blue"><a><i class="fa fa-life-ring"></i><span>Safety</span></a></li>
+              <li class="item blue"><a><i class="fa fa-wrench"></i><span>Wrench</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section id="slide-4" class="homeSlide slideLeft">
+        <div data-center="opacity:1;" data-top-bottom="opacity:0;" data--100-bottom="opacity: 1" data--100-top="opacity: 1" data-anchor-target="#slide-4" class="bcg">
+          <div data-center="opacity: 1;" data-top-bottom="opacity: 1;" data-anchor-target="#slide-4" class="hsContainer">
+            <div data-center="opacity: 1;left:0px;" data-top="opacity: 1;left:0px;" data-bottom="opacity: 1;left:0px;" data-top-bottom="opacity: 0;left:-550px;" data-bottom-top="opacity: 0;left:-550px;" data-anchor-target="#slide-4" class="hsContent">
+              <h2>Our technologies</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sagittis magna et euismod rutrum. Nulla ornare congue condimentum. Sed aliquam egestas lacinia. Nulla ultrices mi sed nisl aliquet tincidunt. Mauris maximus ipsum vel lacus aliquam hendrerit. Nulla diam est, luctus ut convallis a, aliquam vitae odio. Suspendisse tellus nulla, lacinia ut interdum quis, convallis vitae ipsum. Sed ac ex at elit mattis tincidunt eget vitae tellus. Aliquam at efficitur nisl, ac lacinia urna.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="slide-5" class="homeSlide">
+        <div data-bottom-top="opacity: 1;" data-center="opacity: 1;" data-anchor-target="#slide-5" class="bcg bcg2">
+          <div data-center="opacity: 1;" data-top-bottom="opacity: 1;" data-anchor-target="#slide-5" class="hsContainer">
+            <div data-center="opacity: 1;right:0px;" data-top="opacity: 1;right:0px;" data-bottom="opacity: 1;right:0px;" data-bottom-top="opacity: 0;right:-550px;" data-anchor-target="#slide-5" class="hsContent">
+              <h2>Welcome to the Flow!</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sagittis magna et euismod rutrum. Nulla ornare congue condimentum. Sed aliquam egestas lacinia. Nulla ultrices mi sed nisl aliquet tincidunt. Mauris maximus ipsum vel lacus aliquam hendrerit. Nulla diam est, luctus ut convallis a, aliquam vitae odio. Suspendisse tellus nulla, lacinia ut interdum quis, convallis vitae ipsum. Sed ac ex at elit mattis tincidunt eget vitae tellus. Aliquam at efficitur nisl, ac lacinia urna.</p>
+            </div>
+          </div>
+          <div data-center="opacity: 1;" data-top-bottom="opacity: 1;" data-anchor-target="#slide-5" class="hsCarousel">
+            <ul data-center="opacity: 1;right:0px;" data-top="opacity: 1;right:0px;" data-bottom="opacity: 1;right:0px;" data-bottom-top="opacity: 0;right:1500px;" data-top-bottom="opacity: 0;right:-1500px;" data-anchor-target="#slide-5" class="carouselContent">
+              <li class="item blue"><a><i class="fa fa-facebook"></i><span>Facebook</span></a></li>
+              <li class="item blue"><a><i class="fa fa-vk"></i><span>Vkontakte</span></a></li>
+              <li class="item blue"><a><i class="fa fa-linkedin"></i><span>Linkedin</span></a></li>
+              <li class="item blue"><a><i class="fa fa-envelope"></i><span>Email</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="../../../resources/js/compiled.landing.min.js" type="text/javascript" th:src="@{/resources/js/compiled.landing.min.js}"></script>
+  </body>
 </html>
