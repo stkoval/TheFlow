@@ -22,7 +22,7 @@
                         </a>
                     </div>
                     <div class="col-md-6 nav-col text-left">
-                        <h1 class="main-title text-center" th:text="${user.email}"></h1>
+                        <h1 class="main-title text-center" th:text="${user.fullName}"></h1>
                     </div>
                     <div class="col-md-3 text-right">
                         <a th:href="@{/users/manage}" class="fancy-button medium blueRiver icon basic pull-right">
@@ -36,18 +36,38 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <img class="img-responsive" src="/theflow/resources/img/no_avatar.gif" width="100%"/>
+                        <img class="img-responsive" src="/resources/img/no_avatar.gif" width="100%"/>
                     </div>
                     <div class="col-md-6">
-                        <h3 class="main-title" th:text="${user.fullName}"></h3>
-                        <p><a th:href ="${user.email}" th:text="${user.email}">Email</a></p>
-                        <p th:text="${#authentication.principal.companyName}">Company</p>
-                        <select class="selectpicker">
-                            <option th:each="role : ${roles}"
-                                    th:value="${role}"
-                                    th:if="${current_role == role.toString()}" th:selected="true"
-                                    th:text="${role}">Role</option>
-                        </select>
+                        <table class="table table-striped table-hover table-info">
+                            <tr>
+                                <td th:text="#{label.issue.type}">First name</td>
+                                <td><h4 th:text="${user.firstName}">First name</h4></td>
+                            </tr>
+                            <tr>
+                                <td th:text="#{label.issue.status}">Last name</td>
+                                <td><h4 th:text="${user.lastName}">Last name</h4></td>
+                            </tr>
+                            <tr>
+                                <td th:text="#{label.issue.priority}">Email</td>
+                                <td><h4 th:text="${user.email}">email</h4></td>
+                            </tr>
+                            <tr>
+                                <td th:text="#{label.issue.creator}">User role</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="dropdown-toggle fancy-button small blueRiver basic type-toggle text-left cell-button" data-toggle="dropdown" aria-expanded="false">
+                                            <span th:text="${current_role}">User role</span> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li th:each="role : ${roles}" th:if="${current_role != role.toString()}">
+                                                <a th:href="@{/user/} + ${user.userId}+ '/role?role=' + ${role}" th:text="${role}">Role</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -43,6 +43,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Company</th>
+                                    <th>Role</th>
                                     <th class="tools-cell">Tools</th>
                                 </tr>
                             </thead>
@@ -52,6 +53,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Company</th>
+                                    <th>Role</th>
                                     <th class="tools-cell">Tools</th>
                                 </tr>
                             </tfoot>
@@ -60,9 +62,21 @@
                                     <td><a th:href="@{/user/details/} + ${user.userId}" th:text="${user.fullName}"></a></td>
                                     <td><b th:text="${user.email}"></b></td>
                                     <td><b th:text="${#authentication.principal.companyName}"></b></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="dropdown-toggle fancy-button small asbestos basic type-toggle text-left cell-button" data-toggle="dropdown" aria-expanded="false">
+                                                <span th:text="${current_role}">User role</span> <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li th:each="role : ${roles}" th:if="${current_role != role.toString()}">
+                                                    <a th:href="@{/user/} + ${user.userId}+ '/role?role=' + ${role}" th:text="${role}">Role</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                     <td class="tools-cell">
                                         <div class="btn-group">
-                                            <button type="button" class="btn dropdown-toggle fancy-button small blueHole basic" data-toggle="dropdown" aria-expanded="false">
+                                            <button type="button" class="dropdown-toggle fancy-button small blueHole basic type-toggle text-left cell-button" data-toggle="dropdown" aria-expanded="false">
                                                 <i class="fa fa-cog"></i> <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu" role="menu">

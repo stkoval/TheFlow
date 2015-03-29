@@ -105,10 +105,17 @@ $(document).ready(function (e) {
 
     var $logtimerange = $('.logtimerange');
 
+    var d = new Date();
+    var month = d.getMonth();
+    var day = d.getDate();
+    var year = d.getFullYear();
+    var defaultTime = new Date(year, month, day, 00, 00);
+
     if ($logtimerange.length) {
         $logtimerange.datetimepicker({
             format: 'HH:mm',
-            sideBySide: true
+            sideBySide: true,
+            defaultDate: defaultTime
         });
     }
 

@@ -1,15 +1,42 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-<html>
 <head>
-    <title>TODO supply a title</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403. Access Denied</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <meta name="description" content=""/>
+    <link rel="image_src" href="" />
+
 </head>
 <body>
-    <h1>Access denied!</h1>
-    </br>
-    <div>You do not have permission to access this page.</div>
-    <a href="#" th:href="@{/home}">home page</a>
+<object th:include="fragments/layout :: styles" th:remove="tag" />
+
+<div class="container-login">
+    <div class="outer">
+        <div class="inner">
+            <div class="centered">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="logo logo-login">
+                            <i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong>
+                        </div>
+                        <h2 th:text="#{label.issue.title}">403. Access Denied</h2>
+                        <a class="fancy-button medium blueHole basic login-button text-center" href="javascript:history.go(-1);">
+                            Go back
+                                        <span class="icon">
+                                            <i class="fa fa-chevron-right"></i>
+                                        </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<object th:include="fragments/layout :: script" th:remove="tag"/>
+
 </body>
 </html>
