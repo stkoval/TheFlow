@@ -17,4 +17,8 @@ public interface UserCompanyDao {
     public List<UserCompany> getUserCompaniesByUserId(int userId);
 
     public UserCompany getUserCompanyById(int ucId);
+
+    public UserCompany getUserCompaniesByUserIdAndCompanyId(int userId, int companyId);
+
+    public List<UserCompany> getUserCompaniesByCompanyId(int companyId);
 }

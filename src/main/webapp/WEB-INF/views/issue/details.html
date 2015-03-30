@@ -21,7 +21,7 @@
                 </a>
             </div>
             <div class="col-md-6">
-                <h1 class="main-title text-center" th:text="${issue.title}">Issue details</h1>
+                <h1 class="main-title text-center" th:text="Issue + ' ' + ${issue.issueId}">Issue details</h1>
             </div>
             <div class="col-md-3 nav-col text-right">
                 <a th:href="@{'/issue/edit/' + ${issue.issueId}}" class="fancy-button medium esmerald icon basic">

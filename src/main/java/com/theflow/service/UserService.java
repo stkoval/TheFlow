@@ -44,4 +44,8 @@ public interface UserService {
     public UserCompany getUserCompanyById(int ucId);
 
     public void saveNewCompanyFromCabinet(CompanyDto companyDto)  throws CompanyAliasExistsException, CompanyExistsException;
+
+    public UserCompany getUserCompanyByUserIdAndCompanyId(int userId, int companyId);
+
+    public List<UserCompany> getUserCompanyByCompanyId(int companyId);
 }

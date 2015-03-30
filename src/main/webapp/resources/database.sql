@@ -122,7 +122,7 @@ values('Demo project 3', '4', 'Lorem ipsum dolor sit amet, consectetur adipisici
 DROP TABLE IF EXISTS issues;
 create table issues (
 issue_id int not null auto_increment,
-title varchar(40) not null,
+title varchar(50) not null,
 description text,
 type varchar(15),
 status varchar(15),
