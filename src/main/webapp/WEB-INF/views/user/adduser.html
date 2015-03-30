@@ -42,7 +42,7 @@
                             <div class="form-group">
                                 <label th:text="#{label.user.firstName}"></label>
                                 <input type="text" class="form-control" id="firstName" placeholder="firstName"
-                                       th:field="*{firstName}" required/>
+                                       th:field="*{firstName}" required maxlength="40"/>
 
                                 <div class="help-block with-errors"></div>
                                 <div class="with-errors" th:if="${#fields.hasErrors('firstName')}"
@@ -51,7 +51,7 @@
                             <div class="form-group">
                                 <label th:text="#{label.user.lastName}"></label>
                                 <input type="text" class="form-control" id="lastName" placeholder="lastName"
-                                       th:field="*{lastName}" required/>
+                                       th:field="*{lastName}" required maxlength="40"/>
 
                                 <div class="help-block with-errors"></div>
                                 <div class="with-errors" th:if="${#fields.hasErrors('lastName')}"
@@ -79,7 +79,7 @@
                             <div class="form-group">
                                 <label th:text="#{label.user.email}"></label>
                                 <input type="text" class="form-control" id="email" placeholder="email"
-                                       th:field="*{email}" required/>
+                                       th:field="*{email}" required maxlength="250"/>
 
                                 <div class="help-block with-errors"></div>
                                 <div class="with-errors" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">

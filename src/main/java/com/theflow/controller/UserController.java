@@ -1,6 +1,7 @@
 package com.theflow.controller;
 
 import com.theflow.domain.User;
+import com.theflow.domain.UserCompany;
 import com.theflow.dto.CompanyDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
@@ -206,8 +207,10 @@ public class UserController {
     @RequestMapping(value = "/users/manage", method = RequestMethod.GET)
     public ModelAndView showManageUsersPage() {
         ModelAndView model = new ModelAndView("user/manage");
-        List<User> users = userService.getAllUsers();
-        model.addObject("users", users);
+        List<UserCompany> userCompanys = userService.getUserCompanyByCompanyId(userService.getPrincipal().getCompanyId());
+        List<UserRoleConstants> roles = Arrays.asList(UserRoleConstants.values());
+        model.addObject("users", userCompanys);
+        model.addObject("roles", roles);
         return model;
     }
 
@@ -219,14 +222,18 @@ public class UserController {
         List<UserRoleConstants> roles = Arrays.asList(UserRoleConstants.values());
         model.addObject("user", user);
         model.addObject("roles", roles);
+        int companyId = userService.getPrincipal().getCompanyId();
+        UserCompany uc = userService.getUserCompanyByUserIdAndCompanyId(userId, companyId);
+        model.addObject("current_role", uc.getUserRole());
         return model;
     }
 
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/{id}/role", method = RequestMethod.GET)
-    public void changeUserAuthorities(@RequestParam(value = "role") String role,
+    public ModelAndView changeUserAuthorities(@RequestParam(value = "role") String role,
             @PathVariable(value = "id") int userId) {
         userService.changeUserRole(role, userId);
+        return new ModelAndView("redirect:/user/details/" + userId);
     }
 
     @ExceptionHandler(Exception.class)

@@ -220,4 +220,14 @@ public class UserServiceImpl implements UserService {
         uc.setUserRole("Admin");
         userCompanyDao.saveUserCompany(uc);
     }
+
+    @Override
+    public UserCompany getUserCompanyByUserIdAndCompanyId(int userId, int companyId) {
+        return userCompanyDao.getUserCompaniesByUserIdAndCompanyId(userId, companyId);
+    }
+
+    @Override
+    public List<UserCompany> getUserCompanyByCompanyId(int companyId) {
+        return userCompanyDao.getUserCompaniesByCompanyId(companyId);
+    }
 }

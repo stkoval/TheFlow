@@ -27,7 +27,7 @@
                         <h1 class="main-title text-center">Profile</h1>
                     </div>
                     <div class="col-md-3 text-right">
-                        <a href="#" class="fancy-button medium esmerald icon basic">
+                        <a href="#" th:href="@{/user/edit/} + ${#authentication.principal.userId}" class="fancy-button medium esmerald icon basic">
                             <span class="icon pull-left">
                                 <i class="fa fa-edit"></i>
                             </span>

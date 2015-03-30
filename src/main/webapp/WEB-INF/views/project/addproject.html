@@ -44,7 +44,7 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label" th:text="#{label.project.name}">Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" placeholder="Name" th:field="*{projName}" required>
+                                <input type="text" class="form-control" id="name" placeholder="Name" th:field="*{projName}" required maxlength="100">
                                 <div class="help-block with-errors"></div>
                                 <div class="with-errors" th:if="${#fields.hasErrors('projName')}" th:errors="*{projName}"></div>
                             </div>
@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <label for="description" class="col-sm-2 control-label" th:text="#{label.project.description}">Description</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" id="description" th:field="*{projDescription}"></textarea>
+                                <textarea class="form-control" id="description" th:field="*{projDescription}" maxlength="1000"></textarea>
                                 <div class="help-block with-errors"></div>
                                 <div class="with-errors" th:if="${#fields.hasErrors('projDescription')}" th:errors="*{projDescription}"></div>
                             </div>

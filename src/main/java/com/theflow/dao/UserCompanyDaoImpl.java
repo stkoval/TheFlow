@@ -61,4 +61,31 @@ public class UserCompanyDaoImpl implements UserCompanyDao{
         }
         return null;
     }
+
+    @Override
+    public UserCompany getUserCompaniesByUserIdAndCompanyId(int userId, int companyId) {
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "from UserCompany uc where uc.user.userId = :userId and uc.company.companyId = :companyId";
+        Query q = session.createQuery(hql);
+        q.setParameter("userId", userId);
+        q.setParameter("companyId", companyId);
+        List<UserCompany> userCompanies = q.list();
+        if ((userCompanies != null)&&(!userCompanies.isEmpty())) {
+            return userCompanies.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserCompany> getUserCompaniesByCompanyId(int companyId) {
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "from UserCompany uc where uc.company.companyId = :companyId";
+        Query q = session.createQuery(hql);
+        q.setParameter("companyId", companyId);
+        List<UserCompany> userCompanies = q.list();
+        if ((userCompanies != null)&&(!userCompanies.isEmpty())) {
+            return userCompanies;
+        }
+        return null;
+    }
 }
