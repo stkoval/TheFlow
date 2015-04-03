@@ -2,12 +2,13 @@ package com.theflow.service;
 
 import com.theflow.dao.CompanyDao;
 import com.theflow.domain.Company;
+import com.theflow.dto.CompanyDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import validation.CompanyExistsException;
-import validation.CompanyNotExistException;
+import validation.CompanyNotFoundException;
 
 /**
  *
@@ -21,8 +22,12 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Transactional
     @Override
-    public Company getCompanyById(int companyId) {
-        return companyDao.getCompanyById(companyId);
+    public Company getCompanyById(int companyId) throws CompanyNotFoundException {
+        Company company = companyDao.getCompanyById(companyId);
+        if (company == null) {
+            throw new CompanyNotFoundException("Company not exists");
+        }
+        return company;
     }
 
     @Transactional
@@ -58,6 +63,11 @@ public class CompanyServiceImpl implements CompanyService{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void updateCompany(CompanyDto companyDto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

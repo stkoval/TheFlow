@@ -2,24 +2,6 @@ DROP DATABASE IF EXISTS flowdb;
 create database flowdb;
 use flowdb;
 
-DROP TABLE IF EXISTS companies;
-create table companies (
-company_id int not null auto_increment,
-company_name varchar(100) not null,
-company_alias varchar(16) not null,
-key(company_alias),
-primary key (company_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-insert into companies (company_name, company_alias)
-values('Microsoft', 'microsoft');
-insert into companies (company_name, company_alias)
-values('Apple', 'apple');
-insert into companies (company_name, company_alias)
-values('Google', 'google');
-insert into companies (company_name, company_alias)
-values('Hooli', 'hooli');
-
 DROP TABLE IF EXISTS users;
 create table users (
 user_id int(11) not null auto_increment,
@@ -29,6 +11,17 @@ email varchar(255) not null,
 password varchar(60) not null,
 enabled TINYINT NOT NULL DEFAULT 1,
 PRIMARY KEY (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS companies;
+create table companies (
+company_id int not null auto_increment,
+company_name varchar(100) not null,
+company_alias varchar(16) not null,
+creator_id int(11) not null,
+key(company_alias),
+CONSTRAINT `fk_creator` FOREIGN KEY (`creator_id`) REFERENCES `users` (`user_id`),
+primary key (company_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS users_companies;
@@ -64,6 +57,15 @@ insert into users(firstname, lastname, email, password, enabled)
 values('Larry', 'Page', 'lpage@google.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 insert into users(firstname, lastname, email, password, enabled) 
 values('Sergey', 'Brin', 'brin@google.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+
+insert into companies (company_name, company_alias, creator_id)
+values('Microsoft', 'microsoft', 1);
+insert into companies (company_name, company_alias, creator_id)
+values('Apple', 'apple', 5);
+insert into companies (company_name, company_alias, creator_id)
+values('Google', 'google', 9);
+insert into companies (company_name, company_alias, creator_id)
+values('Hooli', 'hooli', 4);
 
 insert into users_companies(user_id, company_id, user_role) 
 values(1, 1, 'Admin');

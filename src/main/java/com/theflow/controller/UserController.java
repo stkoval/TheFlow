@@ -1,10 +1,12 @@
 package com.theflow.controller;
 
+import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
 import com.theflow.dto.CompanyDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
+import com.theflow.service.CompanyService;
 import com.theflow.service.FlowUserDetailsService;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
@@ -47,6 +49,9 @@ public class UserController {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    private CompanyService companyService;
+
     @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
@@ -87,7 +92,7 @@ public class UserController {
         model.addObject("company", company);
         return model;
     }
-    
+
     //add new company from cabinet
     @PreAuthorize("hasRole('Cabinet')")
     @RequestMapping(value = "user/savecompany", method = RequestMethod.POST)
@@ -106,7 +111,7 @@ public class UserController {
         }
         ModelAndView model = new ModelAndView("redirect:/user/cabinet");
         model.addObject("message", messageSource.getMessage("message.company.add.success", null, Locale.ENGLISH) + " " + companyDto.getCompanyName());
-        
+
         return model;
     }
 
@@ -184,8 +189,13 @@ public class UserController {
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showUserEditForm(@PathVariable(value = "id") int userId) {
-
-        ModelAndView model = new ModelAndView("user/edit");
+        int id = userService.getPrincipal().getUserId();
+        if(id != userId) {
+            ModelAndView model = new ModelAndView("redirect:/users/manage");
+            model.addObject("message", messageSource.getMessage("message.norights", null, Locale.ENGLISH));
+            return model;
+        }
+        ModelAndView model = new ModelAndView("/user/edit");
         User user = userService.getUserById(userId);
         model.addObject("user", user);
 
@@ -235,7 +245,7 @@ public class UserController {
         userService.changeUserRole(role, userId);
         return new ModelAndView("redirect:/user/details/" + userId);
     }
-
+    
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
         logger.error("Request: " + req.getRequestURL() + " exception " + exception);

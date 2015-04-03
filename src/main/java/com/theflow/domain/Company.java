@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -31,6 +33,10 @@ public class Company implements Serializable {
     @OneToMany(mappedBy = "company")
     private Set<UserCompany> userCompanies;
     
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
+    
     public Company() {}
     
     public Company(String name) {
@@ -43,6 +49,7 @@ public class Company implements Serializable {
     }
     
 
+    
     public int getCompanyId() {
         return companyId;
     }
@@ -65,6 +72,14 @@ public class Company implements Serializable {
 
     public void setAlias(String alias) {
         this.companyAlias = alias;
+    }
+    
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
     
     @Override
@@ -93,4 +108,5 @@ public class Company implements Serializable {
     public String toString() {
         return "Company{" + "companyId=" + companyId + ", name=" + name + '}';
     }
+
 }

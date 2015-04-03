@@ -1,6 +1,5 @@
 package com.theflow.domain;
 
-import helpers.UserRoleConstants;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -11,11 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Type;
@@ -57,6 +52,9 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserCompany> userCompanies;
+    
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.PERSIST)
+    private List<Company> companys;
 
     public User() {
     }
@@ -132,6 +130,14 @@ public class User implements Serializable {
     public void setUserCompanies(Set<UserCompany> userCompanies) {
         this.userCompanies = userCompanies;
     }
+    
+    public List<Company> getCompanys() {
+        return companys;
+    }
+
+    public void setCompanys(List<Company> companys) {
+        this.companys = companys;
+    }
 
     @Override
     public int hashCode() {
@@ -163,5 +169,4 @@ public class User implements Serializable {
     public String toString() {
         return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + '}';
     }
-
 }

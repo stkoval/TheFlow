@@ -6,8 +6,9 @@
 package com.theflow.service;
 
 import com.theflow.domain.Company;
+import com.theflow.dto.CompanyDto;
 import validation.CompanyExistsException;
-import validation.CompanyNotExistException;
+import validation.CompanyNotFoundException;
 
 /**
  *
@@ -15,9 +16,11 @@ import validation.CompanyNotExistException;
  */
 public interface CompanyService {
 
-    public Company getCompanyById(int companyId);
+    public Company getCompanyById(int companyId) throws CompanyNotFoundException;
     
     public boolean checkIfPartOfPathSubdomain(String companyName);
     
     public void saveNewCompany(Company company) throws CompanyExistsException;
+
+    public void updateCompany(CompanyDto companyDto);
 }
