@@ -64,7 +64,7 @@ public class CompanyController {
         ModelAndView model = new ModelAndView("/company/edit");
         CompanyDto companyDto = new CompanyDto(company.getName(), company.getAlias());
         companyDto.setCompanyId(companyId);
-        model.addObject("company", company);
+        model.addObject("company", companyDto);
         return model;
     }
     
