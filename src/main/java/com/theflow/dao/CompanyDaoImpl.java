@@ -6,7 +6,6 @@
 package com.theflow.dao;
 
 import com.theflow.domain.Company;
-import com.theflow.domain.UserCompany;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -26,7 +25,7 @@ public class CompanyDaoImpl implements CompanyDao{
     
     @Override
     public Company getCompanyById(int id) {
-        return (Company) sessionFactory.getCurrentSession().load(Company.class, id);
+        return (Company) sessionFactory.getCurrentSession().get(Company.class, id);
     }
 
     @Override

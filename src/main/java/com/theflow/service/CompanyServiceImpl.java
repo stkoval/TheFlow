@@ -20,8 +20,8 @@ public class CompanyServiceImpl implements CompanyService{
     @Autowired
     private CompanyDao companyDao;
 
-    @Transactional
     @Override
+    @Transactional
     public Company getCompanyById(int companyId) throws CompanyNotFoundException {
         Company company = companyDao.getCompanyById(companyId);
         if (company == null) {
@@ -30,8 +30,8 @@ public class CompanyServiceImpl implements CompanyService{
         return company;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public boolean checkIfPartOfPathSubdomain(String companyAlias) {
         List<String> companyNames = companyDao.getAllCompanyAliases();
         boolean exists = false;
@@ -47,8 +47,8 @@ public class CompanyServiceImpl implements CompanyService{
         return exists;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void saveNewCompany(Company company) throws CompanyExistsException {
         if (companyExist(company.getName())) {
             throw new CompanyExistsException("Company already exists: " + company.getName());
@@ -66,6 +66,7 @@ public class CompanyServiceImpl implements CompanyService{
     }
 
     @Override
+    @Transactional
     public void updateCompany(CompanyDto companyDto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
