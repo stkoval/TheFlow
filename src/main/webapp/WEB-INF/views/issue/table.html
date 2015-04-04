@@ -65,7 +65,7 @@
                                         <button type="button"
                                                 class="dropdown-toggle fancy-button small asbestos basic status-toggle text-left cell-button"
                                                 data-toggle="dropdown" aria-expanded="false">
-                                            <span th:text="${issue.status}"></span> <span class="caret"></span>
+                                            <span th:text="${issue.status}"></span>&nbsp;<span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu status-dropdown" role="menu">
                                             <li th:if="${issue.status.toString()} != 'New'"><a
@@ -98,7 +98,7 @@
                                         <button type="button"
                                                 class="dropdown-toggle fancy-button small asbestos basic type-toggle text-left cell-button"
                                                 data-toggle="dropdown" aria-expanded="false">
-                                            <span th:text="${issue.type}"></span> <span class="caret"></span>
+                                            <span th:text="${issue.type}"></span>&nbsp;<span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu type-dropdown" role="menu">
                                             <li th:if="${issue.type.toString()} != 'Bug'"><a
@@ -114,7 +114,7 @@
                                         <button type="button"
                                                 class="dropdown-toggle fancy-button small asbestos basic type-toggle text-left cell-button"
                                                 data-toggle="dropdown" aria-expanded="false">
-                                            <span th:text="${issue.priority}"></span> <span class="caret"></span>
+                                            <span th:text="${issue.priority}"></span>&nbsp;<span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu type-dropdown" role="menu">
                                             <li th:if="${issue.priority.toString()} != 'High'"><a
@@ -135,7 +135,7 @@
                                         <button type="button"
                                                 class="dropdown-toggle fancy-button small asbestos basic type-toggle text-left cell-button"
                                                 data-toggle="dropdown" aria-expanded="false">
-                                            <span th:text="${issue.assignee.fullName}"></span> <span class="caret"></span>
+                                            <span th:text="${issue.assignee.fullName}"></span>&nbsp;<span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu assignee-dropdown" role="menu">
                                             <li th:each="user : ${users}"
@@ -151,7 +151,7 @@
                                         <button type="button"
                                                 class="dropdown-toggle fancy-button small blueHole basic"
                                                 data-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa fa-cog"></i> <span class="caret"></span>
+                                            <i class="fa fa-cog"></i>&nbsp;<span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu status-dropdown" role="menu">
                                             <li><a href="#" th:href="@{'/issue/edit/' + ${issue.issueId}}">Edit</a></li>
