@@ -11,6 +11,7 @@ import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
 import com.theflow.service.UserService;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import validation.ProjectRequiredException;
 
 /**
  *
@@ -46,6 +49,9 @@ public class IssueController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private MessageSource messageSource;
 
     //searching issue header smart search
     @ResponseBody
@@ -70,7 +76,12 @@ public class IssueController {
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
     public ModelAndView saveIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
 
-        issueService.saveIssue(issueDto);
+        try {
+            issueService.saveIssue(issueDto);
+        } catch (ProjectRequiredException ex) {
+            ModelAndView model = new ModelAndView("redirect:/home");
+            model.addObject("message", messageSource.getMessage("message.project.required", null, Locale.ENGLISH));
+        }
 
         return new ModelAndView("redirect:/home");
     }

@@ -25,14 +25,6 @@
                     <div class="col-md-6">
                         <h1 class="main-title text-center">Edit company</h1>
                     </div>
-                    <div class="col-md-3 text-right">
-                        <a th:href="@{/cabinet}" class="fancy-button medium blueRiver icon basic pull-right">
-                            <span class="icon pull-left">
-                                <i class="fa fa-users"></i>
-                            </span>
-                            &nbsp;All companies
-                        </a>
-                    </div>
                 </div>
 
                 <div class="row">
@@ -43,6 +35,7 @@
                                 <input type="hidden" class="form-control" id="companyId" placeholder="companyId" th:field="*{companyId}" required/>
                             </div>
                             <div class="form-group">
+                                <label for="companyName" class="col-sm-2 control-label" th:text="#{label.company.name}">Company name</label>
                                 <input type="text" class="form-control" id="companyName" placeholder="companyName" th:field="*{companyName}" required/>
 
                                 <div class="help-block with-errors"></div>
@@ -51,6 +44,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="companyAlias" class="col-sm-2 control-label" th:text="#{label.company.alias}">Company alias</label>
                                 <input type="text" class="form-control" id="companyAlias" placeholder="companyAlias" th:field="*{companyAlias}" required/>
 
                                 <div class="help-block with-errors"></div>

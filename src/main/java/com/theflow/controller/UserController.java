@@ -83,38 +83,6 @@ public class UserController {
         return model;
     }
 
-    //add new company from cabinet
-    @PreAuthorize("hasRole('Cabinet')")
-    @RequestMapping(value = "user/addcompany", method = RequestMethod.GET)
-    public ModelAndView showAddNewCompanyForm() {
-        ModelAndView model = new ModelAndView("user/addcompany");
-        CompanyDto company = new CompanyDto();
-        model.addObject("company", company);
-        return model;
-    }
-
-    //add new company from cabinet
-    @PreAuthorize("hasRole('Cabinet')")
-    @RequestMapping(value = "user/savecompany", method = RequestMethod.POST)
-    public ModelAndView saveNewCompanyFromCabinet(@ModelAttribute("company") @Valid CompanyDto companyDto, BindingResult result) {
-        if (result.hasErrors()) {
-            return new ModelAndView("user/addcompany", "company", companyDto);
-        }
-        try {
-            userService.saveNewCompanyFromCabinet(companyDto);
-        } catch (CompanyExistsException ex) {
-            result.rejectValue("companyName", "message.companyError");
-            return new ModelAndView("user/addcompany", "company", companyDto);
-        } catch (CompanyAliasExistsException ex) {
-            result.rejectValue("companyAlias", "message.companyAliasError");
-            return new ModelAndView("user/addcompany", "company", companyDto);
-        }
-        ModelAndView model = new ModelAndView("redirect:/user/cabinet");
-        model.addObject("message", messageSource.getMessage("message.company.add.success", null, Locale.ENGLISH) + " " + companyDto.getCompanyName());
-
-        return model;
-    }
-
     //save account user after registration procees from login page
     @RequestMapping(value = "/user/saveaccount", method = RequestMethod.POST)
     public ModelAndView saveNewUserFromRegistration(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {

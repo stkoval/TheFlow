@@ -70,4 +70,31 @@ public class CompanyDaoImpl implements CompanyDao{
             return null;
         }
     }
+
+    @Override
+    public void updateCompany(Company company) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(company);
+    }
+
+    @Override
+    public void removeCompany(int companyId) {
+        Session session = sessionFactory.getCurrentSession();
+        
+        String hql1 = "delete from Project where companyId = :companyId";
+        Query q1 = session.createQuery(hql1);
+        q1.setParameter("companyId", companyId);
+        q1.executeUpdate();
+        
+        
+        String hql2 = "delete from UserCompany uc where uc.company.companyId = :companyId";
+        Query q2 = session.createQuery(hql2);
+        q2.setParameter("companyId", companyId);
+        q2.executeUpdate();
+        
+        String hql3 = "delete from Company where companyId = :companyId";
+        Query q3 = session.createQuery(hql3);
+        q3.setParameter("companyId", companyId);
+        q3.executeUpdate();
+    }
 }

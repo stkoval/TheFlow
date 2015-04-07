@@ -3,7 +3,6 @@ package com.theflow.controller;
 import com.theflow.domain.Company;
 import com.theflow.domain.UserCompany;
 import com.theflow.dto.CompanyDto;
-import com.theflow.dto.UserProfileDto;
 import com.theflow.service.CompanyService;
 import com.theflow.service.UserService;
 import java.util.List;
@@ -19,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import validation.CompanyAliasExistsException;
+import validation.CompanyExistsException;
 import validation.CompanyNotFoundException;
 
 /**
@@ -75,8 +76,59 @@ public class CompanyController {
         if (result.hasErrors()) {
             return new ModelAndView("/company/edit", "user", companyDto);
         }
-        companyService.updateCompany(companyDto);
-        return new ModelAndView("user/own_companies");
+        try {
+            companyService.updateCompany(companyDto);
+        } catch (CompanyNotFoundException ex) {
+            ModelAndView model = new ModelAndView("redirect:/companies/own");
+            model.addObject("error", messageSource.getMessage("message.company.notfound", null, Locale.ENGLISH));
+        } catch (CompanyAliasExistsException ex1) {
+            ModelAndView model = new ModelAndView("redirect:/companies/own");
+            model.addObject("error", messageSource.getMessage("message.company.alias.exists", null, Locale.ENGLISH) + " " + companyDto.getCompanyAlias());
+        } catch (CompanyExistsException ex2) {
+            ModelAndView model = new ModelAndView("redirect:/companies/own");
+            model.addObject("error", messageSource.getMessage("message.company.name.exists", null, Locale.ENGLISH) + " " + companyDto.getCompanyName());
+        }
+        ModelAndView model = new ModelAndView("redirect:/companies/own");
+        return model;
+    }
+    
+    @PreAuthorize("hasRole('Cabinet')")
+    @RequestMapping(value = "/company/remove/{companyId}", method = RequestMethod.GET)
+    public ModelAndView removeCompany(@PathVariable(value = "companyId") int companyId) {
+        companyService.removeCompany(companyId);
+        ModelAndView model = new ModelAndView("redirect:/companies/own");
+        return model;
+    }
+    
+    //add new company from cabinet
+    @PreAuthorize("hasRole('Cabinet')")
+    @RequestMapping(value = "user/addcompany", method = RequestMethod.GET)
+    public ModelAndView showAddNewCompanyForm() {
+        ModelAndView model = new ModelAndView("user/addcompany");
+        CompanyDto company = new CompanyDto();
+        model.addObject("company", company);
+        return model;
     }
 
+    //add new company from cabinet
+    @PreAuthorize("hasRole('Cabinet')")
+    @RequestMapping(value = "user/savecompany", method = RequestMethod.POST)
+    public ModelAndView saveNewCompanyFromCabinet(@ModelAttribute("company") @Valid CompanyDto companyDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return new ModelAndView("user/addcompany", "company", companyDto);
+        }
+        try {
+            userService.saveNewCompanyFromCabinet(companyDto);
+        } catch (CompanyExistsException ex) {
+            result.rejectValue("companyName", "message.companyError");
+            return new ModelAndView("user/addcompany", "company", companyDto);
+        } catch (CompanyAliasExistsException ex) {
+            result.rejectValue("companyAlias", "message.companyAliasError");
+            return new ModelAndView("user/addcompany", "company", companyDto);
+        }
+        ModelAndView model = new ModelAndView("redirect:/cabinet");
+        model.addObject("message", messageSource.getMessage("message.company.add.success", null, Locale.ENGLISH) + " " + companyDto.getCompanyName());
+
+        return model;
+    }
 }

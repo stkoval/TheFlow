@@ -216,6 +216,7 @@ public class UserServiceImpl implements UserService {
         FlowUserDetailsService.User principal = (FlowUserDetailsService.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Company company = new Company(companyDto.getCompanyName(), companyDto.getCompanyAlias());
         User user = userDao.getUserById(principal.getUserId());
+        company.setCreator(user);
         UserCompany uc = new UserCompany();
         uc.setUser(user);
         uc.setCompany(company);

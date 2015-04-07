@@ -9,6 +9,7 @@ import com.theflow.domain.Issue;
 import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
 import java.util.List;
+import validation.ProjectRequiredException;
 
 /**
  *
@@ -18,7 +19,7 @@ public interface IssueService {
 
     public List<IssueDto> searchIssues(IssueSearchParams criteria);
 
-    public void saveIssue(IssueDto issueDto);
+    public void saveIssue(IssueDto issueDto) throws ProjectRequiredException;
     
     public void removeIssue(int id);
     
