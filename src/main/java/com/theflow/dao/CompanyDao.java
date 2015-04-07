@@ -22,4 +22,8 @@ public interface CompanyDao {
     public Company getCompanyByAlias(String companyName);
     
     public List<String> getAllCompanyAliases();
+
+    public void updateCompany(Company company);
+
+    public void removeCompany(int companyId);
 }

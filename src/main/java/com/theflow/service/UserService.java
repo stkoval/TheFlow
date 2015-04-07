@@ -14,7 +14,6 @@ import java.util.List;
 import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
-import validation.UserNotFoundException;
 import validation.UsernameDuplicationException;
 
 /**
@@ -48,4 +47,6 @@ public interface UserService {
     public UserCompany getUserCompanyByUserIdAndCompanyId(int userId, int companyId);
 
     public List<UserCompany> getUserCompanyByCompanyId(int companyId);
+
+    public List<UserCompany> getOwnCompanies();
 }

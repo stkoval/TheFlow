@@ -1,0 +1,69 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+    <head>
+        <title>Add company</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    </head>
+    <body>
+        <object th:include="fragments/layout :: styles" th:remove="tag" />
+
+        <div id="wrap">
+            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
+
+            <div class="container main-content">
+
+                <div class="row">
+                    <div class="col-md-3 nav-col text-left">
+                        <a th:href="@{/cabinet}" class="fancy-button medium blueRiver icon basic">
+                            <span class="icon pull-left">
+                                <i class="fa fa-chevron-left"></i>
+                            </span>
+                            &nbsp;Back
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="main-title text-center">Edit company</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 col-xs-12">
+                        <form th:object="${company}" method="POST" th:action="@{/company/update}" enctype="utf8"
+                              data-toggle="validator">
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="companyId" placeholder="companyId" th:field="*{companyId}" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="companyName" class="col-sm-2 control-label" th:text="#{label.company.name}">Company name</label>
+                                <input type="text" class="form-control" id="companyName" placeholder="companyName" th:field="*{companyName}" required/>
+
+                                <div class="help-block with-errors"></div>
+                                <div class="with-errors" th:if="${#fields.hasErrors('companyName')}"
+                                     th:errors="*{companyName}">Name Error
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="companyAlias" class="col-sm-2 control-label" th:text="#{label.company.alias}">Company alias</label>
+                                <input type="text" class="form-control" id="companyAlias" placeholder="companyAlias" th:field="*{companyAlias}" required/>
+
+                                <div class="help-block with-errors"></div>
+                                <div class="with-errors" th:if="${#fields.hasErrors('companyAlias')}"
+                                     th:errors="*{companyAlias}">Name Error
+                                </div>
+                            </div>
+                            <button class="fancy-button medium blueHole basic login-button" type="submit"
+                                    th:text="#{label.form.submit}"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="push"></div>
+        </div>
+
+        <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
+
+        <object th:include="fragments/layout :: script" th:remove="tag"/>
+
+    </body>
+</html>

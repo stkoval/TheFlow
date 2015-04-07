@@ -15,14 +15,17 @@ import validation.ValidCompanyAlias;
  * @author Stas
  */
 public class CompanyDto {
+    
+    private Integer companyId;
+    
     @NotNull
     @NotEmpty
-    @Size(min = 3, max = 30)
+    @Size(min = 2, max = 30)
     private String companyName;
     
     @NotNull
     @NotEmpty
-    @Size(min = 3, max = 16)
+    @Size(min = 2, max = 16)
     @ValidCompanyAlias
     private String companyAlias;
 
@@ -48,5 +51,13 @@ public class CompanyDto {
 
     public void setCompanyAlias(String companyAlias) {
         this.companyAlias = companyAlias;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 }

@@ -59,7 +59,9 @@ public class UserServiceImpl implements UserService {
         UserCompany userCompany = new UserCompany();
         
         Company company = new Company(userDto.getCompanyName());
+        company.setCreator(user);
         company.setAlias(userDto.getCompanyAlias());
+        userDao.saveUser(user);
         
         userCompany.setUser(user);
         userCompany.setCompany(company);
@@ -106,7 +108,7 @@ public class UserServiceImpl implements UserService {
             throw new UsernameDuplicationException("User already added: " + userDto.getEmail());
         }
         if (emailExist(userDto.getEmail())) {
-            throw new EmailExistsException("There is an account with that email adress: "
+            throw new EmailExistsException("Account already exists with email: "
                     + userDto.getEmail());
         }
         
@@ -214,6 +216,7 @@ public class UserServiceImpl implements UserService {
         FlowUserDetailsService.User principal = (FlowUserDetailsService.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Company company = new Company(companyDto.getCompanyName(), companyDto.getCompanyAlias());
         User user = userDao.getUserById(principal.getUserId());
+        company.setCreator(user);
         UserCompany uc = new UserCompany();
         uc.setUser(user);
         uc.setCompany(company);
@@ -229,5 +232,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserCompany> getUserCompanyByCompanyId(int companyId) {
         return userCompanyDao.getUserCompaniesByCompanyId(companyId);
+    }
+
+    @Override
+    public List<UserCompany> getOwnCompanies() {
+        return userCompanyDao.getOwnCompanies();
     }
 }

@@ -3,7 +3,6 @@ package com.theflow.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import validation.PasswordMatches;
 import validation.ValidCompanyAlias;
@@ -46,12 +45,12 @@ public class UserDto {
     
     @NotNull
     @NotEmpty
-    @Size(min = 3, max = 30)
+    @Size(min = 2, max = 30)
     private String companyName;
     
     @NotNull
     @NotEmpty
-    @Size(min = 3, max = 16)
+    @Size(min = 2, max = 16)
     @ValidCompanyAlias
     private String companyAlias;
     

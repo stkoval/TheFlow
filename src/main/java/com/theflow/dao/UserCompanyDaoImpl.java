@@ -2,11 +2,13 @@ package com.theflow.dao;
 
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
+import com.theflow.service.FlowUserDetailsService;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -82,6 +84,23 @@ public class UserCompanyDaoImpl implements UserCompanyDao{
         String hql = "from UserCompany uc where uc.company.companyId = :companyId";
         Query q = session.createQuery(hql);
         q.setParameter("companyId", companyId);
+        List<UserCompany> userCompanies = q.list();
+        if ((userCompanies != null)&&(!userCompanies.isEmpty())) {
+            return userCompanies;
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserCompany> getOwnCompanies() {
+        Session session = sessionFactory.getCurrentSession();
+        FlowUserDetailsService.User principal = (FlowUserDetailsService.User)SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String hql = "from UserCompany uc where uc.company.creator.userId = :userId and uc.user.userId = :userId";
+        Query q = session.createQuery(hql);
+        q.setParameter("userId", principal.getUserId());
         List<UserCompany> userCompanies = q.list();
         if ((userCompanies != null)&&(!userCompanies.isEmpty())) {
             return userCompanies;

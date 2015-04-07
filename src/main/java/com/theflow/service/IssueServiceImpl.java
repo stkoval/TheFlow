@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import validation.ProjectRequiredException;
 
 /**
  *
@@ -64,7 +65,10 @@ public class IssueServiceImpl implements IssueService {
 
     @Transactional
     @Override
-    public void saveIssue(IssueDto issueDto) {
+    public void saveIssue(IssueDto issueDto) throws ProjectRequiredException{
+        if (issueDto.getProjectId() == null || issueDto.getProjectId() == 0) {
+            throw new ProjectRequiredException("Please add project first");
+        }
 
         Issue issue = new Issue();
         populateIssueFildsFromDto(issue, issueDto);
