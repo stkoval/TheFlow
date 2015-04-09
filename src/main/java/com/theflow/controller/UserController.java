@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import validation.CompanyAliasExistsException;
+import validation.CompanyCreatorDeletingException;
 import validation.CompanyExistsException;
 import validation.CompanyNotFoundException;
 import validation.EmailExistsException;
@@ -143,8 +144,13 @@ public class UserController {
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeUser(@PathVariable(value = "id") int userId) {
-        userService.removeUser(userId);
-        return new ModelAndView("redirect:/users/manage");
+        ModelAndView model = new ModelAndView("redirect:/users/manage");
+        try {
+            userService.removeUser(userId);
+        } catch (CompanyCreatorDeletingException ex) {
+            model.addObject("error", messageSource.getMessage("message.user.creator.deletion", null, Locale.ENGLISH));
+        }
+        return model;
     }
 
     //add user that already registered

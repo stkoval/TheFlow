@@ -12,6 +12,7 @@ import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import java.util.List;
 import validation.CompanyAliasExistsException;
+import validation.CompanyCreatorDeletingException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
 import validation.UsernameDuplicationException;
@@ -26,7 +27,7 @@ public interface UserService {
 
     public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException, UsernameDuplicationException;
 
-    public void removeUser(int id);
+    public void removeUser(int id)  throws CompanyCreatorDeletingException;
     
     public User getUserById(int id);
     
