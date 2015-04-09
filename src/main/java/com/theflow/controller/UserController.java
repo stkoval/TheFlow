@@ -13,6 +13,7 @@ import helpers.UserRoleConstants;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import validation.CompanyAliasExistsException;
 import validation.CompanyExistsException;
+import validation.CompanyNotFoundException;
 import validation.EmailExistsException;
 import validation.UsernameDuplicationException;
 
@@ -158,7 +160,7 @@ public class UserController {
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showUserEditForm(@PathVariable(value = "id") int userId) {
         int id = userService.getPrincipal().getUserId();
-        if(id != userId) {
+        if (id != userId) {
             ModelAndView model = new ModelAndView("redirect:/users/manage");
             model.addObject("message", messageSource.getMessage("message.norights", null, Locale.ENGLISH));
             return model;
@@ -210,10 +212,21 @@ public class UserController {
     @RequestMapping(value = "user/{id}/role", method = RequestMethod.GET)
     public ModelAndView changeUserAuthorities(@RequestParam(value = "role") String role,
             @PathVariable(value = "id") int userId) {
+        int companyId = userService.getPrincipal().getCompanyId();
+        Company company;
+        ModelAndView model = new ModelAndView("redirect:/user/details/" + userId);
+        try {
+            company = companyService.getCompanyById(companyId);
+            if (company.getCreator().getUserId() == userId) {
+                return model;
+            }
+        } catch (CompanyNotFoundException ex) {
+            model.addObject("error", messageSource.getMessage("message.company.notfound", null, Locale.ENGLISH));
+        }
         userService.changeUserRole(role, userId);
-        return new ModelAndView("redirect:/user/details/" + userId);
+        return model;
     }
-    
+
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
         logger.error("Request: " + req.getRequestURL() + " exception " + exception);
