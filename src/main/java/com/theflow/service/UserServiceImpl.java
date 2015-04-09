@@ -7,6 +7,7 @@ import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
 import com.theflow.dto.CompanyDto;
+import com.theflow.dto.PasswordDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import helpers.UserRoleConstants;
@@ -246,5 +247,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserCompany> getOwnCompanies() {
         return userCompanyDao.getOwnCompanies();
+    }
+
+    @Override
+    public void changePassword(PasswordDto passwordDto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

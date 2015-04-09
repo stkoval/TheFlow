@@ -8,6 +8,7 @@ package com.theflow.service;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
 import com.theflow.dto.CompanyDto;
+import com.theflow.dto.PasswordDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import java.util.List;
@@ -50,4 +51,6 @@ public interface UserService {
     public List<UserCompany> getUserCompanyByCompanyId(int companyId);
 
     public List<UserCompany> getOwnCompanies();
+
+    public void changePassword(PasswordDto passwordDto);
 }

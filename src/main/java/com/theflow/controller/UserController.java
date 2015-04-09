@@ -4,6 +4,7 @@ import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
 import com.theflow.dto.CompanyDto;
+import com.theflow.dto.PasswordDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import com.theflow.service.CompanyService;
@@ -56,7 +57,7 @@ public class UserController {
     private CompanyService companyService;
 
     @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
-    @RequestMapping(value = "profile", method = RequestMethod.GET)
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
 
@@ -136,7 +137,7 @@ public class UserController {
         }
 
         ModelAndView model = new ModelAndView("redirect:/users/manage");
-        model.addObject("message", messageSource.getMessage("label.successAddUser.title", null, Locale.ENGLISH) + userDto.getEmail());
+        model.addObject("message", messageSource.getMessage("message.addUser.success", null, Locale.ENGLISH) + userDto.getEmail());
         return model;
     }
 
@@ -159,6 +160,24 @@ public class UserController {
     public ModelAndView addExistingUserToCompany(HttpServletRequest request) {
         userService.addExistingUserToCompany(request.getParameter("username"));
         return new ModelAndView("redirect:/users/manage");
+    }
+    
+    //change user password form
+    @PreAuthorize("hasAnyRole('Admin','User')")
+    @RequestMapping(value = "/user/{id}/changepass", method = RequestMethod.GET)
+    public ModelAndView showChangePasswordForm(@PathVariable(value = "id") int userId) {
+        ModelAndView model = new ModelAndView("/user/change_pass");
+        model.addObject("userId", userId);
+        return model;
+    }
+    
+    //change user password proceed
+    @PreAuthorize("hasAnyRole('Admin','User')")
+    @RequestMapping(value = "/user/changepass", method = RequestMethod.GET)
+    public ModelAndView changeUserPassword(@Valid PasswordDto passwordDto) {
+        ModelAndView model = new ModelAndView("redirect:/profile");
+        userService.changePassword(passwordDto);
+        return model;
     }
 
     //edit user from profile page
