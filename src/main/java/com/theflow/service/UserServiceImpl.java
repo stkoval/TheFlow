@@ -7,6 +7,7 @@ import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
 import com.theflow.dto.CompanyDto;
+import com.theflow.dto.PasswordDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import helpers.UserRoleConstants;
@@ -14,11 +15,14 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import validation.CompanyAliasExistsException;
+import validation.CompanyCreatorDeletingException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
+import validation.InvalidPasswordException;
 import validation.UsernameDuplicationException;
 
 /**
@@ -37,6 +41,9 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     private UserCompanyDao userCompanyDao;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     //Saves user from registration page. Assignes admin role
     @Override
@@ -116,7 +123,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         Company company = companyDao.getCompanyByName(userDto.getCompanyName());
         user.setEnabled(true);
         
@@ -139,7 +146,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeUser(int id) {
+    public void removeUser(int id) throws CompanyCreatorDeletingException {
+        Company company = companyDao.getCompanyById(getPrincipal().getCompanyId());
+        if (company.getCreator().getUserId() == id) {
+            throw new CompanyCreatorDeletingException("Illegal user deletion");
+        }
         userDao.removeUser(id, getPrincipal().getCompanyId());
     }
 
@@ -237,5 +248,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserCompany> getOwnCompanies() {
         return userCompanyDao.getOwnCompanies();
+    }
+
+    @Override
+    public void changePassword(PasswordDto passwordDto) throws InvalidPasswordException {
+        checkUserPassword(passwordDto.getPassword());
+        User user = userDao.getCurrentUser();
+        user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
+        userDao.updateUser(user);
+    }
+
+    //checks if inputed password matches bd password
+    private void checkUserPassword(String password) throws InvalidPasswordException {
+        String actualPass = getPrincipal().getUserPass();
+        if (!passwordEncoder.matches(password, actualPass)) {
+            throw new InvalidPasswordException("Invalid password");
+        }
     }
 }

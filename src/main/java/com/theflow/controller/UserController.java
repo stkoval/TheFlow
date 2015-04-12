@@ -4,6 +4,7 @@ import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
 import com.theflow.dto.CompanyDto;
+import com.theflow.dto.PasswordDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import com.theflow.service.CompanyService;
@@ -13,6 +14,7 @@ import helpers.UserRoleConstants;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -30,8 +32,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import validation.CompanyAliasExistsException;
+import validation.CompanyCreatorDeletingException;
 import validation.CompanyExistsException;
+import validation.CompanyNotFoundException;
 import validation.EmailExistsException;
+import validation.InvalidPasswordException;
 import validation.UsernameDuplicationException;
 
 /**
@@ -53,7 +58,7 @@ public class UserController {
     private CompanyService companyService;
 
     @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
-    @RequestMapping(value = "profile", method = RequestMethod.GET)
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
 
@@ -133,7 +138,7 @@ public class UserController {
         }
 
         ModelAndView model = new ModelAndView("redirect:/users/manage");
-        model.addObject("message", messageSource.getMessage("label.successAddUser.title", null, Locale.ENGLISH) + userDto.getEmail());
+        model.addObject("message", messageSource.getMessage("message.addUser.success", null, Locale.ENGLISH) + userDto.getEmail());
         return model;
     }
 
@@ -141,8 +146,13 @@ public class UserController {
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "user/remove/{id}", method = RequestMethod.GET)
     public ModelAndView removeUser(@PathVariable(value = "id") int userId) {
-        userService.removeUser(userId);
-        return new ModelAndView("redirect:/users/manage");
+        ModelAndView model = new ModelAndView("redirect:/users/manage");
+        try {
+            userService.removeUser(userId);
+        } catch (CompanyCreatorDeletingException ex) {
+            model.addObject("error", messageSource.getMessage("message.user.creator.deletion", null, Locale.ENGLISH));
+        }
+        return model;
     }
 
     //add user that already registered
@@ -152,13 +162,43 @@ public class UserController {
         userService.addExistingUserToCompany(request.getParameter("username"));
         return new ModelAndView("redirect:/users/manage");
     }
+    
+    //change user password form
+    @PreAuthorize("hasAnyRole('Admin','User')")
+    @RequestMapping(value = "/user/{id}/changepass", method = RequestMethod.GET)
+    public ModelAndView showChangePasswordForm(@PathVariable(value = "id") int userId) {
+        ModelAndView model = new ModelAndView("/user/change_pass");
+        model.addObject("userId", userId);
+        model.addObject("passwordDto", new PasswordDto());
+        return model;
+    }
+    
+    //change user password proceed
+    @PreAuthorize("hasAnyRole('Admin','User')")
+    @RequestMapping(value = "/user/changepass", method = RequestMethod.POST)
+    public ModelAndView changeUserPassword(@Valid PasswordDto passwordDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return new ModelAndView("redirect:/profile");
+        }
+        ModelAndView model = new ModelAndView("redirect:/profile");
+        try {
+            userService.changePassword(passwordDto);
+        } catch (InvalidPasswordException ex) {
+            result.rejectValue("password", "PasswordMatches.user");
+            ModelAndView model1 = new ModelAndView("/user/change_pass", "passwordDto", passwordDto);
+            model1.addObject("userId", passwordDto.getUserId());
+            return new ModelAndView("/user/change_pass", "passwordDto", passwordDto);
+        }
+        model.addObject("message", messageSource.getMessage("message.user.changepass.success", null, Locale.ENGLISH));
+        return model;
+    }
 
     //edit user from profile page
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showUserEditForm(@PathVariable(value = "id") int userId) {
         int id = userService.getPrincipal().getUserId();
-        if(id != userId) {
+        if (id != userId) {
             ModelAndView model = new ModelAndView("redirect:/users/manage");
             model.addObject("message", messageSource.getMessage("message.norights", null, Locale.ENGLISH));
             return model;
@@ -210,10 +250,21 @@ public class UserController {
     @RequestMapping(value = "user/{id}/role", method = RequestMethod.GET)
     public ModelAndView changeUserAuthorities(@RequestParam(value = "role") String role,
             @PathVariable(value = "id") int userId) {
+        int companyId = userService.getPrincipal().getCompanyId();
+        Company company;
+        ModelAndView model = new ModelAndView("redirect:/user/details/" + userId);
+        try {
+            company = companyService.getCompanyById(companyId);
+            if (company.getCreator().getUserId() == userId) {
+                return model;
+            }
+        } catch (CompanyNotFoundException ex) {
+            model.addObject("error", messageSource.getMessage("message.company.notfound", null, Locale.ENGLISH));
+        }
         userService.changeUserRole(role, userId);
-        return new ModelAndView("redirect:/user/details/" + userId);
+        return model;
     }
-    
+
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
         logger.error("Request: " + req.getRequestURL() + " exception " + exception);

@@ -8,12 +8,15 @@ package com.theflow.service;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
 import com.theflow.dto.CompanyDto;
+import com.theflow.dto.PasswordDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import java.util.List;
 import validation.CompanyAliasExistsException;
+import validation.CompanyCreatorDeletingException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
+import validation.InvalidPasswordException;
 import validation.UsernameDuplicationException;
 
 /**
@@ -26,7 +29,7 @@ public interface UserService {
 
     public int saveUserAddedByAdmin(UserDto userDto) throws EmailExistsException, UsernameDuplicationException;
 
-    public void removeUser(int id);
+    public void removeUser(int id)  throws CompanyCreatorDeletingException;
     
     public User getUserById(int id);
     
@@ -49,4 +52,6 @@ public interface UserService {
     public List<UserCompany> getUserCompanyByCompanyId(int companyId);
 
     public List<UserCompany> getOwnCompanies();
+
+    public void changePassword(PasswordDto passwordDto) throws InvalidPasswordException;
 }
