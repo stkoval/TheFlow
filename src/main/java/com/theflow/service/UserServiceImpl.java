@@ -22,6 +22,7 @@ import validation.CompanyAliasExistsException;
 import validation.CompanyCreatorDeletingException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
+import validation.InvalidPasswordException;
 import validation.UsernameDuplicationException;
 
 /**
@@ -250,7 +251,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(PasswordDto passwordDto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void changePassword(PasswordDto passwordDto) throws InvalidPasswordException {
+        checkUserPassword(passwordDto.getPassword());
+        User user = userDao.getCurrentUser();
+        user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
+        userDao.updateUser(user);
+    }
+
+    //checks if inputed password matches bd password
+    private void checkUserPassword(String password) throws InvalidPasswordException {
+        String actualPass = getPrincipal().getUserPass();
+        if (!passwordEncoder.matches(password, actualPass)) {
+            throw new InvalidPasswordException("Invalid password");
+        }
     }
 }

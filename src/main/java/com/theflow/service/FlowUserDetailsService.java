@@ -26,8 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class FlowUserDetailsService implements UserDetailsService {
 
     static final Logger logger = Logger.getLogger(FlowUserDetailsService.class.getName());
-    
-    public FlowUserDetailsService() {}
+
+    public FlowUserDetailsService() {
+    }
 
     //get user from the database, via Hibernate
     @Autowired
@@ -55,7 +56,7 @@ public class FlowUserDetailsService implements UserDetailsService {
 
         System.out.println("Username = " + username);
         System.out.println("Subdomain = " + domain);
-        
+
         Company company = companyDao.getCompanyByAlias(domain);
         int companyId = company.getCompanyId();
 
@@ -113,6 +114,7 @@ public class FlowUserDetailsService implements UserDetailsService {
         private String companyName;
         private String companyAlias;
         private String role;
+        private String password;
 
         public User(String username, String password, List<GrantedAuthority> authorities, String firstName, String lastName, int userId, boolean enabled, int companyId, String companyName, String companyAlias, String role) {
             super(username, password, enabled, true, true, true, authorities);
@@ -124,7 +126,9 @@ public class FlowUserDetailsService implements UserDetailsService {
             this.companyName = companyName;
             this.companyAlias = companyAlias;
             this.role = role;
+            this.password = password;
         }
+
         public User(String username, String password, List<GrantedAuthority> authorities, String firstName, String lastName, int userId) {
             super(username, password, true, true, true, true, authorities);
             fullName = firstName + " " + lastName;
@@ -132,6 +136,7 @@ public class FlowUserDetailsService implements UserDetailsService {
             this.lastName = lastName;
             this.role = authorities.get(0).getAuthority();
             this.userId = userId;
+            this.password = password;
         }
 
         public boolean isAdmin() {
@@ -174,6 +179,9 @@ public class FlowUserDetailsService implements UserDetailsService {
 
         public String getRole() {
             return role;
+        }
+        public String getUserPass() {
+            return password;
         }
     }
 }

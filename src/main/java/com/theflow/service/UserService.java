@@ -16,6 +16,7 @@ import validation.CompanyAliasExistsException;
 import validation.CompanyCreatorDeletingException;
 import validation.CompanyExistsException;
 import validation.EmailExistsException;
+import validation.InvalidPasswordException;
 import validation.UsernameDuplicationException;
 
 /**
@@ -52,5 +53,5 @@ public interface UserService {
 
     public List<UserCompany> getOwnCompanies();
 
-    public void changePassword(PasswordDto passwordDto);
+    public void changePassword(PasswordDto passwordDto) throws InvalidPasswordException;
 }

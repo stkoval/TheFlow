@@ -36,6 +36,7 @@ import validation.CompanyCreatorDeletingException;
 import validation.CompanyExistsException;
 import validation.CompanyNotFoundException;
 import validation.EmailExistsException;
+import validation.InvalidPasswordException;
 import validation.UsernameDuplicationException;
 
 /**
@@ -168,15 +169,27 @@ public class UserController {
     public ModelAndView showChangePasswordForm(@PathVariable(value = "id") int userId) {
         ModelAndView model = new ModelAndView("/user/change_pass");
         model.addObject("userId", userId);
+        model.addObject("passwordDto", new PasswordDto());
         return model;
     }
     
     //change user password proceed
     @PreAuthorize("hasAnyRole('Admin','User')")
-    @RequestMapping(value = "/user/changepass", method = RequestMethod.GET)
-    public ModelAndView changeUserPassword(@Valid PasswordDto passwordDto) {
+    @RequestMapping(value = "/user/changepass", method = RequestMethod.POST)
+    public ModelAndView changeUserPassword(@Valid PasswordDto passwordDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return new ModelAndView("redirect:/profile");
+        }
         ModelAndView model = new ModelAndView("redirect:/profile");
-        userService.changePassword(passwordDto);
+        try {
+            userService.changePassword(passwordDto);
+        } catch (InvalidPasswordException ex) {
+            result.rejectValue("password", "PasswordMatches.user");
+            ModelAndView model1 = new ModelAndView("/user/change_pass", "passwordDto", passwordDto);
+            model1.addObject("userId", passwordDto.getUserId());
+            return new ModelAndView("/user/change_pass", "passwordDto", passwordDto);
+        }
+        model.addObject("message", messageSource.getMessage("message.user.changepass.success", null, Locale.ENGLISH));
         return model;
     }
 

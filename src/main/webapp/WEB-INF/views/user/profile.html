@@ -56,6 +56,14 @@
                                 <td th:text="${#authentication.principal.role}">Role</td>
                             </tr>
                         </table> 
+                        <div class="col-md-3 nav-col text-left">
+                        <a th:href="@{/user/} + ${#authentication.principal.userId} + '/changepass'" class="fancy-button medium esmerald icon basic">
+                            <span class="icon pull-left">
+                                <i class="fa fa-edit"></i>
+                            </span>
+                            &nbsp;Change password
+                        </a>
+                    </div>
                     </div> 
                 </div>
             </div>
