@@ -48,8 +48,6 @@ public class Company implements Serializable {
         this.companyAlias = companyAlias;
     }
     
-
-    
     public int getCompanyId() {
         return companyId;
     }
