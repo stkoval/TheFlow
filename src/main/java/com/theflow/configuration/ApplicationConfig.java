@@ -75,9 +75,9 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/flowdb?characterEncoding=UTF-8");
-        ds.setUsername("root");
-        ds.setPassword("root");
+        ds.setUrl("jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}");
+        ds.setUsername("adminNyEUwM6");
+        ds.setPassword("ItKbz1Qdp5kH");
         return ds;
     }
 
