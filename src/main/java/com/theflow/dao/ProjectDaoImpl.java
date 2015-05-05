@@ -4,7 +4,6 @@ import com.theflow.domain.Project;
 import com.theflow.service.FlowUserDetailsService;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -20,8 +19,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("projectDao")
 public class ProjectDaoImpl implements ProjectDao {
-
-    static final Logger logger = Logger.getLogger(ProjectDao.class.getName());
 
     @Autowired
     private SessionFactory sessionFactory;

@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().and()
                 .authorizeRequests()
                 .antMatchers("/index").permitAll()
+                .antMatchers("/").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/cabinet_login").permitAll()
@@ -69,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedPage("/403")
                 .and()
-                .formLogin().defaultSuccessUrl("/home", true)
+                .formLogin()//.defaultSuccessUrl("/home", true)
                 .loginPage("/login").loginProcessingUrl("/j_spring_security_check")
                 .and()
                 .addFilterBefore(authenticationFilter(),

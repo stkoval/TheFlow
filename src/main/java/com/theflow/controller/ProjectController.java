@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -33,7 +32,6 @@ import validation.ProjectNameExistsException;
  */
 @Controller
 public class ProjectController {
-    static final Logger logger = Logger.getLogger(ProjectController.class.getName());
 
     @Autowired
     private ProjectService projectService;
@@ -134,7 +132,6 @@ public class ProjectController {
     
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
-        logger.error("Request: " + req.getRequestURL() + " exception " + exception);
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", exception);

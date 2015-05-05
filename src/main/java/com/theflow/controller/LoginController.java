@@ -20,7 +20,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -62,8 +61,6 @@ public class LoginController {
     
     @Autowired
     AuthenticationManager authenticationManager;
-
-    static final Logger logger = Logger.getLogger(LoginController.class.getName());
 
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -144,7 +141,7 @@ public class LoginController {
         return new ModelAndView("redirect:/home");
     }
 
-    @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/index", "/"}, method = RequestMethod.GET)
     public ModelAndView showLandingPage() {
         ModelAndView model = new ModelAndView("/home/landing");
         return model;
@@ -161,8 +158,6 @@ public class LoginController {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
-        logger.error("Request: " + req.getRequestURL() + " exception " + exception);
-
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", exception);
         mav.addObject("url", req.getRequestURL());

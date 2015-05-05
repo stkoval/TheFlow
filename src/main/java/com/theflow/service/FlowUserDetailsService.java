@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,8 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("userDetailsService")
 public class FlowUserDetailsService implements UserDetailsService {
 
-    static final Logger logger = Logger.getLogger(FlowUserDetailsService.class.getName());
-
     public FlowUserDetailsService() {
     }
 
@@ -41,8 +38,6 @@ public class FlowUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String input)
             throws UsernameNotFoundException {
-        logger.debug("******inside userDetailsService*******input: " + input);
-
         String[] split = input.split(":");
         if (split.length < 2) {
             com.theflow.domain.User user = userDao.findUserByEmail(input);
@@ -140,7 +135,6 @@ public class FlowUserDetailsService implements UserDetailsService {
         }
 
         public boolean isAdmin() {
-            logger.debug("************inside principal isAdmin method*********auth.length: " + getAuthorities().size());
             for (GrantedAuthority ga : getAuthorities()) {
                 if (ga.getAuthority().equals("Admin") || ga.getAuthority().equals("Account")) {
                     return true;

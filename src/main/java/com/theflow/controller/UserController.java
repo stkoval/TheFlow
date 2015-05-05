@@ -3,7 +3,6 @@ package com.theflow.controller;
 import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
-import com.theflow.dto.CompanyDto;
 import com.theflow.dto.PasswordDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
@@ -14,10 +13,8 @@ import helpers.UserRoleConstants;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -45,8 +42,6 @@ import validation.UsernameDuplicationException;
  */
 @Controller
 public class UserController {
-
-    static final Logger logger = Logger.getLogger(UserController.class.getName());
 
     @Autowired
     private UserService userService;
@@ -117,12 +112,9 @@ public class UserController {
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "/user/saveuser", method = RequestMethod.POST)
     public ModelAndView saveNewUserFromAdminTools(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
-        logger.debug("Registering user account with information: {}" + userDto);
         if (result.hasErrors()) {
             return new ModelAndView("user/adduser", "user", userDto);
         }
-
-        logger.debug("No validation errors found. Continuing registration process.");
 
         try {
             userService.saveUserAddedByAdmin(userDto);
@@ -267,8 +259,6 @@ public class UserController {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
-        logger.error("Request: " + req.getRequestURL() + " exception " + exception);
-
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", exception);
         mav.addObject("url", req.getRequestURL());

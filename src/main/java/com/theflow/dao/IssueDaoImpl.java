@@ -9,7 +9,6 @@ import com.theflow.domain.Project;
 import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.FlowUserDetailsService;
 import java.util.List;
-import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,8 +28,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 @Repository("issueDao")
 public class IssueDaoImpl implements IssueDao {
-    
-    static final Logger logger = Logger.getLogger(IssueDao.class.getName());
     
     @Autowired
     private SessionFactory sessionFactory;

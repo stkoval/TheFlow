@@ -5,7 +5,6 @@ import com.theflow.domain.UserCompany;
 import com.theflow.service.FlowUserDetailsService;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -23,8 +22,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
-
-    static final Logger logger = Logger.getLogger(UserDaoImpl.class.getName());
 
     @Autowired
     private SessionFactory sessionFactory;

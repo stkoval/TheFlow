@@ -43,6 +43,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        registry.addViewController("/").setViewName("/home/landing");
     }
 
     @Override
@@ -74,10 +75,16 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     public DriverManagerDataSource dataSource() {
 
         DriverManagerDataSource ds = new DriverManagerDataSource();
+//        String username = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
+//        String password = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
+//        String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
+//        String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
+//        String databaseName = System.getenv("OPENSHIFT_APP_NAME");
+//        String url = "jdbc:mysql://" + host + ":" + port + "/" + databaseName;
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}");
-        ds.setUsername("adminNyEUwM6");
-        ds.setPassword("ItKbz1Qdp5kH");
+        ds.setUrl("jdbc:mysql://localhost:3306/flowdb?zeroDateTimeBehavior=convertToNull");
+        ds.setUsername("root");
+        ds.setPassword("root");
         return ds;
     }
 

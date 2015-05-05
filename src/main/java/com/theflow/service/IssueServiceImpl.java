@@ -18,7 +18,6 @@ import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -31,8 +30,6 @@ import validation.ProjectRequiredException;
  */
 @Service
 public class IssueServiceImpl implements IssueService {
-
-    static final Logger logger = Logger.getLogger(IssueService.class.getName());
 
     @Autowired
     private IssueDao issueDao;

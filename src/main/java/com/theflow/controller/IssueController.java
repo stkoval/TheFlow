@@ -1,7 +1,5 @@
 package com.theflow.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theflow.domain.Issue;
 import com.theflow.domain.Project;
 import com.theflow.domain.User;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,8 +36,6 @@ import validation.ProjectRequiredException;
 @Controller
 public class IssueController {
 
-    static final Logger logger = Logger.getLogger(IssueController.class.getName());
-
     @Autowired
     private IssueService issueService;
 
@@ -52,24 +47,6 @@ public class IssueController {
     
     @Autowired
     private MessageSource messageSource;
-
-    //searching issue header smart search
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.GET, value = "issues/search")
-    public String searchIssues(@RequestParam(value = "filter", required = false) String[] filter,
-            @RequestParam(value = "project_id", required = false) Integer projectId
-    ) {
-        List<IssueDto> issues = issueService.searchIssues(new IssueSearchParams(filter, projectId));
-
-        String issuesString = "";
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            issuesString = mapper.writeValueAsString(issues);
-        } catch (JsonProcessingException ex) {
-            java.util.logging.Logger.getLogger(IssueController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return issuesString;
-    }
 
     //saving issue after issue creation form is populated
     @PreAuthorize("hasAnyRole('Admin','User')")
@@ -246,7 +223,6 @@ public class IssueController {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
-        logger.error("Request: " + req.getRequestURL() + " exception " + exception);
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", exception);

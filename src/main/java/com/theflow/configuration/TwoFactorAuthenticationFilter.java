@@ -1,7 +1,6 @@
 package com.theflow.configuration;
 
 import javax.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -17,8 +16,6 @@ public class TwoFactorAuthenticationFilter extends UsernamePasswordAuthenticatio
     private static final String USERNAME_PARAMETER = "username";
     
     private AuthenticationManager authenticationManager;
-    
-    static final Logger log = Logger.getLogger(TwoFactorAuthenticationFilter.class.getName());
     
     private String delimiter = ":";
     
