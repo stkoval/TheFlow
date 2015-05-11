@@ -3,7 +3,6 @@ package com.theflow.controller;
 import com.theflow.domain.Company;
 import com.theflow.domain.User;
 import com.theflow.domain.UserCompany;
-import com.theflow.dto.CompanyDto;
 import com.theflow.dto.PasswordDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
@@ -14,7 +13,6 @@ import helpers.UserRoleConstants;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -90,26 +88,37 @@ public class UserController {
 
     //save account user after registration procees from login page
     @RequestMapping(value = "/user/saveaccount", method = RequestMethod.POST)
-    public ModelAndView saveNewUserFromRegistration(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
+    public ModelAndView registerAccount(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
+        ModelAndView model = new ModelAndView("signin/login");
         if (result.hasErrors()) {
-            return new ModelAndView("signin/registration", "user", userDto);
+            return new ModelAndView("/signin/registration", "user", userDto);
         }
 
         try {
             userService.saveUserAddedAfterRegistration(userDto);
         } catch (EmailExistsException e) {
             result.rejectValue("email", "message.emailError");
-            return new ModelAndView("signin/registration", "user", userDto);
+            ModelAndView mav = new ModelAndView("/signin/registration_user_exists", "user", userDto);
+            return mav;
         } catch (CompanyExistsException ex) {
             result.rejectValue("companyName", "message.companyError");
-            return new ModelAndView("signin/registration", "user", userDto);
+            return new ModelAndView("/signin/registration", "user", userDto);
         } catch (CompanyAliasExistsException ex) {
             result.rejectValue("companyAlias", "message.companyAliasError");
-            return new ModelAndView("signin/registration", "user", userDto);
+            return new ModelAndView("/signin/registration", "user", userDto);
         }
 
-        ModelAndView model = new ModelAndView("signin/login");
         model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " " + userDto.getEmail());
+        return model;
+    }
+    
+    //save account user after registration procees from login page when user exists in db
+    @RequestMapping(value = "/signin/new_account_user_exists", method = RequestMethod.POST)
+    public ModelAndView registerAccountUserExists(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("signin/login");
+        String username = request.getParameter("username");
+        userService.addNewCompanyUserExists(request.getParameter("username"), request.getParameter("company_name"), request.getParameter("company_alias"));
+        model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " " + username);
         return model;
     }
 
@@ -117,12 +126,10 @@ public class UserController {
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "/user/saveuser", method = RequestMethod.POST)
     public ModelAndView saveNewUserFromAdminTools(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
-        logger.debug("Registering user account with information: {}" + userDto);
+        
         if (result.hasErrors()) {
             return new ModelAndView("user/adduser", "user", userDto);
         }
-
-        logger.debug("No validation errors found. Continuing registration process.");
 
         try {
             userService.saveUserAddedByAdmin(userDto);

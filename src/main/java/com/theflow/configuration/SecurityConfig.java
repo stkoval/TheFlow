@@ -66,6 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login*").permitAll()
                 .antMatchers("/user/saveaccount").permitAll()
+                .antMatchers("/signin/new_account_user_exists").permitAll()
+                .antMatchers("/signin/registration_user_exists").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedPage("/403")
                 .and()

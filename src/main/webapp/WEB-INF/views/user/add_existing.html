@@ -114,18 +114,17 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-xs-12">
-                            <h1>Add existing user</h1>
-                            <form method="POST" th:action="@{/user/add_existing}">
-                                <div class="form-group">
-                                    <label th:text="${usernameExists}"></label>
-                                    <input type="hidden" class="form-control" id="username" placeholder="email"
-                                           th:name="username" th:value="${usernameExists}" required/>
+                        <h1>Add existing user</h1>
+                        <form method="POST" th:action="@{/user/add_existing}">
+                            <div class="form-group">
+                                <label th:text="${usernameExists}"></label>
+                                <input type="hidden" class="form-control" id="username" placeholder="email"
+                                       th:name="username" th:value="${usernameExists}" required/>
 
-                                </div>
-                                <button class="fancy-button medium blueHole basic login-button" type="submit"
-                                        th:text="#{label.form.submit}"></button>
-                            </form>
-                        </div>
+                            </div>
+                            <button class="fancy-button medium blueHole basic login-button" type="submit"
+                                    th:text="#{label.form.submit}"></button>
+                        </form>
                     </div>
                 </div>
             </div>
