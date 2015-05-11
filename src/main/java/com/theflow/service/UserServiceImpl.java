@@ -47,14 +47,18 @@ public class UserServiceImpl implements UserService {
 
     //Saves user from registration page. Assignes admin role
     @Override
-    public int saveUserAddedAfterRegistration(UserDto userDto) throws CompanyExistsException, CompanyAliasExistsException {
-        if (companyExist(userDto.getCompanyName())) {
-            throw new CompanyExistsException("There is a company already registered with name: "
-                    + userDto.getCompanyName());
-        }
+    public int saveUserAddedAfterRegistration(UserDto userDto) throws CompanyExistsException, CompanyAliasExistsException, EmailExistsException {
         if (companyAliasExist(userDto.getCompanyAlias())) {
             throw new CompanyAliasExistsException("This company alias is alreade registered, please try another one: "
                     + userDto.getCompanyAlias());
+        }
+        if (emailExist(userDto.getEmail())) {
+            throw new EmailExistsException("Account already exists with email: "
+                    + userDto.getEmail());
+        }
+        if (companyExist(userDto.getCompanyName())) {
+            throw new CompanyExistsException("There is a company already registered with name: "
+                    + userDto.getCompanyName());
         }
         User user = new User();
         user.setFirstName(userDto.getFirstName());
@@ -264,5 +268,17 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(password, actualPass)) {
             throw new InvalidPasswordException("Invalid password");
         }
+    }
+
+    @Override
+    public void addNewCompanyUserExists(String username, String companyName, String companyAlias) {
+        User user = userDao.findUserByEmail(username);
+        Company company = new Company(companyName, companyAlias);
+        company.setCreator(user);
+        UserCompany uc = new UserCompany();
+        uc.setUser(user);
+        uc.setCompany(company);
+        uc.setUserRole(UserRoleConstants.ADMIN.toString());
+        userCompanyDao.saveUserCompany(uc);
     }
 }

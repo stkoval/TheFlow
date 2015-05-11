@@ -54,4 +54,6 @@ public interface UserService {
     public List<UserCompany> getOwnCompanies();
 
     public void changePassword(PasswordDto passwordDto) throws InvalidPasswordException;
+
+    public void addNewCompanyUserExists(String username, String companyName, String companyAlias);
 }
