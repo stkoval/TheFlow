@@ -43,7 +43,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Company</th>
-                                    <th>Role</th>
+                                    <th class="user-role-cell">Role</th>
                                     <th class="tools-cell">Tools</th>
                                 </tr>
                             </thead>
@@ -62,8 +62,8 @@
                                     <td><a th:href="@{/user/details/} + ${user_company.user.userId}" th:text="${user_company.user.fullName}"></a></td>
                                     <td><b th:text="${user_company.user.email}"></b></td>
                                     <td><b th:text="${#authentication.principal.companyName}"></b></td>
-                                    <td>
-                                        <div class="btn-group">
+                                    <td class="user-role-cell">
+                                        <div class="btn-group user-role-group">
                                             <button type="button" class="dropdown-toggle fancy-button small asbestos basic type-toggle text-left cell-button" data-toggle="dropdown" aria-expanded="false">
                                                 <span th:text="${user_company.userRole}">User role</span> <span class="caret"></span>
                                             </button>

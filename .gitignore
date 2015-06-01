@@ -2,3 +2,6 @@
 /bower_components/
 /node_modules/
 /target/
+nb-configuration.xml
+src/main/webapp/WEB-INF/glassfish-web.xml
+.gitignore
