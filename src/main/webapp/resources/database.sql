@@ -10,6 +10,7 @@ lastname varchar(40) not null,
 email varchar(255) not null,
 password varchar(60) not null,
 enabled TINYINT NOT NULL DEFAULT 1,
+picture blob(3145728),
 PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
