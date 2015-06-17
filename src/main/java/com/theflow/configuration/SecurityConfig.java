@@ -79,7 +79,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/index").logoutUrl("/logout").deleteCookies("filterFlow")
                 .and()
                 .sessionManagement()
-                .maximumSessions(1);
+                .maximumSessions(1)
+                .and()
+                .invalidSessionUrl("/index");
         http
                 .csrf().disable()
                 .httpBasic().and()
@@ -93,7 +95,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/index").logoutUrl("/logout").deleteCookies("filterFlow")
                 .and()
                 .sessionManagement()
-                .maximumSessions(1);
+                .maximumSessions(1)
+                .and()
+                .invalidSessionUrl("/index");
     }
 
     @Bean
