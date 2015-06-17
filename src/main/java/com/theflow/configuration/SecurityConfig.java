@@ -87,7 +87,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/cabinet_login").permitAll()
                 .and()
                 .formLogin().defaultSuccessUrl("/cabinet", true)
-                .loginPage("/cabinet_login").loginProcessingUrl("/cabinet_login_process");
+                .loginPage("/cabinet_login").loginProcessingUrl("/cabinet_login_process")
+                .and()
+                .addFilterBefore(cabinetAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .logout().logoutSuccessUrl("/index").logoutUrl("/logout").deleteCookies("filterFlow")
+                .and()
+                .sessionManagement()
+                .maximumSessions(1);
     }
 
     @Bean
@@ -106,6 +112,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authFilter.setAuthenticationManager(authenticationManager());
         return authFilter;
     }
+    
+    @Bean
+    public UsernamePasswordAuthenticationFilter cabinetAuthenticationFilter() throws Exception {
+        UsernamePasswordAuthenticationFilter authFilter = new UsernamePasswordAuthenticationFilter();
+        authFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/cabinet_login_process", "POST"));
+        authFilter.setUsernameParameter("username");
+        authFilter.setPasswordParameter("password");
+        authFilter.setAuthenticationSuccessHandler(CabinetAuthenticationSuccessHandler());
+        authFilter.setAuthenticationFailureHandler(CabinetAuthenticationFailureHandler());
+        authFilter.setAuthenticationManager(authenticationManager());
+        return authFilter;
+    }
 
     @Bean
     public SavedRequestAwareAuthenticationSuccessHandler SavedRequestAwareAuthenticationSuccessHandler() {
@@ -116,9 +134,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     @Bean
+    public SavedRequestAwareAuthenticationSuccessHandler CabinetAuthenticationSuccessHandler() {
+        SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
+        handler.setDefaultTargetUrl("/cabinet");
+        handler.setAlwaysUseDefaultTargetUrl(true);
+        return handler;
+    }
+    
+    @Bean
     public SimpleUrlAuthenticationFailureHandler SimpleUrlAuthenticationFailureHandler() {
         SimpleUrlAuthenticationFailureHandler handler = new SimpleUrlAuthenticationFailureHandler();
         handler.setDefaultFailureUrl("/login?error");
+        return handler;
+    }
+    
+    @Bean
+    public SimpleUrlAuthenticationFailureHandler CabinetAuthenticationFailureHandler() {
+        SimpleUrlAuthenticationFailureHandler handler = new SimpleUrlAuthenticationFailureHandler();
+        handler.setDefaultFailureUrl("/cabinet_login?error");
         return handler;
     }
 
