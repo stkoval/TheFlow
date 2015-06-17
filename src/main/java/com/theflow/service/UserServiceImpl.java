@@ -147,6 +147,11 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDto.getLastName());
 
         userDao.updateUser(user);
+    
+    }
+    @Override
+    public void updateUser(User user) {
+        userDao.updateUser(user);
     }
 
     @Override

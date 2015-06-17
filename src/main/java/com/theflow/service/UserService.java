@@ -38,6 +38,8 @@ public interface UserService {
     public FlowUserDetailsService.User getPrincipal();
     
     public void updateUser(UserProfileDto userDto);
+    
+    public void updateUser(User user);
 
     public void addExistingUserToCompany(String email);
 

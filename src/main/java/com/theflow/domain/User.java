@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Formula;
@@ -52,9 +54,14 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserCompany> userCompanies;
-    
+
     @OneToMany(mappedBy = "creator", cascade = CascadeType.PERSIST)
     private List<Company> companys;
+
+    @Column(name = "picture", unique = false, length = 3072)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image;
 
     public User() {
     }
@@ -130,13 +137,26 @@ public class User implements Serializable {
     public void setUserCompanies(Set<UserCompany> userCompanies) {
         this.userCompanies = userCompanies;
     }
-    
+
     public List<Company> getCompanys() {
         return companys;
     }
 
     public void setCompanys(List<Company> companys) {
         this.companys = companys;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + '}';
     }
 
     @Override
@@ -163,10 +183,5 @@ public class User implements Serializable {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + '}';
     }
 }

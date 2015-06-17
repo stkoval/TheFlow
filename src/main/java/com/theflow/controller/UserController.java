@@ -12,6 +12,7 @@ import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import validation.CompanyAliasExistsException;
 import validation.CompanyCreatorDeletingException;
@@ -67,9 +69,20 @@ public class UserController {
         ModelAndView model = new ModelAndView("user/profile");
 
         User user = userService.getUserById(userService.getPrincipal().getUserId());
-        FlowUserDetailsService.User principal = userService.getPrincipal();
 
         model.addObject("user", user);
+        
+        byte[] profileImage = user.getImage();
+        if (profileImage != null && profileImage.length > 0) {
+            
+            Base64.Encoder base64Encoder = Base64.getEncoder();
+            StringBuilder imageString = new StringBuilder();
+            imageString.append("data:image/jpeg;base64,");
+            String encoded = base64Encoder.encodeToString(profileImage);
+            imageString.append(encoded);
+            String image = imageString.toString();
+            model.addObject("image", image);
+        }
         return model;
     }
 
@@ -117,7 +130,7 @@ public class UserController {
         model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " " + userDto.getEmail());
         return model;
     }
-    
+
     //save account user after registration procees from login page when user exists in db
     @RequestMapping(value = "/signin/new_account_user_exists", method = RequestMethod.POST)
     public ModelAndView registerAccountUserExists(HttpServletRequest request) {
@@ -132,7 +145,7 @@ public class UserController {
     @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "/user/saveuser", method = RequestMethod.POST)
     public ModelAndView saveNewUserFromAdminTools(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
-        
+
         if (result.hasErrors()) {
             return new ModelAndView("user/adduser", "user", userDto);
         }
@@ -175,7 +188,7 @@ public class UserController {
         userService.addExistingUserToCompany(request.getParameter("username"));
         return new ModelAndView("redirect:/users/manage");
     }
-    
+
     //change user password form
     @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
     @RequestMapping(value = "/user/{id}/changepass", method = RequestMethod.GET)
@@ -185,7 +198,7 @@ public class UserController {
         model.addObject("passwordDto", new PasswordDto());
         return model;
     }
-    
+
     //change user password proceed
     @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
     @RequestMapping(value = "/user/changepass", method = RequestMethod.POST)
@@ -203,11 +216,11 @@ public class UserController {
             return new ModelAndView("/user/change_pass", "passwordDto", passwordDto);
         }
         model.addObject("message", messageSource.getMessage("message.user.changepass.success", null, Locale.ENGLISH));
-        
+
         //refresh authentication object
         User editedUser = userService.getUserById(passwordDto.getUserId());
         refreshAuthentication(editedUser);
-        
+
         return model;
     }
 
@@ -240,22 +253,22 @@ public class UserController {
         refreshAuthentication(editedUser);
         return new ModelAndView("redirect:/profile");
     }
-    
+
     //Refreshes Authentication object when logged in user's data was changed
     private void refreshAuthentication(User editedUser) {
         FlowUserDetailsService.User editedPrincipal = buildPrincipalAfterEditing(editedUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(editedPrincipal, editedPrincipal.getPassword(), editedPrincipal.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
-    
+
     // Always synchronize with flowUserDetailsService!!!
     private FlowUserDetailsService.User buildPrincipalAfterEditing(User editedUser) {
         FlowUserDetailsService.User principal = userService.getPrincipal();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(principal.getRole()));
-        FlowUserDetailsService.User editedPrincipal = new FlowUserDetailsService.User(editedUser.getEmail(), 
-                editedUser.getPassword(), grantedAuthorities, editedUser.getFirstName(), editedUser.getLastName(), 
-                editedUser.getUserId(), editedUser.isEnabled(), principal.getCompanyId(), principal.getCompanyName(), 
+        FlowUserDetailsService.User editedPrincipal = new FlowUserDetailsService.User(editedUser.getEmail(),
+                editedUser.getPassword(), grantedAuthorities, editedUser.getFirstName(), editedUser.getLastName(),
+                editedUser.getUserId(), editedUser.isEnabled(), principal.getCompanyId(), principal.getCompanyName(),
                 principal.getCompanyAlias(), principal.getRole());
         return editedPrincipal;
     }
@@ -301,6 +314,17 @@ public class UserController {
             model.addObject("error", messageSource.getMessage("message.company.notfound", null, Locale.ENGLISH));
         }
         userService.changeUserRole(role, userId);
+        return model;
+    }
+
+    @RequestMapping(value = "user/{id}/image", method = RequestMethod.POST)
+    public ModelAndView uploadProfileImage(@RequestParam("image") CommonsMultipartFile image, @PathVariable(value = "id") int userId) {
+        ModelAndView model = new ModelAndView("redirect:/profile");
+        if (!image.isEmpty()) {
+            User user = userService.getUserById(userId);
+            user.setImage(image.getBytes());
+            userService.updateUser(user);
+        }
         return model;
     }
 
