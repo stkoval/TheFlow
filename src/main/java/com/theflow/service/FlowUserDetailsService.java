@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +33,7 @@ public class FlowUserDetailsService implements UserDetailsService {
 
     //get user from the database, via Hibernate
     @Autowired
+    @Lazy
     private UserDao userDao;
 
     @Autowired
@@ -74,6 +76,7 @@ public class FlowUserDetailsService implements UserDetailsService {
 
     // Converts com.theflow.domain.User user to
     // org.springframework.security.core.userdetails.User
+    // Always synchronize with userService.buildPrincipalAfterEditing(UserDto userDto) !!!
     private User buildUserForAuthentication(com.theflow.domain.User user,
             List<GrantedAuthority> authorities, Company company) {
         String companyName = company.getName();
