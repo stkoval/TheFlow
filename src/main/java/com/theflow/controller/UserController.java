@@ -10,6 +10,7 @@ import com.theflow.service.CompanyService;
 import com.theflow.service.FlowUserDetailsService;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +21,11 @@ import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -171,7 +177,7 @@ public class UserController {
     }
     
     //change user password form
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
     @RequestMapping(value = "/user/{id}/changepass", method = RequestMethod.GET)
     public ModelAndView showChangePasswordForm(@PathVariable(value = "id") int userId) {
         ModelAndView model = new ModelAndView("/user/change_pass");
@@ -181,7 +187,7 @@ public class UserController {
     }
     
     //change user password proceed
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
     @RequestMapping(value = "/user/changepass", method = RequestMethod.POST)
     public ModelAndView changeUserPassword(@Valid PasswordDto passwordDto, BindingResult result) {
         if (result.hasErrors()) {
@@ -197,11 +203,16 @@ public class UserController {
             return new ModelAndView("/user/change_pass", "passwordDto", passwordDto);
         }
         model.addObject("message", messageSource.getMessage("message.user.changepass.success", null, Locale.ENGLISH));
+        
+        //refresh authentication object
+        User editedUser = userService.getUserById(passwordDto.getUserId());
+        refreshAuthentication(editedUser);
+        
         return model;
     }
 
     //edit user from profile page
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showUserEditForm(@PathVariable(value = "id") int userId) {
         int id = userService.getPrincipal().getUserId();
@@ -217,7 +228,7 @@ public class UserController {
         return model;
     }
 
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
     @RequestMapping(value = "/user/update", method = RequestMethod.POST)
     public ModelAndView updateIssue(@ModelAttribute(value = "user") @Valid UserProfileDto userDto, BindingResult result) {
 
@@ -225,7 +236,28 @@ public class UserController {
             return new ModelAndView("/user/edit", "user", userDto);
         }
         userService.updateUser(userDto);
-        return new ModelAndView("redirect:/users/manage");
+        User editedUser = userService.getUserById(userDto.getUserId());
+        refreshAuthentication(editedUser);
+        return new ModelAndView("redirect:/profile");
+    }
+    
+    //Refreshes Authentication object when logged in user's data was changed
+    private void refreshAuthentication(User editedUser) {
+        FlowUserDetailsService.User editedPrincipal = buildPrincipalAfterEditing(editedUser);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(editedPrincipal, editedPrincipal.getPassword(), editedPrincipal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+    
+    // Always synchronize with flowUserDetailsService!!!
+    private FlowUserDetailsService.User buildPrincipalAfterEditing(User editedUser) {
+        FlowUserDetailsService.User principal = userService.getPrincipal();
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(principal.getRole()));
+        FlowUserDetailsService.User editedPrincipal = new FlowUserDetailsService.User(editedUser.getEmail(), 
+                editedUser.getPassword(), grantedAuthorities, editedUser.getFirstName(), editedUser.getLastName(), 
+                editedUser.getUserId(), editedUser.isEnabled(), principal.getCompanyId(), principal.getCompanyName(), 
+                principal.getCompanyAlias(), principal.getRole());
+        return editedPrincipal;
     }
 
     @PreAuthorize("hasAnyRole('Admin','Observer')")
