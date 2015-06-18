@@ -10,6 +10,7 @@ import com.theflow.dto.IssueSearchParams;
 import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
 import com.theflow.service.UserService;
+import helpers.TimeParser;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -49,7 +50,7 @@ public class IssueController {
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private MessageSource messageSource;
 
@@ -171,7 +172,44 @@ public class IssueController {
     public ModelAndView showIssueDetailsPage(@PathVariable(value = "id") int issueId) {
         ModelAndView model = new ModelAndView("issue/details");
         Issue issue = issueService.getIssueById(issueId);
+
+        //persent variables for issue details time management progress bars
+        int estimated = TimeParser.parse(issue.getEstimatedTime());
+        int logged = TimeParser.parse(issue.getLoggedTime());
+        double pEst = 0; //persent values
+        double pLogged = 0;
+        if (estimated == logged && estimated != 0) {
+            pEst = 100;
+            pLogged = 100;
+        } else if (estimated == 0 && logged > 0) {
+            pLogged = 100;
+        } else if (estimated > 0 && logged == 0) {
+            pEst = 100;
+        } else if (estimated > 0 && logged > estimated) {
+            pLogged = 100;
+            pEst = (1d*estimated/logged)*100;
+        } else if (logged > 0 && logged < estimated) {
+            pEst = 100;
+            pLogged = (1d*logged/estimated)*100;
+        }
+        
         model.addObject("issue", issue);
+        model.addObject("estimated", pEst);
+        model.addObject("logged", pLogged);
+        return model;
+    }
+    
+    @PreAuthorize("hasAnyRole('Admin','User')")
+    @RequestMapping(value = "/{id}/logtime", method = RequestMethod.POST)
+    public ModelAndView logWork(@PathVariable("id") int issueId, HttpServletRequest request) {
+        String sLoggedTime = request.getParameter("logwork");
+        Issue issue = issueService.getIssueById(issueId);
+        if (sLoggedTime == null) {
+            sLoggedTime = "00:00";
+        }
+        issue.setLoggedTime(sLoggedTime);
+        issueService.updateIssue(issue);
+        ModelAndView model = new ModelAndView("redirect:/issue/details/" + issueId);
         return model;
     }
 
@@ -201,7 +239,7 @@ public class IssueController {
 
         List<User> users = userService.getAllUsers();
         model.addObject("users", users);
-        
+
         model.addObject("projectId", projectId);
 
         return model;

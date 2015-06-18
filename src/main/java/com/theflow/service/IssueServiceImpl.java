@@ -262,4 +262,10 @@ public class IssueServiceImpl implements IssueService {
         issue.setPriority(issuePriority);
         issueDao.updateIssue(issue);
     }
+
+    @Override
+    @Transactional
+    public void updateIssue(Issue issue) {
+        issueDao.updateIssue(issue);
+    }
 }

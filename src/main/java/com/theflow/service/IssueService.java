@@ -27,6 +27,8 @@ public interface IssueService {
     
     public void updateIssue(IssueDto issueDto);
     
+    public void updateIssue(Issue issue);
+    
     public List<Issue> getAllIssues();
     
     public List<String> getIssueTypes();
