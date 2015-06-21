@@ -1,0 +1,42 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Add company')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/users/manage}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6.nav-col.text-left
+                        h1.main-title.text-center(th:text!='${user.fullName}')
+                    .col-md-3.text-right
+                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href='@{/user/add}')
+                            span.icon.pull-left
+                                i.fa.fa-user-plus
+                            | &nbsp;Add user
+                .row
+                    .col-md-6.col-md-offset-3.col-xs-12
+                        form(th:object='${user}', method='POST', th:action='@{/user/update}', enctype='utf8', data-toggle='validator')
+                            input#userId.form-control(type='hidden', placeholder='userId', name='userId', th:value='*{userId}')
+                            .with-errors(th:if="${#fields.hasErrors('userId')}", th:errors='*{userId}')
+                            .form-group
+                                label(th:text!='\#{label.user.firstName}')
+                                input#firstName.form-control(type='text', placeholder='firstName', th:field='*{firstName}', required='', maxlength='40')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('firstName')}", th:errors='*{firstName}')
+                            .form-group
+                                label(th:text!='\#{label.user.lastName}')
+                                input#lastName.form-control(type='text', placeholder='lastName', th:field='*{lastName}', required='', maxlength='40')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('lastName')}", th:errors='*{lastName}') Name Error
+                            button.fancy-button.medium.blueHole.basic.login-button(type='submit', th:text!='\#{label.form.submit}')
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

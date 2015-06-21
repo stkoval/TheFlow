@@ -1,0 +1,142 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Issue details')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/home}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6
+                        h1.main-title.text-center(th:text!="Issue + ' ' + ${issue.issueId}") Issue details
+                    .col-md-3.nav-col.text-right
+                        a.fancy-button.medium.esmerald.icon.basic(th:href="@{'/issue/edit/' + ${issue.issueId}}")
+                            span.icon.pull-left
+                                i.fa.fa-edit
+                            | &nbsp;Edit
+                .row
+                    .col-md-6
+                        .row
+                            .col-md-12
+                                h5.issue-title(th:text!='${issue.project.projName}') Project name
+                                h3.issue-title(th:text!='${issue.title}') Issue title
+                            .col-md-12
+                                h5(th:text!='\#{label.issue.description}') Description
+                                p(th:text!='${issue.description}') No description
+                                //
+                                  <form enctype="multipart/form-data">
+                                  <div class="form-group">
+                                  <input id="issue-attachment" class="file" type="file" multiple=true data-preview-file-type="any">
+                                  </div>
+                                  </form>
+                    .col-md-6
+                        //h5.issue-title(th:text!='\#{label.issue.esttime}') Estimated time
+                        //.progress
+                            .progress-bar.progress-bar-success.progress-bar-striped(role='progressbar', aria-valuenow='40', aria-valuemin='0', aria-valuemax='100', th:style="'width:' + ${estimated} + '%'")
+                                span(th:text!='${issue.estimatedTime}') 40% Complete (success)
+                        //h5.issue-title(th:text!='\#{label.issue.logtime}') Logged time
+                        //.progress
+                            .progress-bar.progress-bar-info.progress-bar-striped(role='progressbar', aria-valuenow='20', aria-valuemin='0', aria-valuemax='100', th:style="'width:' + ${logged} + '%'")
+                                span(th:text!='${issue.loggedTime}') 20% Complete
+                        //h3.issue-title(th:text!='\#{issue.logwork.title}') Log work
+                        //form.form-horizontal(th:action="@{'/' + ${issue.issueId} + '/logtime'}", method='post')
+                            #logtimepicker.input-group.date
+                                input#log_work_time.form-control.logtimerange(type='text', name='logwork', value='00:00')
+                                button.form-control.esmerald.basic.fancy-button.input-group-addon.fancy-reset.nomargin(type='submit')
+                                    i.fa.fa-edit
+                                    | &nbsp;Log
+                        .row.issue-info-row
+                            .col-md-12
+                                h3.issue-title(th:text!='\#{issue.characteristics.title}') Issue characteristics
+                        table.table.table-striped.table-hover.table-info
+                            tr
+                                td(th:text!='\#{label.issue.type}') Type
+                                td
+                                    span.label.label-primary(th:text!='${issue.type}') Primary
+                            tr
+                                td(th:text!='\#{label.issue.status}') Status
+                                td
+                                    span.label.label-info(th:text!='${issue.status}') In progress
+                            tr
+                                td(th:text!='\#{label.issue.priority}') Priority
+                                td
+                                    span.label.label-danger(th:text!='${issue.priority}') Major
+                            tr
+                                td(th:text!='\#{label.issue.creator}') Creator
+                                td
+                                    a(href='#', th:text!="|${issue.creator.firstName + ' '}${issue.creator.lastName}|") John Smith
+                            tr
+                                td(th:text!='\#{label.issue.assignee}') Assignee
+                                td
+                                    a(href='#', th:text!="|${issue.assignee.firstName + ' '}${issue.assignee.lastName}|") John Doe
+                            tr
+                                td(th:text!='\#{label.issue.creation}') Creation date
+                                td(th:text!='${issue.creationDate}') 01.11.2015
+                            tr
+                                td(th:text!='\#{label.issue.modification}') Last modified
+                                td(th:text!='${issue.lastModificationDate}') 01.11.2015 00:00
+                .row
+                    .col-md-12
+                        .detailBox
+                            .titleBox
+                                label Comments
+                                button.close(type='button', aria-hidden='true') &times;
+                            .commentBox
+                                #disqus_thread
+                            //
+                              <div class="commentBox">
+                              <p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                              </div>
+                              <div class="actionBox">
+                              <ul class="commentList">
+                              <li>
+                              <div class="commenterImage">
+                              <img src="http://lorempixel.com/50/50/people/6" />
+                              </div>
+                              <div class="commentText">
+                              <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+                              </div>
+                              </li>
+                              <li class="level-2">
+                              <div class="commenterImage">
+                              <img src="http://lorempixel.com/50/50/people/7" />
+                              </div>
+                              <div class="commentText">
+                              <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>
+                              </div>
+                              </li>
+                              <li class="level-3">
+                              <div class="commenterImage">
+                              <img src="http://lorempixel.com/50/50/people/9" />
+                              </div>
+                              <div class="commentText">
+                              <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+                              </div>
+                              </li>
+                              </ul>
+                              <form class="form-inline" role="form">
+                              <div class="form-group">
+                              <input class="form-control" type="text" placeholder="Your comments" />
+                              </div>
+                              <div class="form-group">
+                              <button class="btn btn-default">Add</button>
+                              </div>
+                              </form>
+                              </div>
+            #push
+        div(th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'", th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')
+        script(type='text/javascript').
+            var disqus_shortname = 'theflowproject';
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();

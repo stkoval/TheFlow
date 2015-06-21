@@ -1,0 +1,52 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('User cabinet')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/cabinet}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6
+                        h1.main-title.text-center Companies you created
+                .row
+                    .col-md-12.col-xs-12
+                        table#projectList.table.table-striped.table-bordered(cellspacing='0', width='100%')
+                            thead
+                                tr
+                                    th Company name
+                                    th Role
+                                    th Tools
+                            tfoot
+                                tr
+                                    th Company name
+                                    th Role
+                                    th.tools-cell Tools
+                            tbody
+                                tr(th:each='userCompany : ${companies}')
+                                    td
+                                        b(th:text!='${userCompany.company.name}')
+                                    td
+                                        b(th:text!='${userCompany.userRole}')
+                                    td.tools-cell
+                                        .dropdown
+                                            button.dropdown-toggle.fancy-button.small.blueHole.basic(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                i.fa.fa-cog
+                                                span.caret
+                                            ul.dropdown-menu.status-dropdown(role='menu')
+                                                li
+                                                    a(href='#', th:href="@{'/company/edit/' + ${userCompany.company.companyId}}") Edit
+                                                li
+                                                    a(href='#', th:href="@{'/company/remove/' + ${userCompany.company.companyId}}") Remove
+                                                li
+                                                    a(href='#', th:href='@{/cabinet_sign_in/} + ${userCompany.userCompanyId}') Sign in
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

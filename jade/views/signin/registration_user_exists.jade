@@ -1,0 +1,77 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('New user')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        .container
+            .outer
+                .inner
+                    .centered
+                        form.form-signin(th:object='${user}', method='POST', th:action='@{/user/saveaccount}', enctype='utf8', data-toggle='validator')
+                            .logo.logo-login
+                                i.fa.fa-paper-plane
+                                strong.text-left
+                                    small the
+                                    b Flow
+                            h2.form-signin-heading.text-center(th:text!='\#{label.form.title}')
+                            .form-group
+                                label(th:text!='\#{label.user.firstName}')
+                                input#firstName.form-control(type='text', placeholder='firstName', th:field='*{firstName}', required='')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('firstName')}", th:errors='*{firstName}')
+                            .form-group
+                                label(th:text!='\#{label.user.lastName}')
+                                input#lastName.form-control(type='text', placeholder='lastName', th:field='*{lastName}', required='')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('lastName')}", th:errors='*{lastName}') Name Error
+                            .form-group
+                                label(th:text!='\#{label.user.company.name}')
+                                input#companyName.form-control(type='text', placeholder='companyName', th:field='*{companyName}', required='')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('companyName')}", th:errors='*{companyName}') Name Error
+                            .form-group
+                                label(th:text!='\#{label.user.company.alias}')
+                                input#companyAlias.form-control(type='text', placeholder='companyAlias', th:field='*{companyAlias}', required='')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('companyAlias')}", th:errors='*{companyAlias}') Name Error
+                            .form-group
+                                label(th:text!='\#{label.user.email}')
+                                input#email.form-control(type='text', placeholder='email', th:field='*{email}', required='')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('email')}", th:errors='*{email}') Name Error
+                            .form-group
+                                input#password.form-control(type='hidden', placeholder='password', th:field='*{password}')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('password')}", th:errors='*{password}') Name Error
+                            .form-group
+                                input#passwordconfirm.form-control(type='hidden', data-match='#password', placeholder='password', th:field='*{matchingPassword}')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('password')}", th:errors='*{password}') Name Error
+                        .row
+                            .col-md-12.col-xs-12
+                                h1 Add existing user
+                                form(method='POST', th:action='@{/signin/new_account_user_exists}', th:object='${user}')
+                                    .form-group
+                                        label(th:text!='${user.email}')
+                                        input#username.form-control(type='hidden', placeholder='email', th:name='username', th:value='${user.email}', required='')
+                                    .form-group
+                                        input#companyName.form-control(type='hidden', placeholder='email', th:name='company_name', th:value='${user.companyName}', required='')
+                                    .form-group
+                                        input#companyAlias.form-control(type='hidden', placeholder='email', th:name='company_alias', th:value='${user.companyAlias}', required='')
+                                    button.fancy-button.medium.blueHole.basic.login-button(type='submit', th:text!='\#{label.form.add}')
+                                    .row.buttons-row
+                                        .col-md-4
+                                            a.fancy-button.medium.asbestos.basic.login-button.text-center(th:href='@{/login}') Sign in
+                                                span.icon
+                                                    i.fa.fa-paper-plane
+                                        .col-md-4
+                                            button.fancy-button.medium.blueHole.basic.login-button(type='submit') Submit
+                                                span.icon
+                                                    i.fa.fa-user-plus
+                                        .col-md-4
+                                            a.fancy-button.medium.asbestos.basic.login-button.text-center(th:href='@{/index}') Home
+                                                span.icon
+                                                    i.fa.fa-home
+        object(th:include='fragments/layout :: script', th:remove='tag')

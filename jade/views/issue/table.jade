@@ -1,0 +1,116 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Table')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        div(th:fragment='issue-list')
+            th:block(th:if='${message != null}')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    div(th:replace='fragments/layout :: sidebar') &nbsp;
+                    #main.col-md-9.col-xs-12
+                        div(th:fragment='issue-list')
+                            th:block(th:if='${message != null}')
+                                div(th:replace='fragments/alert :: alert') &nbsp;
+                            table#issuesList.table.table-striped.table-bordered(cellspacing='0', width='100%')
+                                thead
+                                    tr
+                                        th ID
+                                        th(th:text!='\#{label.issue.title}') TITLE
+                                        th(th:text!='\#{label.issue.status}') STATUS
+                                        th(th:text!='\#{label.issue.type}') TYPE
+                                        th(th:text!='\#{label.issue.priority}') PRIORITY
+                                        th(th:text!='\#{label.issue.assignee}') ASSIGNEE
+                                        th.tools-cell Tools
+                                tfoot
+                                    tr
+                                        th ID
+                                        th(th:text!='\#{label.issue.title}') TITLE
+                                        th(th:text!='\#{label.issue.status}') STATUS
+                                        th(th:text!='\#{label.issue.type}') TYPE
+                                        th(th:text!='\#{label.issue.priority}') PRIORITY
+                                        th(th:text!='\#{label.issue.assignee}') ASSIGNEE
+                                        th.tools-cell Tools
+                                tbody
+                                    tr(th:each='issue : ${issues}')
+                                        td(th:text!='${issue.issueId}') id
+                                        td.title-cell
+                                            a(th:href="@{'/issue/details/' + ${issue.issueId}}", th:text!='${issue.title}') name
+                                        td.status-cell
+                                            .dropdown
+                                                i(th:text!="${issue.status} + '-filter'")
+                                                button.dropdown-toggle.fancy-button.small.asbestos.basic.status-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                    span(th:text!='${issue.status}')
+                                                    | &nbsp;
+                                                    span.caret
+                                                ul.dropdown-menu.status-dropdown(role='menu')
+                                                    li(th:if="${issue.status.toString()} != 'New'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=new'}") New
+                                                    li(th:if="${issue.status.toString()} != 'In progress'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=in_progress'}") In progress
+                                                    li(th:if="${issue.status.toString()} != 'Test ready'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=test_ready'}") Test ready
+                                                    li(th:if="${issue.status.toString()} != 'Testing'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=testing'}") Testing
+                                                    li(th:if="${issue.status.toString()} != 'On hold'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=on_hold'}") On hold
+                                                    li(th:if="${issue.status.toString()} != 'Review'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=review'}") Review
+                                                    li(th:if="${issue.status.toString()} != 'Closed'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=closed'}") Closed
+                                        td.type-cell
+                                            i(th:text!="${issue.type + '-filter'}")
+                                            .dropdown
+                                                button.dropdown-toggle.fancy-button.small.asbestos.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                    span(th:text!='${issue.type}')
+                                                    | &nbsp;
+                                                    span.caret
+                                                ul.dropdown-menu.type-dropdown(role='menu')
+                                                    li(th:if="${issue.type.toString()} != 'Bug'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/type?type=bug'}") Bug
+                                                    li(th:if="${issue.type.toString()} != 'Task'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/type?type=task'}") Task
+                                        td.priority-cell
+                                            i(th:text!="${issue.priority + '-filter'}")
+                                            .dropdown
+                                                button.dropdown-toggle.fancy-button.small.asbestos.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                    span(th:text!='${issue.priority}')
+                                                    | &nbsp;
+                                                    span.caret
+                                                ul.dropdown-menu.type-dropdown(role='menu')
+                                                    li(th:if="${issue.priority.toString()} != 'High'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=high'}") High
+                                                    li(th:if="${issue.priority.toString()} != 'Medium'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=medium'}") Medium
+                                                    li(th:if="${issue.priority.toString()} != 'Low'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=low'}") Low
+                                        td.assignee-cell(th:rel='${issue.assignee.fullName}')
+                                            i(th:text!="${issue.assignee.fullName + '-filter'}")
+                                            .dropdown.user-name-dropdown
+                                                button.dropdown-toggle.fancy-button.small.asbestos.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                    span(th:text!='${issue.assignee.fullName}')
+                                                    | &nbsp;
+                                                    span.caret
+                                                ul.dropdown-menu.assignee-dropdown(role='menu')
+                                                    li(th:each='user : ${users}', th:if='${user.fullName.toString()} != ${issue.assignee.fullName}')
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/assignee?assignee=' + ${user.userId}}", th:text!='${user.fullName}') User name
+                                        td.tools-cell
+                                            .dropdown
+                                                button.dropdown-toggle.fancy-button.small.blueHole.basic(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                    i.fa.fa-cog
+                                                    | &nbsp;
+                                                    span.caret
+                                                ul.dropdown-menu.status-dropdown(role='menu')
+                                                    li
+                                                        a(href='#', th:href="@{'/issue/edit/' + ${issue.issueId}}") Edit
+                                                    li
+                                                        a(href='#', th:href="@{'/issue/assign/' + ${issue.issueId}}") Assign to me
+                                                    li
+                                                        a(href='#', th:href="@{'/issue/remove/' + ${issue.issueId}}") Remove
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

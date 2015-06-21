@@ -1,8 +1,16 @@
 module.exports = {
     components: {
         src:[
-            '<%= package.folder %>js/compiled.js'
+            '<%= package.resources %>js/compiled.js'
         ],
-        dest:'<%= package.folder %>js/compiled.min.js'
+        dest:'<%= package.resources %>js/compiled.min.js'
+    },
+    landing: {
+        components: {
+            src:[
+                '<%= package.resources %>js/compiled.landing.js'
+            ],
+            dest:'<%= package.resources %>js/compiled.landing.min.js'
+        }
     }
 }

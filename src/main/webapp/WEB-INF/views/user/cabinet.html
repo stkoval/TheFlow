@@ -1,77 +1,54 @@
-<!DOCTYPE html SYSTEM "about:legacy-compat">
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-    <head>
+  <head>
         <title>User cabinet</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    </head>
-    <body>
-        <object th:include="fragments/layout :: styles" th:remove="tag"/>
-
-        <div id="wrap">
-            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
-
-            <div class="container main-content">
-
-                <div class="row">
-                    <div class="col-md-3 nav-col text-left">
-                        <a th:href="@{/user/addcompany}" class="fancy-button medium blueRiver icon basic">
-                            <span class="icon pull-left">
-                                <i class="fa fa-folder-open"></i>
-                            </span>
-                            &nbsp;Add company
-                        </a>
-                    </div>
-                    <div class="col-md-6">
-                        <h1 class="main-title text-center">User cabinet</h1>
-                    </div>
-                    <div class="col-md-3 text-right">
-                        <a th:href="@{/companies/own}" class="fancy-button medium blueRiver icon basic pull-right">
-                            <span class="icon pull-left">
-                                <i class="fa fa-folder-open"></i>
-                            </span>
-                            &nbsp;Own companies
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-xs-12">
-                        <table id="projectList" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Company name</th>
-                                    <th>Role</th>
-                                    <th>Sign in</th>
-                                </tr>
-                            </thead>
-
-                            <tfoot>
-                                <tr>
-                                    <th>Company name</th>
-                                    <th>Role</th>
-                                    <th class="sign-cell">Sign in</th>
-                                </tr>
-                            </tfoot>
-
-                            <tbody>
-                                <tr th:each="userCompany : ${companies}">
-                                    <td><b th:text="${userCompany.company.name}"></b></td>
-                                    <td><b th:text="${userCompany.userRole}"></b></td>
-                                    <td class="sign-cell">
-                                        <a class="dropdown-toggle fancy-button small blueRiver basic type-toggle text-left cell-button" th:href="@{/cabinet_sign_in/} + ${userCompany.userCompanyId}">Sign in</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div id="push"></div>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="image_src" th:href="@{/resources/img/logo.png}">
+  </head>
+  <body>
+    <object th:include="fragments/layout :: styles" th:remove="tag"></object>
+    <div id="wrap">
+      <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-md-3 nav-col text-left"><a th:href="@{/user/addcompany}" class="fancy-button medium blueRiver icon basic"><span class="icon pull-left"><i class="fa fa-folder-open"></i></span>&nbsp;Add company</a></div>
+          <div class="col-md-6">
+            <h1 class="main-title text-center">User cabinet</h1>
+          </div>
+          <div class="col-md-3 text-right"><a th:href="@{/companies/own}" class="fancy-button medium blueRiver icon basic pull-right"><span class="icon pull-left"><i class="fa fa-folder-open"></i></span>&nbsp;Own companies</a></div>
         </div>
-
-        <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
-
-        <object th:include="fragments/layout :: script" th:remove="tag"/>
-
-    </body>
+        <div class="row">
+          <div class="col-md-12 col-xs-12">
+            <table id="projectList" cellspacing="0" width="100%" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Company name</th>
+                  <th>Role</th>
+                  <th>Sign in</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Company name</th>
+                  <th>Role</th>
+                  <th class="sign-cell">Sign in</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr th:each="userCompany : ${companies}">
+                  <td><b th:text="${userCompany.company.name}"></b></td>
+                  <td><b th:text="${userCompany.userRole}"></b></td>
+                  <td class="sign-cell"><a th:href="@{/cabinet_sign_in/} + ${userCompany.userCompanyId}" class="dropdown-toggle fancy-button small blueRiver basic type-toggle text-left cell-button">Sign in</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="push"></div>
+    </div>
+    <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
+    <object th:include="fragments/layout :: script" th:remove="tag"></object>
+  </body>
 </html>

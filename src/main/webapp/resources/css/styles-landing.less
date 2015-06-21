@@ -1,0 +1,625 @@
+@mainfont: 'Open Sans';
+@logo-heading-font: "Slabo 27px", serif;
+@logo-font: "Ubuntu Condensed", Tahoma, sans-serif;
+@menu-height: 50px;
+@menu-height: 50px;
+@light-bg: #FFF;
+@flow-blue: #3EB5F1;
+@flow-red: #F24942;
+@carousel-img-size: 100px;
+@carousel-img-padding: 5px;
+@transparent-bg-light: fade(@light-bg, 50%);
+@transparent-bg-dark: fade(@light-bg, 80%);
+
+@info-width: 550px;
+@info-height: 300px;
+
+.background-image-full(@imgURL) {
+  background-image: url(@imgURL);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.opacity (@opacity: 0.5) {
+  -webkit-opacity: @opacity;
+  -moz-opacity: @opacity;
+  opacity: @opacity;
+}
+
+.transition (@transition) {
+  -webkit-transition: @transition;
+  -moz-transition: @transition;
+  -ms-transition: @transition;
+  -o-transition: @transition;
+}
+
+.transform(@string) {
+  -webkit-transform: @string;
+  -moz-transform: @string;
+  -ms-transform: @string;
+  -o-transform: @string;
+}
+
+.border-radius (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius:    @radius;
+  border-radius:         @radius;
+
+  -moz-background-clip:    padding;
+  -webkit-background-clip: padding-box;
+  background-clip:         padding-box;
+}
+
+#animation {
+
+  .keyframes (@name, @from, @to, @vendor:"", @bind:"") {
+    @keyf: ~"@{bind}@@{vendor}keyframes @{name} { `'\n'`from ";
+    @{keyf} {
+      #animation > .from(@name, @from);
+    }
+    to {
+      #animation > .to(@name, @to);
+    }
+  }
+
+  .from (load, @color) {
+    .transform(scale(2));
+    color:@color;
+  }
+
+  .to (load, @color) {
+    .transform(scale(0.5));
+    color:@color;
+  }
+
+  .animation-keyframes-novendor (@name, @from, @to, @anim-selector) {
+    #animation > .keyframes (@name, @from, @to);
+    @anim: ~"} `'\n'`.@{anim-selector}";
+    @{anim} {
+      animation-name: @name;
+    }
+  }
+
+  .animation-keyframes (@name, @from, @to, @anim-selector, @ease: ease-in-out, @duration: 2s ,@iteration: infinite) {
+    @bind: "} `'\n'`";
+    #animation > .keyframes (@name, @from, @to, "-moz-");
+    #animation > .keyframes (@name, @from, @to, "-webkit-", @bind);
+    #animation > .keyframes (@name, @from, @to, "-o-", @bind);
+    #animation > .keyframes (@name, @from, @to, "-ms-", @bind);
+    #animation > .keyframes (@name, @from, @to, "", @bind);
+    @anim: ~"} `'\n'`.@{anim-selector}";
+    @{anim} {
+      -moz-animation: @name @ease @duration @iteration alternate;
+      -webkit-animation: @name @ease @duration @iteration alternate;
+      -o-animation: @name @ease @duration @iteration alternate;
+      -ms-animation: @name @ease @duration @iteration alternate;
+      animation: @name @ease @duration @iteration alternate;
+    }
+  }
+}
+
+html {
+  height: 100%;
+  min-height: 100%;
+  background-color: @light-bg;
+  body {
+    height: 100%;
+    min-height: 100%;
+    background-color: transparent;
+    font-family: @mainfont;
+  }
+}
+
+a {
+  &:hover {
+    outline: 0;
+  }
+  &:active {
+    outline: 0;
+  }
+  &:focus {
+    outline: 0;
+  }
+}
+
+.no-js {
+  padding-top: 106px;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.loading {
+  overflow: hidden;
+  background-color:@flow-blue;
+  .loader {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    margin: -100px 0px 0px -100px;
+    background-color: @light-bg;
+    .border-radius(200px);
+    img.load-icon {
+      position: absolute;
+      width:80px;
+      height:80px;
+      top:60px;
+      left:60px;
+    }
+  }
+  main {
+    overflow: hidden;
+    .opacity(0);
+  }
+  header {
+    .opacity(0);
+  }
+}
+
+#animation > .animation-keyframes (load, @flow-blue, @flow-blue, loader, ease-out, 1s, infinite);
+#animation > .animation-keyframes (load, @light-bg, @flow-blue, load-icon, ease-in, 1s, infinite);
+
+header {
+  .transition(opacity .25s ease-in-out);
+  .entry-header {
+    background-color: @light-bg;
+  }
+}
+
+main {
+  .transition(opacity .25s ease-in-out);
+}
+
+section {
+  min-width: 960px;
+}
+
+.loaded {
+  .background-image-full('../img/note/n1.jpg');
+  .loader {
+    display: none;
+  }
+  header {
+    .opacity(1);
+  }
+  main {
+    .opacity(1);
+  }
+}
+
+.loaded section,
+.no-js section {
+  opacity: 1;
+  -webkit-transition: opacity 300ms ease-out;
+  -moz-transition: opacity 300ms ease-out;
+  transition: opacity 300ms ease-out;
+}
+
+header.entry-header {
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  z-index: 10;
+  .navbar.navbar-default {
+    border: none;
+    background-color: transparent;
+    a.navbar-brand {
+      display: block;
+      position: absolute;
+      width: 200px;
+      height: 100px;
+      top: 0px;
+      left: 50%;
+      margin: 0px 0px 0px -100px;
+      padding: 0px;
+      .navbar-brand-bg {
+        position: absolute;
+        display:block;
+        width: 200px;
+        height: 200px;
+        top: -100px;
+        left: 0px;
+        background-color: #FFF;
+        .transform(rotate(45deg));
+      }
+      i.logo {
+        position: absolute;
+        width: 200px;
+        height: 100px;
+        margin: 0px 0px 0px 0px;
+        padding: 0px;
+        display: block;
+        img {
+          display: block;
+          margin: -55px 0px 0px 0px;
+          width: 200px;
+          height: 200px;
+          .transform(scale(0.5));
+        }
+      }
+      span {
+        position: absolute;
+        width: 200px;
+        height: 20px;
+        text-align: center;
+        top: 85px;
+        left: 0px;
+        font-family: @logo-heading-font;
+        color: @flow-red;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 20px;
+        b {
+          font-size: 20px;
+          line-height: 20px;
+          color: @flow-blue;
+          font-family: @logo-font;
+          font-weight: 700;
+        }
+      }
+    }
+    ul.nav.navbar-nav {
+      li {
+        .tooltip-arrow {
+
+        }
+        .tooltip-inner {
+          margin-top: -5px;
+        }
+        a {
+          background-color: @light-bg;
+          display: block;
+          width: 50px;
+          height: 50px;
+          text-align: center;
+          margin: 0px 0px 0px 10px;
+          border: none;
+          position: relative;
+          i {
+            color: @flow-blue;
+            display: block;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            line-height: 50px;
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+          &:hover {
+            background-color: @transparent-bg-light;
+          }
+          &.current-nav {
+            background-color: @transparent-bg-light;
+          }
+        }
+      }
+    }
+  }
+}
+
+main {
+  overflow-x: hidden;
+  z-index: 9;
+}
+
+.bcg {
+  height: 100%;
+  width: 100%;
+}
+
+/* Slide 1 */
+#slide-1 {
+  .background-image-full('../img/note/n1.png');
+  z-index: 6;
+  .bcg {
+    z-index: 6;
+    .hsContainer {
+      z-index: 6;
+    }
+    .hsCarousel {
+      z-index:100;
+    }
+  }
+}
+
+/* Slide 2 */
+#slide-2 {
+  z-index: 5;
+  .bcg {
+    z-index: 5;
+    .background-image-full('../img/note/n2.png');
+  }
+}
+
+/* Slide 3 */
+#slide-3 {
+  z-index: 4;
+  .bcg {
+    z-index: 4;
+    .background-image-full('../img/note/n4.png');
+  }
+}
+
+#slide-4 {
+  z-index: 3;
+  .bcg {
+    z-index: 3;
+    .background-image-full('../img/note/n4.png')
+  }
+}
+
+#slide-5 {
+  position: relative;
+  z-index: 2;
+  .bcg {
+    background-color: transparent;
+    opacity: 0;
+  }
+  .bcg2 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 2
+  }
+}
+
+.hsContainer {
+  display: block;
+  width: @info-width;
+  height: @info-height;
+  overflow: hidden;
+  position: fixed;
+  right: 0px;
+  top: 25%;
+  vertical-align: middle;
+  z-index: 10;
+  .hsContent {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0px;
+    display: block;
+    color: #FFF;
+    background-color: @flow-blue;;
+    padding: 0px;
+    text-align: left;
+    position: absolute;
+    height: @info-height;
+    width: @info-width;
+    right: -@info-width;
+    h2 {
+      font-size: 24px;
+      line-height: 28px;
+      padding: 10px 20px 10px 20px;
+      font-family: @logo-heading-font;
+      margin-bottom:0;
+    }
+    p {
+      padding: 0 20px 10px 20px;
+      font-size: 16px;
+      line-height: 21px;
+      color: #FFF;
+      strong {
+        color:@flow-red;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+#slide-1 {
+  .hsContainer {
+    height: @info-height+60px;
+    .hsContent {
+      height: @info-height+60px;
+    }
+  }
+}
+
+.hsCarousel {
+  display: block;
+  height: @carousel-img-size + 10px;
+  width: 100%;
+  position: fixed;
+  right: 0px;
+  bottom: 50px;
+  z-index: 10;
+  .carouselContent {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    margin: 0px;
+    display: block;
+    position: absolute;
+    height: @carousel-img-size + @carousel-img-padding*2;
+    width: 100%;
+    right: 0px;
+    bottom: 0px;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    .item {
+      list-style: none;
+      padding: 0px;
+      margin: 0px 20px;
+      display: inline-block;
+      position: relative;
+      width: @carousel-img-size + @carousel-img-padding*2;
+      height: @carousel-img-size + @carousel-img-padding*2;
+      padding: @carousel-img-padding;
+      background-color: @transparent-bg-dark;
+      text-align: center;
+      &.blue {
+        background-color: @flow-blue;
+      }
+      img {
+        width: @carousel-img-size;
+        height: @carousel-img-size;
+      }
+      a {
+        display: block;
+        width: @carousel-img-size;
+        height: @carousel-img-size;
+        cursor: pointer;
+        vertical-align: top;
+        &:hover {
+          text-decoration: none;
+        }
+        i.fa {
+          display: block;
+          width: @carousel-img-size;
+          height: @carousel-img-size - 30px;
+          font-size: @carousel-img-size - 50px;
+          line-height: @carousel-img-size - 30px;
+          color: @light-bg;
+        }
+        i.glyphicon {
+          display: block;
+          width: @carousel-img-size;
+          height: @carousel-img-size - 30px;
+          font-size: @carousel-img-size - 50px;
+          line-height: @carousel-img-size - 30px;
+          color: @light-bg;
+        }
+        span {
+          width: @carousel-img-size;
+          height: 30px;
+          font-size: 16px;
+          line-height: 30px;
+          color: @light-bg;
+          font-family: @logo-heading-font;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}
+
+#slide-2 {
+  .hsContainer {
+    z-index: 11;
+  }
+  .hsCarousel {
+    z-index: 11;
+  }
+}
+
+.slideLeft .hsContainer {
+  left: 0px;
+  right: auto;
+  .hsContent {
+    left: -550px;
+    right: auto;
+  }
+}
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/*
+ * Image replacement
+ */
+
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  /* IE 6/7 fallback */
+  *text-indent: -9999px;
+}
+
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 150%;
+}
+
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/*
+ * Extends the .visuallyhidden class to allow the element to be focusable
+ * when navigated to via the keyboard: h5bp.com/p
+ */
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+/*
+ * Hide visually and from screenreaders, but maintain layout
+ */
+
+.invisible {
+  visibility: hidden;
+}
+
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    `contenteditable` attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+
+.clearfix:before,
+.clearfix:after {
+  content: " "; /* 1 */
+  display: table; /* 2 */
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+  *zoom: 1;
+}

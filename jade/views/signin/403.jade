@@ -1,0 +1,25 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('403. Access Denied')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        .container-login
+            .outer
+                .inner
+                    .centered
+                        .row
+                            .col-md-6.col-md-offset-3
+                                .logo.logo-login
+                                    i.fa.fa-paper-plane
+                                    strong.text-left
+                                        small the
+                                        b Flow
+                                h2(th:text!='\#{message.denied}') 403. Access Denied
+                                a.fancy-button.medium.blueHole.basic.login-button.text-center(href='javascript:history.go(-1);')
+                                    | Go back
+                                    span.icon
+                                        i.fa.fa-chevron-right
+            #push
+        object(th:include='fragments/layout :: script', th:remove='tag')

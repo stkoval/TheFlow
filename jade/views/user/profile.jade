@@ -1,0 +1,51 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Profile')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/home}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6.nav-col.text-left
+                        h1.main-title.text-center Profile
+                    .col-md-3.text-right
+                        a.fancy-button.medium.esmerald.icon.basic(href='#', th:href='@{/user/edit/} + ${#authentication.principal.userId}')
+                            span.icon.pull-left
+                                i.fa.fa-edit
+                            | &nbsp;Edit
+                .row
+                    .col-md-6
+                        img.img-responsive(th:src='${image}', onerror="this.src='/resources/img/no_avatar.gif'", width='100%', height='100%')
+                    // TO CHANGE!!!
+                    form(method='POST', th:action="@{/user/} + ${#authentication.principal.userId} + '/image'", enctype='multipart/form-data')
+                        div
+                            input(type='file', name='image', size='50')
+                        input(type='submit', value='Change image')
+                    .col-md-6
+                        h3.main-title(sec:authentication='principal.fullName')
+                        table.table.table-striped.table-hover.table-info
+                            tr(sec:authorize="hasAnyRole('Admin', 'User')")
+                                td Company
+                                td(th:text!='${#authentication.principal.companyName}') Company name
+                            tr
+                                td Email
+                                td(th:text!='${#authentication.principal.username}') Email
+                            tr
+                                td Role
+                                td(th:text!='${#authentication.principal.role}') Role
+                        .col-md-3.nav-col.text-left
+                            a.fancy-button.medium.esmerald.icon.basic(th:href="@{/user/} + ${#authentication.principal.userId} + '/changepass'")
+                                span.icon.pull-left
+                                    i.fa.fa-edit
+                                | &nbsp;Change password
+            #push
+        div(th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'", th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

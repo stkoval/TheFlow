@@ -1,0 +1,53 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('User details')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/users/manage}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6.nav-col.text-left
+                        h1.main-title.text-center(th:text!='${user.fullName}')
+                    .col-md-3.text-right
+                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href='@{/users/manage}')
+                            span.icon.pull-left
+                                i.fa.fa-users
+                            | &nbsp;All users
+                .row
+                    .col-md-6
+                        img.img-responsive(src='/resources/img/no_avatar.gif', width='100%')
+                    .col-md-6
+                        table.table.table-striped.table-hover.table-info
+                            tr
+                                td(th:text!='\#{label.user.firstName}') First name
+                                td
+                                    h4(th:text!='${user.firstName}') First name
+                            tr
+                                td(th:text!='\#{label.user.lastName}') Last name
+                                td
+                                    h4(th:text!='${user.lastName}') Last name
+                            tr
+                                td(th:text!='\#{label.user.email}') Email
+                                td
+                                    h4(th:text!='${user.email}') email
+                            tr
+                                td(th:text!='\#{label.user.role}') User role
+                                td
+                                    .btn-group
+                                        button.dropdown-toggle.fancy-button.small.blueRiver.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                            span(th:text!='${current_role}') User role
+                                            span.caret
+                                        ul.dropdown-menu(role='menu')
+                                            li(th:each='role : ${roles}', th:if='${current_role != role.toString()}')
+                                                a(th:href="@{/user/} + ${user.userId}+ '/role?role=' + ${role}", th:text!='${role}') Role
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

@@ -1,0 +1,47 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('User cabinet')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/user/addcompany}')
+                            span.icon.pull-left
+                                i.fa.fa-folder-open
+                             | &nbsp;Add company
+                    .col-md-6
+                        h1.main-title.text-center User cabinet
+                    .col-md-3.text-right
+                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href='@{/companies/own}')
+                            span.icon.pull-left
+                                i.fa.fa-folder-open
+                            | &nbsp;Own companies
+                .row
+                    .col-md-12.col-xs-12
+                        table#projectList.table.table-striped.table-bordered(cellspacing='0', width='100%')
+                            thead
+                                tr
+                                    th Company name
+                                    th Role
+                                    th Sign in
+                            tfoot
+                                tr
+                                    th Company name
+                                    th Role
+                                    th.sign-cell Sign in
+                            tbody
+                                tr(th:each='userCompany : ${companies}')
+                                    td
+                                        b(th:text!='${userCompany.company.name}')
+                                    td
+                                        b(th:text!='${userCompany.userRole}')
+                                    td.sign-cell
+                                        a.dropdown-toggle.fancy-button.small.blueRiver.basic.type-toggle.text-left.cell-button(th:href='@{/cabinet_sign_in/} + ${userCompany.userCompanyId}') Sign in
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

@@ -1,0 +1,59 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('New project')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/projects/manage}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6
+                        h1.main-title.text-center Add projects
+                    .col-md-3.text-right
+                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href='@{/projects/manage}')
+                            span.icon.pull-left
+                                i.fa.fa-folder-open
+                            | &nbsp;All projets
+                .row
+                    .col-md-8.col-md-offset-2
+                        form#createIssueForm.form-horizontal.issue-full-form(data-toggle='validator', th:object='${project}', th:action='@{/project/save}', method='post')
+                            .form-group
+                                label.col-sm-2.control-label(for='name', th:text!='\#{label.project.name}') Name
+                                .col-sm-10
+                                    input#name.form-control(type='text', placeholder='Name', th:field='*{projName}', required='', maxlength='100')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('projName')}", th:errors='*{projName}')
+                            .form-group
+                                label.col-sm-2.control-label(for='description', th:text!='\#{label.project.description}') Description
+                                .col-sm-10
+                                    textarea#description.form-control(th:field='*{projDescription}', maxlength='1000')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('projDescription')}", th:errors='*{projDescription}')
+                            .form-group
+                                label.col-sm-2.control-label(for='start_date', th:text!='\#{label.project.start}') Start date:
+                                .col-sm-10
+                                    input#start_date.form-control.logtimepicker(type='text', th:field='*{startDate}')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('startDate')}", th:errors='*{startDate}')
+                            .form-group
+                                label.col-sm-2.control-label(for='release_date', th:text!='\#{label.project.release}') Release date:
+                                .col-sm-10
+                                    input#release_date.form-control.logtimepicker(type='text', th:field='*{releaseDate}')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('releaseDate')}", th:errors='*{releaseDate}')
+                            .form-group
+                                .col-sm-10.col-sm-offset-2
+                                    button.fancy-button.medium.blueRiver.basic.nomargin(type='submit')
+                                        | Create
+                                        span.icon
+                                            i.fa.fa-check-circle
+            #push
+        div(th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'", th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')
