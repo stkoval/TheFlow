@@ -1,57 +1,39 @@
-<!DOCTYPE html SYSTEM "about:legacy-compat">
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-<head>
-    <title>Error</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <meta name="description" content=""/>
-    <link rel="image_src" href="" />
-
-</head>
-<body>
-<object th:include="fragments/layout :: styles" th:remove="tag" />
-
-<div class="container-login">
-    <div class="outer">
+<!DOCTYPE html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')>
+<html>
+  <head>
+        <title>Error</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="image_src" th:href="@{/resources/img/logo.png}"/>
+  </head>
+  <body>
+    <object th:include="fragments/layout :: styles" th:remove="tag"></object>
+    <div class="container-login">
+      <div class="outer">
         <div class="inner">
-            <div class="centered">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="logo logo-login">
-                            <i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong>
-                        </div>
-                        <div class="alert alert-danger" role="alert">
-                            <span th:text="#{message.fatalError}"></span>
-                        </div>
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title" id="panel-title"><span th:text="#{message.fatalError}"></span></h3>
-                            </div>
-                            <div class="panel-body">
-                                <p class="long" th:text="'Failed URL: ' +  ${url}" th:remove="tag">${url}</p>
-                                <p th:text="'Exception: ' + ${exception.message}" th:remove="tag">${exception.message}</p>
-                                <hr/>
-                                <p th:each="ste : ${exception.stackTrace}"><span th:text="${ste}" th:remove="tag">${ste}</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-md-offset-3">
-                        <a class="fancy-button medium blueHole basic login-button text-center" href="javascript:history.go(-1);">
-                            Go back
-                                        <span class="icon">
-                                            <i class="fa fa-chevron-right"></i>
-                                        </span>
-                        </a>
-                    </div>
+          <div class="centered">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="logo logo-login"><i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong></div>
+                <div role="alert" class="alert alert-danger"><span th:text="#{message.fatalError}"></span></div>
+                <div class="panel panel-danger">
+                  <div class="panel-heading">
+                    <h3 id="panel-title" class="panel-title"><span th:text="#{message.fatalError}"></span></h3>
+                  </div>
+                  <div class="panel-body">
+                    <p th:text="'Failed URL: ' +  ${url}" th:remove="tag" class="long">${url}</p>
+                    <p th:text="'Exception: ' + ${exception.message}" th:remove="tag">${exception.message}</p>
+                    <hr/>
+                    <p th:each="ste : ${exception.stackTrace}"><span th:text="${ste}" th:remove="tag">${ste}</span></p>
+                  </div>
                 </div>
+              </div>
+              <div class="col-md-6 col-md-offset-3"><a href="javascript:history.go(-1);" class="fancy-button medium blueHole basic login-button text-center">Go back<span class="icon"><i class="fa fa-chevron-right"></i></span></a></div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-
-<object th:include="fragments/layout :: script" th:remove="tag"/>
-
-</body>
+    <object th:include="fragments/layout :: script" th:remove="tag"></object>
+  </body>
 </html>

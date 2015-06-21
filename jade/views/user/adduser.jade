@@ -1,0 +1,62 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/users/manage}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6
+                        h1.main-title.text-center Add user
+                    .col-md-3.text-right
+                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href='@{/users/manage}')
+                            span.icon.pull-left
+                                i.fa.fa-users
+                            | &nbsp;All users
+                .row
+                    .col-md-6.col-md-offset-3.col-xs-12
+                        form(th:object='${user}', method='POST', th:action='@{/user/saveuser}', enctype='utf8', data-toggle='validator')
+                            .form-group
+                                label(th:text!='\#{label.user.firstName}')
+                                input#firstName.form-control(type='text', placeholder='firstName', th:field='*{firstName}', required='', maxlength='40')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('firstName')}", th:errors='*{firstName}')
+                            .form-group
+                                label(th:text!='\#{label.user.lastName}')
+                                input#lastName.form-control(type='text', placeholder='lastName', th:field='*{lastName}', required='', maxlength='40')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('lastName')}", th:errors='*{lastName}') Name Error
+                            .form-group
+                                input#companyName.form-control(type='hidden', th:value='${#authentication.principal.companyName}', name='companyName')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('companyName')}", th:errors='*{companyName}') Name Error
+                            .form-group
+                                input#companyAlias.form-control(type='hidden', th:value='${#authentication.principal.companyAlias}', name='companyAlias')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('companyAlias')}", th:errors='*{companyAlias}') Name Error
+                            .form-group
+                                label(th:text!='\#{label.user.email}')
+                                input#email.form-control(type='text', placeholder='email', th:field='*{email}', required='', maxlength='250')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('email')}", th:errors='*{email}') Name Error
+                            .form-group
+                                label(th:text!='\#{label.user.password}')
+                                input#password.form-control(type='password', placeholder='password', th:field='*{password}', required='')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('password')}", th:errors='*{password}') Name Error
+                            .form-group
+                                label(th:text!='\#{label.user.confirmPass}')
+                                input#passwordconfirm.form-control(type='password', data-match='#password', placeholder='password', th:field='*{matchingPassword}', required='')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('password')}", th:errors='*{password}') Name Error
+                            button.fancy-button.medium.blueHole.basic.login-button(type='submit', th:text!='\#{label.form.submit}')
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

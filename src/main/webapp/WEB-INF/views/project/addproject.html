@@ -1,94 +1,70 @@
-<!DOCTYPE html SYSTEM "about:legacy-compat">
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-<head>
-    <title>New project</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="image_src" href="/theflow/resources/img/logo.png" />
-
-</head>
-<body>
-    <object th:include="fragments/layout :: styles" th:remove="tag" />
-
+  <head>
+        <title>New project</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="image_src" th:href="@{/resources/img/logo.png}">
+  </head>
+  <body>
+    <object th:include="fragments/layout :: styles" th:remove="tag"></object>
     <div id="wrap">
-        <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
-
-        <div class="container main-content">
-
-            <div class="row">
-                <div class="col-md-3 nav-col text-left">
-                    <a th:href="@{/projects/manage}" class="fancy-button medium blueRiver icon basic">
-                                <span class="icon pull-left">
-                                    <i class="fa fa-chevron-left"></i>
-                                </span>
-                        &nbsp;Back
-                    </a>
-                </div>
-                <div class="col-md-6">
-                    <h1 class="main-title text-center">Add projects</h1>
-                </div>
-                <div class="col-md-3 text-right">
-                    <a th:href="@{/projects/manage}" class="fancy-button medium blueRiver icon basic pull-right">
-                                <span class="icon pull-left">
-                                    <i class="fa fa-folder-open"></i>
-                                </span>
-                        &nbsp;All projets
-                    </a>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-
-                    <form class="form-horizontal issue-full-form"  data-toggle="validator" id="createIssueForm" th:object="${project}" th:action="@{/project/save}" method="post">
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label" th:text="#{label.project.name}">Name</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" placeholder="Name" th:field="*{projName}" required maxlength="100">
-                                <div class="help-block with-errors"></div>
-                                <div class="with-errors" th:if="${#fields.hasErrors('projName')}" th:errors="*{projName}"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="description" class="col-sm-2 control-label" th:text="#{label.project.description}">Description</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" id="description" th:field="*{projDescription}" maxlength="1000"></textarea>
-                                <div class="help-block with-errors"></div>
-                                <div class="with-errors" th:if="${#fields.hasErrors('projDescription')}" th:errors="*{projDescription}"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="start_date" class="col-sm-2 control-label" th:text="#{label.project.start}">Start date:</label>
-                            <div class="col-sm-10">
-                                <input type='text' class="form-control logtimepicker" id="start_date" th:field="*{startDate}"/>
-                                <div class="help-block with-errors"></div>
-                                <div class="with-errors" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="release_date" class="col-sm-2 control-label" th:text="#{label.project.release}">Release date:</label>
-                            <div class="col-sm-10">
-                                <input type='text' class="form-control logtimepicker" id="release_date" th:field="*{releaseDate}"/>
-                                <div class="help-block with-errors"></div>
-                                <div class="with-errors" th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
-                                <button type="submit" class="fancy-button medium blueRiver basic nomargin">Create <span class="icon"><i class="fa fa-check-circle"></i></span></button>
-                            </div>
-                    </form>
-                </div>
-            </div>
+      <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-md-3 nav-col text-left"><a th:href="@{/projects/manage}" class="fancy-button medium blueRiver icon basic"><span class="icon pull-left"><i class="fa fa-chevron-left"></i></span>&nbsp;Back</a></div>
+          <div class="col-md-6">
+            <h1 class="main-title text-center">Add projects</h1>
+          </div>
+          <div class="col-md-3 text-right"><a th:href="@{/projects/manage}" class="fancy-button medium blueRiver icon basic pull-right"><span class="icon pull-left"><i class="fa fa-folder-open"></i></span>&nbsp;All projets</a></div>
         </div>
-        <div id="push"></div>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <form id="createIssueForm" data-toggle="validator" th:object="${project}" th:action="@{/project/save}" method="post" class="form-horizontal issue-full-form">
+              <div class="form-group">
+                <label for="name" th:text="#{label.project.name}" class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                  <input id="name" type="text" placeholder="Name" th:field="*{projName}" required="" maxlength="100" class="form-control">
+                  <div class="help-block with-errors"></div>
+                  <div th:if="${#fields.hasErrors('projName')}" th:errors="*{projName}" class="with-errors"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="description" th:text="#{label.project.description}" class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                  <textarea id="description" th:field="*{projDescription}" maxlength="1000" class="form-control"></textarea>
+                  <div class="help-block with-errors"></div>
+                  <div th:if="${#fields.hasErrors('projDescription')}" th:errors="*{projDescription}" class="with-errors"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="start_date" th:text="#{label.project.start}" class="col-sm-2 control-label">Start date:</label>
+                <div class="col-sm-10">
+                  <input id="start_date" type="text" th:field="*{startDate}" class="form-control logtimepicker">
+                  <div class="help-block with-errors"></div>
+                  <div th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="with-errors"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="release_date" th:text="#{label.project.release}" class="col-sm-2 control-label">Release date:</label>
+                <div class="col-sm-10">
+                  <input id="release_date" type="text" th:field="*{releaseDate}" class="form-control logtimepicker">
+                  <div class="help-block with-errors"></div>
+                  <div th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}" class="with-errors"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                  <button type="submit" class="fancy-button medium blueRiver basic nomargin">Create<span class="icon"><i class="fa fa-check-circle"></i></span></button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div id="push"></div>
     </div>
-
     <div th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'" th:remove="tag">&nbsp;</div>
-
-    <sec:authorize access="hasRole('admin')" var="isAdmin"></sec:authorize>
-    <object th:include="fragments/layout :: script" th:remove="tag"/>
-    <script th:src="@{/resources/js/createIssueCall.js}"></script>
-
-</body>
+    <object th:include="fragments/layout :: script" th:remove="tag"></object>
+  </body>
 </html>

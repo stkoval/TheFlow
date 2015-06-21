@@ -1,0 +1,38 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Add company')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/cabinet}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6
+                        h1.main-title.text-center Add company
+                    .col-md-3.text-right
+                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href='@{/cabinet}')
+                            span.icon.pull-left
+                                i.fa.fa-users
+                            | &nbsp;Cabinet
+                .row
+                    .col-md-6.col-md-offset-3.col-xs-12
+                        form(th:object='${company}', method='POST', th:action='@{/user/savecompany}', enctype='utf8', data-toggle='validator')
+                            .form-group
+                                input#companyName.form-control(type='text', placeholder='companyName', th:field='*{companyName}', required='')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('companyName')}", th:errors='*{companyName}') Name Error
+                            .form-group
+                                input#companyAlias.form-control(type='text', placeholder='companyAlias', th:field='*{companyAlias}', required='')
+                                .help-block.with-errors
+                                .with-errors(th:if="${#fields.hasErrors('companyAlias')}", th:errors='*{companyAlias}') Name Error
+                            button.fancy-button.medium.blueHole.basic.login-button(type='submit', th:text!='\#{label.form.submit}')
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

@@ -1,68 +1,57 @@
-<!DOCTYPE html SYSTEM "about:legacy-compat">
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-    <head>
+  <head>
         <title>Project details</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    </head>
-    <body>
-        <object th:include="fragments/layout :: styles" th:remove="tag" />
-
-        <div id="wrap">
-            <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
-
-            <div class="container main-content">
-                <div class="row">
-                    <div class="col-md-3 nav-col text-left">
-                        <a th:href="@{/projects/manage}" class="fancy-button medium blueRiver icon basic">
-                            <span class="icon pull-left">
-                                <i class="fa fa-chevron-left"></i>
-                            </span>
-                            &nbsp;Back
-                        </a>
-                    </div>
-                    <div class="col-md-6 nav-col text-left">
-                        <h1 class="main-title text-center" th:text="${project.projName}"></h1>
-                    </div>
-                    <div class="col-md-3 text-right">
-                        <a th:href="@{'/project/edit/' + ${project.projectId}}" class="fancy-button medium blueRiver icon basic pull-right">
-                            <span class="icon pull-left">
-                                <i class="fa fa-folder-open"></i>
-                            </span>
-                            &nbsp;Edit
-                        </a>
-                    </div>
-                </div>
-
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
-                            <table class="table table-striped table-hover table-info table-project-details">
-                                <tr>
-                                    <td th:text="#{label.project.description}" >Description</td>
-                                    <td><p class="issue-title" th:text="${project.projDescription}">Description</p></td>
-                                </tr>
-                                <tr>
-                                    <td th:text="#{label.project.company}">Company</td>
-                                    <td><p th:text="${project.companyId}">Company</p></td>
-                                </tr>
-                                <tr>
-                                    <td th:text="#{label.project.start}">Start Date</td>
-                                    <td><p class="issue-title" th:text="${project.startDate}">Start Date</p></td>
-                                </tr>
-                                <tr>
-                                    <td th:text="#{label.project.release}">Release Date</td>
-                                    <td><p class="issue-title" th:text="${project.releaseDate}">Release Date</p></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div id="push"></div>
-            </div>
-
-            <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
-
-            <object th:include="fragments/layout :: script" th:remove="tag"/>
-
-    </body>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="image_src" th:href="@{/resources/img/logo.png}">
+  </head>
+  <body>
+    <object th:include="fragments/layout :: styles" th:remove="tag"></object>
+    <div id="wrap">
+      <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-md-3 nav-col text-left"><a th:href="@{/projects/manage}" class="fancy-button medium blueRiver icon basic"><span class="icon pull-left"><i class="fa fa-chevron-left"></i></span>&nbsp;Back</a></div>
+          <div class="col-md-6 nav-col text-left">
+            <h1 th:text="${project.projName}" class="main-title text-center"></h1>
+          </div>
+          <div class="col-md-3 text-right"><a th:href="@{'/project/edit/' + ${project.projectId}}" class="fancy-button medium blueRiver icon basic pull-right"><span class="icon pull-left"><i class="fa fa-folder-open"></i></span>&nbsp;Edit</a></div>
+        </div>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <table class="table table-striped table-hover table-info table-project-details">
+              <tr>
+                <td th:text="#{label.project.description}">Description</td>
+                <td>
+                  <p th:text="${project.projDescription}" class="issue-title">Description</p>
+                </td>
+              </tr>
+              <tr>
+                <td th:text="#{label.project.company}">Company</td>
+                <td>
+                  <p th:text="${project.companyId}">Company</p>
+                </td>
+              </tr>
+              <tr>
+                <td th:text="#{label.project.start}">Start Date</td>
+                <td>
+                  <p th:text="${project.startDate}" class="issue-title">Start Date</p>
+                </td>
+              </tr>
+              <tr>
+                <td th:text="#{label.project.release}">Release Date</td>
+                <td>
+                  <p th:text="${project.releaseDate}" class="issue-title">Release Date</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="push"></div>
+    </div>
+    <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
+    <object th:include="fragments/layout :: script" th:remove="tag"></object>
+  </body>
 </html>

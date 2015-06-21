@@ -1,0 +1,35 @@
+doctype html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+html
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Error')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        .container-login
+            .outer
+                .inner
+                    .centered
+                        .row
+                            .col-md-12
+                                .logo.logo-login
+                                    i.fa.fa-paper-plane
+                                    strong.text-left
+                                        small the
+                                        b Flow
+                                .alert.alert-danger(role='alert')
+                                    span(th:text!='\#{message.fatalError}')
+                                .panel.panel-danger
+                                    .panel-heading
+                                        h3#panel-title.panel-title
+                                            span(th:text!='\#{message.fatalError}')
+                                    .panel-body
+                                        p.long(th:text!="'Failed URL: ' +  ${url}", th:remove='tag') ${url}
+                                        p(th:text!="'Exception: ' + ${exception.message}", th:remove='tag') ${exception.message}
+                                        hr
+                                        p(th:each='ste : ${exception.stackTrace}')
+                                            span(th:text!='${ste}', th:remove='tag') ${ste}
+                            .col-md-6.col-md-offset-3
+                                a.fancy-button.medium.blueHole.basic.login-button.text-center(href='javascript:history.go(-1);') Go back
+                                    span.icon
+                                        i.fa.fa-chevron-right
+        object(th:include='fragments/layout :: script', th:remove='tag')

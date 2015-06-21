@@ -1,7 +1,7 @@
 module.exports = {
     components: {
         files: {
-            '<%= package.folder %>css/compiled.min.css': [
+            '<%= package.resources %>css/compiled.min.css': [
                 'bower_components/bootstrap/dist/css/bootstrap.css',
                 'bower_components/font-awesome/css/font-awesome.css',
                 'bower_components/bootstrap-multiselect/dist/css/bootstrap-multiselect.css',
@@ -11,8 +11,18 @@ module.exports = {
                 'bower_components/bootstrap-multiselect/dist/css/bootstrap-multiselect.css',
                 'bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
                 'bower_components/bootstrap-select/dist/css/bootstrap-select.css',
-                '<%= package.folder %>css/fancy-buttons.css',
-                '<%= package.folder %>css/styles.less'
+                '<%= package.resources %>css/fancy-buttons.css',
+                '<%= package.resources %>css/styles.less'
+            ]
+        }
+    },
+    landing: {
+        files: {
+            '<%= package.resources %>css/compiled.landing.min.css': [
+                'bower_components/bootstrap/dist/css/bootstrap.css',
+                'bower_components/font-awesome/css/font-awesome.css',
+                '<%= package.resources %>css/fancy-buttons.css',
+                '<%= package.resources %>css/styles-landing.less'
             ]
         }
     },

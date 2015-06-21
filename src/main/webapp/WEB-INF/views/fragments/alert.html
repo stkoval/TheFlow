@@ -1,9 +1,14 @@
-<!DOCTYPE html SYSTEM "about:legacy-compat">
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-<body>
-<div th:fragment="alert" class="alert alert-dismissable">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <span th:text="${message}">Test</span>
-</div>
-</body>
+<!DOCTYPE html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')>
+<html>
+  <head>
+        <title>Alert</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="image_src" th:href="@{/resources/img/logo.png}"/>
+  </head>
+  <body>
+    <div th:fragment="alert" class="alert alert-dismissable">
+      <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button><span th:text="${message}">Test</span>
+    </div>
+  </body>
 </html>

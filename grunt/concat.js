@@ -14,8 +14,21 @@ module.exports = {
             'bower_components/bootstrap-switch/dist/js/bootstrap-switch.js',
             'bower_components/bootstrap-select/js/bootstrap-select.js',
             'bower_components/bootstrap-validator/js/validator.js',
-            '<%= package.folder %>js/scripts.js'
+            '<%= package.resources %>js/scripts.js'
         ],
-        dest:'<%= package.folder %>js/compiled.js'
+        dest:'<%= package.resources %>js/compiled.js'
+    },
+    landing:{
+        src:[
+            'bower_components/jquery/dist/jquery.js',
+            'bower_components/bootstrap/dist/js/bootstrap.js',
+            'bower_components/eventEmitter/EventEmitter.js',
+            'bower_components/eventie/eventie.js',
+            'bower_components/imagesloaded/imagesloaded.js',
+            'bower_components/skrollr/src/skrollr.js',
+            'bower_components/skrollr-menu/src/skrollr.menu.js',
+            '<%= package.resources %>js/scripts-landing.js'
+        ],
+        dest:'<%= package.resources %>js/compiled.landing.js'
     }
 }

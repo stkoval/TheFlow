@@ -1,0 +1,68 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Manage users')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/issue/all}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6
+                        h1.main-title.text-center Manage users
+                    .col-md-3.text-right
+                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href='@{/user/add}')
+                            span.icon.pull-left
+                                i.fa.fa-user-plus
+                            | &nbsp;Add user
+                .row
+                    .col-md-12
+                        table#usersList.table.table-striped.table-bordered(cellspacing='0', width='100%')
+                            thead
+                                tr
+                                    th Name
+                                    th Email
+                                    th Company
+                                    th.user-role-cell Role
+                                    th.tools-cell Tools
+                            tfoot
+                                tr
+                                    th Name
+                                    th Email
+                                    th Company
+                                    th Role
+                                    th.tools-cell Tools
+                            tbody
+                                tr(th:each='user_company : ${users}')
+                                    td
+                                        a(th:href='@{/user/details/} + ${user_company.user.userId}', th:text!='${user_company.user.fullName}')
+                                    td
+                                        b(th:text!='${user_company.user.email}')
+                                    td
+                                        b(th:text!='${#authentication.principal.companyName}')
+                                    td.user-role-cell
+                                        .btn-group.user-role-group
+                                            button.dropdown-toggle.fancy-button.small.asbestos.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                span(th:text!='${user_company.userRole}') User role
+                                                span.caret
+                                            ul.dropdown-menu(role='menu')
+                                                li(th:each='role : ${roles}', th:if='${user_company.userRole != role.toString()}')
+                                                    a(th:href="@{/user/} + ${user_company.user.userId}+ '/role?role=' + ${role}", th:text!='${role}') Role
+                                    td.tools-cell
+                                        .btn-group
+                                            button.dropdown-toggle.fancy-button.small.blueHole.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                i.fa.fa-cog
+                                                span.caret
+                                            ul.dropdown-menu(role='menu')
+                                                // <li><a th:href="@{/user/edit/} + ${user_company.user.userId}">Edit</a></li>
+                                                li
+                                                    a(th:href='@{/user/remove/} + ${user_company.user.userId}') Remove
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

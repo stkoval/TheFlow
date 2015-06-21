@@ -1,0 +1,9 @@
+doctype html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+html
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Alert')
+    body
+        .alert.alert-dismissable(th:fragment='alert')
+            button.close(type='button', data-dismiss='alert', aria-hidden='true') &times;
+            span(th:text!='${message}') Test
