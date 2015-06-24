@@ -66,7 +66,7 @@ html
                                                 i.glyphicon.glyphicon-new-window
                                                 |  Logout
         #sidebar.col-md-3.col-xs-12(th:fragment='sidebar')
-            a.fancy-button.medium.blueHole.basic(th:href='@{/issue/add}')
+            a.fancy-button.medium.blueHole.basic.add-issue(th:href='@{/issue/add}')
                 | New issue
                 span.icon
                     i.fa.fa-file
@@ -77,7 +77,7 @@ html
             .well.well-sm
                 h3 Projects:
                 .scroll-tree
-                    ul.nav.nav-pills.nav-stacked.sidebar(th:each='project : ${projects}')
+                    ul.nav.nav-pills.nav-stacked.sidebar.projects-list(th:each='project : ${projects}')
                         li(th:class="${project.projectId == projectId}? 'active'")
                             a(th:text!='${project.projName}', th:href="@{'/issue/byproject/' + ${project.projectId}}")
             a.fancy-button.medium.blueHole.basic(sec:authorize="hasRole('Admin')", th:href='@{/project/add}')

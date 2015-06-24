@@ -6,6 +6,12 @@
 @button-priority-width: 150px;
 @button-assignee-width: auto;
 
+.opacity (@opacity: 0.5) {
+  -webkit-opacity: 	@opacity;
+  -moz-opacity: 		@opacity;
+  opacity: 		@opacity;
+}
+
 body {
   font-family: "Open Sans", Arial, sans-serif;
   height: 100%;
@@ -49,6 +55,10 @@ a:focus {
 button.fancy-button.disabled {
   color: #3eb5f1;
   border-color: #3eb5f1;
+}
+
+a.fancy-button.disabled {
+  .opacity();
 }
 
 .blueRiver.disabled {

@@ -63,11 +63,11 @@
         </div>
       </div>
     </div>
-    <div id="sidebar" th:fragment="sidebar" class="col-md-3 col-xs-12"><a th:href="@{/issue/add}" class="fancy-button medium blueHole basic">New issue<span class="icon"><i class="fa fa-file"></i></span></a><a th:href="@{/issue/all}" class="fancy-button medium blueRiver basic">All issues<span class="icon"><i class="fa fa-user"></i></span></a>
+    <div id="sidebar" th:fragment="sidebar" class="col-md-3 col-xs-12"><a th:href="@{/issue/add}" class="fancy-button medium blueHole basic add-issue">New issue<span class="icon"><i class="fa fa-file"></i></span></a><a th:href="@{/issue/all}" class="fancy-button medium blueRiver basic">All issues<span class="icon"><i class="fa fa-user"></i></span></a>
       <div class="well well-sm">
         <h3>Projects:</h3>
         <div class="scroll-tree">
-          <ul th:each="project : ${projects}" class="nav nav-pills nav-stacked sidebar">
+          <ul th:each="project : ${projects}" class="nav nav-pills nav-stacked sidebar projects-list">
             <li th:class="${project.projectId == projectId}? 'active'"><a th:text="${project.projName}" th:href="@{'/issue/byproject/' + ${project.projectId}}"></a></li>
           </ul>
         </div>

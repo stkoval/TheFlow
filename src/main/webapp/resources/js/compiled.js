@@ -39147,6 +39147,13 @@ $(document).ready(function (e) {
 
     var dutable = $('#usersList').DataTable({"order": [[0, 'desc']], "bDestroy": true, "searching": true});
 
+    var projectList = $('.projects-list li');
+
+    if(!projectList.length) {
+        $('#sidebar .add-issue').addClass('disabled');
+        $('#sidebar .add-issue').attr('href', '');
+    }
+
     $('#logtimepicker').datetimepicker({
         pickDate: false,
         dayViewHeaderFormat: 'H'
