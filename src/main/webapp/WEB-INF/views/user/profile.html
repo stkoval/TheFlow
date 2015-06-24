@@ -20,13 +20,6 @@
         </div>
         <div class="row">
           <div class="col-md-6"><img th:src="${image}" onerror="this.src='/resources/img/no_avatar.gif'" width="100%" height="100%" class="img-responsive"></div>
-          <!-- TO CHANGE!!!-->
-          <form method="POST" th:action="@{/user/} + ${#authentication.principal.userId} + '/image'" enctype="multipart/form-data">
-            <div>
-              <input type="file" name="image" size="50">
-            </div>
-            <input type="submit" value="Change image">
-          </form>
           <div class="col-md-6">
             <h3 sec:authentication="principal.fullName" class="main-title"></h3>
             <table class="table table-striped table-hover table-info">
@@ -43,7 +36,17 @@
                 <td th:text="${#authentication.principal.role}">Role</td>
               </tr>
             </table>
-            <div class="col-md-3 nav-col text-left"><a th:href="@{/user/} + ${#authentication.principal.userId} + '/changepass'" class="fancy-button medium esmerald icon basic"><span class="icon pull-left"><i class="fa fa-edit"></i></span>&nbsp;Change password</a></div>
+            <div class="row">
+              <div class="col-md-12 mt15">
+                <form method="POST" th:action="@{/user/} + ${#authentication.principal.userId} + '/image'" enctype="multipart/form-data">
+                  <label class="control-label">Select Avatar</label>
+                  <input type="file" name="image" size="50" class="file mt15">
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mt15"><a th:href="@{/user/} + ${#authentication.principal.userId} + '/changepass'" class="fancy-button medium esmerald icon basic"><span class="icon pull-left"><i class="fa fa-edit"></i></span>&nbsp;Change password</a></div>
+            </div>
           </div>
         </div>
       </div>
