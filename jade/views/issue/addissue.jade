@@ -60,7 +60,8 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             .form-group
                                 label.col-sm-2.control-label(for='project_id', th:text!='\#{label.issue.project}') Project
                                 .col-sm-10
-                                    select#project_id.selectpicker(th:field='*{projectId}')
+                                    select#project_id.selectpicker(th:field='*{projectId}', required='', minlength='1')
+                                        option(value='') Choose project
                                         option(th:each='project : ${projects}', th:value!='${project.projectId}', th:text!='${project.projName}')
                                     .help-block.with-errors
                                     .with-errors(th:if="${#fields.hasErrors('projectId')}", th:errors='*{projectId}')

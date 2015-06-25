@@ -44,8 +44,8 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             .form-group
                                 label.col-sm-2.control-label(for='type', th:text!='\#{label.issue.type}') Type
                                 .col-sm-10
-                                    select#type.selectpicker(th:field='*{type}', required='')
-                                        option(th:each='type : ${types}', th:value='${type}', th:text!='${type}')
+                                    select#type.selectpicker(th:field='*{type}', required='required')
+                                        option(th:each!='type : ${types}', th:value!='${type}', th:text!='${type}')
                                     .help-block.with-errors
                                     .with-errors(th:if="${#fields.hasErrors('type')}", th:errors='*{type}')
                             .form-group
@@ -66,14 +66,14 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 label.col-sm-2.control-label(for='assignee_id', th:text!='\#{label.issue.assignee}') Assignee
                                 .col-sm-10
                                     select#assignee_id.selectpicker(th:field='*{assigneeId}')
-                                        // <option value="1">1</option>
                                         option(th:each='assignee : ${assignees}', th:value='${assignee.userId}', th:text!='${assignee.fullName}')
                                     .help-block.with-errors
                                     .with-errors(th:if="${#fields.hasErrors('assigneeId')}", th:errors='*{assigneeId}')
                             .form-group
                                 label.col-sm-2.control-label(for='project_id', th:text!='\#{label.issue.project}') Project
                                 .col-sm-10
-                                    select#project_id.selectpicker(th:field='*{projectId}')
+                                    select#project_id.selectpicker(th:field='*{projectId}', required='')
+                                        option(value='', th:if!='!${projectId}') Choose project
                                         option(th:each='project : ${projects}', th:value='${project.projectId}', th:text!='${project.projName}')
                                     .help-block.with-errors
                                     .with-errors(th:if="${#fields.hasErrors('projectId')}", th:errors='*{projectId}')

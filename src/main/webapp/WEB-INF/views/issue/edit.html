@@ -47,7 +47,7 @@
               <div class="form-group">
                 <label for="type" th:text="#{label.issue.type}" class="col-sm-2 control-label">Type</label>
                 <div class="col-sm-10">
-                  <select id="type" th:field="*{type}" required="" class="selectpicker">
+                  <select id="type" th:field="*{type}" required="required" class="selectpicker">
                     <option th:each="type : ${types}" th:value="${type}" th:text="${type}"></option>
                   </select>
                   <div class="help-block with-errors"></div>
@@ -78,7 +78,6 @@
                 <label for="assignee_id" th:text="#{label.issue.assignee}" class="col-sm-2 control-label">Assignee</label>
                 <div class="col-sm-10">
                   <select id="assignee_id" th:field="*{assigneeId}" class="selectpicker">
-                    <!-- <option value="1">1</option>-->
                     <option th:each="assignee : ${assignees}" th:value="${assignee.userId}" th:text="${assignee.fullName}"></option>
                   </select>
                   <div class="help-block with-errors"></div>
@@ -88,7 +87,8 @@
               <div class="form-group">
                 <label for="project_id" th:text="#{label.issue.project}" class="col-sm-2 control-label">Project</label>
                 <div class="col-sm-10">
-                  <select id="project_id" th:field="*{projectId}" class="selectpicker">
+                  <select id="project_id" th:field="*{projectId}" required="" class="selectpicker">
+                    <option value="" th:if="!${projectId}">Choose project</option>
                     <option th:each="project : ${projects}" th:value="${project.projectId}" th:text="${project.projName}"></option>
                   </select>
                   <div class="help-block with-errors"></div>

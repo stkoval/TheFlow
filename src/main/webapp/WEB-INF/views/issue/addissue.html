@@ -70,7 +70,8 @@
               <div class="form-group">
                 <label for="project_id" th:text="#{label.issue.project}" class="col-sm-2 control-label">Project</label>
                 <div class="col-sm-10">
-                  <select id="project_id" th:field="*{projectId}" class="selectpicker">
+                  <select id="project_id" th:field="*{projectId}" required="" minlength="1" class="selectpicker">
+                    <option value="">Choose project</option>
                     <option th:each="project : ${projects}" th:value="${project.projectId}" th:text="${project.projName}"></option>
                   </select>
                   <div class="help-block with-errors"></div>
