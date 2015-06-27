@@ -14,6 +14,16 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             strong.text-left
                                 small the
                                 b Flow
+                        .row
+                            .col-md-12
+                                .alert.alert-danger.alert-dismissible.fade.in(role="alert", th:if!='${error}')
+                                    button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                        span(aria-hidden="true") ×
+                                    strong(th:text!='${error}')
+                                .alert.alert-warning.alert-dismissible.fade.in(role="alert", th:if!='${warning}')
+                                    button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                        span(aria-hidden="true") ×
+                                    strong(th:text!='${warning}')
                         form#loginForm.form-signin(data-toggle='validator', th:action="@{'/j_spring_security_check'}", method='post')
                             h2.form-signin-heading Please sign in
                             .alert.alert-warning(th:if='${param.error}') Invalid input.

@@ -22,6 +22,15 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 i.fa.fa-edit
                             | &nbsp;Edit
                 .row
+                    .col-md-12
+                        .alert.alert-danger.alert-dismissible.fade.in(role="alert", th:if!='${error}')
+                            button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                span(aria-hidden="true") ×
+                            strong(th:text!='${error}')
+                        .alert.alert-warning.alert-dismissible.fade.in(role="alert", th:if!='${warning}')
+                            button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                span(aria-hidden="true") ×
+                            strong(th:text!='${warning}')
                     .col-md-6
                         img.img-responsive(th:src='${image}', onerror="this.src='/resources/img/no_avatar.gif'", width='100%', height='100%')
                     .col-md-6

@@ -80,4 +80,49 @@
         return ((elemTop <= docViewBottom) && (elemTop >= docViewTop));
     }
 
+    $('.contact-form form').submit(function () {
+
+        var name = $('.contact-form form input#name').val();
+        var email = $('.contact-form form input#email').val();
+        var message = $('.contact-form form textarea#message').val();
+
+        if(message.length && email.length && name.length) {
+
+            $(this).find('.control-group').fadeOut();
+            $(this).find('.loader').fadeIn();
+
+            $.ajax({
+                type: "POST",
+                url: "https://mandrillapp.com/api/1.0/messages/send.json",
+                data: {
+                    'key': 'Yv6DfvG9RClIzjk1BPUFbw',
+                    'message': {
+                        'from_email': 'eugenpushkaroff@gmail.com',
+                        'to': [
+                            {
+                                'email': 'skoval.mail@gmail.com',
+                                'name': name,
+                                'type': 'to'
+                            }
+                        ],
+                        'autotext': 'true',
+                        'subject': 'New Inspired Form | Name: '+name+' | Email: ' + email,
+                        'html': '<h3>Name: '+name+'<h3>'+'<h4>Email: '+email+'<h4>'+'<p>Message: '+message+'</p>'
+                    }
+                }
+            }).done(function (response) {
+                $('.contact-form form').find('.loader').fadeOut();
+                $('.contact-form form').find('.status-message-contact').fadeIn();
+            }).fail(function (jqXHR, textStatus) {
+                $('.contact-form form').find('.loader').fadeOut();
+                $('.contact-form form').find('.control-group').fadeIn();
+                $('.contact-form form').find('.status-message-contact').html(textStatus);
+                $('.contact-form form').find('.status-message-contact').fadeIn();
+            });
+        }
+
+        return false;
+
+    });
+
 })(jQuery);

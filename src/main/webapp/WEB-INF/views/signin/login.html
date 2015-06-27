@@ -13,6 +13,16 @@
         <div class="inner">
           <div class="centered">
             <div class="logo logo-login"><i class="fa fa-paper-plane"></i><strong class="text-left"><small>the</small><b>Flow</b></strong></div>
+            <div class="row">
+              <div class="col-md-12">
+                <div role="alert" th:if="${error}" class="alert alert-danger alert-dismissible fade in">
+                  <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true">×</span></button><strong th:text="${error}"></strong>
+                </div>
+                <div role="alert" th:if="${warning}" class="alert alert-warning alert-dismissible fade in">
+                  <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true">×</span></button><strong th:text="${warning}"></strong>
+                </div>
+              </div>
+            </div>
             <form id="loginForm" data-toggle="validator" th:action="@{'/j_spring_security_check'}" method="post" class="form-signin">
               <h2 class="form-signin-heading">Please sign in</h2>
               <div th:if="${param.error}" class="alert alert-warning">Invalid input.</div>

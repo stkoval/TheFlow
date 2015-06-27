@@ -98,6 +98,36 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                         .hsContent(data-center="opacity: 1;right:0px;",data-top="opacity: 1;right:0px;",data-bottom="opacity: 1;right:0px;",data-bottom-top="opacity: 0;right:-550px;", data-anchor-target="#slide-3")
                             h2 Contact us
                             p We are young and small team of professionals and enthusiasts. You can contact us for any questions by the form below. Also you can leave your feedbacks or proposals. It is very important to us!
+                            .contact-form
+                                form(method='post',data-toggle="validator", role="form")
+                                    .control-group.form-group
+                                        .row
+                                            .col-md-3
+                                                label.nameLabel(for='name') Name
+                                            .col-md-9
+                                                input#name.form-control(type='text', name='name', required="required")
+                                                .help-block.with-errors
+                                    .control-group.form-group
+                                        .row
+                                            .col-md-3
+                                                label.emailLabel(for='email') Email
+                                             .col-md-9
+                                                input#email.form-control(type='email', name='email', required="required")
+                                                .help-block.with-errors
+                                    .control-group.form-group
+                                        .row
+                                            .col-md-3
+                                                label.messageLabel(for='message') Message
+                                            .col-md-9
+                                                textarea#message.form-control(name='message', required="required")
+                                                .help-block.with-errors
+                                    .row
+                                        .col-md-12
+                                            .control-group.form-group
+                                                button.btn.btn-default(type='submit') Send
+                                            .loader
+                                                i.fa.fa-spinner.fa-spin
+                                            h1.status-message-contact OK.
                     .hsCarousel(data-center="opacity: 1;", data-top-bottom="opacity: 1;", data-anchor-target="#slide-3")
                         ul.carouselContent(data-center="opacity: 1;right:0px;",data-top="opacity: 1;right:0px;",data-bottom="opacity: 1;right:0px;",data-bottom-top="opacity: 0;right:1500px;",data-top-bottom="opacity: 0;right:-1500px;", data-anchor-target="#slide-3")
                             li.item.blue

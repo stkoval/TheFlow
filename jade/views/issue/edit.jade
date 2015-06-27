@@ -23,6 +23,14 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             | &nbsp;Issues list
                 .row
                     .col-md-12
+                        .alert.alert-danger.alert-dismissible.fade.in(role="alert", th:if!='${error}')
+                            button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                span(aria-hidden="true") ×
+                            strong(th:text!='${error}')
+                        .alert.alert-warning.alert-dismissible.fade.in(role="alert", th:if!='${warning}')
+                            button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                span(aria-hidden="true") ×
+                            strong(th:text!='${warning}')
                         form#createIssueForm.form-horizontal.issue-full-form(data-toggle='validator', th:object='${issue}', th:action='@{../update}', method='post')
                             .form-group
                                 .col-sm-10
