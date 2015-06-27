@@ -158,6 +158,12 @@ public class LoginController {
         model.addObject("companies", companies);
         return model;
     }
+    
+    @RequestMapping(value = {"/manual"}, method = RequestMethod.GET)
+    public ModelAndView showManual() {
+        ModelAndView model = new ModelAndView("/home/manual");
+        return model;
+    }
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, HibernateException exception) {
