@@ -425,6 +425,15 @@ main {
   }
 }
 
+#slide-3 {
+  .hsContainer {
+    height: @info-height+120px;
+    .hsContent {
+      height: @info-height+120px;
+    }
+  }
+}
+
 .hsCarousel {
   display: block;
   height: @carousel-img-size + 10px;
@@ -520,6 +529,23 @@ main {
   .hsContent {
     left: -550px;
     right: auto;
+  }
+}
+
+.contact-form {
+  padding:15px;
+  .control-group {
+    .row {
+      textarea {
+        height: 50px;
+      }
+    }
+  }
+  .loader {
+    display: none;
+  }
+  h1.status-message-contact {
+    display: none;
   }
 }
 

@@ -27,6 +27,7 @@ module.exports = {
             'bower_components/imagesloaded/imagesloaded.js',
             'bower_components/skrollr/src/skrollr.js',
             'bower_components/skrollr-menu/src/skrollr.menu.js',
+            'bower_components/bootstrap-validator/js/validator.js',
             '<%= package.resources %>js/scripts-landing.js'
         ],
         dest:'<%= package.resources %>js/compiled.landing.js'

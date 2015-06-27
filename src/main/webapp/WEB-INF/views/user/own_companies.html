@@ -19,6 +19,12 @@
         </div>
         <div class="row">
           <div class="col-md-12 col-xs-12">
+            <div role="alert" th:if="${error}" class="alert alert-danger alert-dismissible fade in">
+              <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true">×</span></button><strong th:text="${error}"></strong>
+            </div>
+            <div role="alert" th:if="${warning}" class="alert alert-warning alert-dismissible fade in">
+              <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true">×</span></button><strong th:text="${warning}"></strong>
+            </div>
             <table id="projectList" cellspacing="0" width="100%" class="table table-striped table-bordered">
               <thead>
                 <tr>
