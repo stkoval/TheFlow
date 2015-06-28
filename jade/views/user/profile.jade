@@ -47,7 +47,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 td(th:text!='${#authentication.principal.role}') Role
                         .row
                             .col-md-12.mt15
-                                form(method='POST', th:action="@{/user/} + ${#authentication.principal.userId} + '/image'", enctype='multipart/form-data')
+                                form.file-form(method='POST', th:action="@{/user/} + ${#authentication.principal.userId} + '/image'", enctype='multipart/form-data')
                                     label.control-label Select Avatar
                                     input.file.mt15(type='file', name='image', size='50')
                         .row

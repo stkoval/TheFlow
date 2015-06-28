@@ -10,14 +10,14 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
             .container.main-content
                 .row
                     .col-md-3.nav-col.text-left
-                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/users/manage}')
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/users/manage}', sec:authorize="hasRole('Admin')")
                             span.icon.pull-left
                                 i.fa.fa-chevron-left
                             | &nbsp;Back
                     .col-md-6.nav-col.text-left
                         h1.main-title.text-center(th:text!='${user.fullName}')
                     .col-md-3.text-right
-                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href='@{/user/add}')
+                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href='@{/user/add}', sec:authorize="hasRole('Admin')")
                             span.icon.pull-left
                                 i.fa.fa-user-plus
                             | &nbsp;Add user

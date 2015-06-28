@@ -46,7 +46,7 @@
             </table>
             <div class="row">
               <div class="col-md-12 mt15">
-                <form method="POST" th:action="@{/user/} + ${#authentication.principal.userId} + '/image'" enctype="multipart/form-data">
+                <form method="POST" th:action="@{/user/} + ${#authentication.principal.userId} + '/image'" enctype="multipart/form-data" class="file-form">
                   <label class="control-label">Select Avatar</label>
                   <input type="file" name="image" size="50" class="file mt15">
                 </form>

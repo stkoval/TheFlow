@@ -60,7 +60,8 @@ html
                                         li.dropdown
                                             a.dropdown-toggle(href='/profile', th:href='@{/profile}')
                                                 i.fa.fa-user
-                                                span(sec:authentication='principal.fullName')  Profile
+                                                | &nbsp;
+                                                span(sec:authentication='principal.fullName') Profile
                                         li
                                             a.text-primary(href='/logout', th:href='@{/logout}')
                                                 i.glyphicon.glyphicon-new-window
