@@ -1,70 +1,100 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+  <head>
+        <title>Manual</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <h1>User manual</h1>
-        <ol>
-            <li><strong>New company registration</strong>
-                <p></p>
+        <link rel="image_src" th:href="@{/resources/img/logo.png}">
+  </head>
+  <body>
+    <object th:include="fragments/layout :: styles" th:remove="tag"></object>
+    <div id="wrap">
+      <div class="container-fluid header-container navbar-fixed-top">
+        <div class="container header-centred">
+          <div id="header" class="header row">
+            <div class="navbar">
+              <div class="navbar-header col-md-3"><a th:href="@{/index}" class="navbar-brand logo logo-top"><i class="fa fa-paper-plane"></i>&nbsp;<strong class="text-left"><small>the</small><b>Flow</b></strong></a></div>
+              <div id="top-navbar" class="collapse navbar-collapse">
+                <div class="col-md-3 col-xs-3"></div>
+                <div class="col-md-6 col-xs-6">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout" th:href="@{/user/registration}" class="text-primary"><i class="fa fa-user-plus"></i> Sign up</a></li>
+                    <li><a href="/logout" th:href="@{/login}" class="text-primary"><i class="fa fa-paper-plane"></i> Sign in</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-md-3 nav-col text-left"></div>
+          <div class="col-md-6">
+            <h1 class="main-title text-center">User manual</h1>
+          </div>
+          <div class="col-md-3 text-right"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">New company registration</div>
+              <div class="panel-body">
+                <p>If you already have your own company registered, or someone added you to his company, you can enter your cabinet by pressing button &quot;Cabinet&quot; on the start page and entering your username and password, which is the same for all companies you are related to. Press &quot;Add company&quot; button from your cabinet to add new company.</p>
+                <p>If you are a new user to the system, press &quot;Registration button&quot; on the start page. You will be redirected to the form, where you need to input your registration data. The new company with the new admin user will be created.</p>
+                <p>During registering a new company, you have to input your company name and company alias &ndash; short one-word name with only letters and digits allowed.</p>
+              </div>
+            </div>
+            <div class="panel panel-primary">
+              <div class="panel-heading">Signing in</div>
+              <div class="panel-body">
+                <p>You have two ways to sign in:</p>
                 <ul>
-                    <li>If you already have your own company registered, or someone added you to his company, you can enter your cabinet by pressing button "Cabinet" on the start page and entering your username and password, which is the same for all companies you are related to. Press "Add company" button from your cabinet to add new company.</li>
-                    <li>If you are a new user to the system, press "Registration button" on the start page. You will be redirected to the form, where you need to input your registration data. The new company with the new admin user will be created.</li>
+                  <li>Enter your own cabinet by pressing &quot;Cabinet&quot; button on the start page. You will see all companies you are related to, and you can simply login any of them, by pressing &quot;Sign in&quot; button at the end of the row with the company.</li>
+                  <li>Enter &quot;Login button&quot; on the start page. Here you can login to a specific company. You need to input company alias here.</li>
                 </ul>
-                <p></p>
-                <div>During registering a new company, you have to input your company name and company alias – short one-word name with only letters and digits allowed.</div>
-                <p></p>
-            </li>
-            <li><strong>Signing in</strong>
-                <p></p>
-                <div>You have two ways to sign in:</div>
-                <ul>
-                    <li>Enter your own cabinet by pressing "Cabinet" button on the start page. You will see all companies you are related to, and you can simply login any of them, by pressing "Sign in" button at the end of the row with the company.</li>
-                    <li>Enter "Login button" on the start page. Here you can login to a specific company. You need to input company alias here.</li>
-                </ul>
-                <p></p>
-            </li>
-            <li><strong>Your cabinet</strong>
-                <p></p>
-                <div>You can access your own cabinet by pressing "Cabinet" button on the start page.</div>
-                <p></p>
-                <div>In your cabinet you can see the list of companies you are registered in with your security role in every company. Also you can sign in in every company you see by pressing "Sign in" button</div>
-                <p></p>
-                <div>Also you can manage companies which you created. To manage own companies press the button "Own companies" om the cabinet page.</div>
-                <p></p>
-            </li>
-            <li><strong>Starting to work</strong>
-                <p></p>
-                <div>After you have signed in you are on the home page. You can change your password on your profile page in the top right corner of the page.</div>
-                <p></p>
-                <div>It has to be at least one project created to create new issue. Only admin users can create new projects. You can find your security role on your profile page.</div>
-                <p></p>
-            </li>
-            <li><strong>Creating a new project (is available only for admin users)</strong>
-                <p></p>
-                <div>You can create a new project from the home page, after you have signed in. Press "New project" button to create a new project.</div>
-                <p></p>
-                <div>Also, you can create a new project from Admin tools → Manage projects →Add project</div>
-                <p></p>
-            </li>
-            <li><strong>Adding users to your company (is available only for admin users)</strong>
-                <p></p>
-                <div>You can add a new user to your company by following Admin tools → Manage users →Add user. You need to input new user's credentials. If the user with input email is already exists, system will alert you and you will be able to add existing user to your company with special form. User role will be assigned to added users in scope of your company.</div>
-                <p></p>
-            </li>
-            <li><strong>Managing users and projects (is available only for admin users)</strong>
-                <p></p>
-                <div>To add/remove/update users or projects go to Admin tools on the top of the home page.</div>
-                <p></p>
-            </li>
-        </ol>
-    </body>
+              </div>
+            </div>
+            <div class="panel panel-primary">
+              <div class="panel-heading">Your cabinet</div>
+              <div class="panel-body">
+                <p>You can access your own cabinet by pressing &quot;Cabinet&quot; button on the start page.</p>
+                <p>In your cabinet you can see the list of companies you are registered in with your security role in every company. Also you can sign in in every company you see by pressing &quot;Sign in&quot; button</p>
+                <p>Also you can manage companies which you created. To manage own companies press the button &quot;Own companies&quot; om the cabinet page.</p>
+              </div>
+            </div>
+            <div class="panel panel-primary">
+              <div class="panel-heading">Starting to work</div>
+              <div class="panel-body">
+                <p>After you have signed in you are on the home page. You can change your password on your profile page in the top right corner of the page.</p>
+                <p>It has to be at least one project created to create new issue. Only admin users can create new projects. You can find your security role on your profile page.</p>
+              </div>
+            </div>
+            <div class="panel panel-primary">
+              <div class="panel-heading">Creating a new project (is available only for admin users)</div>
+              <div class="panel-body">
+                <p>You can create a new project from the home page, after you have signed in. Press &quot;New project&quot; button to create a new project.</p>
+                <p>Also, you can create a new project from Admin tools &rarr; Manage projects &rarr;Add project</p>
+              </div>
+            </div>
+            <div class="panel panel-primary">
+              <div class="panel-heading">Adding users to your company (is available only for admin users)</div>
+              <div class="panel-body">
+                <p>You can add a new user to your company by following Admin tools &rarr; Manage users &rarr;Add user. You need to input new user&apos;s credentials. If the user with input email is already exists, system will alert you and you will be able to add existing user to your company with special form. User role will be assigned to added users in scope of your company.</p>
+              </div>
+            </div>
+            <div class="panel panel-primary">
+              <div class="panel-heading">Managing users and projects (is available only for admin users)</div>
+              <div class="panel-body">
+                <p>To add/remove/update users or projects go to Admin tools on the top of the home page.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="push"></div>
+    </div>
+    <div th:include="fragments/layout :: footer" th:remove="tag">&nbsp;</div>
+    <object th:include="fragments/layout :: script" th:remove="tag"></object>
+  </body>
 </html>
