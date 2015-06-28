@@ -88,7 +88,7 @@
 
         if(message.length && email.length && name.length) {
 
-            $(this).find('.control-group').fadeOut();
+            $(this).find('.control-group').fadeOut(0);
             $(this).find('.loader').fadeIn();
 
             $.ajax({

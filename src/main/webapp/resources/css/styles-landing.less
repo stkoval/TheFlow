@@ -52,6 +52,12 @@
   background-clip:         padding-box;
 }
 
+.box-shadow (@string) {
+  -webkit-box-shadow: @string;
+  -moz-box-shadow:    @string;
+  box-shadow:         @string;
+}
+
 #animation {
 
   .keyframes (@name, @from, @to, @vendor:"", @bind:"") {
@@ -427,10 +433,70 @@ main {
 
 #slide-3 {
   .hsContainer {
-    height: @info-height+120px;
+    height: @info-height+130px;
     .hsContent {
-      height: @info-height+120px;
+      height: @info-height+130px;
     }
+  }
+}
+
+.contact-form {
+  padding:15px;
+  position: relative;
+  .control-group {
+    &.form-group {
+      margin-bottom: 0;
+    }
+    .row {
+      .help-block {
+        min-height: 20px;
+      }
+      input.form-control {
+        background: fade(#FFF, 25%);
+        border: none !important;
+        .box-shadow(none);
+        color: #FFF;
+        .border-radius(0);
+      }
+      textarea {
+        height: 50px;
+        background: fade(#FFF, 25%);
+        border: none !important;
+        .box-shadow(none);
+        color: #FFF;
+        .border-radius(0);
+      }
+    }
+    button.btn.btn-default {
+      .border-radius(0);
+      text-transform: uppercase;
+      padding:6px 40px;
+      font-weight: 600;
+      &:disabled {
+
+      }
+    }
+  }
+  .loader {
+    display: none;
+    position: absolute;
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 30px !important;
+    line-height: 30px !important;
+    margin:-15px 0 0 -15px;
+    top:50%;
+    left:50%;
+    i {
+      color: #FFF;
+      font-size: 30px !important;
+      line-height: 30px !important;
+      display: inline-block;
+    }
+  }
+  h3.status-message-contact {
+    display: none;
+    text-align: center;
   }
 }
 
@@ -529,23 +595,6 @@ main {
   .hsContent {
     left: -550px;
     right: auto;
-  }
-}
-
-.contact-form {
-  padding:15px;
-  .control-group {
-    .row {
-      textarea {
-        height: 50px;
-      }
-    }
-  }
-  .loader {
-    display: none;
-  }
-  h1.status-message-contact {
-    display: none;
   }
 }
 
