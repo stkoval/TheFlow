@@ -107,6 +107,7 @@
                   <input id="estimated_time" type="text" value="00:00" placeholder="EstimatedTime" th:field="*{estimatedTime}" class="form-control logtimerange">
                   <div class="help-block with-errors"></div>
                   <div th:if="${#fields.hasErrors('estimatedTime')}" th:errors="*{estimatedTime}" class="with-errors"></div>
+                  <input id="logged_time" type="hidden" value="00:00" placeholder="LoggedTime" th:field="*{loggedTime}" class="form-control">
                 </div>
               </div>
               <div class="form-group">

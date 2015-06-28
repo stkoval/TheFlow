@@ -91,6 +91,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                     input#estimated_time.form-control.logtimerange(type='text', value='00:00', placeholder='EstimatedTime', th:field='*{estimatedTime}')
                                     .help-block.with-errors
                                     .with-errors(th:if="${#fields.hasErrors('estimatedTime')}", th:errors='*{estimatedTime}')
+                                    input#logged_time.form-control(type='hidden', value='00:00', placeholder='LoggedTime', th:field='*{loggedTime}')
                             .form-group
                                 .col-sm-10.col-sm-offset-2
                                     button.fancy-button.medium.blueRiver.basic.nomargin(type='submit') Save
