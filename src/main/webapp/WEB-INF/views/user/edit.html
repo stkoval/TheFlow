@@ -12,11 +12,11 @@
       <div th:include="fragments/layout :: header" th:remove="tag">&nbsp;</div>
       <div class="container main-content">
         <div class="row">
-          <div class="col-md-3 nav-col text-left"><a th:href="@{/users/manage}" class="fancy-button medium blueRiver icon basic"><span class="icon pull-left"><i class="fa fa-chevron-left"></i></span>&nbsp;Back</a></div>
+          <div class="col-md-3 nav-col text-left"><a th:href="@{/users/manage}" sec:authorize="hasRole('Admin')" class="fancy-button medium blueRiver icon basic"><span class="icon pull-left"><i class="fa fa-chevron-left"></i></span>&nbsp;Back</a></div>
           <div class="col-md-6 nav-col text-left">
             <h1 th:text="${user.fullName}" class="main-title text-center"></h1>
           </div>
-          <div class="col-md-3 text-right"><a th:href="@{/user/add}" class="fancy-button medium blueRiver icon basic pull-right"><span class="icon pull-left"><i class="fa fa-user-plus"></i></span>&nbsp;Add user</a></div>
+          <div class="col-md-3 text-right"><a th:href="@{/user/add}" sec:authorize="hasRole('Admin')" class="fancy-button medium blueRiver icon basic pull-right"><span class="icon pull-left"><i class="fa fa-user-plus"></i></span>&nbsp;Add user</a></div>
         </div>
         <div class="row">
           <div class="col-md-6 col-md-offset-3 col-xs-12">

@@ -15995,7 +15995,7 @@ function makeArray( obj ) {
 
         if(message.length && email.length && name.length) {
 
-            $(this).find('.control-group').fadeOut();
+            $(this).find('.control-group').fadeOut(0);
             $(this).find('.loader').fadeIn();
 
             $.ajax({
@@ -16013,7 +16013,7 @@ function makeArray( obj ) {
                             }
                         ],
                         'autotext': 'true',
-                        'subject': 'New Inspired Form | Name: '+name+' | Email: ' + email,
+                        'subject': 'New The Flow Form | Name: '+name+' | Email: ' + email,
                         'html': '<h3>Name: '+name+'<h3>'+'<h4>Email: '+email+'<h4>'+'<p>Message: '+message+'</p>'
                     }
                 }
