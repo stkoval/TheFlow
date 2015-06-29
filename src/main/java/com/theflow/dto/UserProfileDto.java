@@ -16,14 +16,16 @@ public class UserProfileDto {
     @NotNull
     @NotEmpty
     @Size(min = 2, max = 30)
-    @Pattern(message="Symbols.username.invalid", regexp="^[a-zA-Z]+$")
+    @Pattern(message="Invalid symbols. Please, use only letters", regexp="^[a-zA-Z]+$")
     private String firstName;
     
     @NotNull
     @NotEmpty
     @Size(min = 2, max = 30)
-    @Pattern(message="Symbols.username.invalid", regexp="^[a-zA-Z]+$")
+    @Pattern(message="Invalid symbols. Please, use only letters", regexp="^[a-zA-Z]+$")
     private String lastName;
+    
+    private String fullName;
     
     public int getUserId() {
         return userId;
@@ -49,4 +51,11 @@ public class UserProfileDto {
         this.lastName = lastName;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 }
