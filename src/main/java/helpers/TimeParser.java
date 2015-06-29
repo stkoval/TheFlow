@@ -8,7 +8,7 @@ public class TimeParser {
     public static int parse(String sTime) {
         int hours = 0;
         int minutes = 0;
-        if (sTime == null) {
+        if (sTime == null || sTime.equals("")) {
             return 0;
         }
         String timeArr[] = sTime.split(":");
