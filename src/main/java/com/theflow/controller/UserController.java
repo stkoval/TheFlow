@@ -71,10 +71,10 @@ public class UserController {
         User user = userService.getUserById(userService.getPrincipal().getUserId());
 
         model.addObject("user", user);
-        
+
         byte[] profileImage = user.getImage();
         if (profileImage != null && profileImage.length > 0) {
-            
+
             Base64.Encoder base64Encoder = Base64.getEncoder();
             StringBuilder imageString = new StringBuilder();
             imageString.append("data:image/jpeg;base64,");
@@ -297,7 +297,7 @@ public class UserController {
         model.addObject("current_role", uc.getUserRole());
         byte[] profileImage = user.getImage();
         if (profileImage != null && profileImage.length > 0) {
-            
+
             Base64.Encoder base64Encoder = Base64.getEncoder();
             StringBuilder imageString = new StringBuilder();
             imageString.append("data:image/jpeg;base64,");
