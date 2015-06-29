@@ -18,10 +18,11 @@ module.exports = function(grunt) {
         'uglify:landing',
         'recess:components',
         'recess:landing',
+        'pleeease:custom',
         'jade:compile',
         'copy:fonts']);
     gtx.alias('build:js',  ['concat:components','uglify:components','concat:landing','uglify:landing']);
-    gtx.alias('build:css',  ['recess:components','recess:landing']);
+    gtx.alias('build:css',  ['recess:components','recess:landing','pleeease:custom']);
     gtx.alias('build:html',  ['jade:compile']);
     gtx.finalise();
 }
