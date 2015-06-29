@@ -23,7 +23,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             | &nbsp;All users
                 .row
                     .col-md-6
-                        img.img-responsive(src='/resources/img/no_avatar.gif', width='100%')
+                        img.img-responsive(th:src='${image}', src='/resources/img/no_avatar.gif', width='100%', height='100%')
                     .col-md-6
                         table.table.table-striped.table-hover.table-info
                             tr

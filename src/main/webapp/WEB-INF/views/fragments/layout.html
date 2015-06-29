@@ -53,7 +53,7 @@
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="#" th:href="@{/projects/manage}">Manage projects</a></li>
                       </ul>
                     </li>
-                    <li class="dropdown"><a href="/profile" th:href="@{/profile}" class="dropdown-toggle"><i class="fa fa-user"></i><span sec:authentication="principal.fullName"> Profile</span></a></li>
+                    <li class="dropdown"><a href="/profile" th:href="@{/profile}" class="dropdown-toggle"><i class="fa fa-user"></i>&nbsp;<span sec:authentication="principal.fullName">Profile</span></a></li>
                     <li><a href="/logout" th:href="@{/logout}" class="text-primary"><i class="glyphicon glyphicon-new-window"></i> Logout</a></li>
                   </ul>
                 </div>

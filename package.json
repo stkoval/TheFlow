@@ -16,6 +16,7 @@
         "grunt-recess": "^1.0.0",
         "grunt-contrib-jade": "latest",
         "grunt-contrib-watch": "^0.6.1",
+        "grunt-pleeease": "^1.3",
         "require-directory": "^2.0.0"
     }
 }
