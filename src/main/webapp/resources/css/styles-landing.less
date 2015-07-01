@@ -699,7 +699,50 @@ main {
   *zoom: 1;
 }
 
-@media  screen and (max-height: 780px) {
+
+@media screen and (max-width: 1024px), screen and (max-height: 768px) {
+  .hsContainer {
+    height: @info-height - 100px;
+    .hsContent {
+      height: @info-height - 100px;
+      h2 {
+        font-size: 18px;
+        line-height: 18px;
+        padding: 5px 10px 5px 10px;
+      }
+      p {
+        padding: 0 10px 5px 10px;
+        font-size: 12px;
+        line-height: 16px;
+        color: #FFF;
+        strong {
+          color:@flow-red;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  #slide-1 {
+    .hsContainer {
+      height: @info-height - 60px;
+      .hsContent {
+        height: @info-height - 60px;
+      }
+    }
+  }
+  #slide-3 {
+    .hsContainer {
+      height: @info-height - 60px;
+      .hsContent {
+        height: @info-height - 60px;
+        font-size: 14px;
+        line-height: 16px;
+        .contact-form {
+          display: none;
+        }
+      }
+    }
+  }
   .hsCarousel {
     bottom: 20px;
     .carouselContent {
@@ -732,46 +775,6 @@ main {
             height: 15px;
             font-size: 10px;
             line-height: 15px;
-          }
-        }
-      }
-    }
-  }
-}
-
-@media  screen and (max-width: 1230px) {
-  .hsCarousel {
-    bottom: 20px;
-    .carouselContent {
-      .item {
-        margin: 0px 5px;
-        width: @carousel-img-size + @carousel-img-padding*2;
-        height: @carousel-img-size + @carousel-img-padding*2;
-        padding: @carousel-img-padding/2;
-        img {
-          width: @carousel-img-size;
-          height: @carousel-img-size;
-        }
-        a {
-          width: @carousel-img-size;
-          height: @carousel-img-size;
-          i.fa {
-            width: @carousel-img-size;
-            height: @carousel-img-size - 30px;
-            font-size: @carousel-img-size - 50px;
-            line-height: @carousel-img-size - 30px;
-          }
-          i.glyphicon {
-            width: @carousel-img-size;
-            height: @carousel-img-size - 30px;
-            font-size: @carousel-img-size - 50px;
-            line-height: @carousel-img-size - 30px;
-          }
-          span {
-            width: @carousel-img-size;
-            height: 30px;
-            font-size: 18px;
-            line-height: 30px;
           }
         }
       }
