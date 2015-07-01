@@ -1,7 +1,7 @@
 module.exports = {
     custom: {
         options: {
-            "minifier": true,
+            "minifier": {preserveHacks: true, removeAllComments: true},
             "mqpacker": true,
             "less": false
         },
