@@ -40,7 +40,7 @@
                   <select id="search-issue-top" multiple="multiple" rel="&lt;i class='fa fa-search'&gt;&lt;/i&gt; Search issues" th:case="'/issue/byproject/' + ${projectId}">
                     <option value="all" label-type="label-primary">All</option>
                     <option value="High-filter" data-col="4" label-type="label-success">High priority</option>
-                    <option value="New-filter&quot;" data-col="2" label-type="label-warning">Recent</option>
+                    <option value="New-filter" data-col="2" label-type="label-warning">Recent</option>
                     <option th:value="${#authentication.principal.fullName + '-filter'}" data-col="5" label-type="label-info">Assigned to me</option>
                     <option value="Bug-filter" data-col="3" label-type="label-danger">Bug</option>
                   </select>
