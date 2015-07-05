@@ -43,10 +43,11 @@
                 <input id="password" type="password" name="password" placeholder="Password" required="required" data-error="Please, enter your password" data-minlength="6" data-minlength-error="Your password is too short, minimum 6 characters required" class="form-control">
                 <div class="help-block with-errors"></div>
               </div>
-              <div class="checkbox">
-                <label></label>
-                <input type="checkbox" value="remember-me">Remember me
-              </div>
+              <!--.checkbox
+              label
+              input(type='checkbox', value='remember-me')
+              | Remember me
+              -->
               <div class="row buttons-row">
                 <div class="col-md-4"><a th:href="@{/user/registration}" class="fancy-button medium asbestos basic login-button text-center">Sign up<span class="icon"><i class="fa fa-user-plus"></i></span></a></div>
                 <div class="col-md-4">

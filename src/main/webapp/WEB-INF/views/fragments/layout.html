@@ -19,7 +19,7 @@
           <div id="header" class="header row">
             <div class="navbar">
               <div class="navbar-header col-md-3">
-                <button type="button" data-toggle="collapse" data-target="#top-navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a th:href="@{/home}" class="navbar-brand logo logo-top hidden-xs"><i class="fa fa-paper-plane"></i>&nbsp;<strong class="text-left"><small>the</small><b>Flow</b></strong></a>
+                <button type="button" data-toggle="collapse" data-target="#top-navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a th:href="@{/index}" th:if="${#authentication.principal.role} == 'Cabinet'" class="navbar-brand logo logo-top hidden-xs"><i class="fa fa-paper-plane"></i>&nbsp;<strong class="text-left"><small>the</small><b>Flow</b></strong></a><a th:href="@{/home}" th:if="${#authentication.principal.role} != 'Cabinet'" class="navbar-brand logo logo-top hidden-xs"><i class="fa fa-paper-plane"></i>&nbsp;<strong class="text-left"><small>the</small><b>Flow</b></strong></a>
               </div>
               <div id="top-navbar" class="collapse navbar-collapse">
                 <div th:switch="${#httpServletRequest.requestURI}" class="col-md-3 col-xs-3">

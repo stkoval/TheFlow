@@ -20,7 +20,13 @@ html
                                     span.icon-bar
                                     span.icon-bar
                                     span.icon-bar
-                                a.navbar-brand.logo.logo-top.hidden-xs(th:href='@{/home}')
+                                a.navbar-brand.logo.logo-top.hidden-xs(th:href='@{/index}', th:if!="${#authentication.principal.role} == 'Cabinet'")
+                                    i.fa.fa-paper-plane
+                                    | &nbsp;
+                                    strong.text-left
+                                        small the
+                                        b Flow
+                                a.navbar-brand.logo.logo-top.hidden-xs(th:href='@{/home}', th:if!="${#authentication.principal.role} != 'Cabinet'")
                                     i.fa.fa-paper-plane
                                     | &nbsp;
                                     strong.text-left
