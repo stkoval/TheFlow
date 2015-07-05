@@ -39179,7 +39179,7 @@ $(document).ready(function (e) {
         buttonText: function (options, select) {
             var sValue = $('.dataTables_filter input').val();
             dtable.search('').columns().search('').draw();
-            $('.dataTables_filter input').val(sValue);
+            $('.dataTables_filter input').val(sValue.replace('"', ""));
 
             if (options.length === 0) {
                 $.removeCookie('filterFlow');
@@ -39194,11 +39194,11 @@ $(document).ready(function (e) {
 
                     var labelType = 'label-info';
 
-                    var $filter = $(this).val();
+                    var $filter = $(this).val().replace('"', "");
                     var $col = $(this).attr('data-col');
 
                     if ($(this).attr('label-type') !== undefined) {
-                        labelType = $(this).attr('label-type');
+                        labelType = $(this).attr('label-type').replace('"', "");
                     }
 
                     if ($(this).attr('label') !== undefined) {
@@ -39214,7 +39214,7 @@ $(document).ready(function (e) {
                         clearLabels.push('<span class="label ' + labelType + '">' + $(this).html() + '</span>');
                     }
                     else {
-                        console.log($filter);
+                        //console.log($filter);
                         dtable.column($col).search($filter).draw();
                         $('.dataTables_filter input').val(sValue);
                     }

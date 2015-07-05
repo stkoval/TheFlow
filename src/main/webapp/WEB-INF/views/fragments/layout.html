@@ -19,7 +19,7 @@
           <div id="header" class="header row">
             <div class="navbar">
               <div class="navbar-header col-md-3">
-                <button type="button" data-toggle="collapse" data-target="#top-navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a th:href="@{/home}" class="navbar-brand logo logo-top hidden-xs"><i class="fa fa-paper-plane"></i>&nbsp;<strong class="text-left"><small>the</small><b>Flow</b></strong></a>
+                <button type="button" data-toggle="collapse" data-target="#top-navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a th:href="@{/index}" th:if="${#authentication.principal.role} == 'Cabinet'" class="navbar-brand logo logo-top hidden-xs"><i class="fa fa-paper-plane"></i>&nbsp;<strong class="text-left"><small>the</small><b>Flow</b></strong></a><a th:href="@{/home}" th:if="${#authentication.principal.role} != 'Cabinet'" class="navbar-brand logo logo-top hidden-xs"><i class="fa fa-paper-plane"></i>&nbsp;<strong class="text-left"><small>the</small><b>Flow</b></strong></a>
               </div>
               <div id="top-navbar" class="collapse navbar-collapse">
                 <div th:switch="${#httpServletRequest.requestURI}" class="col-md-3 col-xs-3">
@@ -40,7 +40,7 @@
                   <select id="search-issue-top" multiple="multiple" rel="&lt;i class='fa fa-search'&gt;&lt;/i&gt; Search issues" th:case="'/issue/byproject/' + ${projectId}">
                     <option value="all" label-type="label-primary">All</option>
                     <option value="High-filter" data-col="4" label-type="label-success">High priority</option>
-                    <option value="New-filter&quot;" data-col="2" label-type="label-warning">Recent</option>
+                    <option value="New-filter" data-col="2" label-type="label-warning">Recent</option>
                     <option th:value="${#authentication.principal.fullName + '-filter'}" data-col="5" label-type="label-info">Assigned to me</option>
                     <option value="Bug-filter" data-col="3" label-type="label-danger">Bug</option>
                   </select>

@@ -20,7 +20,13 @@ html
                                     span.icon-bar
                                     span.icon-bar
                                     span.icon-bar
-                                a.navbar-brand.logo.logo-top.hidden-xs(th:href='@{/home}')
+                                a.navbar-brand.logo.logo-top.hidden-xs(th:href='@{/index}', th:if!="${#authentication.principal.role} == 'Cabinet'")
+                                    i.fa.fa-paper-plane
+                                    | &nbsp;
+                                    strong.text-left
+                                        small the
+                                        b Flow
+                                a.navbar-brand.logo.logo-top.hidden-xs(th:href='@{/home}', th:if!="${#authentication.principal.role} != 'Cabinet'")
                                     i.fa.fa-paper-plane
                                     | &nbsp;
                                     strong.text-left
@@ -43,7 +49,7 @@ html
                                     select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/issue/byproject/' + ${projectId}")
                                         option(value='all', label-type='label-primary') All
                                         option(value='High-filter', data-col='4', label-type='label-success') High priority
-                                        option(value='New-filter"', data-col='2', label-type='label-warning') Recent
+                                        option(value='New-filter', data-col='2', label-type='label-warning') Recent
                                         option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
                                         option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
                                 .col-md-6.col-xs-6

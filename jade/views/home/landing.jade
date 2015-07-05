@@ -134,20 +134,20 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                             h3.status-message-contact Form is send. Thank you for feedback.
                     .hsCarousel(data-center="opacity: 1;", data-top-bottom="opacity: 1;", data-anchor-target="#slide-3")
                         ul.carouselContent(data-center="opacity: 1;right:0px;",data-top="opacity: 1;right:0px;",data-bottom="opacity: 1;right:0px;",data-bottom-top="opacity: 0;right:1500px;",data-top-bottom="opacity: 0;right:-1500px;", data-anchor-target="#slide-3")
-                            li.item.blue
+                            //li.item.blue
                                 a(href="https://www.facebook.com/profile.php?id=100003958631050", target="_blank")
                                     i.fa.fa-facebook
                                     span Facebook
-                            li.item.blue
+                            //li.item.blue
                                 a(href="http://vk.com/dhammiko", target="_blank")
                                     i.fa.fa-vk
                                     span Vkontakte
                             li.item.blue
-                                a(href="https://www.linkedin.com/profile/view?id=168603661", target="_blank")
+                                a(href="https://www.linkedin.com/profile/view?id=168603661", target="_blank", data-toggle="tooltip", data-placement="top", title="168603661")
                                     i.fa.fa-linkedin
                                     span Linkedin
                             li.item.blue
-                                a(href="mailto:skoval.mail@gmail.com", target="_blank")
+                                a(href="mailto:skoval.mail@gmail.com", target="_blank", data-toggle="tooltip", data-placement="top", title="skoval.mail@gmail.com")
                                     i.fa.fa-envelope
                                     span Email
         script(src="js/compiled.landing.min.js", type="text/javascript", th:src="@{/resources/js/compiled.landing.min.js}")
