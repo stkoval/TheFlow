@@ -1,6 +1,6 @@
 module.exports = {
     scripts: {
-        files: ['jade/views/*.jade'],
+        files: ['jade/views/**/*.jade'],
         tasks: ['jade']
     },
     styles: {

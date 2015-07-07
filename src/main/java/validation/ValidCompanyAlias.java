@@ -25,7 +25,7 @@ import javax.validation.Payload;
 @Documented
 public @interface ValidCompanyAlias {
 
-    String message() default "Invalid Email";
+    String message() default "Invalid company alias";
 
     Class<?>[] groups() default {};
 
