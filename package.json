@@ -2,7 +2,7 @@
     "name": "theflow",
     "description": "jirakiller",
     "resources": "src/main/webapp/resources/",
-    "views": "src/main/webapp/WEB-INF/views",
+    "views": "src/main/webapp/WEB-INF/views/",
     "repository": "https://bitbucket.org/ksepinc/theflow",
     "dependencies": {},
     "devDependencies": {

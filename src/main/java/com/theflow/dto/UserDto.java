@@ -20,13 +20,13 @@ public class UserDto {
     @NotNull
     @NotEmpty
     @Size(min = 2, max = 30)
-    @Pattern(message="Invalid symbols. Please, use only letters", regexp="^[a-zA-Z]+$")
+    @Pattern(message="Invalid symbols. Please, use only letters", regexp="^[a-zA-Zа-яА-Я]+$")
     private String firstName;
     
     @NotNull
     @NotEmpty
     @Size(min = 2, max = 30)
-    @Pattern(message="Invalid symbols. Please, use only letters", regexp="^[a-zA-Z]+$")
+    @Pattern(message="Invalid symbols. Please, use only letters", regexp="^[a-zA-Zа-яА-Я]+$")
     private String lastName;
     
     @ValidEmail

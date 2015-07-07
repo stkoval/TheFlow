@@ -105,7 +105,7 @@ public class UserController {
         return model;
     }
 
-    //save account user after registration procees from login page
+    //save account user after registration process from login page
     @RequestMapping(value = "/user/saveaccount", method = RequestMethod.POST)
     public ModelAndView registerAccount(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
         ModelAndView model = new ModelAndView("signin/login");

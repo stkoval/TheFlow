@@ -12,7 +12,7 @@ import javax.validation.ConstraintValidatorContext;
 public class CompanyAliasValidator implements ConstraintValidator<ValidCompanyAlias, String> {
     private Pattern pattern;
     private Matcher matcher;
-    private static final String COMPANY_ALIAS_PATTERN = "^([a-z])+(_?\\d*([a-z0-9])*)*([a-z0-9]+)$";
+    private static final String COMPANY_ALIAS_PATTERN = "^([a-zа-я])+(_?\\d*([a-zа-я0-9])*)*([a-zа-я0-9]+)$";
 
     @Override
     public void initialize(ValidCompanyAlias constraintAnnotation) {
