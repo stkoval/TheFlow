@@ -2,14 +2,17 @@ package com.theflow.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -29,6 +32,14 @@ public class Issue implements Serializable {
 
     public void setCompanyId(int companyId) {
         this.companyId = companyId;
+    }
+
+    public byte[] getAttach() {
+        return attach;
+    }
+
+    public void setAttach(byte[] attach) {
+        this.attach = attach;
     }
 
     public static enum IssueType {
@@ -179,6 +190,11 @@ public class Issue implements Serializable {
     
     @Column(name = "company_id")
     private int companyId;
+    
+    @Column(name = "picture", unique = false, length = 3072)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] attach;
 
     public Issue() {
     }
@@ -286,6 +302,8 @@ public class Issue implements Serializable {
     public void setLastModificationDate(Date lastModificationDate) {
         this.lastModificationDate = lastModificationDate;
     }
+    
+    
 
     @Override
     public int hashCode() {

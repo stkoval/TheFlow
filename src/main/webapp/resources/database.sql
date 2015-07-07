@@ -138,6 +138,7 @@ logged_time varchar(10),
 creation_date datetime null,
 modification_date datetime null,
 company_id int not null,
+attach blob(15728640),
 PRIMARY KEY (issue_id),
 FOREIGN KEY (creator_id) REFERENCES users(user_id),
 FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE
