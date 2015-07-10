@@ -138,10 +138,20 @@ logged_time varchar(10),
 creation_date datetime null,
 modification_date datetime null,
 company_id int not null,
-attach blob(15728640),
 PRIMARY KEY (issue_id),
 FOREIGN KEY (creator_id) REFERENCES users(user_id),
 FOREIGN KEY (project_id) REFERENCES projects(project_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS issue_attachment;
+CREATE TABLE issue_attachment (
+attachment_id int not null auto_increment,
+filename varchar(128) DEFAULT NULL,
+file_data blob(2097152),
+content_type varchar(128) not null,
+issue_id int not null,
+PRIMARY KEY (attachment_id),
+FOREIGN KEY (issue_id) REFERENCES issues(issue_id) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 drop trigger if exists issues_insert;

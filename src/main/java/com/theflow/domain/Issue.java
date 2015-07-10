@@ -2,7 +2,8 @@ package com.theflow.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.Cascade;
@@ -25,22 +26,6 @@ import org.hibernate.annotations.Cascade;
 @Entity
 @Table(name = "issues")
 public class Issue implements Serializable {
-
-    public int getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
-    }
-
-    public byte[] getAttach() {
-        return attach;
-    }
-
-    public void setAttach(byte[] attach) {
-        this.attach = attach;
-    }
 
     public static enum IssueType {
 
@@ -164,7 +149,10 @@ public class Issue implements Serializable {
     @ManyToOne
     @JoinColumn(name = "assignee_id")
     private User assignee;
-
+    
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "issue")
+    private Set<IssueAttachment> attachment;
+    
     @JoinColumn(name = "creator_id")
     @ManyToOne
     private User creator;
@@ -191,14 +179,17 @@ public class Issue implements Serializable {
     @Column(name = "company_id")
     private int companyId;
     
-    @Column(name = "picture", unique = false, length = 3072)
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] attach;
-
     public Issue() {
     }
 
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+    
     public int getIssueId() {
         return issueId;
     }
@@ -302,9 +293,15 @@ public class Issue implements Serializable {
     public void setLastModificationDate(Date lastModificationDate) {
         this.lastModificationDate = lastModificationDate;
     }
-    
-    
 
+    public Set<IssueAttachment> getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(Set<IssueAttachment> attachment) {
+        this.attachment = attachment;
+    }
+   
     @Override
     public int hashCode() {
         int hash = 7;
