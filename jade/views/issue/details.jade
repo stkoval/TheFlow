@@ -30,6 +30,23 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             .col-md-12
                                 h5(th:text!='\#{label.issue.description}') Description
                                 p(th:text!='${issue.description}') No description
+                                form.file-form(method='POST', th:action="@{/issue/} + ${issue.issueId} + '/upload'", enctype='multipart/form-data')
+                                    label.control-label Attach file
+                                    input.file.mt15(type='file', name='fileUpload')
+                                h3.issue-title(th:text!='\#{title.issue.attachments}', th:if!="${attachments!=null}")
+                                table#attachTable.table.table-striped.table-bordered
+                                    thead
+                                        tr
+                                            th Name
+                                            th.tools-cell Download
+                                            th.tools-cell Remove
+                                    tbody
+                                        tr(th:each!='attachment : ${attachments}')
+                                            td(th:text!='${attachment.fileName}') name
+                                            td.title-cell
+                                                a(th:href!="@{'/attachment/' + ${attachment.id} + '/download'}") download
+                                            td.title-cell
+                                                a(th:href!="@{'/attachment/' + ${attachment.id} + '/remove'}") remove
                                 //
                                   <form enctype="multipart/form-data">
                                   <div class="form-group">

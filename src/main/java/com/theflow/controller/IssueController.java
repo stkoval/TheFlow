@@ -3,6 +3,7 @@ package com.theflow.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theflow.domain.Issue;
+import com.theflow.domain.IssueAttachment;
 import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDto;
@@ -11,8 +12,10 @@ import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
 import com.theflow.service.UserService;
 import helpers.TimeParser;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -30,7 +33,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import validation.IssueAttachmentConstraintViolationException;
 import validation.ProjectRequiredException;
 
 /**
@@ -75,16 +80,25 @@ public class IssueController {
     //saving issue after issue creation form is populated
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
-    public ModelAndView saveIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
+    public ModelAndView saveIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result, @RequestParam(required = false) CommonsMultipartFile[] fileUpload) {
+        
+        ModelAndView model = new ModelAndView("redirect:/home");
+        
+        if (fileUpload != null && fileUpload.length > 0) {
+            try {
+                issueService.uploadAttachment(fileUpload, issueDto.getIssueId());
+            } catch (IssueAttachmentConstraintViolationException e) {
+                model.addObject("error", messageSource.getMessage("error.issue.attachment", null, Locale.ENGLISH));
+            }
+        }
 
         try {
             issueService.saveIssue(issueDto);
         } catch (ProjectRequiredException ex) {
-            ModelAndView model = new ModelAndView("redirect:/home");
             model.addObject("message", messageSource.getMessage("message.project.required", null, Locale.ENGLISH));
         }
 
-        return new ModelAndView("redirect:/home");
+        return model;
     }
 
     @PreAuthorize("hasAnyRole('Admin','User')")
@@ -161,8 +175,17 @@ public class IssueController {
     //updating issue after issue edit form is populated
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/update", method = RequestMethod.POST)
-    public ModelAndView updateIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result) {
+    public ModelAndView updateIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result, @RequestParam(value = "fileUpload", required = false) CommonsMultipartFile[] fileUpload) {
 
+        ModelAndView model = new ModelAndView("redirect:/home");
+
+        if (fileUpload != null && fileUpload.length > 0) {
+            try {
+                issueService.uploadAttachment(fileUpload, issueDto.getIssueId());
+            } catch (IssueAttachmentConstraintViolationException e) {
+                model.addObject("error", messageSource.getMessage("error.issue.attachment", null, Locale.ENGLISH));
+            }
+        }
         issueService.updateIssue(issueDto);
         return new ModelAndView("redirect:/home");
     }
@@ -187,21 +210,27 @@ public class IssueController {
             pEst = 100;
         } else if (estimated > 0 && logged > estimated) {
             pLogged = 100;
-            pEst = (1d*estimated/logged)*100;
+            pEst = (1d * estimated / logged) * 100;
         } else if (logged > 0 && logged < estimated) {
             pEst = 100;
-            pLogged = (1d*logged/estimated)*100;
+            pLogged = (1d * logged / estimated) * 100;
         }
         
+        Set<IssueAttachment> attachments = issue.getAttachment();
+        if (attachments != null && attachments.size() > 0) {
+            model.addObject("attachments", attachments);
+        }
+
         model.addObject("issue", issue);
         model.addObject("estimated", pEst);
         model.addObject("logged", pLogged);
         return model;
     }
-    
+
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/{id}/logtime", method = RequestMethod.POST)
     public ModelAndView logWork(@PathVariable("id") int issueId, HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("redirect:/issue/details/" + issueId);
         String sLoggedTime = request.getParameter("logwork");
         Issue issue = issueService.getIssueById(issueId);
         if (sLoggedTime == null) {
@@ -209,7 +238,6 @@ public class IssueController {
         }
         issue.setLoggedTime(sLoggedTime);
         issueService.updateIssue(issue);
-        ModelAndView model = new ModelAndView("redirect:/issue/details/" + issueId);
         return model;
     }
 
@@ -280,6 +308,36 @@ public class IssueController {
             @PathVariable(value = "id") int issueId) {
         issueService.changeIssueAssignee(userId, issueId);
         return new ModelAndView("redirect:/home");
+    }
+
+    //Upload and save attached files
+    @RequestMapping(value = "/issue/{id}/upload", method = RequestMethod.POST)
+    public ModelAndView handleFileUpload(HttpServletRequest request,
+            @RequestParam(value = "fileUpload", required = false) CommonsMultipartFile[] fileUpload, @PathVariable(value = "id") int issueId) throws Exception {
+
+        ModelAndView model = new ModelAndView("redirect:/issue/details/" + issueId);
+
+        try {
+            issueService.uploadAttachment(fileUpload, issueId);
+        } catch (IssueAttachmentConstraintViolationException e) {
+            model.addObject("error", messageSource.getMessage("error.issue.attachment", null, Locale.ENGLISH));
+        }
+        return model;
+    }
+    
+    //Download attached file
+    @RequestMapping(value = "/attachment/{id}/download", method = RequestMethod.POST)
+    public ModelAndView handleFileDownload(HttpServletRequest request,
+            @RequestParam(value = "fileUpload", required = false) CommonsMultipartFile[] fileUpload, @PathVariable(value = "id") int issueId) throws Exception {
+
+        ModelAndView model = new ModelAndView("redirect:/issue/details/" + issueId);
+
+        try {
+            issueService.uploadAttachment(fileUpload, issueId);
+        } catch (IssueAttachmentConstraintViolationException e) {
+            model.addObject("error", messageSource.getMessage("error.issue.attachment", null, Locale.ENGLISH));
+        }
+        return model;
     }
 
     @ExceptionHandler(Exception.class)

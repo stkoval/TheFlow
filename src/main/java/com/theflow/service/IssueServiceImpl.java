@@ -12,17 +12,24 @@ import com.theflow.domain.Issue;
 import com.theflow.domain.Issue.IssuePriority;
 import com.theflow.domain.Issue.IssueStatus;
 import com.theflow.domain.Issue.IssueType;
+import com.theflow.domain.IssueAttachment;
 import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import validation.IssueAttachmentConstraintViolationException;
 import validation.ProjectRequiredException;
 
 /**
@@ -65,7 +72,7 @@ public class IssueServiceImpl implements IssueService {
 
     @Transactional
     @Override
-    public void saveIssue(IssueDto issueDto) throws ProjectRequiredException{
+    public void saveIssue(IssueDto issueDto) throws ProjectRequiredException {
         if (issueDto.getProjectId() == null || issueDto.getProjectId() == 0) {
             throw new ProjectRequiredException("Please add project first");
         }
@@ -76,10 +83,10 @@ public class IssueServiceImpl implements IssueService {
         issue.setCreator(creator);
         issue.setStatus(Issue.IssueStatus.NEW);
         FlowUserDetailsService.User principal
-                        = (FlowUserDetailsService.User) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
+                = (FlowUserDetailsService.User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
         int companyId = principal.getCompanyId();
         issue.setCompanyId(companyId);
 
@@ -134,9 +141,9 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public IssueDto populateIssueDtoFildsFromIssue(Issue issue, int issueId) {
-        
+
         IssueDto issueDto = new IssueDto();
-        
+
         issueDto.setIssueId(issueId);
 
         issueDto.setProjectId(issue.getProject().getProjectId());
@@ -164,7 +171,7 @@ public class IssueServiceImpl implements IssueService {
 
         return issueDto;
     }
-    
+
     //get issue type list for selectitems
     @Override
     public List<String> getIssueTypes() {
@@ -266,6 +273,40 @@ public class IssueServiceImpl implements IssueService {
     @Override
     @Transactional
     public void updateIssue(Issue issue) {
+        issueDao.updateIssue(issue);
+    }
+
+    @Override
+    @Transactional
+    public void uploadAttachment(CommonsMultipartFile[] fileUpload, int issueId) throws IssueAttachmentConstraintViolationException {
+        Issue issue = issueDao.getIssueById(issueId);
+
+        Set<IssueAttachment> attachments = new HashSet<>();
+        if (fileUpload != null && fileUpload.length > 0) {
+            for (CommonsMultipartFile aFile : fileUpload) {
+
+                System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+                IssueAttachment uploadFile = new IssueAttachment();
+                uploadFile.setFileName(aFile.getOriginalFilename());
+                if (aFile.getBytes().length > 1048576) {
+                    throw new IssueAttachmentConstraintViolationException("Constraint violation. You can add 3 attachments, 1MB max size of one file");
+                } else {
+                    uploadFile.setData(aFile.getBytes());
+                    uploadFile.setContentType(aFile.getContentType());
+                    uploadFile.setIssue(issue);
+                }
+                attachments.add(uploadFile);
+            }
+        }
+
+        if (issue.getAttachment() == null) {
+            issue.setAttachment(attachments);
+        } else if (issue.getAttachment().size() >= 3) {
+            throw new IssueAttachmentConstraintViolationException("Constraint violation. You can add 3 attachments, 1MB max size of one file");
+        } else {
+            issue.getAttachment().addAll(attachments);
+        }
         issueDao.updateIssue(issue);
     }
 }
