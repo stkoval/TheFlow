@@ -13,10 +13,8 @@ import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
 import com.theflow.service.UserService;
 import helpers.TimeParser;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -147,7 +145,7 @@ public class IssueController {
     }
 
     //get all issues related to company
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "issue/all", method = RequestMethod.GET)
     public ModelAndView getAllIssues() {
         ModelAndView model = new ModelAndView("issue/table");
@@ -192,7 +190,7 @@ public class IssueController {
     }
 
     //updating issue after issue edit form is populated
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "issue/update", method = RequestMethod.POST)
     public ModelAndView updateIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result, @RequestParam(value = "fileUpload", required = false) CommonsMultipartFile[] fileUpload) {
 
@@ -209,7 +207,7 @@ public class IssueController {
         return new ModelAndView("redirect:/home");
     }
 
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "issue/details/{id}", method = RequestMethod.GET)
     public ModelAndView showIssueDetailsPage(@PathVariable(value = "id") int issueId) {
         ModelAndView model = new ModelAndView("issue/details");
@@ -246,7 +244,7 @@ public class IssueController {
         return model;
     }
 
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "/{id}/logtime", method = RequestMethod.POST)
     public ModelAndView logWork(@PathVariable("id") int issueId, HttpServletRequest request) {
         ModelAndView model = new ModelAndView("redirect:/issue/details/" + issueId);
@@ -261,7 +259,7 @@ public class IssueController {
     }
 
     //Assign issue to current authenticated user
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "issue/assign/{id}", method = RequestMethod.GET)
     public ModelAndView assignToCurrentUser(@PathVariable(value = "id") int issueId) {
         issueService.assignToCurrentUser(issueId);
@@ -269,7 +267,7 @@ public class IssueController {
     }
 
     //Get issues related to project with projectId = id
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "issue/byproject/{id}", method = RequestMethod.GET)
     public ModelAndView getIssuesByProjectId(@PathVariable(value = "id") int projectId) {
         ModelAndView model = new ModelAndView("/issue/table");
@@ -293,7 +291,7 @@ public class IssueController {
     }
 
     //change issue status
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "issue/{id}/status", method = RequestMethod.GET)
     public ModelAndView changeIssueStatus(@RequestParam(value = "status") String status,
             @PathVariable(value = "id") int issueId) {
@@ -303,7 +301,7 @@ public class IssueController {
     }
 
     //change issue type
-    @PreAuthorize("hasAnyRole('Admin','User')")
+   @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "issue/{id}/type", method = RequestMethod.GET)
     public ModelAndView changeIssueType(@RequestParam(value = "type") String type,
             @PathVariable(value = "id") int issueId) {
@@ -312,7 +310,7 @@ public class IssueController {
     }
 
     //change issue priority
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "issue/{id}/priority", method = RequestMethod.GET)
     public ModelAndView changeIssuePriority(@RequestParam(value = "priority") String priority,
             @PathVariable(value = "id") int issueId) {
@@ -321,7 +319,7 @@ public class IssueController {
     }
 
     //change issue assignee
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "issue/{id}/assignee", method = RequestMethod.GET)
     public ModelAndView changeIssueAssignee(@RequestParam(value = "assignee") int userId,
             @PathVariable(value = "id") int issueId) {

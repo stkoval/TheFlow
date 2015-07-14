@@ -58,6 +58,10 @@ insert into users(firstname, lastname, email, password, enabled)
 values('Larry', 'Page', 'lpage@google.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 insert into users(firstname, lastname, email, password, enabled) 
 values('Sergey', 'Brin', 'brin@google.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Jack', 'Daniels', 'jdaniels@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
+insert into users(firstname, lastname, email, password, enabled) 
+values('Test', 'User', 'demo@test.com', '$2a$10$66SEMN4SxYOiyi9Q4Digi.RnAKeB5thVKG9ZObUpC0E/AejIE4qja', 1);
 
 insert into companies (company_name, company_alias, creator_id)
 values('Microsoft', 'microsoft', 1);
@@ -94,6 +98,10 @@ insert into users_companies(user_id, company_id, user_role)
 values(4, 2, 'User');
 insert into users_companies(user_id, company_id, user_role) 
 values(4, 3, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(11, 4, 'User');
+insert into users_companies(user_id, company_id, user_role) 
+values(12, 4, 'Observer');
 
 DROP TABLE IF EXISTS projects;
 create table projects (

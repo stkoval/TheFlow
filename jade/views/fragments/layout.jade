@@ -46,6 +46,12 @@ html
                                         option(value='New-filter', data-col='2', label-type='label-warning') Recent
                                         option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
                                         option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
+                                    select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/home/'")
+                                        option(value='all', label-type='label-primary') All
+                                        option(value='High-filter', data-col='4', label-type='label-success') High priority
+                                        option(value='New-filter', data-col='2', label-type='label-warning') Recent
+                                        option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
+                                        option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
                                     select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/issue/byproject/' + ${projectId}")
                                         option(value='all', label-type='label-primary') All
                                         option(value='High-filter', data-col='4', label-type='label-success') High priority
@@ -54,7 +60,7 @@ html
                                         option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
                                 .col-md-6.col-xs-6
                                     ul.nav.navbar-nav.navbar-right
-                                        li.dropdown(sec:authorize="hasRole('Admin')")
+                                        li.dropdown(sec:authorize="hasAnyRole('Admin', 'Observer')")
                                             a.dropdown-toggle(href='#', data-toggle='dropdown')
                                                 i.fa.fa-cogs
                                                 |  Admin tools
@@ -87,7 +93,7 @@ html
                     ul.nav.nav-pills.nav-stacked.sidebar.projects-list(th:each='project : ${projects}')
                         li(th:class="${project.projectId == projectId}? 'active'")
                             a(th:text!='${project.projName}', th:href="@{'/issue/byproject/' + ${project.projectId}}")
-            a.fancy-button.medium.blueHole.basic(sec:authorize="hasRole('Admin')", th:href='@{/project/add}')
+            a.fancy-button.medium.blueHole.basic(sec:authorize="hasAnyRole('Admin', 'Observer')", th:href='@{/project/add}')
                 | New project
                 span.icon
                     i.fa.fa-asterisk

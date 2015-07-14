@@ -77,7 +77,7 @@ public class ProjectController {
         return model;
     }
 
-    @PreAuthorize("hasAnyRole('Admin','Observer')")
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping("project/add")
     public ModelAndView showCreateProjectPage() {
         ModelAndView model = new ModelAndView("project/addproject", "project", new Project());
@@ -92,7 +92,7 @@ public class ProjectController {
         return new ModelAndView("redirect:/projects/manage");
     }
 
-    @PreAuthorize("hasAnyRole('Admin','Observer')")
+    @PreAuthorize("hasRole('Admin')")
     @RequestMapping(value = "project/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editProject(@PathVariable(value = "id") int projectId) {
 

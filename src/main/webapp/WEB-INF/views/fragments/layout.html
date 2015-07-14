@@ -37,6 +37,13 @@
                     <option th:value="${#authentication.principal.fullName + '-filter'}" data-col="5" label-type="label-info">Assigned to me</option>
                     <option value="Bug-filter" data-col="3" label-type="label-danger">Bug</option>
                   </select>
+                  <select id="search-issue-top" multiple="multiple" rel="&lt;i class='fa fa-search'&gt;&lt;/i&gt; Search issues" th:case="'/home/'">
+                    <option value="all" label-type="label-primary">All</option>
+                    <option value="High-filter" data-col="4" label-type="label-success">High priority</option>
+                    <option value="New-filter" data-col="2" label-type="label-warning">Recent</option>
+                    <option th:value="${#authentication.principal.fullName + '-filter'}" data-col="5" label-type="label-info">Assigned to me</option>
+                    <option value="Bug-filter" data-col="3" label-type="label-danger">Bug</option>
+                  </select>
                   <select id="search-issue-top" multiple="multiple" rel="&lt;i class='fa fa-search'&gt;&lt;/i&gt; Search issues" th:case="'/issue/byproject/' + ${projectId}">
                     <option value="all" label-type="label-primary">All</option>
                     <option value="High-filter" data-col="4" label-type="label-success">High priority</option>
@@ -47,7 +54,7 @@
                 </div>
                 <div class="col-md-6 col-xs-6">
                   <ul class="nav navbar-nav navbar-right">
-                    <li sec:authorize="hasRole('Admin')" class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-cogs"></i> Admin tools</a>
+                    <li sec:authorize="hasAnyRole('Admin', 'Observer')" class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-cogs"></i> Admin tools</a>
                       <ul role="menu" aria-labelledby="dropdownMenu1" class="dropdown-menu">
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="#" th:href="@{/users/manage}">Manage users</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="#" th:href="@{/projects/manage}">Manage projects</a></li>
@@ -71,7 +78,7 @@
             <li th:class="${project.projectId == projectId}? 'active'"><a th:text="${project.projName}" th:href="@{'/issue/byproject/' + ${project.projectId}}"></a></li>
           </ul>
         </div>
-      </div><a sec:authorize="hasRole('Admin')" th:href="@{/project/add}" class="fancy-button medium blueHole basic">New project<span class="icon"><i class="fa fa-asterisk"></i></span></a>
+      </div><a sec:authorize="hasAnyRole('Admin', 'Observer')" th:href="@{/project/add}" class="fancy-button medium blueHole basic">New project<span class="icon"><i class="fa fa-asterisk"></i></span></a>
     </div>
     <div th:fragment="footer">
       <div id="footer">
