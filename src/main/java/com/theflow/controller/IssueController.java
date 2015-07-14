@@ -68,12 +68,15 @@ public class IssueController {
     @Autowired
     private IssueAttachmentService issueAttachmentService;
 
-    private String attachPath = "c:/home/stas/workspace/flow_uploads/issue_attach/";
+    private String attachPath = "/home/stas/workspace/flow_uploads/issue_attach/";
 
     private static final int BUFFER_SIZE = 1048576;
 
     @Autowired
     private MessageSource messageSource;
+    
+    @Autowired
+    private ServletContext servletContext;
 
     //searching issue header smart search
     @ResponseBody
@@ -359,7 +362,7 @@ public class IssueController {
             inputStream = new FileInputStream(downloadFile);
 
             response.setContentLength((int) downloadFile.length());
-            response.setContentType(context.getMimeType(fullPath));
+            response.setContentType(context.getMimeType(fullPath) + ";charset=UTF-8");
 
             // response header
             String headerKey = "Content-Disposition";
@@ -385,6 +388,28 @@ public class IssueController {
             }
 
         }
+    }
+    
+    //Remove attached file
+    @PreAuthorize("hasAnyRole('Admin','User')")
+    @RequestMapping(value = "/attachment/{id}/remove", method = RequestMethod.GET)
+    public ModelAndView handleFileRemove(@PathVariable(value = "id") int attachmentId) {
+
+        IssueAttachment attach = issueAttachmentService.getIssueAttachmentById(attachmentId);
+        ModelAndView model = new ModelAndView("redirect:/issue/details/" + attach.getIssue().getIssueId());
+        
+        String fullPath = attachPath + attach.getIssue().getIssueId() + "_" + attach.getFileName();
+        File toRemove = new File(fullPath);
+        boolean exists = toRemove.exists();
+        toRemove.delete();
+        Issue issue = attach.getIssue();
+        Set<IssueAttachment> attachSet = issue.getAttachment();
+        boolean b = attachSet.contains(attach);
+        attachSet.remove(attach);
+        
+        issueService.updateIssue(issue);
+        
+        return model;
     }
 
     @ExceptionHandler(Exception.class)

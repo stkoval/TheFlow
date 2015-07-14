@@ -19,6 +19,7 @@ import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -103,6 +104,7 @@ public class IssueServiceImpl implements IssueService {
     @Transactional
     @Override
     public void removeIssue(int id) {
+        removeAttachedFiles(id);
         issueDao.removeIssue(id);
     }
 
@@ -302,6 +304,7 @@ public class IssueServiceImpl implements IssueService {
 
                 if (!aFile.getOriginalFilename().equals("")) {
                     try {
+                        String encodedFileName = URLEncoder.encode(aFile.getOriginalFilename(), "UTF-8");
                         File newFile = new File(saveDirectory + issueId + "_" + aFile.getOriginalFilename());
                         newFile.getParentFile().mkdirs();
                         boolean isCreated = newFile.createNewFile();
@@ -322,5 +325,14 @@ public class IssueServiceImpl implements IssueService {
 
         issue.getAttachment().addAll(attachments);
         issueDao.updateIssue(issue);
+    }
+
+    private void removeAttachedFiles(int issueId) {
+        Issue issue = issueDao.getIssueById(issueId);
+        Set<IssueAttachment> attachments = issue.getAttachment();
+        for (IssueAttachment attachment : attachments) {
+            File file = new File(saveDirectory + issueId + "_" + attachment.getFileName());
+            file.delete();
+        }
     }
 }

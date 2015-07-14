@@ -151,7 +151,7 @@ public class Issue implements Serializable {
     @JoinColumn(name = "assignee_id")
     private User assignee;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "issue", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "issue", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<IssueAttachment> attachment;
     
     @JoinColumn(name = "creator_id")
