@@ -83,22 +83,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .maximumSessions(1)
                 .and()
                 .invalidSessionUrl("/index");
-        http
-                .csrf().disable()
-                .httpBasic().and()
-                .authorizeRequests()
-                .antMatchers("/cabinet_login").permitAll()
-                .and()
-                .formLogin().defaultSuccessUrl("/cabinet", true)
-                .loginPage("/cabinet_login").loginProcessingUrl("/cabinet_login_process")
-                .and()
-                .addFilterBefore(cabinetAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .logout().logoutSuccessUrl("/index").logoutUrl("/logout").deleteCookies("filterFlow")
-                .and()
-                .sessionManagement()
-                .maximumSessions(1)
-                .and()
-                .invalidSessionUrl("/index");
+//        http
+//                .csrf().disable()
+//                .httpBasic().and()
+//                .authorizeRequests()
+//                .and()
+//                .formLogin().defaultSuccessUrl("/cabinet", true)
+//                .loginPage("/cabinet_login").loginProcessingUrl("/cabinet_login_process")
+//                .and()
+//                .addFilterBefore(cabinetAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .logout().logoutSuccessUrl("/index").logoutUrl("/logout").deleteCookies("filterFlow")
+//                .and()
+//                .sessionManagement()
+//                .maximumSessions(1)
+//                .and()
+//                .invalidSessionUrl("/index");
     }
 
     @Bean
@@ -118,17 +117,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authFilter;
     }
     
-    @Bean
-    public UsernamePasswordAuthenticationFilter cabinetAuthenticationFilter() throws Exception {
-        UsernamePasswordAuthenticationFilter authFilter = new UsernamePasswordAuthenticationFilter();
-        authFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/cabinet_login_process", "POST"));
-        authFilter.setUsernameParameter("username");
-        authFilter.setPasswordParameter("password");
-        authFilter.setAuthenticationSuccessHandler(CabinetAuthenticationSuccessHandler());
-        authFilter.setAuthenticationFailureHandler(CabinetAuthenticationFailureHandler());
-        authFilter.setAuthenticationManager(authenticationManager());
-        return authFilter;
-    }
+//    @Bean
+//    public UsernamePasswordAuthenticationFilter cabinetAuthenticationFilter() throws Exception {
+//        UsernamePasswordAuthenticationFilter authFilter = new UsernamePasswordAuthenticationFilter();
+//        authFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/cabinet_login_process", "POST"));
+//        authFilter.setUsernameParameter("username");
+//        authFilter.setPasswordParameter("password");
+//        authFilter.setAuthenticationSuccessHandler(CabinetAuthenticationSuccessHandler());
+//        authFilter.setAuthenticationFailureHandler(CabinetAuthenticationFailureHandler());
+//        authFilter.setAuthenticationManager(authenticationManager());
+//        return authFilter;
+//    }
 
     @Bean
     public SavedRequestAwareAuthenticationSuccessHandler SavedRequestAwareAuthenticationSuccessHandler() {
@@ -138,33 +137,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return handler;
     }
     
-    @Bean
-    public SavedRequestAwareAuthenticationSuccessHandler CabinetAuthenticationSuccessHandler() {
-        SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
-        handler.setDefaultTargetUrl("/cabinet");
-        handler.setAlwaysUseDefaultTargetUrl(true);
-        return handler;
-    }
-    
+//    @Bean
+//    public SavedRequestAwareAuthenticationSuccessHandler CabinetAuthenticationSuccessHandler() {
+//        SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
+//        handler.setDefaultTargetUrl("/cabinet");
+//        handler.setAlwaysUseDefaultTargetUrl(true);
+//        return handler;
+//    }
+//    
     @Bean
     public SimpleUrlAuthenticationFailureHandler SimpleUrlAuthenticationFailureHandler() {
         SimpleUrlAuthenticationFailureHandler handler = new SimpleUrlAuthenticationFailureHandler();
         handler.setDefaultFailureUrl("/login?error");
         return handler;
     }
-    
-    @Bean
-    public SimpleUrlAuthenticationFailureHandler CabinetAuthenticationFailureHandler() {
-        SimpleUrlAuthenticationFailureHandler handler = new SimpleUrlAuthenticationFailureHandler();
-        handler.setDefaultFailureUrl("/cabinet_login?error");
-        return handler;
-    }
-
-    @Bean
-    public LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
-        LoginUrlAuthenticationEntryPoint loginUrl = new LoginUrlAuthenticationEntryPoint("/cabinet_login");
-        return loginUrl;
-    }
+//    
+//    @Bean
+//    public SimpleUrlAuthenticationFailureHandler CabinetAuthenticationFailureHandler() {
+//        SimpleUrlAuthenticationFailureHandler handler = new SimpleUrlAuthenticationFailureHandler();
+//        handler.setDefaultFailureUrl("/cabinet_login?error");
+//        return handler;
+//    }
+//
+//    @Bean
+//    public LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
+//        LoginUrlAuthenticationEntryPoint loginUrl = new LoginUrlAuthenticationEntryPoint("/cabinet_login");
+//        return loginUrl;
+//    }
     
     @Bean
     LogoutFilter logoutFilter() {

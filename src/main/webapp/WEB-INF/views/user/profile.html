@@ -39,7 +39,7 @@
                 <td>Email</td>
                 <td th:text="${#authentication.principal.username}">Email</td>
               </tr>
-              <tr>
+              <tr th:if="${#authentication.principal.role} != 'Cabinet'">
                 <td>Role</td>
                 <td th:text="${#authentication.principal.role}">Role</td>
               </tr>
@@ -54,6 +54,9 @@
             </div>
             <div class="row">
               <div class="col-md-12 mt15"><a th:href="@{/user/} + ${#authentication.principal.userId} + '/changepass'" class="fancy-button medium esmerald icon basic"><span class="icon pull-left"><i class="fa fa-edit"></i></span>&nbsp;Change password</a></div>
+            </div>
+            <div class="row">
+              <div class="item blue"><a data-toggle="tooltip" data-placement="top" title="Cabinet" th:href="@{/companies}"><i class="fa fa-briefcase"></i><span>Companies</span></a></div>
             </div>
           </div>
         </div>

@@ -112,11 +112,21 @@ public class LoginController {
         return model;
     }
     
-    @RequestMapping(value = "/cabinet_login", method = RequestMethod.GET)
-    public ModelAndView showCabinetLoginPage() {
+    @RequestMapping(value = "/companies", method = RequestMethod.GET)
+    public ModelAndView showCompanies(HttpServletRequest request, HttpServletResponse response) {
 
-        ModelAndView model = new ModelAndView("signin/cabinet_login");
+        ModelAndView model = new ModelAndView("redirect:/cabinet");
 
+        FlowUserDetailsService.User principal = (FlowUserDetailsService.User)SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserById(principal.getUserId());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("Cabinet"));
+        FlowUserDetailsService.User userDetails = new FlowUserDetailsService.User(user.getEmail(), user.getPassword(), authorities, user.getFirstName(), user.getLastName(), user.getUserId());
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), authorities);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        boolean isAuth = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+        
         return model;
     }
     
