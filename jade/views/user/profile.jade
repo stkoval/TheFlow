@@ -60,7 +60,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                     span.icon.pull-left
                                         i.fa.fa-edit
                                     | &nbsp;Change password
-                        .row
+                        .row(th:if!="${#authentication.principal.role} != 'Cabinet'")
                             .item.blue
                                 a(data-toggle="tooltip", data-placement="top", title="Cabinet", th:href="@{/companies}")
                                     i.fa.fa-briefcase
