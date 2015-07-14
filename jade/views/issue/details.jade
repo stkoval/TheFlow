@@ -34,7 +34,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                     label.control-label Attach file
                                     input.file.mt15(type='file', name='fileUpload')
                                 h3.issue-title(th:text!='\#{title.issue.attachments}', th:if!="${attachments!=null}")
-                                table#attachTable.table.table-striped.table-bordered
+                                table#attachTable.table.table-striped.table-bordered(th:if!="${attachments!=null}")
                                     thead
                                         tr
                                             th Name

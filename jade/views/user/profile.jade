@@ -46,7 +46,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             tr
                                 td Email
                                 td(th:text!='${#authentication.principal.username}') Email
-                            tr
+                            tr(th:if!="${#authentication.principal.role} != 'Cabinet'")
                                 td Role
                                 td(th:text!='${#authentication.principal.role}') Role
                         .row
@@ -60,6 +60,11 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                     span.icon.pull-left
                                         i.fa.fa-edit
                                     | &nbsp;Change password
+                        .row(th:if!="${#authentication.principal.role} != 'Cabinet'")
+                            .item.blue
+                                a(data-toggle="tooltip", data-placement="top", title="Cabinet", th:href="@{/companies}")
+                                    i.fa.fa-briefcase
+                                    span Companies
             #push
         div(th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'", th:remove='tag') &nbsp;
         object(th:include='fragments/layout :: script', th:remove='tag')
