@@ -17,12 +17,15 @@ import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
+import java.util.logging.Level;
+import javax.servlet.ServletContext;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,6 +52,11 @@ public class IssueServiceImpl implements IssueService {
 
     @Autowired
     private ProjectDao projectDao;
+    
+    @Autowired
+    private ServletContext servletContext;
+
+    private String saveDirectory = "/home/stas/workspace/flow_uploads/issue_attach/";
 
     @Transactional
     @Override
@@ -96,6 +104,7 @@ public class IssueServiceImpl implements IssueService {
     @Transactional
     @Override
     public void removeIssue(int id) {
+        removeAttachedFiles(id);
         issueDao.removeIssue(id);
     }
 
@@ -281,32 +290,49 @@ public class IssueServiceImpl implements IssueService {
     public void uploadAttachment(CommonsMultipartFile[] fileUpload, int issueId) throws IssueAttachmentConstraintViolationException {
         Issue issue = issueDao.getIssueById(issueId);
 
+        if (fileUpload.length > 3) {
+            throw new IssueAttachmentConstraintViolationException("Constraint violation. You can add 3 attachments, 1MB max size of one file");
+        }
+
         Set<IssueAttachment> attachments = new HashSet<>();
         if (fileUpload != null && fileUpload.length > 0) {
             for (CommonsMultipartFile aFile : fileUpload) {
 
-                System.out.println("Saving file: " + aFile.getOriginalFilename());
-
-                IssueAttachment uploadFile = new IssueAttachment();
-                uploadFile.setFileName(aFile.getOriginalFilename());
-                if (aFile.getBytes().length > 1048576) {
+                if (aFile.getBytes().length > 204800) {
                     throw new IssueAttachmentConstraintViolationException("Constraint violation. You can add 3 attachments, 1MB max size of one file");
-                } else {
-                    uploadFile.setData(aFile.getBytes());
-                    uploadFile.setContentType(aFile.getContentType());
-                    uploadFile.setIssue(issue);
                 }
-                attachments.add(uploadFile);
+
+                if (!aFile.getOriginalFilename().equals("")) {
+                    try {
+                        String encodedFileName = URLEncoder.encode(aFile.getOriginalFilename(), "UTF-8");
+                        File newFile = new File(saveDirectory + issueId + "_" + aFile.getOriginalFilename());
+                        newFile.getParentFile().mkdirs();
+                        boolean isCreated = newFile.createNewFile();
+                        aFile.transferTo(newFile);
+                        IssueAttachment attach = new IssueAttachment();
+                        attach.setFileName(aFile.getOriginalFilename());
+                        attach.setContentType(aFile.getContentType());
+                        attach.setIssue(issue);
+                        attachments.add(attach);
+                    } catch (IOException ex) {
+                        java.util.logging.Logger.getLogger(IssueServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalStateException ex) {
+                        java.util.logging.Logger.getLogger(IssueServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         }
 
-        if (issue.getAttachment() == null) {
-            issue.setAttachment(attachments);
-        } else if (issue.getAttachment().size() >= 3) {
-            throw new IssueAttachmentConstraintViolationException("Constraint violation. You can add 3 attachments, 1MB max size of one file");
-        } else {
-            issue.getAttachment().addAll(attachments);
-        }
+        issue.getAttachment().addAll(attachments);
         issueDao.updateIssue(issue);
+    }
+
+    private void removeAttachedFiles(int issueId) {
+        Issue issue = issueDao.getIssueById(issueId);
+        Set<IssueAttachment> attachments = issue.getAttachment();
+        for (IssueAttachment attachment : attachments) {
+            File file = new File(saveDirectory + issueId + "_" + attachment.getFileName());
+            file.delete();
+        }
     }
 }

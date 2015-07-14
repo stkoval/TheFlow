@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -150,7 +151,7 @@ public class Issue implements Serializable {
     @JoinColumn(name = "assignee_id")
     private User assignee;
     
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "issue")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "issue", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<IssueAttachment> attachment;
     
     @JoinColumn(name = "creator_id")

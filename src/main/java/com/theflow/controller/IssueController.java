@@ -8,17 +8,26 @@ import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
+import com.theflow.service.IssueAttachmentService;
 import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
 import com.theflow.service.UserService;
 import helpers.TimeParser;
-import java.util.ArrayList;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,7 +66,17 @@ public class IssueController {
     private UserService userService;
 
     @Autowired
+    private IssueAttachmentService issueAttachmentService;
+
+    private String attachPath = "/home/stas/workspace/flow_uploads/issue_attach/";
+
+    private static final int BUFFER_SIZE = 1048576;
+
+    @Autowired
     private MessageSource messageSource;
+    
+    @Autowired
+    private ServletContext servletContext;
 
     //searching issue header smart search
     @ResponseBody
@@ -81,9 +100,9 @@ public class IssueController {
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "issue/save", method = RequestMethod.POST)
     public ModelAndView saveIssue(@ModelAttribute(value = "issue") @Valid IssueDto issueDto, BindingResult result, @RequestParam(required = false) CommonsMultipartFile[] fileUpload) {
-        
+
         ModelAndView model = new ModelAndView("redirect:/home");
-        
+
         if (fileUpload != null && fileUpload.length > 0) {
             try {
                 issueService.uploadAttachment(fileUpload, issueDto.getIssueId());
@@ -215,7 +234,7 @@ public class IssueController {
             pEst = 100;
             pLogged = (1d * logged / estimated) * 100;
         }
-        
+
         Set<IssueAttachment> attachments = issue.getAttachment();
         if (attachments != null && attachments.size() > 0) {
             model.addObject("attachments", attachments);
@@ -324,19 +343,72 @@ public class IssueController {
         }
         return model;
     }
-    
-    //Download attached file
-    @RequestMapping(value = "/attachment/{id}/download", method = RequestMethod.POST)
-    public ModelAndView handleFileDownload(HttpServletRequest request,
-            @RequestParam(value = "fileUpload", required = false) CommonsMultipartFile[] fileUpload, @PathVariable(value = "id") int issueId) throws Exception {
 
-        ModelAndView model = new ModelAndView("redirect:/issue/details/" + issueId);
+    //Download attached file
+    @PreAuthorize("hasAnyRole('Admin','User')")
+    @RequestMapping(value = "/attachment/{id}/download", method = RequestMethod.GET)
+    public void handleFileDownload(@PathVariable(value = "id") int attachmentId,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        IssueAttachment attach = issueAttachmentService.getIssueAttachmentById(attachmentId);
+        String fullPath = attachPath + attach.getIssue().getIssueId() + "_" + attach.getFileName();
+        ServletContext context = request.getServletContext();
+
+        File downloadFile = new File(fullPath);
+        FileInputStream inputStream = null;
+        OutputStream outStream = null;
 
         try {
-            issueService.uploadAttachment(fileUpload, issueId);
-        } catch (IssueAttachmentConstraintViolationException e) {
-            model.addObject("error", messageSource.getMessage("error.issue.attachment", null, Locale.ENGLISH));
+            inputStream = new FileInputStream(downloadFile);
+
+            response.setContentLength((int) downloadFile.length());
+            response.setContentType(context.getMimeType(fullPath) + ";charset=UTF-8");
+
+            // response header
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=\"" + attach.getFileName() + "\"";
+            response.setHeader(headerKey, headerValue);
+
+            // Write response
+            outStream = response.getOutputStream();
+            IOUtils.copy(inputStream, outStream);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != inputStream) {
+                    inputStream.close();
+                }
+                if (null != inputStream) {
+                    outStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
+    }
+    
+    //Remove attached file
+    @PreAuthorize("hasAnyRole('Admin','User')")
+    @RequestMapping(value = "/attachment/{id}/remove", method = RequestMethod.GET)
+    public ModelAndView handleFileRemove(@PathVariable(value = "id") int attachmentId) {
+
+        IssueAttachment attach = issueAttachmentService.getIssueAttachmentById(attachmentId);
+        ModelAndView model = new ModelAndView("redirect:/issue/details/" + attach.getIssue().getIssueId());
+        
+        String fullPath = attachPath + attach.getIssue().getIssueId() + "_" + attach.getFileName();
+        File toRemove = new File(fullPath);
+        boolean exists = toRemove.exists();
+        toRemove.delete();
+        Issue issue = attach.getIssue();
+        Set<IssueAttachment> attachSet = issue.getAttachment();
+        boolean b = attachSet.contains(attach);
+        attachSet.remove(attach);
+        
+        issueService.updateIssue(issue);
+        
         return model;
     }
 
