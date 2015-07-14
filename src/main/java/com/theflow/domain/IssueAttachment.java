@@ -21,26 +21,23 @@ public class IssueAttachment implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "attachment_id")
-    private long id;
+    private int id;
     
     @Column(name = "filename")
     private String fileName;
-    
-    @Column(name = "file_data")
-    private byte[] data;
     
     @Column(name = "content_type")
     private String contentType;
     
     @JoinColumn(name = "issue_id")
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     private Issue issue;
  
-    public long getId() {
+    public int getId() {
         return id;
     }
  
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
  
@@ -50,14 +47,6 @@ public class IssueAttachment implements Serializable {
  
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
- 
-    public byte[] getData() {
-        return data;
-    }
- 
-    public void setData(byte[] data) {
-        this.data = data;
     }
 
     public String getContentType() {

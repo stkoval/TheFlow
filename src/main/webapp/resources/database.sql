@@ -147,7 +147,6 @@ DROP TABLE IF EXISTS issue_attachment;
 CREATE TABLE issue_attachment (
 attachment_id int not null auto_increment,
 filename varchar(128) DEFAULT NULL,
-file_data blob(2097152),
 content_type varchar(128) not null,
 issue_id int not null,
 PRIMARY KEY (attachment_id),
