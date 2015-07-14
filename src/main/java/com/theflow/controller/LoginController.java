@@ -62,10 +62,12 @@ public class LoginController {
     
     @Autowired
     AuthenticationManager authenticationManager;
+    
+    private static final int TEST_USER_COMPANY_ID = 15;
 
     static final Logger logger = Logger.getLogger(LoginController.class.getName());
 
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User','Observer')")
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public ModelAndView showHomePage() {
         ModelAndView model = new ModelAndView("/home/home");
@@ -113,7 +115,7 @@ public class LoginController {
     }
     
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public ModelAndView showCompanies(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView showManageCompaniesPage(HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView model = new ModelAndView("redirect:/cabinet");
 
@@ -128,6 +130,27 @@ public class LoginController {
         boolean isAuth = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
         
         return model;
+    }
+    
+    @RequestMapping(value = "/observe_login", method = RequestMethod.GET)
+    public ModelAndView loginToObserveAccount() {
+
+        UserCompany uc = userService.getUserCompanyById(TEST_USER_COMPANY_ID);
+        User user = uc.getUser();
+        String companyName = uc.getCompany().getName();
+        String companyAlias = uc.getCompany().getAlias();
+        int companyId = uc.getCompany().getCompanyId();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(uc.getUserRole()));
+        FlowUserDetailsService.User userDetails = new FlowUserDetailsService.User(user.getEmail(), 
+                user.getPassword(), authorities, user.getFirstName(), user.getLastName(), 
+                user.getUserId(), user.isEnabled(), companyId, companyName, 
+                companyAlias, authorities.get(0).getAuthority());
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), authorities);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        boolean isAuth = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+        
+        return new ModelAndView("redirect:/home");
     }
     
     @PreAuthorize("hasRole('Cabinet')")

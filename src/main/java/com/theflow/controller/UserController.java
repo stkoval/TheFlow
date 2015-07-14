@@ -63,7 +63,7 @@ public class UserController {
     @Autowired
     private CompanyService companyService;
 
-    @PreAuthorize("hasAnyRole('Admin','User','Cabinet')")
+    @PreAuthorize("hasAnyRole('Admin','User','Observer')")
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
@@ -328,6 +328,7 @@ public class UserController {
         return model;
     }
 
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "user/{id}/image", method = RequestMethod.POST)
     public ModelAndView uploadProfileImage(@RequestParam("image") CommonsMultipartFile image, @PathVariable(value = "id") int userId) {
         ModelAndView model = new ModelAndView("redirect:/profile");
