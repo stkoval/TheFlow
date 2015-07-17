@@ -25,6 +25,12 @@ public class Project implements Serializable {
 
     @Column(name = "name")
     private String projName;
+    
+    @Column(name = "project_alias")
+    private String projectAlias;
+    
+    @Column(name = "issue_index")
+    private int issueIndex;
 
     @Column(name = "description")
     private String projDescription;
@@ -46,7 +52,7 @@ public class Project implements Serializable {
 
     public Project() {
     }
-
+    
     public int getProjectId() {
         return projectId;
     }
@@ -101,6 +107,22 @@ public class Project implements Serializable {
 
     public void setCompanyId(int companyId) {
         this.companyId = companyId;
+    }
+    
+    public String getProjectAlias() {
+        return projectAlias;
+    }
+
+    public void setProjectAlias(String projectAlias) {
+        this.projectAlias = projectAlias;
+    }
+
+    public int getIssueIndex() {
+        return issueIndex;
+    }
+
+    public void setIssueIndex(int issueIndex) {
+        this.issueIndex = issueIndex;
     }
 
     @Override

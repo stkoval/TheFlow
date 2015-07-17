@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Formula;
 
 /**
  *
@@ -128,6 +129,9 @@ public class Issue implements Serializable {
     @GeneratedValue
     @Column(name = "issue_id")
     private int issueId;
+    
+    @Column(name = "external_id")
+    private String issueExtId;
 
     @Column(name = "title")
     private String title;
@@ -181,6 +185,14 @@ public class Issue implements Serializable {
     private int companyId;
     
     public Issue() {
+    }
+
+    public String getIssueExtId() {
+        return issueExtId;
+    }
+
+    public void setIssueExtId(String issueExtId) {
+        this.issueExtId = issueExtId;
     }
 
     public int getCompanyId() {
@@ -302,7 +314,7 @@ public class Issue implements Serializable {
     public void setAttachment(Set<IssueAttachment> attachment) {
         this.attachment = attachment;
     }
-   
+    
     @Override
     public int hashCode() {
         int hash = 7;

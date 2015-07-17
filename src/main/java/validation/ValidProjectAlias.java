@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package validation;
 
 import java.lang.annotation.Documented;
@@ -16,11 +21,11 @@ import javax.validation.Payload;
  */
 @Target({ TYPE, FIELD, ANNOTATION_TYPE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = CompanyAliasValidator.class)
+@Constraint(validatedBy = ProjectAliasValidator.class)
 @Documented
-public @interface ValidCompanyAlias {
+public @interface ValidProjectAlias {
 
-    String message() default "Invalid company alias";
+    String message() default "Invalid project alias";
 
     Class<?>[] groups() default {};
 

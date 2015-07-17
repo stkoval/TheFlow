@@ -97,6 +97,12 @@ public class IssueServiceImpl implements IssueService {
                 .getPrincipal();
         int companyId = principal.getCompanyId();
         issue.setCompanyId(companyId);
+        
+        //Set id for views. Uses project alias and provides numeration from 1 for every new project
+        Integer issueExtIdInt = issue.getProject().getIssueIndex();
+        String issueExtIdStr = issue.getProject().getProjectAlias() + '-' + ++issueExtIdInt;
+        issue.getProject().setIssueIndex(issueExtIdInt);
+        issue.setIssueExtId(issueExtIdStr);
 
         issueDao.saveIssue(issue);
     }
