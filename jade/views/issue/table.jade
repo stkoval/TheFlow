@@ -60,8 +60,12 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                                         a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=on_hold'}") On hold
                                                     li(th:if="${issue.status.toString()} != 'Review'")
                                                         a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=review'}") Review
+                                                    li(th:if="${issue.status.toString()} != 'Fixed'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=fixed'}") Fixed
                                                     li(th:if="${issue.status.toString()} != 'Closed'")
                                                         a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=closed'}") Closed
+                                                    li(th:if="${issue.status.toString()} != 'Rejected'")
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/status?status=rejected'}") Rejected
                                         td.type-cell
                                             i(th:text!="${issue.type + '-filter'}")
                                             .dropdown

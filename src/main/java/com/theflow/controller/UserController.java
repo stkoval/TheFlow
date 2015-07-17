@@ -63,7 +63,7 @@ public class UserController {
     @Autowired
     private CompanyService companyService;
 
-    @PreAuthorize("hasAnyRole('Admin','User','Observer')")
+    @PreAuthorize("hasAnyRole('Admin','User','Observer','Cabinet')")
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
@@ -117,7 +117,7 @@ public class UserController {
             userService.saveUserAddedAfterRegistration(userDto);
         } catch (EmailExistsException e) {
             result.rejectValue("email", "message.emailError");
-            ModelAndView mav = new ModelAndView("/signin/registration_user_exists", "user", userDto);
+            ModelAndView mav = new ModelAndView("/signin/registration", "user", userDto);
             return mav;
         } catch (CompanyExistsException ex) {
             result.rejectValue("companyName", "message.companyError");
