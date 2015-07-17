@@ -63,7 +63,7 @@ public class UserController {
     @Autowired
     private CompanyService companyService;
 
-    @PreAuthorize("hasAnyRole('Admin','User','Observer')")
+    @PreAuthorize("hasAnyRole('Admin','User','Observer','Cabinet')")
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView showUserProfilePage() {
         ModelAndView model = new ModelAndView("user/profile");
