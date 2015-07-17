@@ -58,7 +58,9 @@
                           <li th:if="${issue.status.toString()} != 'Testing'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=testing'}">Testing</a></li>
                           <li th:if="${issue.status.toString()} != 'On hold'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=on_hold'}">On hold</a></li>
                           <li th:if="${issue.status.toString()} != 'Review'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=review'}">Review</a></li>
+                          <li th:if="${issue.status.toString()} != 'Fixed'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=fixed'}">Fixed</a></li>
                           <li th:if="${issue.status.toString()} != 'Closed'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=closed'}">Closed</a></li>
+                          <li th:if="${issue.status.toString()} != 'Rejected'"><a th:href="@{'/issue/' + ${issue.issueId} + '/status?status=rejected'}">Rejected</a></li>
                         </ul>
                       </div>
                     </td>
