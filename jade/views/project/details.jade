@@ -31,7 +31,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             tr
                                 td(th:text!='\#{label.project.company}') Company
                                 td
-                                    p(th:text!='${project.companyId}') Company
+                                    p(th:text!='${#authentication.principal.companyName}') Company
                             tr
                                 td(th:text!='\#{label.project.start}') Start Date
                                 td

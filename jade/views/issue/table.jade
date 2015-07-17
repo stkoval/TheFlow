@@ -37,7 +37,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                         th.tools-cell Tools
                                 tbody
                                     tr(th:each='issue : ${issues}')
-                                        td(th:text!='${issue.issueId}') id
+                                        td(th:text!='${issue.issueExtId}') id
                                         td.title-cell
                                             a(th:href="@{'/issue/details/' + ${issue.issueId}}", th:text!='${issue.title}') name
                                         td.status-cell
