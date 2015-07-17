@@ -30,7 +30,7 @@
               <tr>
                 <td th:text="#{label.project.company}">Company</td>
                 <td>
-                  <p th:text="${project.companyId}">Company</p>
+                  <p th:text="${#authentication.principal.companyName}">Company</p>
                 </td>
               </tr>
               <tr>

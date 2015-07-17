@@ -46,7 +46,7 @@
                 </tfoot>
                 <tbody>
                   <tr th:each="issue : ${issues}">
-                    <td th:text="${issue.issueId}">id</td>
+                    <td th:text="${issue.issueExtId}">id</td>
                     <td class="title-cell"><a th:href="@{'/issue/details/' + ${issue.issueId}}" th:text="${issue.title}">name</a></td>
                     <td class="status-cell">
                       <div class="dropdown"><i th:text="${issue.status} + '-filter'"></i>
