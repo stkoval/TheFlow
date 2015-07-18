@@ -68,9 +68,15 @@ a.fancy-button.disabled {
   margin-top: 15px;
 }
 
-.blueRiver.disabled {
-  color: #FFF;
-  border-color: #FFF;
+.blueRiver {
+  &.disabled {
+    color: #FFF;
+    border-color: #FFF;
+    &:hover {
+      color: #3498db;
+      border-color: #3498db;
+    }
+  }
 }
 
 .logo {

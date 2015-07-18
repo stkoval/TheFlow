@@ -7,7 +7,7 @@ module.exports = {
         ext: '.html',
         options: {
             client: false,
-            pretty: true
+            pretty: false
         }
     }
 }

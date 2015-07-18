@@ -14,7 +14,7 @@ module.exports = {
             'bower_components/bootstrap-switch/dist/js/bootstrap-switch.js',
             'bower_components/bootstrap-select/js/bootstrap-select.js',
             'bower_components/bootstrap-validator/js/validator.js',
-            '<%= package.resources %>js/scripts.js'
+            'js/scripts.js'
         ],
         dest:'<%= package.resources %>js/compiled.js'
     },
@@ -28,7 +28,7 @@ module.exports = {
             'bower_components/skrollr/src/skrollr.js',
             'bower_components/skrollr-menu/src/skrollr.menu.js',
             'bower_components/bootstrap-validator/js/validator.js',
-            '<%= package.resources %>js/scripts-landing.js'
+            'js/scripts-landing.js'
         ],
         dest:'<%= package.resources %>js/compiled.landing.js'
     }

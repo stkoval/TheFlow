@@ -12,7 +12,7 @@ module.exports = {
                 'bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css',
                 'bower_components/bootstrap-select/dist/css/bootstrap-select.css',
                 '<%= package.resources %>css/fancy-buttons.css',
-                '<%= package.resources %>css/styles.less'
+                'less/styles.less'
             ]
         }
     },
@@ -22,7 +22,7 @@ module.exports = {
                 'bower_components/bootstrap/dist/css/bootstrap.css',
                 'bower_components/font-awesome/css/font-awesome.css',
                 '<%= package.resources %>css/fancy-buttons.css',
-                '<%= package.resources %>css/styles-landing.less'
+                'less/styles-landing.less'
             ]
         }
     },

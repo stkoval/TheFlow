@@ -23,7 +23,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             | &nbsp;All issues
                 .row
                     .col-md-8.col-md-offset-2
-                        form#createIssueForm.form-horizontal.issue-full-form(data-toggle='validator', th:object!='${issue}', th:action!='@{save}', method='post')
+                        form#createIssueForm.form-horizontal.issue-full-form(th:if!= '${\#arrays.length(projects)}', data-toggle='validator', th:object!='${issue}', th:action!='@{save}', method='post')
                             .form-group
                                 label.col-sm-2.control-label(for='title', th:text!='\#{label.issue.title}') Title
                                 .col-sm-10
@@ -47,6 +47,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 label.col-sm-2.control-label(for='priority', th:text!='\#{label.issue.priority}') Priority
                                 .col-sm-10
                                     select#priority.selectpicker(th:field='*{priority}')
+                                        option(value='') Choose priority
                                         option(th:each!='priority : ${priorities}', th:value!='${priority}', th:text!='${priority}')
                                     .help-block.with-errors
                                     .with-errors(th:if!="${#fields.hasErrors('priority')}", th:errors!='*{priority}')
@@ -54,6 +55,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 label.col-sm-2.control-label(for='assignee_id', th:text!='\#{label.issue.assignee}') Assignee
                                 .col-sm-10
                                     select#assignee_id.selectpicker(th:field='*{assigneeId}')
+                                        option(value='') Choose customer
                                         option(th:each='assignee : ${assignees}', th:value!='${assignee.userId}', th:text!='${assignee.fullName}')
                                     .help-block.with-errors
                                     .with-errors(th:if="${#fields.hasErrors('assigneeId')}", th:errors='*{assigneeId}')
@@ -61,7 +63,6 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 label.col-sm-2.control-label(for='project_id', th:text!='\#{label.issue.project}') Project
                                 .col-sm-10
                                     select#project_id.selectpicker(th:field='*{projectId}', required='', minlength='1')
-                                        option(value='') Choose project
                                         option(th:each='project : ${projects}', th:value!='${project.projectId}', th:text!='${project.projName}')
                                     .help-block.with-errors
                                     .with-errors(th:if="${#fields.hasErrors('projectId')}", th:errors='*{projectId}')
@@ -78,6 +79,11 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                         | Create
                                         span.icon
                                             i.fa.fa-check-circle
+                        .alert.alert-dismissable.alert-info(th:if!='!${\#arrays.length(projects)}')
+                            button.close(type='button', data-dismiss='alert', aria-hidden='true') &times;
+                            span
+                                a(sec:authorize="hasAnyRole('Admin', 'Observer')", th:href='@{/project/add}') Add your first project
+                                | , before adding issues.
             #push
         div(th:include!="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'", th:remove='tag') &nbsp;
         object(th:include='fragments/layout :: script', th:remove='tag')

@@ -24,5 +24,6 @@ module.exports = function(grunt) {
     gtx.alias('build:js',  ['concat:components','uglify:components','concat:landing','uglify:landing']);
     gtx.alias('build:css',  ['recess:components','recess:landing','pleeease:custom']);
     gtx.alias('build:html',  ['jade:compile']);
+    gtx.alias('build:files',  ['concat:components','uglify:components','concat:landing','uglify:landing','recess:components','recess:landing','pleeease:custom','copy:fonts','jade:compile']);
     gtx.finalise();
 }
