@@ -79,11 +79,19 @@ html
                                                 i.glyphicon.glyphicon-new-window
                                                 |  Logout
         #sidebar.col-md-3.col-xs-12(th:fragment='sidebar')
-            a.fancy-button.medium.blueHole.basic.add-issue(th:href='@{/issue/add}')
+            a.fancy-button.medium.blueHole.basic.add-issue(th:href='@{/issue/add}', th:if!='${\#arrays.length(projects)}')
                 | New issue
                 span.icon
                     i.fa.fa-file
-            a.fancy-button.medium.blueRiver.basic(th:href='@{/issue/all}')
+            a.fancy-button.medium.blueHole.basic.add-issue.disabled(th:if!='!${\#arrays.length(projects)}', data-toggle="modal", data-target="#addProjectModal")
+                | New issue
+                span.icon
+                    i.fa.fa-file
+            a.fancy-button.medium.blueRiver.basic.add-issue(th:href='@{/issue/all}', th:if!='${\#arrays.length(projects)}')
+                | All issues
+                span.icon
+                    i.fa.fa-user
+            a.fancy-button.medium.blueRiver.basic.add-issue.disabled(th:if!='!${\#arrays.length(projects)}', data-toggle="modal", data-target="#addProjectModal")
                 | All issues
                 span.icon
                     i.fa.fa-user
@@ -97,6 +105,17 @@ html
                 | New project
                 span.icon
                     i.fa.fa-asterisk
+            #addProjectModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='addProjectModalLabel', th:if!='!${\#arrays.length(projects)}')
+                .modal-dialog(role='document')
+                    .modal-content
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') &times;
+                            h4#addProjectModalLabel.modal-title Add your first project
+                        .modal-body
+                            p
+                                a(sec:authorize="hasAnyRole('Admin', 'Observer')", th:href='@{/project/add}') Add your first project
+                                | , before adding issues.
         div(th:fragment='footer')
             #footer
                 .container

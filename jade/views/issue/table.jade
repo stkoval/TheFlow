@@ -19,7 +19,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             table#issuesList.table.table-striped.table-bordered(cellspacing='0', width='100%')
                                 thead
                                     tr
-                                        th ID
+                                        th(th:if!="${projectId}") ID
                                         th(th:text!='\#{label.issue.title}') TITLE
                                         th(th:text!='\#{label.issue.status}') STATUS
                                         th(th:text!='\#{label.issue.type}') TYPE
@@ -28,7 +28,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                         th.tools-cell Tools
                                 tfoot
                                     tr
-                                        th ID
+                                        th(th:if!="${projectId}") ID
                                         th(th:text!='\#{label.issue.title}') TITLE
                                         th(th:text!='\#{label.issue.status}') STATUS
                                         th(th:text!='\#{label.issue.type}') TYPE
@@ -37,9 +37,10 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                         th.tools-cell Tools
                                 tbody
                                     tr(th:each='issue : ${issues}')
-                                        td(th:text!='${issue.issueExtId}') id
+                                        td(th:if!="${projectId}", th:utext!="${\#strings.substringAfter(issue.issueExtId, '-')}") id
                                         td.title-cell
-                                            a(th:href="@{'/issue/details/' + ${issue.issueId}}", th:text!='${issue.title}') name
+                                            a(th:href="@{'/issue/details/' + ${issue.issueId}}", th:if!="${projectId}", th:utext!="${issue.title}") name
+                                            a(th:href="@{'/issue/details/' + ${issue.issueId}}", th:if!="!${projectId}", th:utext!="${issue.issueExtId} + ': ' + ${issue.title}") name
                                         td.status-cell
                                             .dropdown
                                                 i(th:text!="${issue.status} + '-filter'")
