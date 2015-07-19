@@ -127,7 +127,7 @@ public class UserController {
             return new ModelAndView("/signin/registration", "user", userDto);
         }
 
-        model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " " + userDto.getEmail());
+        model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " username " + userDto.getEmail() + " company alias " + userDto.getCompanyAlias());
         return model;
     }
 
@@ -136,8 +136,9 @@ public class UserController {
     public ModelAndView registerAccountUserExists(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("signin/login");
         String username = request.getParameter("username");
+        String companyAlias = request.getParameter("company_alias");
         userService.addNewCompanyUserExists(request.getParameter("username"), request.getParameter("company_name"), request.getParameter("company_alias"));
-        model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " " + username);
+        model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " username " + username + " company alias " + companyAlias);
         return model;
     }
 
