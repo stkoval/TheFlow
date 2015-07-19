@@ -8,6 +8,7 @@ import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
+import com.theflow.service.FlowEmailService;
 import com.theflow.service.IssueAttachmentService;
 import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
+import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,6 +67,9 @@ public class IssueController {
 
     @Autowired
     private IssueAttachmentService issueAttachmentService;
+    
+    @Autowired
+    FlowEmailService mailService;
 
     private String attachPath = "/home/stas/workspace/flow_uploads/issue_attach/";
 
@@ -204,6 +209,16 @@ public class IssueController {
             }
         }
         issueService.updateIssue(issueDto);
+        
+        //Send notifications
+        User user = userService.getUserById(issueDto.getAssigneeId());
+        try {
+            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH) + 
+                    "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+            mailService.sendEmail(user.getEmail(), message);
+        } catch (MessagingException ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return new ModelAndView("redirect:/home");
     }
 
@@ -255,6 +270,16 @@ public class IssueController {
         }
         issue.setLoggedTime(sLoggedTime);
         issueService.updateIssue(issue);
+        
+        //Send notifications
+        try {
+            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH) + 
+                    "<br>logged time: " + sLoggedTime +
+                    "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+            mailService.sendEmail(issue.getAssignee().getEmail(), message);
+        } catch (MessagingException ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return model;
     }
 
@@ -297,6 +322,17 @@ public class IssueController {
             @PathVariable(value = "id") int issueId) {
         status = status.replace('_', ' ');
         issueService.changeIssueStatus(status, issueId);
+        
+        //Send notifications
+        Issue issue = issueService.getIssueById(issueId);
+        try {
+            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH) + 
+                    "<br>status: " + status +
+                    "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+            mailService.sendEmail(issue.getAssignee().getEmail(), message);
+        } catch (MessagingException ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return new ModelAndView("redirect:/home");
     }
 

@@ -17,6 +17,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.Ordered;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -128,4 +129,21 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         multipartResolver.setMaxInMemorySize(1048576);  // 1MB
         return multipartResolver;
     }
+    
+    @Bean
+	public JavaMailSenderImpl javaMailSenderImpl(){
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost("smtp.gmail.com");
+		mailSender.setPort(587);
+		//Set gmail email id
+		mailSender.setUsername("tflow.mail@gmail.com");
+		//Set gmail email password
+		mailSender.setPassword("fmhfrflfmhf");
+		Properties prop = mailSender.getJavaMailProperties();
+		prop.put("mail.transport.protocol", "smtp");
+		prop.put("mail.smtp.auth", "true");
+		prop.put("mail.smtp.starttls.enable", "true");
+		prop.put("mail.debug", "true");
+		return mailSender;
+	}
 }
