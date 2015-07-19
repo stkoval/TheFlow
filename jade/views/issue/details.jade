@@ -15,9 +15,9 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 i.fa.fa-chevron-left
                             | &nbsp;Back
                     .col-md-6
-                        h1.main-title.text-center(th:text!="Issue + ' ' + ${issue.issueId}") Issue details
+                        h1.main-title.text-center(th:text!="Issue + ' ' + ${issue.issueExtId}") Issue details
                     .col-md-3.nav-col.text-right
-                        a.fancy-button.medium.esmerald.icon.basic(th:href="@{'/issue/edit/' + ${issue.issueExtId}}")
+                        a.fancy-button.medium.esmerald.icon.basic(th:href="@{'/issue/edit/' + ${issue.issueId}}")
                             span.icon.pull-left
                                 i.fa.fa-edit
                             | &nbsp;Edit
