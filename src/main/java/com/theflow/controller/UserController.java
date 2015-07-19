@@ -7,6 +7,7 @@ import com.theflow.dto.PasswordDto;
 import com.theflow.dto.UserDto;
 import com.theflow.dto.UserProfileDto;
 import com.theflow.service.CompanyService;
+import com.theflow.service.FlowEmailService;
 import com.theflow.service.FlowUserDetailsService;
 import com.theflow.service.UserService;
 import helpers.UserRoleConstants;
@@ -15,6 +16,8 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -62,6 +65,9 @@ public class UserController {
 
     @Autowired
     private CompanyService companyService;
+    
+    @Autowired
+    FlowEmailService mailService;
 
     @PreAuthorize("hasAnyRole('Admin','User','Observer','Cabinet')")
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -83,6 +89,7 @@ public class UserController {
             String image = imageString.toString();
             model.addObject("image", image);
         }
+        
         return model;
     }
 
@@ -102,6 +109,7 @@ public class UserController {
         ModelAndView model = new ModelAndView("user/adduser");
         UserDto user = new UserDto();
         model.addObject("user", user);
+        
         return model;
     }
 
@@ -127,6 +135,16 @@ public class UserController {
             return new ModelAndView("/signin/registration", "user", userDto);
         }
 
+        //Send notification
+        try {
+            String message = messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + 
+                    "<br>" + " username: " + userDto.getEmail() + 
+                    " company alias: " + userDto.getCompanyAlias() + 
+                    "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+            mailService.sendEmail(userDto.getEmail(), message);
+        } catch (MessagingException ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " username " + userDto.getEmail() + " company alias " + userDto.getCompanyAlias());
         return model;
     }
@@ -164,6 +182,18 @@ public class UserController {
             return mav;
         }
 
+        //Send notification
+        try {
+            String message = messageSource.getMessage("message.user.register.inner", null, Locale.ENGLISH) + 
+                    "<br>" + "username: " + userDto.getEmail() + 
+                    "<br>" + "company alias: " + userDto.getCompanyAlias() +
+                    "<br>" + "password: " + userDto.getPassword() +
+                    "<br>" + "Please, reset your password on your profile page" +
+                    "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+            mailService.sendEmail(userDto.getEmail(), message);
+        } catch (MessagingException ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ModelAndView model = new ModelAndView("redirect:/users/manage");
         model.addObject("message", messageSource.getMessage("message.addUser.success", null, Locale.ENGLISH) + userDto.getEmail());
         return model;

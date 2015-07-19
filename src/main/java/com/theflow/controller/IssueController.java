@@ -8,6 +8,7 @@ import com.theflow.domain.Project;
 import com.theflow.domain.User;
 import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
+import com.theflow.service.FlowEmailService;
 import com.theflow.service.IssueAttachmentService;
 import com.theflow.service.IssueService;
 import com.theflow.service.ProjectService;
@@ -65,6 +66,9 @@ public class IssueController {
 
     @Autowired
     private IssueAttachmentService issueAttachmentService;
+    
+    @Autowired
+    FlowEmailService mailService;
 
     private String attachPath = "/home/stas/workspace/flow_uploads/issue_attach/";
 
