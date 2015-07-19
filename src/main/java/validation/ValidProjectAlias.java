@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package validation;
 
 import java.lang.annotation.Documented;
@@ -25,7 +20,7 @@ import javax.validation.Payload;
 @Documented
 public @interface ValidProjectAlias {
 
-    String message() default "Invalid project alias";
+    String message() default "Invalid project alias. Must start with letter. Only letters and numbers";
 
     Class<?>[] groups() default {};
 

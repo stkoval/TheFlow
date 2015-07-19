@@ -10,6 +10,7 @@ import com.theflow.dto.ProjectDto;
 import com.theflow.service.ProjectService;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import validation.ProjectAliasExistsException;
 import validation.ProjectNameExistsException;
 
 /**
@@ -51,6 +53,9 @@ public class ProjectController {
             projectService.saveProject(projectDto);
         } catch (ProjectNameExistsException e) {
             result.rejectValue("projName", "message.projectNameError");
+            return new ModelAndView("/project/addproject", "project", projectDto);
+        } catch (ProjectAliasExistsException ex) {
+            result.rejectValue("projectAlias", "message.projectAliasError");
             return new ModelAndView("/project/addproject", "project", projectDto);
         }
 
@@ -115,6 +120,9 @@ public class ProjectController {
             projectService.updateProject(projectDto);
         } catch (ProjectNameExistsException ex) {
             result.rejectValue("projName", "message.projectNameError");
+            return new ModelAndView("/project/edit", "project", projectDto);
+        } catch (ProjectAliasExistsException ex) {
+            result.rejectValue("projectAlias", "message.projectAliasError");
             return new ModelAndView("/project/edit", "project", projectDto);
         }
 

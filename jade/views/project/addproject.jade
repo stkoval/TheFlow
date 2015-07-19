@@ -31,6 +31,12 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                     .help-block.with-errors
                                     .with-errors(th:if="${#fields.hasErrors('projName')}", th:errors='*{projName}')
                             .form-group
+                                label.col-sm-2.control-label(for='alias', th:text!='\#{label.project.alias}') Name
+                                .col-sm-10
+                                    input#name.form-control(type='text', placeholder='Alias', th:field='*{projectAlias}', required='', maxlength='6')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('projectAlias')}", th:errors='*{projectAlias}')
+                            .form-group
                                 label.col-sm-2.control-label(for='description', th:text!='\#{label.project.description}') Description
                                 .col-sm-10
                                     textarea#description.form-control(th:field='*{projDescription}', maxlength='1000')
