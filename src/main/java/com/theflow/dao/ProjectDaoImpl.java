@@ -75,4 +75,19 @@ public class ProjectDaoImpl implements ProjectDao {
             return null;
         }
     }
+
+    @Override
+    public Project findByAlias(String projectAlias) {
+        List<Project> projects = new ArrayList<>();
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "from Project where projectAlias = :alias";
+        Query q = session.createQuery(hql);
+        q.setParameter("alias", projectAlias);
+        projects = q.list();
+        if (projects.size() > 0) {
+            return projects.get(0);
+        } else {
+            return null;
+        }
+    }
 }

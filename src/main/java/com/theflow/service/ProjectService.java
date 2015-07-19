@@ -8,6 +8,7 @@ package com.theflow.service;
 import com.theflow.domain.Project;
 import com.theflow.dto.ProjectDto;
 import java.util.List;
+import validation.ProjectAliasExistsException;
 import validation.ProjectNameExistsException;
 
 
@@ -19,11 +20,11 @@ public interface ProjectService {
 
     public List<Project> getProjectList();
 
-    public void saveProject(ProjectDto project) throws ProjectNameExistsException;
+    public void saveProject(ProjectDto project) throws ProjectNameExistsException, ProjectAliasExistsException;
 
     public void removeProject(int id);
 
     public Project getProjectById(int id);
 
-    public void updateProject(ProjectDto project) throws ProjectNameExistsException;
+    public void updateProject(ProjectDto project) throws ProjectNameExistsException, ProjectAliasExistsException;
 }

@@ -22,7 +22,7 @@ public class ProjectDto {
     @NotEmpty
     @Size(max = 6)
     @ValidProjectAlias
-    private String projAlias;
+    private String projectAlias;
     
     @Size(max = 1000)
     private String projDescription;
@@ -79,6 +79,15 @@ public class ProjectDto {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+    
+    
+    public String getProjectAlias() {
+        return projectAlias;
+    }
+
+    public void setProjectAlias(String projectAlias) {
+        this.projectAlias = projectAlias;
     }
 
     @Override
