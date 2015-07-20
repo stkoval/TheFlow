@@ -16,8 +16,6 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -125,7 +123,7 @@ public class UserController {
             userService.saveUserAddedAfterRegistration(userDto);
         } catch (EmailExistsException e) {
             result.rejectValue("email", "message.registration.usernameExists");
-            ModelAndView mav = new ModelAndView("/signin/registration", "user", userDto);
+            ModelAndView mav = new ModelAndView("/signin/registration_user_exists", "user", userDto);
             return mav;
         } catch (CompanyExistsException ex) {
             result.rejectValue("companyName", "message.companyError");
@@ -146,15 +144,21 @@ public class UserController {
     }
 
     //save account user after registration procees from login page when user exists in db
-//    @RequestMapping(value = "/signin/new_account_user_exists", method = RequestMethod.POST)
-//    public ModelAndView registerAccountUserExists(HttpServletRequest request) {
-//        ModelAndView model = new ModelAndView("signin/login");
-//        String username = request.getParameter("username");
-//        String companyAlias = request.getParameter("company_alias");
-//        userService.addNewCompanyUserExists(request.getParameter("username"), request.getParameter("company_name"), request.getParameter("company_alias"));
-//        model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " username " + username + " company alias " + companyAlias);
-//        return model;
-//    }
+    @RequestMapping(value = "/signin/new_account_user_exists", method = RequestMethod.POST)
+    public ModelAndView registerAccountUserExists(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("signin/login");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String companyAlias = request.getParameter("company_alias");
+        try {
+            userService.addNewCompanyUserExists(username, password, request.getParameter("company_name"), request.getParameter("company_alias"));
+        } catch (InvalidPasswordException ex) {
+            model.addObject("error", messageSource.getMessage("PasswordMatches.user", null, Locale.ENGLISH));
+            return model;
+        }
+        model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " username " + username + " company alias " + companyAlias);
+        return model;
+    }
 
     //add new user to existing company through manage users page by admin user
     @PreAuthorize("hasRole('Admin')")
@@ -351,7 +355,7 @@ public class UserController {
         return model;
     }
 
-    @PreAuthorize("hasAnyRole('Admin','User','Observer')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Cabinet')")
     @RequestMapping(value = "user/{id}/image", method = RequestMethod.POST)
     public ModelAndView uploadProfileImage(@RequestParam("image") CommonsMultipartFile image, @PathVariable(value = "id") int userId) {
         ModelAndView model = new ModelAndView("redirect:/profile");

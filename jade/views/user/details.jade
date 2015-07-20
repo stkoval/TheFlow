@@ -41,13 +41,14 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             tr
                                 td(th:text!='\#{label.user.role}') User role
                                 td
-                                    .btn-group
-                                        button.dropdown-toggle.fancy-button.small.blueRiver.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
-                                            span(th:text!='${current_role}') User role
-                                            span.caret
-                                        ul.dropdown-menu(role='menu')
-                                            li(th:each='role : ${roles}', th:if='${current_role != role.toString()}')
-                                                a(th:href="@{/user/} + ${user.userId}+ '/role?role=' + ${role}", th:text!='${role}') Role
+                                    h4(th:text!='${current_role}') User role
+                                    //.btn-group
+                                    //    button.dropdown-toggle.fancy-button.small.blueRiver.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                    //        span(th:text!='${current_role}') User role
+                                    //        span.caret
+                                    //    ul.dropdown-menu(role='menu')
+                                    //        li(th:each='role : ${roles}', th:if='${current_role != role.toString()}')
+                                    //            a(th:href="@{/user/} + ${user.userId}+ '/role?role=' + ${role}", th:text!='${role}') Role
             #push
         div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
         object(th:include='fragments/layout :: script', th:remove='tag')
