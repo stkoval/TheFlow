@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
@@ -356,7 +355,7 @@ public class UserController {
         return model;
     }
 
-    @PreAuthorize("hasAnyRole('Admin','User','Observer')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Cabinet')")
     @RequestMapping(value = "user/{id}/image", method = RequestMethod.POST)
     public ModelAndView uploadProfileImage(@RequestParam("image") CommonsMultipartFile image, @PathVariable(value = "id") int userId) {
         ModelAndView model = new ModelAndView("redirect:/profile");

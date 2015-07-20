@@ -356,6 +356,7 @@ public class IssueController {
     }
 
     //Upload and save attached files
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/issue/{id}/upload", method = RequestMethod.POST)
     public ModelAndView handleFileUpload(HttpServletRequest request,
             @RequestParam(value = "fileUpload", required = false) CommonsMultipartFile[] fileUpload, @PathVariable(value = "id") int issueId) throws Exception {

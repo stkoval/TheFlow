@@ -114,6 +114,7 @@ public class LoginController {
         return model;
     }
     
+    @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/companies", method = RequestMethod.GET)
     public ModelAndView showManageCompaniesPage(HttpServletRequest request, HttpServletResponse response) {
 
