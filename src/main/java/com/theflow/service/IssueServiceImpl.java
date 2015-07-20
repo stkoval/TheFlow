@@ -307,16 +307,16 @@ public class IssueServiceImpl implements IssueService {
                 if (aFile.getBytes().length > 204800) {
                     throw new IssueAttachmentConstraintViolationException("Constraint violation. You can add 3 attachments, 1MB max size of one file");
                 }
-
-                if (!aFile.getOriginalFilename().equals("")) {
+                
+                final String originalFilename = aFile.getOriginalFilename();
+                if (!originalFilename.equals("")) {
                     try {
-                        String encodedFileName = URLEncoder.encode(aFile.getOriginalFilename(), "UTF-8");
-                        File newFile = new File(saveDirectory + issueId + "_" + aFile.getOriginalFilename());
+                        String encodedFileName = URLEncoder.encode(originalFilename, "UTF-8");
+                        File newFile = new File(saveDirectory + issueId + "_" + encodedFileName);
                         newFile.getParentFile().mkdirs();
-                        boolean isCreated = newFile.createNewFile();
                         aFile.transferTo(newFile);
                         IssueAttachment attach = new IssueAttachment();
-                        attach.setFileName(aFile.getOriginalFilename());
+                        attach.setFileName(originalFilename);
                         attach.setContentType(aFile.getContentType());
                         attach.setIssue(issue);
                         attachments.add(attach);
