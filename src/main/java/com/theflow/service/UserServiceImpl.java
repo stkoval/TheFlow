@@ -276,8 +276,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addNewCompanyUserExists(String username, String companyName, String companyAlias) {
+    public void addNewCompanyUserExists(String username, String password, String companyName, String companyAlias) throws InvalidPasswordException {
+        
         User user = userDao.findUserByEmail(username);
+        String actualPass = user.getPassword();
+        if (!passwordEncoder.matches(password, actualPass)) {
+            throw new InvalidPasswordException("Invalid password");
+        }
         Company company = new Company(companyName, companyAlias);
         company.setCreator(user);
         UserCompany uc = new UserCompany();

@@ -57,5 +57,5 @@ public interface UserService {
 
     public void changePassword(PasswordDto passwordDto) throws InvalidPasswordException;
 
-    public void addNewCompanyUserExists(String username, String companyName, String companyAlias);
+    public void addNewCompanyUserExists(String username, String password, String companyName, String companyAlias) throws InvalidPasswordException;
 }
