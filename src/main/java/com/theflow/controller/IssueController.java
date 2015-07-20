@@ -18,6 +18,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -67,7 +71,7 @@ public class IssueController {
 
     @Autowired
     private IssueAttachmentService issueAttachmentService;
-    
+
     @Autowired
     FlowEmailService mailService;
 
@@ -77,7 +81,7 @@ public class IssueController {
 
     @Autowired
     private MessageSource messageSource;
-    
+
     @Autowired
     private ServletContext servletContext;
 
@@ -209,15 +213,17 @@ public class IssueController {
             }
         }
         issueService.updateIssue(issueDto);
-        
+
         //Send notifications
         User user = userService.getUserById(issueDto.getAssigneeId());
         try {
-            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH) + 
-                    "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
+                    + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
             mailService.sendEmail(user.getEmail(), message);
         } catch (MessagingException ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Throwable t) {
+
         }
         return new ModelAndView("redirect:/home");
     }
@@ -270,12 +276,12 @@ public class IssueController {
         }
         issue.setLoggedTime(sLoggedTime);
         issueService.updateIssue(issue);
-        
+
         //Send notifications
         try {
-            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH) + 
-                    "<br>logged time: " + sLoggedTime +
-                    "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
+                    + "<br>logged time: " + sLoggedTime
+                    + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
             mailService.sendEmail(issue.getAssignee().getEmail(), message);
         } catch (MessagingException ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -322,13 +328,13 @@ public class IssueController {
             @PathVariable(value = "id") int issueId) {
         status = status.replace('_', ' ');
         issueService.changeIssueStatus(status, issueId);
-        
+
         //Send notifications
         Issue issue = issueService.getIssueById(issueId);
         try {
-            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH) + 
-                    "<br>status: " + status +
-                    "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
+                    + "<br>status: " + status
+                    + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
             mailService.sendEmail(issue.getAssignee().getEmail(), message);
         } catch (MessagingException ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -337,7 +343,7 @@ public class IssueController {
     }
 
     //change issue type
-   @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
+    @PreAuthorize("hasAnyRole('Admin','User', 'Observer')")
     @RequestMapping(value = "issue/{id}/type", method = RequestMethod.GET)
     public ModelAndView changeIssueType(@RequestParam(value = "type") String type,
             @PathVariable(value = "id") int issueId) {
@@ -385,7 +391,13 @@ public class IssueController {
             HttpServletRequest request, HttpServletResponse response) {
 
         IssueAttachment attach = issueAttachmentService.getIssueAttachmentById(attachmentId);
-        String fullPath = attachPath + attach.getIssue().getIssueId() + "_" + attach.getFileName();
+        String encodedFilename = attach.getFileName();
+        try {
+            encodedFilename = URLEncoder.encode(attach.getFileName(), "utf-8");
+        } catch (UnsupportedEncodingException ex) {
+            java.util.logging.Logger.getLogger(IssueController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String fullPath = attachPath + attach.getIssue().getIssueId() + "_" + encodedFilename;
         ServletContext context = request.getServletContext();
 
         File downloadFile = new File(fullPath);
@@ -397,15 +409,22 @@ public class IssueController {
 
             response.setContentLength((int) downloadFile.length());
             response.setContentType(context.getMimeType(fullPath) + ";charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
 
             // response header
             String headerKey = "Content-Disposition";
-            String headerValue = "attachment; filename=\"" + attach.getFileName() + "\"";
+            String headerValue = "attachment; filename=\"" + encodedFilename.replace("+", "%20") + "\"";
+            response.setHeader(headerKey, headerValue);
+            headerKey = "Accept-Charset";
+            headerValue = "utf-8";
             response.setHeader(headerKey, headerValue);
 
             // Write response
             outStream = response.getOutputStream();
             IOUtils.copy(inputStream, outStream);
+            System.out.println("Charset.defaultCharset(): " + Charset.defaultCharset());
+            System.out.println(System.getProperty("file.encoding"));
+            System.out.println("::");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -423,7 +442,7 @@ public class IssueController {
 
         }
     }
-    
+
     //Remove attached file
     @PreAuthorize("hasAnyRole('Admin','User')")
     @RequestMapping(value = "/attachment/{id}/remove", method = RequestMethod.GET)
@@ -431,7 +450,7 @@ public class IssueController {
 
         IssueAttachment attach = issueAttachmentService.getIssueAttachmentById(attachmentId);
         ModelAndView model = new ModelAndView("redirect:/issue/details/" + attach.getIssue().getIssueId());
-        
+
         String fullPath = attachPath + attach.getIssue().getIssueId() + "_" + attach.getFileName();
         File toRemove = new File(fullPath);
         boolean exists = toRemove.exists();
@@ -440,9 +459,9 @@ public class IssueController {
         Set<IssueAttachment> attachSet = issue.getAttachment();
         boolean b = attachSet.contains(attach);
         attachSet.remove(attach);
-        
+
         issueService.updateIssue(issue);
-        
+
         return model;
     }
 

@@ -359,7 +359,7 @@ public class UserController {
         return model;
     }
 
-    @PreAuthorize("hasAnyRole('Admin','User')")
+    @PreAuthorize("hasAnyRole('Admin','User','Observer')")
     @RequestMapping(value = "user/{id}/image", method = RequestMethod.POST)
     public ModelAndView uploadProfileImage(@RequestParam("image") CommonsMultipartFile image, @PathVariable(value = "id") int userId) {
         ModelAndView model = new ModelAndView("redirect:/profile");
