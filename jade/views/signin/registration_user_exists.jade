@@ -51,7 +51,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 .with-errors(th:if="${#fields.hasErrors('password')}", th:errors='*{password}') Name Error
                         .row
                             .col-md-12.col-xs-12
-                                h1 Add existing user
+                                h1 Existing user
                                 form(method='POST', th:action='@{/signin/new_account_user_exists}', th:object='${user}')
                                     .form-group
                                         label(th:text!='${user.email}')
@@ -60,14 +60,15 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                         input#companyName.form-control(type='hidden', placeholder='email', th:name='company_name', th:value='${user.companyName}', required='')
                                     .form-group
                                         input#companyAlias.form-control(type='hidden', placeholder='email', th:name='company_alias', th:value='${user.companyAlias}', required='')
-                                    button.fancy-button.medium.blueHole.basic.login-button(type='submit', th:text!='\#{label.form.add}')
+                                    .form-group
+                                        input#password.form-control(type='password', placeholder='password', th:name='password', required='')
                                     .row.buttons-row
                                         .col-md-4
                                             a.fancy-button.medium.asbestos.basic.login-button.text-center(th:href='@{/login}') Sign in
                                                 span.icon
                                                     i.fa.fa-paper-plane
                                         .col-md-4
-                                            button.fancy-button.medium.blueHole.basic.login-button(type='submit') Submit
+                                            button.fancy-button.medium.blueHole.basic.login-button(type='submit') Add company
                                                 span.icon
                                                     i.fa.fa-user-plus
                                         .col-md-4
