@@ -216,15 +216,9 @@ public class IssueController {
 
         //Send notifications
         User user = userService.getUserById(issueDto.getAssigneeId());
-        try {
-            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
-                    + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
-            mailService.sendEmail(user.getEmail(), message);
-        } catch (MessagingException ex) {
-            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Throwable t) {
-
-        }
+        String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
+                + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+        mailService.sendEmail(user.getEmail(), message);
         return new ModelAndView("redirect:/home");
     }
 
@@ -278,14 +272,10 @@ public class IssueController {
         issueService.updateIssue(issue);
 
         //Send notifications
-        try {
-            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
-                    + "<br>logged time: " + sLoggedTime
-                    + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
-            mailService.sendEmail(issue.getAssignee().getEmail(), message);
-        } catch (MessagingException ex) {
-            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
+                + "<br>logged time: " + sLoggedTime
+                + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+        mailService.sendEmail(issue.getAssignee().getEmail(), message);
         return model;
     }
 
@@ -331,14 +321,10 @@ public class IssueController {
 
         //Send notifications
         Issue issue = issueService.getIssueById(issueId);
-        try {
-            String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
-                    + "<br>status: " + status
-                    + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
-            mailService.sendEmail(issue.getAssignee().getEmail(), message);
-        } catch (MessagingException ex) {
-            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
+                + "<br>status: " + status
+                + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+        mailService.sendEmail(issue.getAssignee().getEmail(), message);
         return new ModelAndView("redirect:/home");
     }
 

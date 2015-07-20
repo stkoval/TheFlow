@@ -65,7 +65,7 @@ public class UserController {
 
     @Autowired
     private CompanyService companyService;
-    
+
     @Autowired
     FlowEmailService mailService;
 
@@ -89,7 +89,7 @@ public class UserController {
             String image = imageString.toString();
             model.addObject("image", image);
         }
-        
+
         return model;
     }
 
@@ -109,7 +109,7 @@ public class UserController {
         ModelAndView model = new ModelAndView("user/adduser");
         UserDto user = new UserDto();
         model.addObject("user", user);
-        
+
         return model;
     }
 
@@ -124,7 +124,7 @@ public class UserController {
         try {
             userService.saveUserAddedAfterRegistration(userDto);
         } catch (EmailExistsException e) {
-            result.rejectValue("email", "message.emailError");
+            result.rejectValue("email", "message.registration.usernameExists");
             ModelAndView mav = new ModelAndView("/signin/registration", "user", userDto);
             return mav;
         } catch (CompanyExistsException ex) {
@@ -136,29 +136,25 @@ public class UserController {
         }
 
         //Send notification
-        try {
-            String message = messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + 
-                    "<br>" + " username: " + userDto.getEmail() + 
-                    " company alias: " + userDto.getCompanyAlias() + 
-                    "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
-            mailService.sendEmail(userDto.getEmail(), message);
-        } catch (MessagingException ex) {
-            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String message = messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH)
+                + "<br>" + " username: " + userDto.getEmail()
+                + " company alias: " + userDto.getCompanyAlias()
+                + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+        mailService.sendEmail(userDto.getEmail(), message);
         model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " username " + userDto.getEmail() + " company alias " + userDto.getCompanyAlias());
         return model;
     }
 
     //save account user after registration procees from login page when user exists in db
-    @RequestMapping(value = "/signin/new_account_user_exists", method = RequestMethod.POST)
-    public ModelAndView registerAccountUserExists(HttpServletRequest request) {
-        ModelAndView model = new ModelAndView("signin/login");
-        String username = request.getParameter("username");
-        String companyAlias = request.getParameter("company_alias");
-        userService.addNewCompanyUserExists(request.getParameter("username"), request.getParameter("company_name"), request.getParameter("company_alias"));
-        model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " username " + username + " company alias " + companyAlias);
-        return model;
-    }
+//    @RequestMapping(value = "/signin/new_account_user_exists", method = RequestMethod.POST)
+//    public ModelAndView registerAccountUserExists(HttpServletRequest request) {
+//        ModelAndView model = new ModelAndView("signin/login");
+//        String username = request.getParameter("username");
+//        String companyAlias = request.getParameter("company_alias");
+//        userService.addNewCompanyUserExists(request.getParameter("username"), request.getParameter("company_name"), request.getParameter("company_alias"));
+//        model.addObject("message", messageSource.getMessage("message.user.register.success", null, Locale.ENGLISH) + " username " + username + " company alias " + companyAlias);
+//        return model;
+//    }
 
     //add new user to existing company through manage users page by admin user
     @PreAuthorize("hasRole('Admin')")
@@ -176,24 +172,20 @@ public class UserController {
             ModelAndView mav = new ModelAndView("/user/adduser", "user", userDto);
             return mav;
         } catch (EmailExistsException e) {
-            result.rejectValue("email", "message.emailError");
+            result.rejectValue("email", "message.usernameExists");
             ModelAndView mav = new ModelAndView("/user/add_existing", "user", userDto);
             mav.addObject("usernameExists", userDto.getEmail());
             return mav;
         }
 
         //Send notification
-        try {
-            String message = messageSource.getMessage("message.user.register.inner", null, Locale.ENGLISH) + 
-                    "<br>" + "username: " + userDto.getEmail() + 
-                    "<br>" + "company alias: " + userDto.getCompanyAlias() +
-                    "<br>" + "password: " + userDto.getPassword() +
-                    "<br>" + "Please, reset your password on your profile page" +
-                    "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
-            mailService.sendEmail(userDto.getEmail(), message);
-        } catch (MessagingException ex) {
-            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String message = messageSource.getMessage("message.user.register.inner", null, Locale.ENGLISH)
+                + "<br>" + "username: " + userDto.getEmail()
+                + "<br>" + "company alias: " + userDto.getCompanyAlias()
+                + "<br>" + "password: " + userDto.getPassword()
+                + "<br>" + "Please, reset your password on your profile page"
+                + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
+        mailService.sendEmail(userDto.getEmail(), message);
         ModelAndView model = new ModelAndView("redirect:/users/manage");
         model.addObject("message", messageSource.getMessage("message.addUser.success", null, Locale.ENGLISH) + userDto.getEmail());
         return model;
