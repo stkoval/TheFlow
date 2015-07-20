@@ -17,9 +17,11 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.Ordered;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -42,8 +44,8 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("signin/login");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        registry.addViewController("/").setViewName("/home/landing");
     }
 
     @Override
@@ -64,6 +66,8 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     private Properties getHibernateProperties() {
         Properties prop = new Properties();
         prop.put("hibernate.show_sql", "true");
+        prop.put("hibernate.connection.useUnicode", "true");
+        prop.put("hibernate.connection.characterEncoding", "UTF-8");
         prop.put("hibernate.dialect",
                 "org.hibernate.dialect.MySQL5Dialect");
         return prop;
@@ -74,7 +78,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/flowdb");
+        ds.setUrl("jdbc:mysql://localhost:3306/flowdb?characterEncoding=UTF-8");
         ds.setUsername("root");
         ds.setPassword("root");
         return ds;
@@ -107,7 +111,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         messageSource.setCacheSeconds(0);
         return messageSource;
     }
-    
+
     @Bean
     public EmailValidator usernameValidator() {
         return new EmailValidator();
@@ -117,4 +121,29 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     public PasswordMatchesValidator passwordMatchesValidator() {
         return new PasswordMatchesValidator();
     }
+
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver getCommonsMultipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(3145728);   // 3MB
+        multipartResolver.setMaxInMemorySize(1048576);  // 1MB
+        return multipartResolver;
+    }
+    
+    @Bean
+	public JavaMailSenderImpl javaMailSenderImpl(){
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost("smtp.gmail.com");
+		mailSender.setPort(587);
+		//Set gmail email id
+		mailSender.setUsername("tflow.mail@gmail.com");
+		//Set gmail email password
+		mailSender.setPassword("fmhfrflfmhf");
+		Properties prop = mailSender.getJavaMailProperties();
+		prop.put("mail.transport.protocol", "smtp");
+		prop.put("mail.smtp.auth", "true");
+		prop.put("mail.smtp.starttls.enable", "true");
+		prop.put("mail.debug", "true");
+		return mailSender;
+	}
 }

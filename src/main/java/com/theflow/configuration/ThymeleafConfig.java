@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
 import org.thymeleaf.extras.tiles2.dialect.TilesDialect;
-import org.thymeleaf.spring3.SpringTemplateEngine;
-import org.thymeleaf.spring3.view.ThymeleafViewResolver;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.UrlTemplateResolver;
 
@@ -28,6 +28,7 @@ public class ThymeleafConfig {
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("LEGACYHTML5");
+        resolver.setCharacterEncoding("UTF-8");
         resolver.setOrder(1);
         return resolver;
     }
@@ -36,7 +37,6 @@ public class ThymeleafConfig {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolver(templateResolver());
-        //engine.addTemplateResolver(urlTemplateResolver());
         engine.addDialect(new SpringSecurityDialect());
         engine.addDialect(new TilesDialect());
         engine.addDialect(new LayoutDialect());
@@ -52,6 +52,7 @@ public class ThymeleafConfig {
     public ThymeleafViewResolver thymeleafViewResolver() {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
+        resolver.setCharacterEncoding("UTF-8");
 
         return resolver;
     }

@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.theflow.dto;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 import validation.PasswordMatches;
+import validation.ValidCompanyAlias;
 import validation.ValidEmail;
 
 /**
@@ -23,11 +20,13 @@ public class UserDto {
     @NotNull
     @NotEmpty
     @Size(min = 2, max = 30)
+    @Pattern(message="Invalid symbols. Please, use only letters", regexp="^[a-zA-Zа-яА-Я]+$")
     private String firstName;
     
     @NotNull
     @NotEmpty
     @Size(min = 2, max = 30)
+    @Pattern(message="Invalid symbols. Please, use only letters", regexp="^[a-zA-Zа-яА-Я]+$")
     private String lastName;
     
     @ValidEmail
@@ -46,9 +45,15 @@ public class UserDto {
     
     @NotNull
     @NotEmpty
-    @Size(min = 3, max = 30)
+    @Size(min = 2, max = 30)
     private String companyName;
-
+    
+    @NotNull
+    @NotEmpty
+    @Size(min = 2, max = 16)
+    @ValidCompanyAlias
+    private String companyAlias;
+    
     public int getUserId() {
         return userId;
     }
@@ -103,5 +108,13 @@ public class UserDto {
 
     public void setMatchingPassword(String matchingPassword) {
         this.matchingPassword = matchingPassword;
+    }
+
+    public String getCompanyAlias() {
+        return companyAlias;
+    }
+
+    public void setCompanyAlias(String companyAlias) {
+        this.companyAlias = companyAlias;
     }
 }

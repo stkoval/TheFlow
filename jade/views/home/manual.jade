@@ -1,0 +1,78 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Manual')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            .container-fluid.header-container.navbar-fixed-top
+                .container.header-centred
+                    #header.header.row
+                        .navbar
+                            .navbar-header.col-md-3
+                                a.navbar-brand.logo.logo-top(th:href='@{/index}')
+                                    i.fa.fa-paper-plane
+                                    | &nbsp;
+                                    strong.text-left
+                                        small the
+                                        b Flow
+                            #top-navbar.collapse.navbar-collapse
+                                .col-md-3.col-xs-3
+                                .col-md-6.col-xs-6
+                                    ul.nav.navbar-nav.navbar-right
+                                        li
+                                            a.text-primary(href='/logout', th:href='@{/user/registration}')
+                                                i.fa.fa-user-plus
+                                                |  Sign up
+                                        li
+                                            a.text-primary(href='/logout', th:href='@{/login}')
+                                                i.fa.fa-paper-plane
+                                                |  Sign in
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+
+                    .col-md-6
+                        h1.main-title.text-center User manual
+                    .col-md-3.text-right
+                .row
+                    .col-md-12
+                        .panel.panel-primary
+                            .panel-heading New company registration
+                            .panel-body
+                                p If you have been registered in the application already, you can enter your cabinet by pressing button &quot;Cabinet&quot; on the start page with entering your username and password, which is the same for all companies you are related to. Press the &quot;Add company&quot; button on your cabinet page to add a new company.
+                                p If you are a new user to the system, press the &quot;Registration&quot; button on the start page. You will be redirected to the form, where you need to input your registration data. The new company with the new admin user will be created.
+                                p During registering a new company, you have to input your company name and company alias &ndash; short one-word name with only letters and digits allowed.
+                        .panel.panel-primary
+                            .panel-heading Signing in
+                            .panel-body
+                                p Enter &quot;Login button&quot; on the start page. Here you can login to a specific company. You need to input company alias.
+                                p When you are logged in you can go to the &quot;Companies&quot; page by pressing the &quot;Companies&quot button on your profile page. Here you can see all companies you are registered in. It is possible to perform one-click login to any of this companies by pressing the &quot;Sign in&quot; button;
+                        .panel.panel-primary
+                            .panel-heading Managing companies
+                            .panel-body
+                                p You can access your &quot;Companies&quot; page by pressing the &quot;Companies&quot; button on your profile page.
+                                p On your &quot;Companies&quot; page you can see the list of companies you are registered in with your security role in every company. Also you can sign in in every company you see by pressing the &quot;Sign in&quot; button
+                                p Also you can manage(add/edit/remove) companies which you have created. To manage own companies press the button &quot;Own companies&quot; on the &quot;Companies&quot page.
+                        .panel.panel-primary
+                            .panel-heading Starting to work
+                            .panel-body
+                                p After you have signed in you are on the main page. You can change your password on your profile page in the top right corner of the page header.
+                                p It has to be at least one project created to create a new issue. Only admin users can create new projects. You can find your security role on your profile page.
+                        .panel.panel-primary
+                            .panel-heading Creating a new project (is available only for admin users)
+                            .panel-body
+                                p You can create a new project from the main page, after you have signed in. Press the &quot;New project&quot; button to create a new project.
+                                p Also, you can create a new project from Admin tools &rarr; Manage projects &rarr;Add project
+                        .panel.panel-primary
+                            .panel-heading Adding users to your company (is available only for admin users)
+                            .panel-body
+                                p You can add a new user to your company by following &quot;Admin tools&quot; &rarr; Manage users &rarr;Add user. You need to input new user&apos;s credentials. If the user with input email is already exists, system will alert you and you will be able to add existing user to your company with special form. &quot;User&quot; role will be assigned to added users in scope of your company.
+                        .panel.panel-primary
+                            .panel-heading Managing users and projects (is available only for admin users)
+                            .panel-body
+                                p To add/remove/update users or projects go to the &quot;Admin tools&quot; on the application header.
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

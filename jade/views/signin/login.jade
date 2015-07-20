@@ -1,0 +1,61 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Login')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        .container-login
+            .outer
+                .inner
+                    .centered
+                        .logo.logo-login
+                            i.fa.fa-paper-plane
+                            strong.text-left
+                                small the
+                                b Flow
+                        .row
+                            .col-md-12
+                                .alert.alert-danger.alert-dismissible.fade.in(role="alert", th:if!='${error}')
+                                    button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                        span(aria-hidden="true") ×
+                                    strong(th:text!='${error}')
+                                .alert.alert-warning.alert-dismissible.fade.in(role="alert", th:if!='${warning}')
+                                    button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                        span(aria-hidden="true") ×
+                                    strong(th:text!='${warning}')
+                        form#loginForm.form-signin(data-toggle='validator', th:action="@{'/j_spring_security_check'}", method='post')
+                            h2.form-signin-heading Please sign in
+                            .alert.alert-warning(th:if='${param.error}') Invalid input.
+                            .alert.alert-success(th:if='${param.logout}') You have been logged out.
+                            .alert.alert-info(th:if='${message}', th:text!='${message}')
+                            .form-group
+                                label.sr-only(for='username') Email address
+                                input#username.form-control(type='email', name='username', placeholder='Email address', required='required', autofocus='', data-error='Invalid email')
+                                .help-block.with-errors
+                            .form-group
+                                label.sr-only(for='username') Company subdomain
+                                input#companyAlias.form-control(type='text', name='companyAlias', placeholder='Company alias', required='required', autofocus='', data-error='Invalid company alias')
+                                .help-block.with-errors
+                            .form-group
+                                label.sr-only(for='password') Password
+                                input#password.form-control(type='password', name='password', placeholder='Password', required='required', data-error='Please, enter your password', data-minlength='6', data-minlength-error='Your password is too short, minimum 6 characters required')
+                                .help-block.with-errors
+                            //.checkbox
+                                label
+                                input(type='checkbox', value='remember-me')
+                                | Remember me
+                            .row.buttons-row
+                                .col-md-4
+                                    a.fancy-button.medium.asbestos.basic.login-button.text-center(th:href='@{/user/registration}') Sign up
+                                        span.icon
+                                            i.fa.fa-user-plus
+                                .col-md-4
+                                    button.fancy-button.medium.blueHole.basic.login-button(type='submit') Submit
+                                        span.icon
+                                            i.fa.fa-paper-plane
+                                .col-md-4
+                                    a.fancy-button.medium.asbestos.basic.login-button.text-center(th:href='@{/index}') Home
+                                        span.icon
+                                            i.fa.fa-home
+        object(th:include='fragments/layout :: script', th:remove='tag')

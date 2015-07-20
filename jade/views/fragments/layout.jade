@@ -1,0 +1,128 @@
+doctype html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org', xmlns:sec='http://www.thymeleaf.org/thymeleaf-extras-springsecurity3')
+html
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Layout')
+    body
+        object(th:fragment='styles')
+            link(href='../../../resources/css/compiled.min.css', type='text/css', rel='stylesheet', th:href='@{/resources/css/compiled.min.css}')
+            link(href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300&subset=latin,cyrillic', rel='stylesheet', type='text/css')
+            link(href='http://fonts.googleapis.com/css?family=Slabo+27px', rel='stylesheet', type='text/css')
+            link(href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed&subset=latin,cyrillic', rel='stylesheet', type='text/css')
+        div(th:fragment='header')
+            .container-fluid.header-container.navbar-fixed-top
+                .container.header-centred
+                    #header.header.row
+                        .navbar
+                            .navbar-header.col-md-3
+                                button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#top-navbar')
+                                    span.sr-only Toggle navigation
+                                    span.icon-bar
+                                    span.icon-bar
+                                    span.icon-bar
+                                a.navbar-brand.logo.logo-top.hidden-xs(th:href='@{/index}', th:if!="${#authentication.principal.role} == 'Cabinet'")
+                                    i.fa.fa-paper-plane
+                                    | &nbsp;
+                                    strong.text-left
+                                        small the
+                                        b Flow
+                                a.navbar-brand.logo.logo-top.hidden-xs(th:href='@{/home}', th:if!="${#authentication.principal.role} != 'Cabinet'")
+                                    i.fa.fa-paper-plane
+                                    | &nbsp;
+                                    strong.text-left
+                                        small the
+                                        b Flow
+                            #top-navbar.collapse.navbar-collapse
+                                .col-md-3.col-xs-3(th:switch='${#httpServletRequest.requestURI}')
+                                    select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/issue/all'")
+                                        option(value='all', label-type='label-primary') All
+                                        option(value='High-filter', data-col='4', label-type='label-success') High priority
+                                        option(value='New-filter', data-col='2', label-type='label-warning') Recent
+                                        option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
+                                        option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
+                                    select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/home'")
+                                        option(value='all', label-type='label-primary') All
+                                        option(value='High-filter', data-col='4', label-type='label-success') High priority
+                                        option(value='New-filter', data-col='2', label-type='label-warning') Recent
+                                        option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
+                                        option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
+                                    select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/home/'")
+                                        option(value='all', label-type='label-primary') All
+                                        option(value='High-filter', data-col='4', label-type='label-success') High priority
+                                        option(value='New-filter', data-col='2', label-type='label-warning') Recent
+                                        option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
+                                        option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
+                                    select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/issue/byproject/' + ${projectId}")
+                                        option(value='all', label-type='label-primary') All
+                                        option(value='High-filter', data-col='4', label-type='label-success') High priority
+                                        option(value='New-filter', data-col='2', label-type='label-warning') Recent
+                                        option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
+                                        option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
+                                .col-md-6.col-xs-6
+                                    ul.nav.navbar-nav.navbar-right
+                                        li.dropdown(sec:authorize="hasAnyRole('Admin', 'Observer')")
+                                            a.dropdown-toggle(href='#', data-toggle='dropdown')
+                                                i.fa.fa-cogs
+                                                |  Admin tools
+                                            ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu1')
+                                                li(role='presentation')
+                                                    a(role='menuitem', tabindex='-1', href='#', th:href='@{/users/manage}') Manage users
+                                                li(role='presentation')
+                                                    a(role='menuitem', tabindex='-1', href='#', th:href='@{/projects/manage}') Manage projects
+                                        li.dropdown
+                                            a.dropdown-toggle(href='/profile', th:href='@{/profile}')
+                                                i.fa.fa-user
+                                                | &nbsp;
+                                                span(sec:authentication='principal.fullName') Profile
+                                        li
+                                            a.text-primary(href='/logout', th:href='@{/logout}')
+                                                i.glyphicon.glyphicon-new-window
+                                                |  Logout
+        #sidebar.col-md-3.col-xs-12(th:fragment='sidebar')
+            a.fancy-button.medium.blueHole.basic.add-issue(th:href='@{/issue/add}', th:if!='${\#arrays.length(projects)}')
+                | New issue
+                span.icon
+                    i.fa.fa-file
+            a.fancy-button.medium.blueHole.basic.add-issue.disabled(th:if!='!${\#arrays.length(projects)}', data-toggle="modal", data-target="#addProjectModal")
+                | New issue
+                span.icon
+                    i.fa.fa-file
+            a.fancy-button.medium.blueRiver.basic.add-issue(th:href='@{/issue/all}', th:if!='${\#arrays.length(projects)}')
+                | All issues
+                span.icon
+                    i.fa.fa-user
+            a.fancy-button.medium.blueRiver.basic.add-issue.disabled(th:if!='!${\#arrays.length(projects)}', data-toggle="modal", data-target="#addProjectModal")
+                | All issues
+                span.icon
+                    i.fa.fa-user
+            .well.well-sm
+                h3 Projects:
+                .scroll-tree
+                    ul.nav.nav-pills.nav-stacked.sidebar.projects-list(th:each='project : ${projects}')
+                        li(th:class="${project.projectId == projectId}? 'active'")
+                            a(th:text!='${project.projName}', th:href="@{'/issue/byproject/' + ${project.projectId}}")
+            a.fancy-button.medium.blueHole.basic(sec:authorize="hasAnyRole('Admin', 'Observer')", th:href='@{/project/add}')
+                | New project
+                span.icon
+                    i.fa.fa-asterisk
+            #addProjectModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='addProjectModalLabel', th:if!='!${\#arrays.length(projects)}')
+                .modal-dialog(role='document')
+                    .modal-content
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') &times;
+                            h4#addProjectModalLabel.modal-title Add your first project
+                        .modal-body
+                            p
+                                a(sec:authorize="hasAnyRole('Admin', 'Observer')", th:href='@{/project/add}') Add your first project
+                                | , before adding issues.
+        div(th:fragment='footer')
+            #footer
+                .container
+                    p.muted.credit.text-center &copy; theFlow 2015
+        div(th:fragment='footer-admin')
+            #footer
+                .container
+                    p.muted.credit.text-center &copy; theFlow 2015
+        object(th:fragment='script')
+            script(src='../../../resources/js/compiled.min.js', type='text/javascript', th:src='@{/resources/js/compiled.min.js}')

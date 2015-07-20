@@ -3,6 +3,7 @@ package com.theflow.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
+import validation.ValidProjectAlias;
 
 /**
  *
@@ -16,6 +17,12 @@ public class ProjectDto {
     @NotEmpty
     @Size(min = 2, max = 30)
     private String projName;
+    
+    @NotNull
+    @NotEmpty
+    @Size(max = 6)
+    @ValidProjectAlias
+    private String projectAlias;
     
     @Size(max = 1000)
     private String projDescription;
@@ -72,6 +79,15 @@ public class ProjectDto {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+    
+    
+    public String getProjectAlias() {
+        return projectAlias;
+    }
+
+    public void setProjectAlias(String projectAlias) {
+        this.projectAlias = projectAlias;
     }
 
     @Override

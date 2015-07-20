@@ -25,4 +25,6 @@ public interface ProjectDao {
     public List<Project> getProjectList();
 
     public Project findByName(String projName);
+
+    public Project findByAlias(String projectAlias);
 }

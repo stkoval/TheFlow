@@ -1,0 +1,18 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Welcome')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    div(th:replace='fragments/layout :: sidebar') &nbsp;
+                    #main.col-md-9.col-xs-12
+                        div(th:replace='issue/table :: issue-list') &nbsp;
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        sec:authorize(access="hasRole('Admin')", var='isAdmin')
+        object(th:include='fragments/layout :: script', th:remove='tag')

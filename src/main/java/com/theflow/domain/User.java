@@ -1,17 +1,17 @@
 package com.theflow.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Formula;
@@ -41,23 +41,27 @@ public class User implements Serializable {
 
     @Column(name = "password")
     private String password;
-    
+
     @Formula("concat(firstname, ' ', lastname)")
     private String fullName;
-
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
 
     @Column(name = "enabled", columnDefinition = "TINYINT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean enabled;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<UserRole> userRole;
-
     @OneToMany(mappedBy = "assignee")
     private List<Issue> assignedIssues;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<UserCompany> userCompanies;
+
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.PERSIST)
+    private List<Company> companys;
+
+    @Column(name = "picture", unique = false, length = 3072)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image;
 
     public User() {
     }
@@ -102,31 +106,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Set<UserRole> getUserRole() {
-        if (userRole == null) {
-            return new HashSet<>();
-        }
-        return userRole;
-    }
-
-    public void setUserRole(Set<UserRole> userRole) {
-        this.userRole = userRole;
-    }
-
     public List<Issue> getAssignedIssues() {
         return assignedIssues;
     }
 
     public void setAssignedIssues(List<Issue> assignedIssues) {
         this.assignedIssues = assignedIssues;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
     }
 
     public boolean isEnabled() {
@@ -136,7 +121,6 @@ public class User implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    
 
     public String getFullName() {
         return fullName;
@@ -144,6 +128,35 @@ public class User implements Serializable {
 
     public void setFullName() {
         this.fullName = this.firstName + " " + this.lastName;
+    }
+
+    public Set<UserCompany> getUserCompanies() {
+        return userCompanies;
+    }
+
+    public void setUserCompanies(Set<UserCompany> userCompanies) {
+        this.userCompanies = userCompanies;
+    }
+
+    public List<Company> getCompanys() {
+        return companys;
+    }
+
+    public void setCompanys(List<Company> companys) {
+        this.companys = companys;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + '}';
     }
 
     @Override

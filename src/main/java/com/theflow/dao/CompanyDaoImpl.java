@@ -25,20 +25,19 @@ public class CompanyDaoImpl implements CompanyDao{
     
     @Override
     public Company getCompanyById(int id) {
-        return (Company) sessionFactory.getCurrentSession().load(Company.class, id);
+        return (Company) sessionFactory.getCurrentSession().get(Company.class, id);
     }
 
     @Override
     public int saveCompany(Company company) {
-        Company c = company;
-        sessionFactory.getCurrentSession().save(c);
+        sessionFactory.getCurrentSession().save(company);
         return company.getCompanyId();
     }
 
     @Override
-    public Company findByName(String companyName) {
+    public Company getCompanyByName(String companyName) {
         Session session = sessionFactory.getCurrentSession();
-        String hql = "from Company where name = :name";
+        String hql = "from Company where company_name = :name";
         Query q = session.createQuery(hql);
         q.setParameter("name", companyName);
         List<Company> companies = q.list();
@@ -47,5 +46,55 @@ public class CompanyDaoImpl implements CompanyDao{
         } else {
             return null;
         }
+    }
+
+    //checks if company alias get from request path matches any existing company alias from db
+    @Override
+    public List<String> getAllCompanyAliases() {
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "select company_alias from companies";
+        Query q = session.createSQLQuery(sql);
+        return q.list();
+    }
+
+    @Override
+    public Company getCompanyByAlias(String companyAlias) {
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "from Company where companyAlias = :companyAlias";
+        Query q = session.createQuery(hql);
+        q.setParameter("companyAlias", companyAlias);
+        List<Company> companies = q.list();
+        if (companies.size() > 0) {
+            return companies.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void updateCompany(Company company) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(company);
+    }
+
+    @Override
+    public void removeCompany(int companyId) {
+        Session session = sessionFactory.getCurrentSession();
+        
+        String hql1 = "delete from Project where companyId = :companyId";
+        Query q1 = session.createQuery(hql1);
+        q1.setParameter("companyId", companyId);
+        q1.executeUpdate();
+        
+        
+        String hql2 = "delete from UserCompany uc where uc.company.companyId = :companyId";
+        Query q2 = session.createQuery(hql2);
+        q2.setParameter("companyId", companyId);
+        q2.executeUpdate();
+        
+        String hql3 = "delete from Company where companyId = :companyId";
+        Query q3 = session.createQuery(hql3);
+        q3.setParameter("companyId", companyId);
+        q3.executeUpdate();
     }
 }

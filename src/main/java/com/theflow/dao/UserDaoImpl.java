@@ -1,13 +1,16 @@
 package com.theflow.dao;
 
 import com.theflow.domain.User;
+import com.theflow.domain.UserCompany;
 import com.theflow.service.FlowUserDetailsService;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +28,7 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -38,15 +41,17 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateUser(User user) {
-
+        Session session = sessionFactory.getCurrentSession();
+        session.update(user);
     }
 
     @Override
-    public void removeUser(int id) {
+    public void removeUser(int userId, int companyId) {
         Session session = sessionFactory.getCurrentSession();
-        String hql = "delete from User where userId = :userId";
+        String hql = "delete from UserCompany uc where uc.user.userId = :userId and uc.company.companyId = :companyId";
         Query q = session.createQuery(hql);
-        q.setParameter("userId", id);
+        q.setParameter("userId", userId);
+        q.setParameter("companyId", companyId);
         q.executeUpdate();
     }
 
@@ -56,7 +61,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public User findUserByEmail(String email) {
         List<User> users = new ArrayList<>();
 
         users = sessionFactory.getCurrentSession()
@@ -73,21 +78,25 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return findByEmail(auth.getName());
+        return findUserByEmail(auth.getName());
     }
 
     @Override
     public List<User> getAllUsers() {
         Session session = sessionFactory.getCurrentSession();
-        FlowUserDetailsService.User principal
-                        = (FlowUserDetailsService.User) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
+        FlowUserDetailsService.User principal = getPrincipal();
         int companyId = principal.getCompanyId();
-        String hql = "from User where company.companyId = " + companyId;
+        String hql = "select uc.user from UserCompany uc where uc.company.companyId = :companyId";
         Query q = session.createQuery(hql);
-        List<User> users = (List<User>)q.list();
+        q.setParameter("companyId", companyId);
+        List<User> users = (List<User>) q.list();
         return users;
+    }
+
+    private FlowUserDetailsService.User getPrincipal() {
+        return (FlowUserDetailsService.User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
     }
 }

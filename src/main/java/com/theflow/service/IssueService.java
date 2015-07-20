@@ -6,9 +6,13 @@
 package com.theflow.service;
 
 import com.theflow.domain.Issue;
+import com.theflow.domain.IssueAttachment;
 import com.theflow.dto.IssueDto;
 import com.theflow.dto.IssueSearchParams;
 import java.util.List;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import validation.IssueAttachmentConstraintViolationException;
+import validation.ProjectRequiredException;
 
 /**
  *
@@ -18,13 +22,15 @@ public interface IssueService {
 
     public List<IssueDto> searchIssues(IssueSearchParams criteria);
 
-    public void saveIssue(IssueDto issueDto);
+    public void saveIssue(IssueDto issueDto) throws ProjectRequiredException;
     
     public void removeIssue(int id);
     
     public Issue getIssueById(int id);
     
     public void updateIssue(IssueDto issueDto);
+    
+    public void updateIssue(Issue issue);
     
     public List<Issue> getAllIssues();
     
@@ -38,4 +44,15 @@ public interface IssueService {
 
     public void assignToCurrentUser(int sueId);
     
+    public List<Issue> getIssuesByProjectId(int projectId);
+
+    public void changeIssueStatus(String status, int id);
+
+    public void changeIssueType(String type, int id);
+
+    public void changeIssueAssignee(int userId, int id);
+
+    public void changeIssuePriority(String priority, int sueId);
+
+    public void uploadAttachment(CommonsMultipartFile[] fileUpload, int issueId) throws IssueAttachmentConstraintViolationException;
 }

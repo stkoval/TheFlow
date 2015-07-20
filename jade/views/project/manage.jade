@@ -1,0 +1,67 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Project details')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/home}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6
+                        h1.main-title.text-center Manage projects
+                    .col-md-3.text-right
+                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href='@{/project/add}')
+                            span.icon.pull-left
+                                i.fa.fa-folder-open
+                            | &nbsp;Add project
+                .row
+                    .col-md-12.col-xs-12
+                        .alert.alert-danger.alert-dismissible.fade.in(role="alert", th:if!='${error}')
+                            button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                span(aria-hidden="true") ×
+                            strong(th:text!='${error}')
+                        .alert.alert-warning.alert-dismissible.fade.in(role="alert", th:if!='${warning}')
+                            button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                span(aria-hidden="true") ×
+                            strong(th:text!='${warning}')
+                        table#projectList.table.table-striped.table-bordered(cellspacing='0', width='100%')
+                            thead
+                                tr
+                                    th Name
+                                    th Start date
+                                    th Release date
+                                    th.tools-cell Tools
+                            tfoot
+                                tr
+                                    th Name
+                                    th Start date
+                                    th Release date
+                                    th.tools-cell Tools
+                            tbody
+                                tr(th:each='project : ${projects}')
+                                    td
+                                        a(th:href='@{/project/details/} + ${project.projectId}', th:text!='${project.projName}')
+                                    td
+                                        b(th:text!='${project.startDate}')
+                                    td
+                                        b(th:text!='${project.releaseDate}')
+                                    td.tools-cell
+                                        .btn-group
+                                            button.dropdown-toggle.fancy-button.small.blueRiver.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                i.fa.fa-cog
+                                                span.caret
+                                            ul.dropdown-menu(role='menu')
+                                                li
+                                                    a(th:href='@{/project/edit/} + ${project.projectId}') Edit
+                                                li
+                                                    a(th:href='@{/project/remove/} + ${project.projectId}') Remove
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

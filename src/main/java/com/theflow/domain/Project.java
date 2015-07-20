@@ -2,18 +2,13 @@ package com.theflow.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.Type;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -30,13 +25,18 @@ public class Project implements Serializable {
 
     @Column(name = "name")
     private String projName;
+    
+    @Column(name = "project_alias")
+    private String projectAlias;
+    
+    @Column(name = "issue_index")
+    private int issueIndex;
 
     @Column(name = "description")
     private String projDescription;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
+    @Column(name = "company_id")
+    private int companyId;
 
     @Column(name = "start_date")
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -52,7 +52,7 @@ public class Project implements Serializable {
 
     public Project() {
     }
-
+    
     public int getProjectId() {
         return projectId;
     }
@@ -75,23 +75,6 @@ public class Project implements Serializable {
 
     public void setProjDescription(String projDescription) {
         this.projDescription = projDescription;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + this.projectId;
-        hash = 29 * hash + Objects.hashCode(this.projName);
-        hash = 29 * hash + Objects.hashCode(this.company);
-        return hash;
     }
 
     public Date getStartDate() {
@@ -118,6 +101,37 @@ public class Project implements Serializable {
         this.active = active;
     }
 
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+    
+    public String getProjectAlias() {
+        return projectAlias;
+    }
+
+    public void setProjectAlias(String projectAlias) {
+        this.projectAlias = projectAlias;
+    }
+
+    public int getIssueIndex() {
+        return issueIndex;
+    }
+
+    public void setIssueIndex(int issueIndex) {
+        this.issueIndex = issueIndex;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + this.projectId;
+        return hash;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -130,17 +144,11 @@ public class Project implements Serializable {
         if (this.projectId != other.projectId) {
             return false;
         }
-        if (!Objects.equals(this.projName, other.projName)) {
-            return false;
-        }
-        if (!Objects.equals(this.company, other.company)) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Project{" + "projectId=" + projectId + ", projName=" + projName + ", company=" + company + ", startDate=" + startDate + ", releaseDate=" + releaseDate + ", active=" + active + '}';
+        return "Project{" + "projectId=" + projectId + ", projName=" + projName + ", companyId=" + companyId + ", startDate=" + startDate + '}';
     }
 }

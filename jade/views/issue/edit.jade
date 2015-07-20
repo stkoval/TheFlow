@@ -1,0 +1,102 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Edit issue')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href="@{'/issue/details/' + ${issue.issueId}}")
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6
+                        h1.main-title.text-center Edit issue
+                    .col-md-3.nav-col.text-right
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href="@{'/home'}")
+                            span.icon.pull-left
+                                i.fa.fa-user
+                            | &nbsp;Issues list
+                .row
+                    .col-md-12
+                        .alert.alert-danger.alert-dismissible.fade.in(role="alert", th:if!='${error}')
+                            button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                span(aria-hidden="true") ×
+                            strong(th:text!='${error}')
+                        .alert.alert-warning.alert-dismissible.fade.in(role="alert", th:if!='${warning}')
+                            button.close(type="button",data-dismiss="alert",aria-label="Close")
+                                span(aria-hidden="true") ×
+                            strong(th:text!='${warning}')
+                        form#createIssueForm.form-horizontal.issue-full-form(data-toggle='validator', th:object='${issue}', th:action='@{../update}', method='post')
+                            .form-group
+                                .col-sm-10
+                                    input#issueId.form-control(type='hidden', placeholder='issueId', name='issueId', th:value='*{issueId}')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('issueId')}", th:errors='*{issueId}')
+                            .form-group
+                                label.col-sm-2.control-label(for='title', th:text!='\#{label.issue.title}') Title
+                                .col-sm-10
+                                    input#title.form-control(type='text', placeholder='Title', th:field='*{title}', maxlength='50')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('title')}", th:errors='*{title}')
+                            .form-group
+                                label.col-sm-2.control-label(for='description', th:text!='\#{label.issue.description}') Description
+                                .col-sm-10
+                                    textarea#description.form-control(th:field='*{description}', maxlength='1000')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('description')}", th:errors='*{description}')
+                            .form-group
+                                label.col-sm-2.control-label(for='type', th:text!='\#{label.issue.type}') Type
+                                .col-sm-10
+                                    select#type.selectpicker(th:field='*{type}', required='required')
+                                        option(th:each!='type : ${types}', th:value!='${type}', th:text!='${type}')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('type')}", th:errors='*{type}')
+                            .form-group
+                                label.col-sm-2.control-label(for='status', th:text!='\#{label.issue.status}') Status
+                                .col-sm-10
+                                    select#status.selectpicker(th:field='*{status}', required='')
+                                        option(th:each='status : ${statuses}', th:value='${status}', th:text!='${status}')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('status')}", th:errors='*{status}')
+                            .form-group
+                                label.col-sm-2.control-label(for='priority', th:text!='\#{label.issue.priority}') Priority
+                                .col-sm-10
+                                    select#priority.selectpicker(th:field='*{priority}')
+                                        option(th:each='priority : ${priorities}', th:value='${priority}', th:text!='${priority}')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('priority')}", th:errors='*{priority}')
+                            .form-group
+                                label.col-sm-2.control-label(for='assignee_id', th:text!='\#{label.issue.assignee}') Assignee
+                                .col-sm-10
+                                    select#assignee_id.selectpicker(th:field='*{assigneeId}')
+                                        option(th:each='assignee : ${assignees}', th:value='${assignee.userId}', th:text!='${assignee.fullName}')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('assigneeId')}", th:errors='*{assigneeId}')
+                            .form-group
+                                label.col-sm-2.control-label(for='project_id', th:text!='\#{label.issue.project}') Project
+                                .col-sm-10
+                                    select#project_id.selectpicker(th:field='*{projectId}', required='')
+                                        option(value='', th:if!='!${projectId}') Choose project
+                                        option(th:each='project : ${projects}', th:value='${project.projectId}', th:text!='${project.projName}')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('projectId')}", th:errors='*{projectId}')
+                            .form-group
+                                label.col-sm-2.control-label(for='estimated_time', th:text!='\#{label.issue.esttime}') Estimated_time
+                                .col-sm-10
+                                    input#estimated_time.form-control.logtimerange(type='text', value='00:00', placeholder='EstimatedTime', th:field='*{estimatedTime}')
+                                    .help-block.with-errors
+                                    .with-errors(th:if="${#fields.hasErrors('estimatedTime')}", th:errors='*{estimatedTime}')
+                                    input#logged_time.form-control(type='hidden', value='00:00', placeholder='LoggedTime', th:field='*{loggedTime}')
+                            .form-group
+                                .col-sm-10.col-sm-offset-2
+                                    button.fancy-button.medium.blueRiver.basic.nomargin(type='submit') Save
+                                        span.icon
+                                            i.fa.fa-check-circle
+            #push
+        div(th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'", th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

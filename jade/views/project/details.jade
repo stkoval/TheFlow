@@ -1,0 +1,45 @@
+doctype html
+html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org')
+    head
+        include ../../jade-mixins/mixins.jade
+        +head-text('Project details')
+    body
+        object(th:include='fragments/layout :: styles', th:remove='tag')
+        #wrap
+            div(th:include='fragments/layout :: header', th:remove='tag') &nbsp;
+            .container.main-content
+                .row
+                    .col-md-3.nav-col.text-left
+                        a.fancy-button.medium.blueRiver.icon.basic(th:href='@{/projects/manage}')
+                            span.icon.pull-left
+                                i.fa.fa-chevron-left
+                            | &nbsp;Back
+                    .col-md-6.nav-col.text-left
+                        h1.main-title.text-center(th:text!='${project.projName}')
+                    .col-md-3.text-right
+                        a.fancy-button.medium.blueRiver.icon.basic.pull-right(th:href="@{'/project/edit/' + ${project.projectId}}")
+                            span.icon.pull-left
+                                i.fa.fa-folder-open
+                            | &nbsp;Edit
+                .row
+                    .col-md-8.col-md-offset-2
+                        table.table.table-striped.table-hover.table-info.table-project-details
+                            tr
+                                td(th:text!='\#{label.project.description}') Description
+                                td
+                                    p.issue-title(th:text!='${project.projDescription}') Description
+                            tr
+                                td(th:text!='\#{label.project.company}') Company
+                                td
+                                    p(th:text!='${#authentication.principal.companyName}') Company
+                            tr
+                                td(th:text!='\#{label.project.start}') Start Date
+                                td
+                                    p.issue-title(th:text!='${project.startDate}') Start Date
+                            tr
+                                td(th:text!='\#{label.project.release}') Release Date
+                                td
+                                    p.issue-title(th:text!='${project.releaseDate}') Release Date
+            #push
+        div(th:include='fragments/layout :: footer', th:remove='tag') &nbsp;
+        object(th:include='fragments/layout :: script', th:remove='tag')

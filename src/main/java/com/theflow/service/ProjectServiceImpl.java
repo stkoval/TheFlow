@@ -2,19 +2,21 @@ package com.theflow.service;
 
 import com.theflow.dao.CompanyDao;
 import com.theflow.dao.ProjectDao;
-import com.theflow.domain.Company;
 import com.theflow.domain.Project;
 import com.theflow.dto.ProjectDto;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import validation.ProjectAliasExistsException;
 import validation.ProjectNameExistsException;
 
 /**
@@ -23,13 +25,16 @@ import validation.ProjectNameExistsException;
  */
 @Service
 @Transactional
-public class ProjectServiceImpl implements ProjectService{
-    
+public class ProjectServiceImpl implements ProjectService {
+
     @Autowired
     private ProjectDao projectDao;
-    
+
     @Autowired
     private CompanyDao companyDao;
+
+    @Autowired
+    MessageSource messageSource;
 
     @Override
     public List<Project> getProjectList() {
@@ -37,20 +42,34 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void saveProject(ProjectDto projectDto) throws ProjectNameExistsException {
+    public void saveProject(ProjectDto projectDto) throws ProjectNameExistsException, ProjectAliasExistsException {
         if (projectNameExists(projectDto.getProjName())) {
-            throw new ProjectNameExistsException("There is a project with that name already added: "
+            throw new ProjectNameExistsException(messageSource.getMessage("message.project.exists", null, Locale.ENGLISH)
                     + projectDto.getProjName());
         }
         FlowUserDetailsService.User principal
-                        = (FlowUserDetailsService.User) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
+                = (FlowUserDetailsService.User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
         int companyId = principal.getCompanyId();
-        Company currentCompany  = companyDao.getCompanyById(companyId);
         Project project = new Project();
-        project.setProjName(projectDto.getProjName());
+
+        //checking if project name is already exist
+        if (projectNameExists(projectDto.getProjName())) {
+            throw new ProjectNameExistsException("There is a project with that name already added: "
+                    + projectDto.getProjName());
+        } else {
+            project.setProjName(projectDto.getProjName());
+        }
+
+        //checking if project name is already exist
+        if (projectAliasExists(projectDto.getProjectAlias())) {
+            throw new ProjectAliasExistsException("There is a project with that alias already added: "
+                    + projectDto.getProjectAlias());
+        } else {
+            project.setProjectAlias(projectDto.getProjectAlias());
+        }
         project.setProjDescription(projectDto.getProjDescription());
         SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
         Date startDate = null;
@@ -71,7 +90,7 @@ public class ProjectServiceImpl implements ProjectService{
         }
         project.setStartDate(startDate);
         project.setReleaseDate(releaseDate);
-        project.setCompany(currentCompany);
+        project.setCompanyId(companyId);
         project.setActive(true);
         projectDao.saveProject(project);
     }
@@ -87,15 +106,26 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void updateProject(ProjectDto projectDto) throws ProjectNameExistsException {
+    public void updateProject(ProjectDto projectDto) throws ProjectNameExistsException, ProjectAliasExistsException {
         Project project = projectDao.getProjectById(projectDto.getProjectId());
         if (!project.getProjName().equals(projectDto.getProjName())) {
-            
+
+            //checking if project name is already exist
             if (projectNameExists(projectDto.getProjName())) {
                 throw new ProjectNameExistsException("There is a project with that name already added: "
                         + projectDto.getProjName());
             } else {
                 project.setProjName(projectDto.getProjName());
+            }
+        }
+        if (!project.getProjectAlias().equals(projectDto.getProjectAlias())) {
+
+            //checking if project name is already exist
+            if (projectAliasExists(projectDto.getProjectAlias())) {
+                throw new ProjectAliasExistsException("There is a project with that alias already added: "
+                        + projectDto.getProjectAlias());
+            } else {
+                project.setProjectAlias(projectDto.getProjectAlias());
             }
         }
         project.setProjDescription(projectDto.getProjDescription());
@@ -116,7 +146,7 @@ public class ProjectServiceImpl implements ProjectService{
                 Logger.getLogger(ProjectServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         project.setStartDate(startDate);
         project.setReleaseDate(releaseDate);
         projectDao.updateProject(project);
@@ -124,7 +154,17 @@ public class ProjectServiceImpl implements ProjectService{
 
     private boolean projectNameExists(String projName) {
         Project project = projectDao.findByName(projName);
-        if (project != null) {
+        FlowUserDetailsService.User principal = (FlowUserDetailsService.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (project != null && project.getCompanyId() == principal.getCompanyId()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean projectAliasExists(String projectAlias) {
+        Project project = projectDao.findByAlias(projectAlias);
+        FlowUserDetailsService.User principal = (FlowUserDetailsService.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (project != null && project.getCompanyId() == principal.getCompanyId()) {
             return true;
         }
         return false;

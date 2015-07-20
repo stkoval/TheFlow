@@ -2,15 +2,18 @@ package com.theflow.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.Cascade;
@@ -57,11 +60,13 @@ public class Issue implements Serializable {
 
         NEW("New"),
         INPROGRESS("In progress"),
-        TESTINGREADY("Ready for testing"),
+        TESTINGREADY("Test ready"),
         TESTING("Testing"),
         REVIEW("Review"),
-        RESOLVED("Resolved"),
-        ONHOLD("On hold");
+        FIXED("Fixed"),
+        CLOSED("Closed"),
+        ONHOLD("On hold"),
+        REJECTED("Rejected");
 
         private final String name;
 
@@ -123,6 +128,9 @@ public class Issue implements Serializable {
     @GeneratedValue
     @Column(name = "issue_id")
     private int issueId;
+    
+    @Column(name = "external_id")
+    private String issueExtId;
 
     @Column(name = "title")
     private String title;
@@ -145,7 +153,10 @@ public class Issue implements Serializable {
     @ManyToOne
     @JoinColumn(name = "assignee_id")
     private User assignee;
-
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "issue", fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<IssueAttachment> attachment;
+    
     @JoinColumn(name = "creator_id")
     @ManyToOne
     private User creator;
@@ -168,10 +179,29 @@ public class Issue implements Serializable {
     @Column(name = "modification_date")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date lastModificationDate;
-
+    
+    @Column(name = "company_id")
+    private int companyId;
+    
     public Issue() {
     }
 
+    public String getIssueExtId() {
+        return issueExtId;
+    }
+
+    public void setIssueExtId(String issueExtId) {
+        this.issueExtId = issueExtId;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+    
     public int getIssueId() {
         return issueId;
     }
@@ -276,4 +306,39 @@ public class Issue implements Serializable {
         this.lastModificationDate = lastModificationDate;
     }
 
+    public Set<IssueAttachment> getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(Set<IssueAttachment> attachment) {
+        this.attachment = attachment;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + this.issueId;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Issue other = (Issue) obj;
+        if (this.issueId != other.issueId) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    @Override
+    public String toString() {
+        return "Issue{" + "issueId=" + issueId + ", title=" + title + ", type=" + type + ", status=" + status + ", priority=" + priority + ", companyId=" + companyId + '}';
+    }
 }
