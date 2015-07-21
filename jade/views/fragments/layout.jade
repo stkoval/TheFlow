@@ -36,28 +36,25 @@ html
                                 .col-md-3.col-xs-3(th:switch='${#httpServletRequest.requestURI}')
                                     select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/issue/all'")
                                         option(value='all', label-type='label-primary') All
-                                        option(value='High-filter', data-col='4', label-type='label-success') High priority
-                                        option(value='New-filter', data-col='2', label-type='label-warning') Recent
-                                        option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
-                                        option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
+                                        option(value='High-filter', data-col='3', label-type='label-success') High priority
+                                        option(value='New-filter', data-col='1', label-type='label-warning') Recent
+                                        option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='4', label-type='label-info') Assigned to me
+                                        option(value='Bug-filter', data-col='2', label-type='label-danger') Bug
+                                        option(value='Unassigned-filter', data-col='4', label-type='label-warning') Unassigned
                                     select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/home'")
                                         option(value='all', label-type='label-primary') All
-                                        option(value='High-filter', data-col='4', label-type='label-success') High priority
-                                        option(value='New-filter', data-col='2', label-type='label-warning') Recent
-                                        option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
-                                        option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
-                                    select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/home/'")
-                                        option(value='all', label-type='label-primary') All
-                                        option(value='High-filter', data-col='4', label-type='label-success') High priority
-                                        option(value='New-filter', data-col='2', label-type='label-warning') Recent
-                                        option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
-                                        option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
+                                        option(value='High-filter', data-col='3', label-type='label-success') High priority
+                                        option(value='New-filter', data-col='1', label-type='label-warning') Recent
+                                        option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='4', label-type='label-info') Assigned to me
+                                        option(value='Bug-filter', data-col='2', label-type='label-danger') Bug
+                                        option(value='Unassigned-filter', data-col='4', label-type='label-warning') Unassigned
                                     select#search-issue-top(multiple='multiple', rel="<i class='fa fa-search'></i> Search issues", th:case="'/issue/byproject/' + ${projectId}")
                                         option(value='all', label-type='label-primary') All
                                         option(value='High-filter', data-col='4', label-type='label-success') High priority
                                         option(value='New-filter', data-col='2', label-type='label-warning') Recent
                                         option(th:value="${#authentication.principal.fullName + '-filter'}", data-col='5', label-type='label-info') Assigned to me
                                         option(value='Bug-filter', data-col='3', label-type='label-danger') Bug
+                                        option(value='Unassigned-filter', data-col='5', label-type='label-warning') Unassigned
                                 .col-md-6.col-xs-6
                                     ul.nav.navbar-nav.navbar-right
                                         li.dropdown(sec:authorize="hasAnyRole('Admin', 'Observer')")
