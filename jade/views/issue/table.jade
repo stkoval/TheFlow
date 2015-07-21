@@ -80,28 +80,49 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                                     li(th:if="${issue.type.toString()} != 'Task'")
                                                         a(th:href="@{'/issue/' + ${issue.issueId} + '/type?type=task'}") Task
                                         td.priority-cell
-                                            i(th:text!="${issue.priority + '-filter'}")
+                                            i(th:text!="${issue.priority + '-filter'}", th:if!='${issue.priority}')
+                                            i(th:if!='!${issue.priority}') Empty-priority-filter
                                             .dropdown
-                                                button.dropdown-toggle.fancy-button.small.asbestos.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                button.dropdown-toggle.fancy-button.small.asbestos.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false', th:if!='${issue.priority}')
                                                     span(th:text!='${issue.priority}')
                                                     | &nbsp;
                                                     span.caret
-                                                ul.dropdown-menu.type-dropdown(role='menu')
+                                                button.dropdown-toggle.fancy-button.small.asbestos.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false', th:if!='!${issue.priority}')
+                                                    span Select
+                                                    span.caret
+                                                ul.dropdown-menu.type-dropdown(role='menu', th:if!='${issue.priority}')
                                                     li(th:if="${issue.priority.toString()} != 'High'")
                                                         a(th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=high'}") High
                                                     li(th:if="${issue.priority.toString()} != 'Medium'")
                                                         a(th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=medium'}") Medium
                                                     li(th:if="${issue.priority.toString()} != 'Low'")
                                                         a(th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=low'}") Low
-                                        td.assignee-cell(th:rel='${issue.assignee.fullName}')
+                                                ul.dropdown-menu.type-dropdown(role='menu', th:if!='!${issue.priority}')
+                                                    li
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=high'}") High
+                                                    li
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=medium'}") Medium
+                                                    li
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/priority?priority=low'}") Low
+                                        td.assignee-cell(th:if!="${issue.assignee}", th:rel='${issue.assignee.fullName}')
                                             i(th:text!="${issue.assignee.fullName + '-filter'}")
                                             .dropdown.user-name-dropdown
                                                 button.dropdown-toggle.fancy-button.small.asbestos.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
                                                     span(th:text!='${issue.assignee.fullName}')
                                                     | &nbsp;
                                                     span.caret
-                                                ul.dropdown-menu.assignee-dropdown(role='menu')
+                                                ul.dropdown-menu.assignee-dropdown(role='menu', th:if!='${\#arrays.length(users)}')
                                                     li(th:each='user : ${users}', th:if='${user.fullName.toString()} != ${issue.assignee.fullName}')
+                                                        a(th:href="@{'/issue/' + ${issue.issueId} + '/assignee?assignee=' + ${user.userId}}", th:text!='${user.fullName}') User name
+                                        td.assignee-cell(th:if!="!${issue.assignee}", th:rel="Unassigned")
+                                            i Unassigned-filter
+                                            .dropdown.user-name-dropdown
+                                                button.dropdown-toggle.fancy-button.small.asbestos.basic.type-toggle.text-left.cell-button(type='button', data-toggle='dropdown', aria-expanded='false')
+                                                    span Unassigned
+                                                    | &nbsp;
+                                                    span.caret
+                                                ul.dropdown-menu.assignee-dropdown(role='menu', th:if!='${\#arrays.length(users)}')
+                                                    li(th:each='user : ${users}')
                                                         a(th:href="@{'/issue/' + ${issue.issueId} + '/assignee?assignee=' + ${user.userId}}", th:text!='${user.fullName}') User name
                                         td.tools-cell
                                             .dropdown

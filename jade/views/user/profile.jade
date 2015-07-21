@@ -35,9 +35,9 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                             button.close(type="button",data-dismiss="alert",aria-label="Close")
                                 span(aria-hidden="true") ×
                             strong(th:text!='${warning}')
-                    .col-md-6
+                    .col-md-4
                         img.img-responsive(th:src='${image}', onerror="this.src='/resources/img/no_avatar.gif'", width='100%', height='100%')
-                    .col-md-6
+                    .col-md-8
                         h3.main-title(sec:authentication='principal.fullName')
                         table.table.table-striped.table-hover.table-info
                             tr(sec:authorize="hasAnyRole('Admin', 'User')")
@@ -55,15 +55,15 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                     label.control-label Select Avatar
                                     input.file.mt15(type='file', name='image', size='50')
                         .row
-                            .col-md-12.mt15
+                            .col-md-6.mt15
                                 a.fancy-button.medium.esmerald.icon.basic(th:href="@{/user/} + ${#authentication.principal.userId} + '/changepass'")
                                     span.icon.pull-left
                                         i.fa.fa-edit
                                     | &nbsp;Change password
-                        .row(th:if!="${#authentication.principal.role} != 'Cabinet'")
-                            .item.blue
-                                a(data-toggle="tooltip", data-placement="top", title="Cabinet", th:href="@{/companies}")
+                            .col-md-6.mt15(th:if!="${#authentication.principal.role} != 'Cabinet'")
+                                a.fancy-button.medium.blueRiver.icon.basic.pull-right(title="Companies", th:href="@{/companies}")
                                     i.fa.fa-briefcase
+                                    | &nbsp;
                                     span Companies
             #push
         div(th:include="fragments/layout :: ${#authentication.principal.isAdmin()} ? 'footer-admin' : 'footer'", th:remove='tag') &nbsp;

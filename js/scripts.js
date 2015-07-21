@@ -36,6 +36,7 @@ $(document).ready(function (e) {
             $('.dataTables_filter input').val(sValue.replace('"', ""));
 
             if (options.length === 0) {
+                console.log('empty options');
                 $.removeCookie('filterFlow');
                 return searchLabel;
             }
@@ -68,7 +69,7 @@ $(document).ready(function (e) {
                         clearLabels.push('<span class="label ' + labelType + '">' + $(this).html() + '</span>');
                     }
                     else {
-                        //console.log($filter);
+                        console.log($filter);
                         dtable.column($col).search($filter).draw();
                         $('.dataTables_filter input').val(sValue);
                     }
