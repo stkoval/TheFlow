@@ -20,7 +20,7 @@ import javax.validation.Payload;
 @Documented
 public @interface ValidProjectAlias {
 
-    String message() default "Invalid project alias. Must start with letter. Only letters and numbers";
+    String message() default "Invalid project alias. Must start with letter. Only letters in lower case and numbers";
 
     Class<?>[] groups() default {};
 

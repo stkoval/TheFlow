@@ -55,7 +55,7 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 label.col-sm-2.control-label(for='assignee_id', th:text!='\#{label.issue.assignee}') Assignee
                                 .col-sm-10
                                     select#assignee_id.selectpicker(th:field='*{assigneeId}')
-                                        option(value='') Choose customer
+                                        option(value='') Choose assignee
                                         option(th:each='assignee : ${assignees}', th:value!='${assignee.userId}', th:text!='${assignee.fullName}')
                                     .help-block.with-errors
                                     .with-errors(th:if="${#fields.hasErrors('assigneeId')}", th:errors='*{assigneeId}')
