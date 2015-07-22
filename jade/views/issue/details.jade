@@ -33,26 +33,18 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 form.file-form(th:if!="${#authentication.principal.role} != 'Observer'", method='POST', th:action="@{/issue/} + ${issue.issueId} + '/upload'", enctype='multipart/form-data')
                                     label.control-label Attach file
                                     input.file.mt15(type='file', name='fileUpload')
-                                h3.issue-title(th:text!='\#{title.issue.attachments}', th:if!="${attachments!=null}")
-                                table#attachTable.table.table-striped.table-bordered(th:if!="${attachments!=null}")
-                                    thead
-                                        tr
-                                            th Name
-                                            th.tools-cell Download
-                                            th.tools-cell Remove
-                                    tbody
-                                        tr(th:each!='attachment : ${attachments}')
-                                            td(th:text!='${attachment.fileName}') name
-                                            td.title-cell
-                                                a(th:href!="@{'/attachment/' + ${attachment.id} + '/download'}") download
-                                            td.title-cell
-                                                a(th:href!="@{'/attachment/' + ${attachment.id} + '/remove'}") remove
-                                //
-                                  <form enctype="multipart/form-data">
-                                  <div class="form-group">
-                                  <input id="issue-attachment" class="file" type="file" multiple=true data-preview-file-type="any">
-                                  </div>
-                                  </form>
+                                .attachment-table.mt15(th:if!="${attachments!=null}")
+                                    h3.issue-title(th:text!='\#{title.issue.attachments}')
+                                    table#attachTable.table.table-striped.table-bordered.mt30
+                                        tbody
+                                            tr(th:each!='attachment : ${attachments}')
+                                                td(th:text!='${attachment.fileName}') name
+                                                td.text-center
+                                                    a(th:href!="@{'/attachment/' + ${attachment.id} + '/download'}")
+                                                        i.fa.fa-download
+                                                td.text-center
+                                                    a(th:href!="@{'/attachment/' + ${attachment.id} + '/remove'}")
+                                                        i.fa.fa-trash
                     .col-md-6
                         h5.issue-title(th:text!='\#{label.issue.esttime}') Estimated time
                         .progress
