@@ -33,9 +33,9 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 form.file-form(th:if!="${#authentication.principal.role} != 'Observer'", method='POST', th:action="@{/issue/} + ${issue.issueId} + '/upload'", enctype='multipart/form-data')
                                     label.control-label Attach file
                                     input.file.mt15(type='file', name='fileUpload')
-                                .attachment-table.mt15(th:if!="${attachments!=null}")
+                                .attachment-table.mt30(th:if!="${attachments!=null}")
                                     h3.issue-title(th:text!='\#{title.issue.attachments}')
-                                    table#attachTable.table.table-striped.table-bordered.mt30
+                                    table#attachTable.table.table-striped.table-bordered.mt15
                                         tbody
                                             tr(th:each!='attachment : ${attachments}')
                                                 td(th:text!='${attachment.fileName}') name
@@ -54,6 +54,10 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                         .progress
                             .progress-bar.progress-bar-info.progress-bar-striped(role='progressbar', th:style="'width:' + ${logged} + '%'")
                                 span(th:text!='${issue.loggedTime}') 20% Complete
+                        h5.issue-title(th:text!='\#{label.issue.complete}') Complete
+                        .progress
+                            .progress-bar.progress-bar-info.progress-bar-striped(role='progressbar', th:style="'width:' + (${logged}/${estimated})*100 + '%'")
+                                span(th:text!="${\#numbers.formatDecimal(((logged/estimated)*100),0,0)} + '%'") 20% Complete
                         h3.issue-title(th:text!='\#{issue.logwork.title}') Log work
                         .row
                             .col-md-12
