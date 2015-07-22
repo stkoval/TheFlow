@@ -19,14 +19,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
-import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -215,10 +213,12 @@ public class IssueController {
         issueService.updateIssue(issueDto);
 
         //Send notifications
-        User user = userService.getUserById(issueDto.getAssigneeId());
         String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
                 + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
-        mailService.sendEmail(user.getEmail(), message);
+        Issue issue = issueService.getIssueById(issueDto.getIssueId());
+        if (issue.getAssignee() != null && !issue.getAssignee().equals("")) {
+            mailService.sendEmail(issue.getAssignee().getEmail(), message);
+        }
         return new ModelAndView("redirect:/home");
     }
 
@@ -275,7 +275,10 @@ public class IssueController {
         String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
                 + "<br>logged time: " + sLoggedTime
                 + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
-        mailService.sendEmail(issue.getAssignee().getEmail(), message);
+        if (issue.getAssignee() != null && !issue.getAssignee().equals("")) {
+
+            mailService.sendEmail(issue.getAssignee().getEmail(), message);
+        }
         return model;
     }
 
@@ -324,7 +327,10 @@ public class IssueController {
         String message = messageSource.getMessage("message.issue.updated", null, Locale.ENGLISH)
                 + "<br>status: " + status
                 + "<br><a href=\"http://www.theflow.co.ua\">theflow.co.ua</a>";
-        mailService.sendEmail(issue.getAssignee().getEmail(), message);
+        if (issue.getAssignee() != null && !issue.getAssignee().equals("")) {
+
+            mailService.sendEmail(issue.getAssignee().getEmail(), message);
+        }
         return new ModelAndView("redirect:/home");
     }
 

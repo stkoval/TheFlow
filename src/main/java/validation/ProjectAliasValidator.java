@@ -12,7 +12,7 @@ import javax.validation.ConstraintValidatorContext;
 public class ProjectAliasValidator implements ConstraintValidator<ValidProjectAlias, String> {
     private Pattern pattern;
     private Matcher matcher;
-    private static final String PROJECT_ALIAS_PATTERN = "^([a-zA-Zа-яА-Я])+(_?\\d*([a-zа-я0-9])*)*([a-zа-я0-9]+)$";
+    private static final String PROJECT_ALIAS_PATTERN = "^([a-zа-я])+(_?\\d*([a-zа-я0-9])*)*([a-zа-я0-9]+)$";
 
     @Override
     public void initialize(ValidProjectAlias constraintAnnotation) {
