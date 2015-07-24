@@ -56,8 +56,8 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                 span(th:text!='${issue.loggedTime}') 20% Complete
                         //h5.issue-title(th:text!='\#{label.issue.complete}') Complete
                         //.progress
-                        //    .progress-bar.progress-bar-info.progress-bar-striped(role='progressbar', th:style="'width:' + (${logged}/${estimated})*100 + '%'")
-                        //        span(th:text!="${\#numbers.formatDecimal(((logged/estimated)*100),0,0)} + '%'") 20% Complete
+                            .progress-bar.progress-bar-info.progress-bar-striped(role='progressbar', th:style="'width:' + (${logged}/${estimated})*100 + '%'")
+                                span(th:text!="${\#numbers.formatDecimal(((logged/estimated)*100),0,0)} + '%'") 20% Complete
                         h3.issue-title(th:text!='\#{issue.logwork.title}') Log work
                         .row
                             .col-md-12
