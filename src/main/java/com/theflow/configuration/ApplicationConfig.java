@@ -80,7 +80,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         ds.setDriverClassName("com.mysql.jdbc.Driver");
         ds.setUrl("jdbc:mysql://localhost:3306/flowdb?characterEncoding=UTF-8");
         ds.setUsername("root");
-        ds.setPassword("root");
+        ds.setPassword("yd7vt3mb");
         return ds;
     }
 
