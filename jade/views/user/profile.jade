@@ -62,6 +62,11 @@ html(xmlns:th='http://www.thymeleaf.org', xmlns:tiles='http://www.thymeleaf.org'
                                     | &nbsp;Change password
                             .col-md-6.mt15(th:if!="${#authentication.principal.role} != 'Cabinet'")
                                 a.fancy-button.medium.blueRiver.icon.basic.pull-right(title="Companies", th:href="@{/companies}")
+                                    i.fa.fa-sign-out
+                                    | &nbsp;
+                                    span Change company
+                            .col-md-6.mt15(th:if!="${#authentication.principal.role} == 'Cabinet'")
+                                a.fancy-button.medium.blueRiver.icon.basic.pull-right(title="Companies", th:href="@{/cabinet}")
                                     i.fa.fa-briefcase
                                     | &nbsp;
                                     span Companies
