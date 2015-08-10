@@ -63,11 +63,7 @@ public class IssueDaoImpl implements IssueDao {
     
     @Override
     public List<Issue> getAllIssues() {
-        FlowUserDetailsService.User principal
-                        = (FlowUserDetailsService.User) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
+        FlowUserDetailsService.User principal = getPrincipal();
         
         Session session = sessionFactory.getCurrentSession();
 
@@ -89,11 +85,7 @@ public class IssueDaoImpl implements IssueDao {
     @Override
     public List<Issue> searchIssues(IssueSearchParams issueSearchParams) {
         Session session = sessionFactory.getCurrentSession();
-        FlowUserDetailsService.User principal
-                        = (FlowUserDetailsService.User) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
+        FlowUserDetailsService.User principal = getPrincipal();
         Criteria cr;
         if (issueSearchParams.isAll()) {
             return getAllIssues();
@@ -140,5 +132,14 @@ public class IssueDaoImpl implements IssueDao {
         Query q = session.createQuery(hql);
         q.setParameter("projectId", projectId);
         return q.list();
+    }
+    
+    private FlowUserDetailsService.User getPrincipal() {
+        FlowUserDetailsService.User principal
+                = (FlowUserDetailsService.User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return principal;
     }
 }

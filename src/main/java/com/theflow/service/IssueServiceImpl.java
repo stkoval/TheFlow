@@ -90,11 +90,7 @@ public class IssueServiceImpl implements IssueService {
         User creator = userDao.getCurrentUser();
         issue.setCreator(creator);
         issue.setStatus(Issue.IssueStatus.NEW);
-        FlowUserDetailsService.User principal
-                = (FlowUserDetailsService.User) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
+        FlowUserDetailsService.User principal = getPrincipal();
         int companyId = principal.getCompanyId();
         issue.setCompanyId(companyId);
         
@@ -340,5 +336,14 @@ public class IssueServiceImpl implements IssueService {
             File file = new File(saveDirectory + issueId + "_" + attachment.getFileName());
             file.delete();
         }
+    }
+    
+    private FlowUserDetailsService.User getPrincipal() {
+        FlowUserDetailsService.User principal
+                = (FlowUserDetailsService.User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return principal;
     }
 }
