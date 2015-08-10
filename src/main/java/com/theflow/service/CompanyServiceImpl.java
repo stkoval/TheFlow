@@ -42,24 +42,6 @@ public class CompanyServiceImpl implements CompanyService{
         }
     }
     
-    //use when updating company
-    private boolean companyExists(String companyName, int companyId) {
-        Company company = companyDao.getCompanyByName(companyName);
-        if (company != null && company.getCompanyId() != companyId) {
-            return true;
-        }
-        return false;
-    }
-    
-    //use when creating new company
-    private boolean companyExists(String companyName) {
-        Company company = companyDao.getCompanyByName(companyName);
-        if (company != null) {
-            return true;
-        }
-        return false;
-    }
-
     @Override
     @Transactional
     public void updateCompany(CompanyDto companyDto) throws CompanyNotFoundException, CompanyExistsException, CompanyAliasExistsException{
@@ -100,4 +82,21 @@ public class CompanyServiceImpl implements CompanyService{
         companyDao.removeCompany(companyId);
     }
     
+    //use when updating company
+    private boolean companyExists(String companyName, int companyId) {
+        Company company = companyDao.getCompanyByName(companyName);
+        if (company != null && company.getCompanyId() != companyId) {
+            return true;
+        }
+        return false;
+    }
+    
+    //use when creating new company
+    private boolean companyExists(String companyName) {
+        Company company = companyDao.getCompanyByName(companyName);
+        if (company != null) {
+            return true;
+        }
+        return false;
+    }
 }
