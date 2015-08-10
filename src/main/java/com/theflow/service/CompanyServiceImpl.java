@@ -58,6 +58,12 @@ public class CompanyServiceImpl implements CompanyService{
         companyDao.updateCompany(company);
     }
 
+    @Override
+    @Transactional
+    public void removeCompany(int companyId) {
+        companyDao.removeCompany(companyId);
+    }
+
     //use when updating company
     private boolean companyAliasExists(String alias, int companyId) {
         Company company = companyDao.getCompanyByAlias(alias);
@@ -74,12 +80,6 @@ public class CompanyServiceImpl implements CompanyService{
             return true;
         }
         return false;
-    }
-
-    @Override
-    @Transactional
-    public void removeCompany(int companyId) {
-        companyDao.removeCompany(companyId);
     }
     
     //use when updating company
