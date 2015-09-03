@@ -65,7 +65,12 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
     private Properties getHibernateProperties() {
         Properties prop = new Properties();
-        prop.put("hibernate.show_sql", "true");
+        prop.put("hibernate.c3p0.min_size", 10);
+        prop.put("hibernate.c3p0.max_size", 50);
+        prop.put("hibernate.c3p0.acquire_increment", 1);
+        prop.put("hibernate.c3p0.idle_test_period", 3000);
+        prop.put("hibernate.c3p0.max_statements", 50);
+        prop.put("hibernate.c3p0.timeout", 1800);
         prop.put("hibernate.connection.useUnicode", "true");
         prop.put("hibernate.connection.characterEncoding", "UTF-8");
         prop.put("hibernate.dialect",
